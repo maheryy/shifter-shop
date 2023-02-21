@@ -1,8 +1,15 @@
-import { useLoaderData } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { Product } from "../types/product";
+import { getAllProducts } from "../api/product.api";
 
 const Home = () => {
-  const products = useLoaderData() as Product[];
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    getAllProducts()
+      .then((products) => setProducts(products))
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
     <div>
