@@ -2,7 +2,31 @@
 module.exports = {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    screen: {
+      sm: "576px",
+      md: "768px",
+      lg: "992px",
+      xl: "1200px",
+    },
+    extend: {
+      fontFamily: {
+        poppins: ["Poppins", "sans-serif"],
+        roboto: ["Roboto", "sans-serif"],
+      },
+      colors: {
+        primary: "#2C666E",
+      },
+    },
+    container: {
+      center: true,
+      padding: {
+        DEFAULT: "2rem",
+        sm: "2rem",
+        lg: "6rem",
+        xl: "6rem",
+        "2xl": "8rem",
+      },
+    },
   },
   plugins: [],
 };

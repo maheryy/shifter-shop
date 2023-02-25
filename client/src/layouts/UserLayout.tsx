@@ -1,20 +1,26 @@
 import { Outlet } from "react-router-dom";
+import { ReactNode } from "react";
 import UserProvider from "../providers/UserProvider";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import Copyright from "../components/Copyright";
 
 const UserLayout = ({ children }: UserLayoutProps) => {
   return (
     <UserProvider>
-      <div>User</div>
-      <div>
+      <Header />
+      <main>
         <Outlet />
         {children}
-      </div>
+      </main>
+      <Footer />
+      <Copyright />
     </UserProvider>
   );
 };
 
 interface UserLayoutProps {
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
 export default UserLayout;
