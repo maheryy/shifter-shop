@@ -2,7 +2,7 @@ import products from "../../data/products.json";
 import { Product } from "../types/product";
 
 export const getAllProducts = async (): Promise<Product[]> => {
-  return getShuffledProducts().slice(0, 10);
+  return getShuffledProducts();
 };
 
 export const getProduct = async (id: number): Promise<Product> => {

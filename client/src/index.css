@@ -38,5 +38,4 @@ ul {
 
 main {
   flex: 1;
-  @apply container;
 }

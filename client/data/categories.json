@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "name": "Grocery",
+    "description": "Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat. Praesent blandit.",
+    "image": "http://dummyimage.com/600x600.png/5fa2dd/ffffff"
+  },
+  {
+    "id": 2,
+    "name": "Jewelry",
+    "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
+    "image": "http://dummyimage.com/600x600.png/5fa2dd/ffffff"
+  },
+  {
+    "id": 3,
+    "name": "Garden",
+    "description": "Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem. Fusce consequat.",
+    "image": "http://dummyimage.com/600x600.png/ff4444/ffffff"
+  },
+  {
+    "id": 4,
+    "name": "Automotive",
+    "description": "In congue. Etiam justo. Etiam pretium iaculis justo. In hac habitasse platea dictumst. Etiam faucibus cursus urna.",
+    "image": "http://dummyimage.com/600x600.png/cc0000/ffffff"
+  },
+  {
+    "id": 5,
+    "name": "Automotive",
+    "description": "Curabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla.",
+    "image": "http://dummyimage.com/600x600.png/ff4444/ffffff"
+  },
+  {
+    "id": 6,
+    "name": "Health",
+    "description": "Suspendisse potenti. Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum.",
+    "image": "http://dummyimage.com/600x600.png/ff4444/ffffff"
+  }
+]
