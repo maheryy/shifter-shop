@@ -35,7 +35,6 @@ const routes: RouteObject[] = [
       {
         path: "/products",
         element: <ProductList />,
-        loader: () => getAllProducts(),
       },
       {
         path: "/products/:id",
