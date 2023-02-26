@@ -19,6 +19,10 @@ export const getCartProducts = async (): Promise<Product[]> => {
   return products.slice(0, 2);
 };
 
+export const getRelatedProducts = async (id: number): Promise<Product[]> => {
+  return getShuffledProducts().slice(0, 4);
+};
+
 // Temporary solution to shuffle hardcoded products
 const getShuffledProducts = () => {
   return products
