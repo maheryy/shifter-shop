@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { ProductWithQuantity } from "../../types/product";
 import { formatPrice } from "../../utils/format";
 import QuantityPicker from "../QuantityPicker";
+import TrashIcon from "../../assets/icons/trash.svg";
 
 const CartProductCard = ({
   product,
@@ -25,10 +26,9 @@ const CartProductCard = ({
         {formatPrice(product.price * product.quantity)}
       </div>
       <button onClick={deleteProduct}>
-        <div className="text-gray-600 cursor-pointer hover:text-primary">
-          {/* <i className="fa-solid fa-trash"></i> */}
-          Delete
-        </div>
+        <span className="block w-6 text-gray-600 cursor-pointer hover:text-red-500">
+          <TrashIcon />
+        </span>
       </button>
     </div>
   );

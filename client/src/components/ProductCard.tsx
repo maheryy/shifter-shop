@@ -22,7 +22,6 @@ const ProductCard = ({ product }: ProductCardProps) => {
             <p className="text-xl text-primary font-semibold">
               {formatPrice(product.price)}
             </p>
-            {/* <p className="text-sm text-gray-400 line-through">45.50€</p> */}
           </div>
           <div className="flex items-center">
             <div className="flex gap-1 text-sm text-yellow-400">

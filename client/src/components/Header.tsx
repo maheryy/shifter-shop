@@ -1,17 +1,21 @@
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../hooks/context";
 import Logo from "./Logo";
+import AccountIcon from "../assets/icons/account.svg";
+import CartIcon from "../assets/icons/cart.svg";
+import SearchIcon from "../assets/icons/search.svg";
 
 const Header = () => {
   const { isAuthenticated } = useAuthContext();
+  const cartItemCount = 0;
 
   return (
     <header className="py-4 shadow-sm bg-white">
       <div className="container flex items-center justify-between">
         <Logo />
-        <div className="w-full max-w-xl relative flex">
-          <span className="absolute left-4 top-3 text-lg text-gray-400">
-            <i className="fa-solid fa-magnifying-glass"></i>
+        <div className="w-full max-w-xl relative flex h-10">
+          <span className="absolute text-gray-400 w-6 top-1/2 -translate-y-1/2 left-3">
+            <SearchIcon />
           </span>
           <input
             type="text"
@@ -25,29 +29,31 @@ const Header = () => {
           </button>
         </div>
 
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-5">
           <Link
             to="/cart"
-            className="text-center text-gray-700 hover:text-primary transition relative"
+            className="flex flex-col items-center text-gray-700 hover:text-primary transition relative"
           >
-            <div className="text-2xl">
-              <i className="fa-solid fa-bag-shopping"></i>
-            </div>
-            <div className="text-xs leading-3">Cart</div>
-            <div className="absolute -right-3 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs">
-              1
-            </div>
+            <span className="block w-6">
+              <CartIcon />
+            </span>
+            <span className="text-xs">Cart</span>
+            {!!cartItemCount && (
+              <div className="absolute -right-3 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs">
+                {cartItemCount}
+              </div>
+            )}
           </Link>
           <Link
             to={isAuthenticated ? "/account" : "/login"}
-            className="text-center text-gray-700 hover:text-primary transition relative"
+            className="flex flex-col items-center text-gray-700 hover:text-primary transition relative"
           >
-            <div className="text-2xl">
-              <i className="fa-regular fa-user"></i>
-            </div>
-            <div className="text-xs leading-3">
+            <span className="block w-6">
+              <AccountIcon />
+            </span>
+            <span className="text-xs">
               {isAuthenticated ? "Account" : "Login"}
-            </div>
+            </span>
           </Link>
         </div>
       </div>

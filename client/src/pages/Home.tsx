@@ -8,6 +8,9 @@ import Hero from "../components/Home/Hero";
 import CategoryCard from "../components/Home/CategoryCard";
 import ProductCard from "../components/ProductCard";
 import Ad from "../components/Home/Ad";
+import VanIcon from "../assets/icons/van.svg";
+import RefundIcon from "../assets/icons/refund.svg";
+import SupportIcon from "../assets/icons/support-247.svg";
 
 const Home = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -36,19 +39,19 @@ const Home = () => {
       <section className="container py-16">
         <div className="w-10/12 grid grid-cols-3 gap-6 mx-auto justify-center">
           <Feature
+            Icon={VanIcon}
             title="Free Shipping"
             subtitle="Order over 200€"
-            icon="assets/icons/van.svg"
           />
           <Feature
+            Icon={RefundIcon}
             title="Money back"
             subtitle="30-days money back"
-            icon="assets/icons/refund.svg"
           />
           <Feature
+            Icon={SupportIcon}
             title="24/7 Support"
             subtitle="Customer support"
-            icon="assets/icons/support-247.svg"
           />
         </div>
       </section>

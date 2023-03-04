@@ -5,6 +5,7 @@ import { getRelatedProducts } from "../api/product.api";
 import ProductCard from "../components/ProductCard";
 import { formatPrice } from "../utils/format";
 import QuantityPicker from "../components/QuantityPicker";
+import BagIcon from "../assets/icons/bag.svg";
 
 const Product = () => {
   const { id } = useParams();
@@ -61,7 +62,6 @@ const Product = () => {
             <p className="text-2xl text-primary font-semibold">
               {formatPrice(product.price)}
             </p>
-            {/* <p className="text-base text-gray-400 line-through">55.00€</p> */}
           </div>
 
           <p className="mt-4 text-gray-600">
@@ -80,8 +80,11 @@ const Product = () => {
           </div>
 
           <div className="mt-6 flex gap-3 pb-5 pt-5">
-            <button className="bg-primary border border-primary text-white px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-transparent hover:text-primary transition">
-              <i className="fa-solid fa-bag-shopping"></i> Add to cart
+            <button className="bg-primary border border-primary text-white px-8 py-2 font-medium rounded uppercase flex justify-center items-center gap-2 hover:bg-transparent hover:text-primary transition relative">
+              <span className="block w-5 relative bottom-0.5">
+                <BagIcon />
+              </span>
+              Add to cart
             </button>
           </div>
         </div>
