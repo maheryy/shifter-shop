@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getRelatedProducts } from "../api/product.api";
 import ProductCard from "../components/ProductCard";
 import { formatPrice } from "../utils/format";
+import QuantityPicker from "../components/QuantityPicker";
 
 const Product = () => {
   const { id } = useParams();
@@ -73,22 +74,8 @@ const Product = () => {
             <span className="text-sm text-gray-800 uppercase font-semibold">
               Quantity
             </span>
-            <div className="flex border border-gray-300 text-gray-600 divide-x divide-gray-300 w-max my-2">
-              <button
-                onClick={() => setQuantity((qty) => (qty > 0 ? qty - 1 : 0))}
-                className="h-8 w-8 text-xl flex items-center justify-center cursor-pointer"
-              >
-                -
-              </button>
-              <span className="h-8 w-8 text-base flex items-center justify-center">
-                {quantity}
-              </span>
-              <button
-                onClick={() => setQuantity((qty) => qty + 1)}
-                className="h-8 w-8 text-xl flex items-center justify-center cursor-pointer"
-              >
-                +
-              </button>
+            <div className="my-2">
+              <QuantityPicker value={quantity} onChange={setQuantity} />
             </div>
           </div>
 
@@ -108,17 +95,19 @@ const Product = () => {
           <div className="text-gray-600">{product.description}</div>
           {!!Object.keys(productDetails).length && (
             <table className="table-auto border-collapse w-full text-left text-gray-600 text-sm mt-6">
-              {Object.keys(productDetails).map((key) => (
-                <tr key={key}>
-                  <th className="py-2 px-4 border border-gray-300 w-40 font-medium capitalize">
-                    {key}
-                  </th>
-                  <th className="py-2 px-4 border border-gray-300 ">
-                    {productDetails[key as keyof typeof productDetails] ||
-                      "N/A"}
-                  </th>
-                </tr>
-              ))}
+              <tbody>
+                {Object.keys(productDetails).map((key) => (
+                  <tr key={key}>
+                    <th className="py-2 px-4 border border-gray-300 w-40 font-medium capitalize">
+                      {key}
+                    </th>
+                    <th className="py-2 px-4 border border-gray-300 ">
+                      {productDetails[key as keyof typeof productDetails] ||
+                        "N/A"}
+                    </th>
+                  </tr>
+                ))}
+              </tbody>
             </table>
           )}
         </div>
