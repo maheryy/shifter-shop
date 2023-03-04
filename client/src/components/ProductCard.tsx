@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Product } from "../types/product";
 import { formatPrice } from "../utils/format";
+import Rating from "./Rating";
 
 const ProductCard = ({ product }: ProductCardProps) => {
   return (
@@ -24,12 +25,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
             </p>
           </div>
           <div className="flex items-center">
-            <div className="flex gap-1 text-sm text-yellow-400">
-              <span>
-                <i className="fa-solid fa-star"></i>
-              </span>
-            </div>
-            <div className="text-xs text-gray-500 ml-3">(150)</div>
+            <Rating value={5} size="sm" />
+            <span className="text-xs text-gray-500 ml-2">(150)</span>
           </div>
         </div>
       </div>

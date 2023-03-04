@@ -6,6 +6,7 @@ import ProductCard from "../components/ProductCard";
 import { formatPrice } from "../utils/format";
 import QuantityPicker from "../components/QuantityPicker";
 import BagIcon from "../assets/icons/bag.svg";
+import Rating from "../components/Rating";
 
 const Product = () => {
   const { id } = useParams();
@@ -37,12 +38,8 @@ const Product = () => {
             {product.name}
           </h1>
           <div className="flex items-center mb-4">
-            <div className="flex gap-1 text-sm text-yellow-400">
-              <span>
-                <i className="fa-solid fa-star"></i>
-              </span>
-            </div>
-            <div className="text-xs text-gray-500 ml-3">(150 Reviews)</div>
+            <Rating value={3.5} size="md" />
+            <span className="text-sm text-gray-500 ml-3">(150 Reviews)</span>
           </div>
           <div className="space-y-2">
             <p className="text-gray-800 font-semibold space-x-2">

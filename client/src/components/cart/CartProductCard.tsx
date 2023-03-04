@@ -3,6 +3,7 @@ import { ProductWithQuantity } from "../../types/product";
 import { formatPrice } from "../../utils/format";
 import QuantityPicker from "../QuantityPicker";
 import TrashIcon from "../../assets/icons/trash.svg";
+import Rating from "../Rating";
 
 const CartProductCard = ({
   product,
@@ -14,12 +15,16 @@ const CartProductCard = ({
       <div className="w-28">
         <img src={product.image} alt={product.name} className="w-full" />
       </div>
-      <div className="w-1/3">
+      <div className="w-1/3 flex flex-col gap-4">
         <Link to={`/products/${product.id}`}>
           <span className="font-roboto text-gray-800 font-medium">
             {product.name}
           </span>
         </Link>
+        <div className="flex items-center gap-2">
+          <Rating value={4.5} size="sm" />
+          <span className="text-xs text-gray-500">(150 reviews)</span>
+        </div>
       </div>
       <QuantityPicker value={product.quantity} onChange={updateQuantity} />
       <div className="text-primary text-lg font-semibold">

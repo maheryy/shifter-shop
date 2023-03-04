@@ -7,7 +7,7 @@ import SearchIcon from "../assets/icons/search.svg";
 
 const Header = () => {
   const { isAuthenticated } = useAuthContext();
-  const cartItemCount = 0;
+  const cartItemCount = 1;
 
   return (
     <header className="py-4 shadow-sm bg-white">
