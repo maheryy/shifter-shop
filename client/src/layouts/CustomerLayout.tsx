@@ -1,13 +1,13 @@
 import { Outlet } from "react-router-dom";
 import { ReactNode } from "react";
-import UserProvider from "../providers/UserProvider";
+import CustomerProvider from "../providers/CustomerProvider";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Copyright from "../components/Copyright";
 
-const UserLayout = ({ children }: UserLayoutProps) => {
+const CustomerLayout = ({ children }: CustomerLayoutProps) => {
   return (
-    <UserProvider>
+    <CustomerProvider>
       <Header />
       <main>
         <Outlet />
@@ -15,12 +15,12 @@ const UserLayout = ({ children }: UserLayoutProps) => {
       </main>
       <Footer />
       <Copyright />
-    </UserProvider>
+    </CustomerProvider>
   );
 };
 
-interface UserLayoutProps {
+interface CustomerLayoutProps {
   children?: ReactNode;
 }
 
-export default UserLayout;
+export default CustomerLayout;

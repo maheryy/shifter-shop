@@ -4,8 +4,7 @@ import Product from "../pages/Product";
 import ProductList from "../pages/ProductList";
 import Cart from "../pages/Cart";
 import { getCartProducts, getProduct } from "../api/product.api";
-import UserLayout from "../layouts/UserLayout";
-import ProLayout from "../layouts/ProLayout";
+import CustomerLayout from "../layouts/CustomerLayout";
 import AdminLayout from "../layouts/AdminLayout";
 import NotFound from "../pages/errors/NotFound";
 import PublicLayout from "../layouts/PublicLayout";
@@ -56,20 +55,11 @@ const routes: RouteObject[] = [
     ],
   },
   {
-    element: <UserLayout />,
+    element: <CustomerLayout />,
     children: [
       {
         path: "/user",
         element: <div>User route page</div>,
-      },
-    ],
-  },
-  {
-    element: <ProLayout />,
-    children: [
-      {
-        path: "/pro",
-        element: <div>Pro route page</div>,
       },
     ],
   },

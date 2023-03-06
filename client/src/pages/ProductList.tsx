@@ -39,7 +39,7 @@ const ProductList = () => {
   };
 
   useEffect(() => {
-    console.log(selectedCategories, sortBy, minPrice, maxPrice);
+    // console.log(selectedCategories, sortBy, minPrice, maxPrice);
   }, [selectedCategories, sortBy, minPrice, maxPrice]);
 
   return (

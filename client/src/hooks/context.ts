@@ -1,8 +1,7 @@
 import { useContext } from "react";
 import { AuthContext } from "../providers/AuthProvider";
-import { UserContext } from "../providers/UserProvider";
+import { CustomerContext } from "../providers/CustomerProvider";
 import { AdminContext } from "../providers/AdminProvider";
-import { ProContext } from "../providers/ProProvider";
 
 export const useAuthContext = () => {
   const context = useContext(AuthContext);
@@ -12,21 +11,11 @@ export const useAuthContext = () => {
   return context;
 };
 
-export const useUserContext = () => {
-  const context = useContext(UserContext);
+export const useCustomerContext = () => {
+  const context = useContext(CustomerContext);
   if (context === undefined) {
     throw new Error(
-      "useProtectedContext must be used within a UserProvider"
-    );
-  }
-  return context;
-};
-
-export const useProContext = () => {
-  const context = useContext(ProContext);
-  if (context === undefined) {
-    throw new Error(
-      "useProtectedContext must be used within a ProProvider"
+      "useCustomerContext must be used within a CustomerProvider"
     );
   }
   return context;
