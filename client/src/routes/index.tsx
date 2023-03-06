@@ -3,17 +3,15 @@ import Home from "../pages/Home";
 import Product from "../pages/Product";
 import ProductList from "../pages/ProductList";
 import Cart from "../pages/Cart";
-import {
-  getAllProducts,
-  getCartProducts,
-  getProduct,
-} from "../api/product.api";
+import { getCartProducts, getProduct } from "../api/product.api";
 import UserLayout from "../layouts/UserLayout";
 import ProLayout from "../layouts/ProLayout";
 import AdminLayout from "../layouts/AdminLayout";
 import NotFound from "../pages/errors/NotFound";
 import PublicLayout from "../layouts/PublicLayout";
 import FetchFailure from "../pages/errors/FetchFailure";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
 
 const routes: RouteObject[] = [
   {
@@ -31,6 +29,14 @@ const routes: RouteObject[] = [
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
       },
       {
         path: "/products",
