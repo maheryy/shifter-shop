@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useAuthContext } from "../hooks/context";
+import { useAuthContext, useCartContext } from "../hooks/context";
 import Logo from "./Logo";
 import AccountIcon from "../assets/icons/account.svg";
 import CartIcon from "../assets/icons/cart.svg";
@@ -7,7 +7,7 @@ import SearchIcon from "../assets/icons/search.svg";
 
 const Header = () => {
   const { isAuthenticated } = useAuthContext();
-  const cartItemCount = 1;
+  const { cartItems } = useCartContext();
 
   return (
     <header className="py-4 shadow-sm bg-white">
@@ -38,9 +38,9 @@ const Header = () => {
               <CartIcon />
             </span>
             <span className="text-xs">Cart</span>
-            {!!cartItemCount && (
+            {!!cartItems.length && (
               <div className="absolute -right-3 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs">
-                {cartItemCount}
+                {cartItems.length}
               </div>
             )}
           </Link>

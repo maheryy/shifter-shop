@@ -7,12 +7,14 @@ import { formatPrice } from "../utils/format";
 import QuantityPicker from "../components/QuantityPicker";
 import BagIcon from "../assets/icons/bag.svg";
 import Rating from "../components/Rating";
+import { useCartContext } from "../hooks/context";
 
 const Product = () => {
   const { id } = useParams();
   const product = useLoaderData() as Product;
   const [quantity, setQuantity] = useState(1);
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
+  const { addToCart } = useCartContext();
 
   useEffect(() => {
     getRelatedProducts(Number(id))
@@ -77,7 +79,10 @@ const Product = () => {
           </div>
 
           <div className="mt-6 flex gap-3 pb-5 pt-5">
-            <button className="bg-primary border border-primary text-white px-8 py-2 font-medium rounded uppercase flex justify-center items-center gap-2 hover:bg-transparent hover:text-primary transition relative">
+            <button
+              className="bg-primary border border-primary text-white px-8 py-2 font-medium rounded uppercase flex justify-center items-center gap-2 hover:bg-transparent hover:text-primary transition relative"
+              onClick={() => addToCart(product, quantity)}
+            >
               <span className="block w-5 relative bottom-0.5">
                 <BagIcon />
               </span>

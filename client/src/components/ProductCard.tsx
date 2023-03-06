@@ -2,8 +2,11 @@ import { Link } from "react-router-dom";
 import { Product } from "../types/product";
 import { formatPrice } from "../utils/format";
 import Rating from "./Rating";
+import { useCartContext } from "../hooks/context";
 
 const ProductCard = ({ product }: ProductCardProps) => {
+  const { addToCart } = useCartContext();
+
   return (
     <div className="bg-white shadow rounded overflow-hidden group flex flex-col">
       <div>
@@ -30,7 +33,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
           </div>
         </div>
       </div>
-      <button className="block w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition">
+      <button
+        className="block w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition"
+        onClick={() => addToCart(product)}
+      >
         Add to cart
       </button>
     </div>

@@ -3,7 +3,7 @@ import Home from "../pages/Home";
 import Product from "../pages/Product";
 import ProductList from "../pages/ProductList";
 import Cart from "../pages/Cart";
-import { getCartProducts, getProduct } from "../api/product.api";
+import { getProduct } from "../api/product.api";
 import CustomerLayout from "../layouts/CustomerLayout";
 import AdminLayout from "../layouts/AdminLayout";
 import NotFound from "../pages/errors/NotFound";
@@ -50,7 +50,6 @@ const routes: RouteObject[] = [
       {
         path: "/cart",
         element: <Cart />,
-        loader: () => getCartProducts(),
       },
     ],
   },

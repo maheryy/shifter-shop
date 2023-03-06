@@ -4,11 +4,14 @@ import CartProductCard from "../components/Cart/CartProductCard";
 import { formatPrice } from "../utils/format";
 import CartSummaryItem from "../components/Cart/CartSummaryItem";
 import { useMemo, useState } from "react";
+import { useCartContext } from "../hooks/context";
 
 const Cart = () => {
-  const productList = useLoaderData() as ProductWithQuantity[];
-  const [products, setProducts] = useState<ProductWithQuantity[]>(productList);
-
+  const {
+    cartItems: products,
+    removeFromCart: deleteProduct,
+    updateQuantity,
+  } = useCartContext();
   const totalPrice = useMemo(
     () =>
       products.reduce(
@@ -17,18 +20,6 @@ const Cart = () => {
       ),
     [products]
   );
-
-  const deleteProduct = (id: number) => () => {
-    setProducts((products) => products.filter((product) => product.id !== id));
-  };
-
-  const updateQuantity = (id: number) => (quantity: number) => {
-    setProducts((products) =>
-      products.map((product) =>
-        product.id === id ? { ...product, quantity } : product
-      )
-    );
-  };
 
   const order = () => {};
 
@@ -39,8 +30,8 @@ const Cart = () => {
           <CartProductCard
             key={product.id}
             product={product}
-            updateQuantity={updateQuantity(product.id)}
-            deleteProduct={deleteProduct(product.id)}
+            updateQuantity={updateQuantity}
+            deleteProduct={deleteProduct}
           />
         ))}
       </div>

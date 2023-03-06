@@ -26,11 +26,14 @@ const CartProductCard = ({
           <span className="text-xs text-gray-500">(150 reviews)</span>
         </div>
       </div>
-      <QuantityPicker value={product.quantity} onChange={updateQuantity} />
+      <QuantityPicker
+        value={product.quantity}
+        onChange={(value) => updateQuantity(product.id, value)}
+      />
       <div className="text-primary text-lg font-semibold">
         {formatPrice(product.price * product.quantity)}
       </div>
-      <button onClick={deleteProduct}>
+      <button onClick={() => deleteProduct(product.id)}>
         <span className="block w-6 text-gray-600 cursor-pointer hover:text-red-500">
           <TrashIcon />
         </span>
@@ -41,8 +44,8 @@ const CartProductCard = ({
 
 interface CartProductCardProps {
   product: ProductWithQuantity;
-  updateQuantity: (quantity: number) => void;
-  deleteProduct: () => void;
+  updateQuantity: (id: number, quantity: number) => void;
+  deleteProduct: (id: number) => void;
 }
 
 export default CartProductCard;
