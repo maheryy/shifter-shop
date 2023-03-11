@@ -1,9 +1,7 @@
-import { useLoaderData } from "react-router-dom";
-import { ProductWithQuantity } from "../types/product";
-import CartProductCard from "../components/Cart/CartProductCard";
+import CartProductCard from "../components/cart/CartProductCard";
 import { formatPrice } from "../utils/format";
-import CartSummaryItem from "../components/Cart/CartSummaryItem";
-import { useMemo, useState } from "react";
+import CartSummaryItem from "../components/cart/CartSummaryItem";
+import { useMemo } from "react";
 import { useCartContext } from "../hooks/context";
 
 const Cart = () => {
