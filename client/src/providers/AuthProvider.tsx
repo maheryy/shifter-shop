@@ -1,14 +1,43 @@
-import { useState, createContext } from "react";
+import { useState, createContext, useEffect } from "react";
 import { User } from "../types/user";
+import { remove, retrieve, store } from "../utils/storage";
+import { StorageKey } from "../types/storage";
+import { getUser } from "../api/user.api";
+import useComponentUpdate from "../hooks/componentUpdate";
 
 export const AuthContext = createContext<AuthContextProps>(null!);
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const login = (user: User, token: string) => {
+  useEffect(() => {
+    const localToken = retrieve<string>(StorageKey.TOKEN);
+
+    if (!localToken) {
+      return setIsLoading(false);
+    }
+
+    getUser(localToken)
+      .then((user) => authenticate(user, localToken))
+      .catch((e: unknown) => {
+        logout();
+        console.error((e as Error).message);
+      })
+      .finally(() => setIsLoading(false));
+  }, []);
+
+  useComponentUpdate(() => {
+    if (token) {
+      store(StorageKey.TOKEN, token);
+    } else {
+      remove(StorageKey.TOKEN);
+    }
+  }, [token]);
+
+  const authenticate = (user: User, token: string) => {
     setUser(user);
     setToken(token);
     setIsAuthenticated(true);
@@ -25,11 +54,11 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
       value={{
         user,
         isAuthenticated,
-        login,
+        authenticate,
         logout,
       }}
     >
-      {children}
+      {!isLoading && children}
     </AuthContext.Provider>
   );
 };
@@ -37,7 +66,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 interface AuthContextProps {
   user: User | null;
   isAuthenticated: boolean;
-  login: (user: User, token: string) => void;
+  authenticate: (user: User, token: string) => void;
   logout: () => void;
 }
 

@@ -8,10 +8,12 @@ const CustomerProvider = ({ children }: CustomerProviderProps) => {
   const { user, isAuthenticated } = useAuthContext();
 
   if (!isAuthenticated) {
-    // return <Navigate to="/login" replace={true} />;
+    return <Navigate to="/login" replace={true} />;
   }
 
-  return <CustomerContext.Provider value={{}}>{children}</CustomerContext.Provider>;
+  return (
+    <CustomerContext.Provider value={{}}>{children}</CustomerContext.Provider>
+  );
 };
 
 interface CustomerContextProps {}

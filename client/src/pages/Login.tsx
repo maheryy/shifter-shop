@@ -1,12 +1,26 @@
 import { FormEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuthContext } from "../hooks/context";
+import { getAuthToken, getUser } from "../api/user.api";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const { authenticate } = useAuthContext();
 
-  const onSubmit = (e: FormEvent) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
+    try {
+      const token = await getAuthToken(email, password);
+      const user = await getUser(token);
+
+      authenticate(user, token);
+      navigate("/");
+    } catch (e: unknown) {
+      console.error((e as Error).message);
+    }
   };
 
   return (
@@ -23,6 +37,7 @@ const Login = () => {
                 type="email"
                 name="email"
                 id="email"
+                required
                 className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
                 placeholder="email@example.com"
                 value={email}
@@ -36,6 +51,7 @@ const Login = () => {
               <input
                 type="password"
                 name="password"
+                required
                 id="password"
                 className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
                 placeholder="*******"
