@@ -26,19 +26,12 @@ const Sidebar = () => {
 
       <div className="mt-6 bg-white shadow rounded p-4 divide-y divide-gray-200 space-y-4 text-gray-600">
         <div className="space-y-1 pl-8">
-          <NavLink
-            to="/account"
-            end
-            className={({ isActive }) =>
-              "relative hover:text-primary block font-medium capitalize transition" +
-              (isActive ? " text-primary" : "")
-            }
-          >
+          <div className="relative block font-medium capitalize transition">
             <span className="absolute -left-7 top-1 w-4 h-4">
               <IdentificationIcon />
             </span>
-            Manage account
-          </NavLink>
+            Account
+          </div>
           <NavLink
             to="/account/profile"
             end
@@ -62,18 +55,21 @@ const Sidebar = () => {
         </div>
 
         <div className="space-y-1 pl-8 pt-4">
+          <div className="relative block font-medium capitalize transition">
+            <span className="absolute -left-7 top-1 w-4 h-4">
+              <ListIcon />
+            </span>
+            History
+          </div>
           <NavLink
             to="/account/orders"
             end
             className={({ isActive }) =>
-              "relative hover:text-primary block font-medium capitalize transition" +
+              "relative hover:text-primary block capitalize transition" +
               (isActive ? " text-primary" : "")
             }
           >
-            <span className="absolute -left-7 top-1 w-4 h-4">
-              <ListIcon />
-            </span>
-            My orders
+            Orders
           </NavLink>
           <NavLink
             to="/account/reviews"
@@ -83,7 +79,7 @@ const Sidebar = () => {
               (isActive ? " text-primary" : "")
             }
           >
-            My reviews
+            Reviews
           </NavLink>
         </div>
 

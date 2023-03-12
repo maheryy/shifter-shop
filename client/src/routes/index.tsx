@@ -12,6 +12,7 @@ import FetchFailure from "../pages/errors/FetchFailure";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import CustomerAccountLayout from "../layouts/CustomerAccountLayout";
+import Account from "../pages/customer/Account";
 
 const routes: RouteObject[] = [
   {
@@ -67,7 +68,7 @@ const routes: RouteObject[] = [
         children: [
           {
             path: "",
-            element: <div>Account Dashboard</div>,
+            element: <Account />,
           },
           {
             path: "profile",
