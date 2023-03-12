@@ -11,7 +11,7 @@ const LinkCard = ({
   return (
     <Link
       to={link}
-      className="shadow rounded flex items-start justify-start gap-3 p-6 hover:bg-slate-100 transition"
+      className="shadow rounded flex items-start justify-start gap-3 p-6 hover:bg-gray-50 transition"
       {...props}
     >
       <span className="basis-14 w-14 p-2 rounded-full bg-primary text-white">

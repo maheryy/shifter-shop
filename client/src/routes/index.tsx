@@ -13,6 +13,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import CustomerAccountLayout from "../layouts/CustomerAccountLayout";
 import Account from "../pages/customer/Account";
+import Orders from "../pages/customer/Orders";
 
 const routes: RouteObject[] = [
   {
@@ -80,7 +81,11 @@ const routes: RouteObject[] = [
           },
           {
             path: "orders",
-            element: <div>Orders</div>,
+            element: <Orders />,
+          },
+          {
+            path: "orders/:orderId/review/:productId",
+            element: <div>Review Product</div>,
           },
           {
             path: "reviews",
