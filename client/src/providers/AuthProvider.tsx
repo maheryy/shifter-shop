@@ -23,7 +23,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     getUser(localToken)
       .then((user) => authenticate(user, localToken))
       .catch((e: unknown) => {
-        logout();
+        invalidate();
         console.error((e as Error).message);
       })
       .finally(() => setIsLoading(false));
@@ -43,7 +43,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     setIsAuthenticated(true);
   };
 
-  const logout = () => {
+  const invalidate = () => {
     setUser(null);
     setToken(null);
     setIsAuthenticated(false);
@@ -55,7 +55,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         user,
         isAuthenticated,
         authenticate,
-        logout,
+        invalidate,
       }}
     >
       {!isLoading && children}
@@ -67,7 +67,7 @@ interface AuthContextProps {
   user: User | null;
   isAuthenticated: boolean;
   authenticate: (user: User, token: string) => void;
-  logout: () => void;
+  invalidate: () => void;
 }
 
 interface AuthProviderProps {

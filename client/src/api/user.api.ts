@@ -1,15 +1,9 @@
 import { User } from "../types/user";
+import user from "../../data/user.json";
 
 export const getUser = async (token: string): Promise<User> => {
-  const user = {
-    id: 1,
-    firstname: "Donald",
-    lastname: "Vogel",
-    email: "donald.vogel@email.com",
-    role: "user",
-  };
-
-  return user;
+  const res = user;
+  return res;
 };
 
 export const getAuthToken = async (

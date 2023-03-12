@@ -11,6 +11,7 @@ import PublicLayout from "../layouts/PublicLayout";
 import FetchFailure from "../pages/errors/FetchFailure";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import CustomerAccountLayout from "../layouts/CustomerAccountLayout";
 
 const routes: RouteObject[] = [
   {
@@ -59,6 +60,36 @@ const routes: RouteObject[] = [
       {
         path: "/user",
         element: <div>User route page</div>,
+      },
+      {
+        path: "/account",
+        element: <CustomerAccountLayout />,
+        children: [
+          {
+            path: "",
+            element: <div>Account Dashboard</div>,
+          },
+          {
+            path: "profile",
+            element: <div>Profile</div>,
+          },
+          {
+            path: "change-password",
+            element: <div>Change Password</div>,
+          },
+          {
+            path: "orders",
+            element: <div>Orders</div>,
+          },
+          {
+            path: "reviews",
+            element: <div>Reviews</div>,
+          },
+          {
+            path: "delete-account",
+            element: <div>Delete Account</div>,
+          },
+        ],
       },
     ],
   },
