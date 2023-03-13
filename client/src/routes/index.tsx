@@ -14,6 +14,7 @@ import Register from "../pages/Register";
 import CustomerAccountLayout from "../layouts/CustomerAccountLayout";
 import Account from "../pages/customer/Account";
 import Orders from "../pages/customer/Orders";
+import Profile from "../pages/customer/Profile";
 
 const routes: RouteObject[] = [
   {
@@ -73,7 +74,7 @@ const routes: RouteObject[] = [
           },
           {
             path: "profile",
-            element: <div>Profile</div>,
+            element: <Profile />,
           },
           {
             path: "change-password",
