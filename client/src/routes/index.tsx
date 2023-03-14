@@ -15,6 +15,7 @@ import CustomerAccountLayout from "../layouts/CustomerAccountLayout";
 import Account from "../pages/customer/Account";
 import Orders from "../pages/customer/Orders";
 import Profile from "../pages/customer/Profile";
+import Reviews from "../pages/customer/Reviews";
 
 const routes: RouteObject[] = [
   {
@@ -90,7 +91,7 @@ const routes: RouteObject[] = [
           },
           {
             path: "reviews",
-            element: <div>Reviews</div>,
+            element: <Reviews />,
           },
           {
             path: "delete-account",
