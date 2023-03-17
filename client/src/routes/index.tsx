@@ -5,7 +5,6 @@ import ProductList from "../pages/ProductList";
 import Cart from "../pages/Cart";
 import { getProduct } from "../api/product.api";
 import CustomerLayout from "../layouts/CustomerLayout";
-import AdminLayout from "../layouts/AdminLayout";
 import NotFound from "../pages/errors/NotFound";
 import PublicLayout from "../layouts/PublicLayout";
 import FetchFailure from "../pages/errors/FetchFailure";
@@ -64,10 +63,6 @@ const routes: RouteObject[] = [
     element: <CustomerLayout />,
     children: [
       {
-        path: "/user",
-        element: <div>User route page</div>,
-      },
-      {
         path: "/account",
         element: <CustomerAccountLayout />,
         children: [
@@ -106,20 +101,6 @@ const routes: RouteObject[] = [
             element: <div>Delete Account</div>,
           },
         ],
-      },
-    ],
-  },
-  {
-    path: "/admin",
-    element: <AdminLayout />,
-    children: [
-      {
-        path: "",
-        element: <div>Admin Dashboard</div>,
-      },
-      {
-        path: "analytics",
-        element: <div>Analytics</div>,
       },
     ],
   },

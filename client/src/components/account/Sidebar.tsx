@@ -52,6 +52,16 @@ const Sidebar = () => {
           >
             Change password
           </NavLink>
+          <NavLink
+            to="/account/delete-account"
+            end
+            className={({ isActive }) =>
+              "relative hover:text-primary block capitalize transition" +
+              (isActive ? " text-primary" : "")
+            }
+          >
+            Delete account
+          </NavLink>
         </div>
 
         <div className="space-y-1 pl-8 pt-4">
