@@ -1,15 +1,12 @@
 import { RouterProvider } from "react-router-dom";
 import router from "./routes";
-import AuthProvider from "./providers/AuthProvider";
-import CartProvider from "./providers/CartProvider";
+import Providers from "./providers";
 
 const App = () => {
   return (
-    <AuthProvider>
-      <CartProvider>
-        <RouterProvider router={router} />
-      </CartProvider>
-    </AuthProvider>
+    <Providers>
+      <RouterProvider router={router} />
+    </Providers>
   );
 };
 
