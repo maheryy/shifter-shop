@@ -1,0 +1,202 @@
+[
+  {
+    "id": 1,
+    "rating": 5,
+    "details": "Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.",
+    "date": "2022-08-28T17:55:13Z",
+    "authorId": 1,
+    "productId": 1,
+    "orderId": 1,
+    "product": {}
+  },
+  {
+    "id": 2,
+    "rating": 4,
+    "details": "Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.",
+    "date": "2022-12-01T08:57:24Z",
+    "authorId": 1,
+    "productId": 2,
+    "orderId": 2,
+    "product": {}
+  },
+  {
+    "id": 3,
+    "rating": 2,
+    "details": "Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede. Morbi porttitor lorem id ligula. Suspendisse ornare consequat lectus.",
+    "date": "2023-01-16T03:49:05Z",
+    "authorId": 1,
+    "productId": 3,
+    "orderId": 3,
+    "product": {}
+  },
+  {
+    "id": 4,
+    "rating": 1,
+    "details": null,
+    "date": "2023-02-15T06:32:14Z",
+    "authorId": 1,
+    "productId": 4,
+    "orderId": 4,
+    "product": {}
+  },
+  {
+    "id": 5,
+    "rating": 2,
+    "details": "Aenean sit amet justo. Morbi ut odio. Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
+    "date": "2022-09-05T21:03:16Z",
+    "authorId": 1,
+    "productId": 5,
+    "orderId": 5,
+    "product": {}
+  },
+  {
+    "id": 6,
+    "rating": 1,
+    "details": "Integer non velit. Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque. Duis bibendum.",
+    "date": "2022-04-27T23:23:48Z",
+    "authorId": 1,
+    "productId": 6,
+    "orderId": 6,
+    "product": {}
+  },
+  {
+    "id": 7,
+    "rating": 3,
+    "details": "Vestibulum rutrum rutrum neque. Aenean auctor gravida sem. Praesent id massa id nisl venenatis lacinia.",
+    "date": "2022-08-22T12:24:43Z",
+    "authorId": 1,
+    "productId": 7,
+    "orderId": 7,
+    "product": {}
+  },
+  {
+    "id": 8,
+    "rating": 2,
+    "details": "Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam vel augue. Vestibulum rutrum rutrum neque.",
+    "date": "2023-02-18T22:10:37Z",
+    "authorId": 1,
+    "productId": 8,
+    "orderId": 8,
+    "product": {}
+  },
+  {
+    "id": 9,
+    "rating": 3,
+    "details": "Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.",
+    "date": "2022-10-28T23:47:10Z",
+    "authorId": 1,
+    "productId": 9,
+    "orderId": 9,
+    "product": {}
+  },
+  {
+    "id": 10,
+    "rating": 3,
+    "details": "Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl. Aenean lectus.",
+    "date": "2022-03-25T00:32:18Z",
+    "authorId": 1,
+    "productId": 10,
+    "orderId": 10,
+    "product": {}
+  },
+  {
+    "id": 11,
+    "rating": 3,
+    "details": "Curabitur convallis. Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus. Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis.",
+    "date": "2022-04-08T23:21:18Z",
+    "authorId": 1,
+    "productId": 11,
+    "orderId": 11,
+    "product": {}
+  },
+  {
+    "id": 12,
+    "rating": 5,
+    "details": "Mauris lacinia sapien quis libero. Nullam sit amet turpis elementum ligula vehicula consequat.",
+    "date": "2022-08-27T11:37:03Z",
+    "authorId": 1,
+    "productId": 12,
+    "orderId": 12,
+    "product": {}
+  },
+  {
+    "id": 13,
+    "rating": 3,
+    "details": "Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.",
+    "date": "2022-07-30T17:09:50Z",
+    "authorId": 1,
+    "productId": 13,
+    "orderId": 13,
+    "product": {}
+  },
+  {
+    "id": 14,
+    "rating": 3,
+    "details": "Donec posuere metus vitae ipsum. Aliquam non mauris. Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.",
+    "date": "2022-09-08T21:46:52Z",
+    "authorId": 1,
+    "productId": 14,
+    "orderId": 14,
+    "product": {}
+  },
+  {
+    "id": 15,
+    "rating": 1,
+    "details": "Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam.",
+    "date": "2022-09-21T06:36:42Z",
+    "authorId": 1,
+    "productId": 15,
+    "orderId": 15,
+    "product": {}
+  },
+  {
+    "id": 16,
+    "rating": 5,
+    "details": "In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus. Nulla ut erat id mauris vulputate elementum.",
+    "date": "2022-09-10T03:27:28Z",
+    "authorId": 1,
+    "productId": 16,
+    "orderId": 16,
+    "product": {}
+  },
+  {
+    "id": 17,
+    "rating": 1,
+    "details": "Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.",
+    "date": "2022-10-13T01:26:24Z",
+    "authorId": 1,
+    "productId": 17,
+    "orderId": 17,
+    "product": {}
+  },
+  {
+    "id": 18,
+    "rating": 1,
+    "details": "Integer non velit.",
+    "date": "2022-10-13T11:24:56Z",
+    "authorId": 1,
+    "productId": 18,
+    "orderId": 18,
+    "product": {}
+  },
+  {
+    "id": 19,
+    "rating": 4,
+    "details": "In hac habitasse platea dictumst. Etiam faucibus cursus urna.",
+    "date": "2022-12-24T06:06:27Z",
+    "authorId": 1,
+    "productId": 19,
+    "orderId": 19,
+    "product": {}
+  },
+  {
+    "id": 20,
+    "rating": 1,
+    "details": "Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem. Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.",
+    "date": "2022-09-20T01:35:13Z",
+    "authorId": 1,
+    "productId": 20,
+    "orderId": 20,
+    "product": {}
+  }
+]

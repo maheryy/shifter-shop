@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useAuthContext, useCartContext } from "../hooks/context";
 import Logo from "./Logo";
 import AccountIcon from "../assets/icons/account.svg";
@@ -30,9 +30,12 @@ const Header = () => {
         </div>
 
         <div className="flex items-center space-x-5">
-          <Link
+          <NavLink
             to="/cart"
-            className="flex flex-col items-center text-gray-700 hover:text-primary transition relative"
+            className={({ isActive }) =>
+              "flex flex-col items-center text-gray-700 hover:text-primary transition relative" +
+              (isActive ? " text-primary" : "")
+            }
           >
             <span className="block w-6">
               <CartIcon />
@@ -43,10 +46,13 @@ const Header = () => {
                 {cartItems.length}
               </div>
             )}
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to={isAuthenticated ? "/account" : "/login"}
-            className="flex flex-col items-center text-gray-700 hover:text-primary transition relative"
+            className={({ isActive }) =>
+              "flex flex-col items-center text-gray-700 hover:text-primary transition relative" +
+              (isActive ? " text-primary" : "")
+            }
           >
             <span className="block w-6">
               <AccountIcon />
@@ -54,7 +60,7 @@ const Header = () => {
             <span className="text-xs">
               {isAuthenticated ? "Account" : "Login"}
             </span>
-          </Link>
+          </NavLink>
         </div>
       </div>
     </header>

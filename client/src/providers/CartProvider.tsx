@@ -1,13 +1,13 @@
-import { useState, createContext, useEffect, useRef } from "react";
+import { useState, createContext, useEffect } from "react";
 import { Product, ProductWithQuantity } from "../types/product";
 import { retrieve, store } from "../utils/storage";
 import { StorageKey } from "../types/storage";
+import useComponentUpdate from "../hooks/componentUpdate";
 
 export const CartContext = createContext<CartContextProps>(null!);
 
 const CartProvider = ({ children }: CartProviderProps) => {
   const [cartItems, setCartItems] = useState<ProductWithQuantity[]>([]);
-  const isMounted = useRef(true);
 
   const addToCart = (product: Product, quantity: number = 1) => {
     const itemIndex = cartItems.findIndex((item) => item.id === product.id);
@@ -38,14 +38,10 @@ const CartProvider = ({ children }: CartProviderProps) => {
     }
   }, []);
 
-  useEffect(() => {
-    if (isMounted.current) {
-      isMounted.current = false;
-      return;
-    }
-
-    store<ProductWithQuantity[]>(StorageKey.CART, cartItems);
-  }, [cartItems]);
+  useComponentUpdate(
+    () => store<ProductWithQuantity[]>(StorageKey.CART, cartItems),
+    [cartItems]
+  );
 
   return (
     <CartContext.Provider

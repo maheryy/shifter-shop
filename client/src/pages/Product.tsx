@@ -32,7 +32,7 @@ const Product = () => {
     <div className="container py-16">
       <div className="grid grid-cols-2 gap-6">
         <div>
-          <img src={product.image} alt="product" className="w-full" />
+          <img src={product.image} alt={product.name} className="w-full" />
         </div>
 
         <div>

@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { AuthContext } from "../providers/AuthProvider";
 import { CustomerContext } from "../providers/CustomerProvider";
-import { AdminContext } from "../providers/AdminProvider";
 import { CartContext } from "../providers/CartProvider";
 
 export const useAuthContext = () => {
@@ -18,14 +17,6 @@ export const useCustomerContext = () => {
     throw new Error(
       "useCustomerContext must be used within a CustomerProvider"
     );
-  }
-  return context;
-};
-
-export const useAdminContext = () => {
-  const context = useContext(AdminContext);
-  if (context === undefined) {
-    throw new Error("useAdminContext must be used within a AdminProvider");
   }
   return context;
 };

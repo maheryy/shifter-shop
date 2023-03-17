@@ -24,9 +24,10 @@ export const getRelatedProducts = async (id: number): Promise<Product[]> => {
 };
 
 // Temporary solution to shuffle hardcoded products
-const getShuffledProducts = () => {
+export const getShuffledProducts = (max?: number) => {
   return products
     .map((item) => ({ sort: Math.random(), value: item }))
     .sort((a, b) => a.sort - b.sort)
-    .map((item) => item.value);
+    .map((item) => item.value)
+    .slice(0, max);
 };
