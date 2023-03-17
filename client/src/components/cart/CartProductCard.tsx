@@ -31,7 +31,7 @@ const CartProductCard = ({
         onChange={(value) => updateQuantity(product.id, value)}
       />
       <div className="text-primary text-lg font-semibold">
-        {formatPrice(product.price * product.quantity)}
+        {formatPrice(product.price)}
       </div>
       <button onClick={() => deleteProduct(product.id)}>
         <span className="block w-6 text-gray-600 cursor-pointer hover:text-red-500">
