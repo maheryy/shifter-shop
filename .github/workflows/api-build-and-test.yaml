@@ -1,0 +1,34 @@
+name: Build and test api app
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+    paths:
+      - "api/**"
+
+defaults:
+  run:
+    working-directory: api
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout to the repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node 18 environment
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18.x
+
+      - name: Install package dependencies
+        run: npm install
+
+      - name: Execute test cases
+        run: npm run test
+
+      - name: Build the app
+        run: npm run build
