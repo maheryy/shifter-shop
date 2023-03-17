@@ -1,4 +1,4 @@
-import { ProductWithQuantity } from "./product";
+import { Product, ProductWithQuantity } from "./product";
 import { User } from "./user";
 
 export interface Order {
@@ -16,4 +16,9 @@ export enum OrderStatus {
   Confirmed = "confirmed",
   Shipping = "shipping",
   Delivered = "delivered",
+}
+
+export interface OrderAndProduct {
+  order: Order;
+  product: Product;
 }

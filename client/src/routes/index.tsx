@@ -16,6 +16,8 @@ import Account from "../pages/customer/Account";
 import Orders from "../pages/customer/Orders";
 import Profile from "../pages/customer/Profile";
 import Reviews from "../pages/customer/Reviews";
+import { getOrderAndProduct } from "../api/order.api";
+import ReviewForm from "../pages/customer/ReviewForm";
 
 const routes: RouteObject[] = [
   {
@@ -87,7 +89,13 @@ const routes: RouteObject[] = [
           },
           {
             path: "orders/:orderId/review/:productId",
-            element: <div>Review Product</div>,
+            element: <ReviewForm />,
+            loader: ({ params }) =>
+              getOrderAndProduct(
+                Number(params.orderId),
+                Number(params.productId)
+              ),
+            errorElement: <NotFound />,
           },
           {
             path: "reviews",
