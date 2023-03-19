@@ -5,17 +5,21 @@ import { MailerService as NestMailerService } from '@nestjs-modules/mailer';
 export class MailerService {
   constructor(private mailerService: NestMailerService) {}
 
-  private sendMail(
+  private async sendMail(
     to: string,
     subject: string,
     template: { name: string; context: Record<string, unknown> },
   ) {
-    return this.mailerService.sendMail({
-      to,
-      subject,
-      template: `./${template.name}`,
-      context: template.context,
-    });
+    try {
+      await this.mailerService.sendMail({
+        to,
+        subject,
+        template: `./${template.name}`,
+        context: template.context,
+      });
+    } catch (error) {
+      console.error('Fail to send email : ', (error as Error).message);
+    }
   }
 
   async sendHelloWorld(to: string, testValue: string) {
