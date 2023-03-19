@@ -29,7 +29,8 @@
     "handlebars": "^4.7.7",
     "nodemailer": "^6.9.1",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "stripe": "^11.15.0"
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
