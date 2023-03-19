@@ -41,6 +41,13 @@ services:
     networks:
       - nwa_database
 
+  mailer:
+    container_name: mailer
+    image: mailhog/mailhog:latest
+    ports:
+      - 1025:1025
+      - 8025:8025
+
 networks:
   nwa_app:
   nwa_database:
