@@ -1,0 +1,129 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int               @id @default(autoincrement())
+  email     String            @unique
+  firstname String            @db.VarChar(255)
+  lastname  String            @db.VarChar(255)
+  password  String            @db.VarChar(255)
+  role      Role              @default(User)
+  profileId Int?              @unique
+  profile   Profile?          @relation(fields: [profileId], references: [id])
+  reviews   Review[]
+  orders    Order[]
+  products  CustomerProduct[]
+
+  @@map("users")
+}
+
+model Profile {
+  id      Int     @id @default(autoincrement())
+  phone   String? @db.VarChar(255)
+  address String? @db.VarChar(255)
+  user    User?
+
+  @@map("profiles")
+}
+
+model Product {
+  id          Int               @id @default(autoincrement())
+  name        String            @db.VarChar(255)
+  description String            @db.VarChar(255)
+  rating      Float             @default(0)
+  price       Float
+  image       String            @db.VarChar(255)
+  category    Category          @relation(fields: [categoryId], references: [id])
+  categoryId  Int
+  reviews     Review[]
+  customers   CustomerProduct[]
+
+  @@map("products")
+}
+
+model Category {
+  id       Int       @id @default(autoincrement())
+  name     String    @db.VarChar(255)
+  products Product[]
+
+  @@map("categories")
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  title     String?  @db.VarChar(255)
+  details   String?  @db.VarChar(255)
+  rating    Int
+  date      DateTime @default(now())
+  product   Product  @relation(fields: [productId], references: [id])
+  productId Int
+  order     Order    @relation(fields: [orderId], references: [id])
+  orderId   Int
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  Int
+
+  @@map("reviews")
+}
+
+model CustomerProduct {
+  quantity   Int
+  product    Product @relation(fields: [productId], references: [id])
+  productId  Int
+  customer   User    @relation(fields: [customerId], references: [id])
+  customerId Int
+  orderId    Int?
+  order      Order?  @relation(fields: [orderId], references: [id])
+
+  @@id([productId, customerId])
+  @@map("customer_products")
+}
+
+model Order {
+  id         Int               @id @default(autoincrement())
+  reference  String            @unique
+  total      Float
+  date       DateTime          @default(now())
+  status     OrderStatus       @default(Pending)
+  customer   User              @relation(fields: [customerId], references: [id])
+  customerId Int
+  items      CustomerProduct[]
+  reviews    Review[]
+  payment    Payment?
+
+  @@map("orders")
+}
+
+model Payment {
+  id      Int           @id @default(autoincrement())
+  date    DateTime      @default(now())
+  status  PaymentStatus @default(Pending)
+  order   Order         @relation(fields: [orderId], references: [id])
+  orderId Int           @unique
+
+  @@map("payments")
+}
+
+enum Role {
+  Admin
+  User
+}
+
+enum OrderStatus {
+  Pending
+  Confirmed
+  Shipping
+  Delivered
+  Cancelled
+}
+
+enum PaymentStatus {
+  Pending
+  Confirmed
+  Refused
+}
