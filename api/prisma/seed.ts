@@ -1,8 +1,11 @@
 import {
+  Category,
+  Order,
   OrderStatus,
   PaymentStatus,
   Prisma,
   PrismaClient,
+  Product,
   Role,
   User,
 } from '@prisma/client';
@@ -10,35 +13,28 @@ import { faker } from '@faker-js/faker';
 const prisma = new PrismaClient();
 
 const array = (length: number = 0) => Array.from({ length });
-const foreignKey = (data: unknown[]) =>
-  faker.datatype.number({ min: 1, max: data.length });
+const randomItem = <T>(data: T[]): T => faker.helpers.arrayElement(data);
 
 const clearDatabase = async () => {
   await prisma.$transaction([
-    prisma.user.deleteMany(),
-    prisma.profile.deleteMany(),
-    prisma.product.deleteMany(),
-    prisma.category.deleteMany(),
     prisma.review.deleteMany(),
     prisma.customerProduct.deleteMany(),
-    prisma.order.deleteMany(),
+    prisma.product.deleteMany(),
     prisma.payment.deleteMany(),
+    prisma.order.deleteMany(),
+    prisma.profile.deleteMany(),
+    prisma.user.deleteMany(),
+    prisma.category.deleteMany(),
   ]);
 };
 
-const userData: Prisma.UserCreateInput[] = [
+const loadUserData = (length: number): Prisma.UserCreateInput[] => [
   {
     email: 'admin@shiftershop.com',
     firstname: 'Shifter',
     lastname: 'Pro',
     password: 'password',
     role: Role.Admin,
-    profile: {
-      create: {
-        phone: faker.phone.number(),
-        address: faker.address.streetAddress(),
-      },
-    },
   },
   {
     email: 'user@shiftershop.com',
@@ -53,7 +49,7 @@ const userData: Prisma.UserCreateInput[] = [
       },
     },
   },
-  ...array(8).map((_, i) => {
+  ...array(length).map((_, i) => {
     const firstname = faker.name.firstName();
     const lastname = faker.name.lastName();
 
@@ -73,101 +69,139 @@ const userData: Prisma.UserCreateInput[] = [
   }),
 ];
 
-const categoryData: Prisma.CategoryUncheckedCreateInput[] = [
-  ...array(6).map(
+const loadCategoryData = (
+  length: number,
+): Prisma.CategoryUncheckedCreateInput[] => [
+  ...array(length).map(
     (_, i) =>
       ({
         name: faker.commerce.department(),
-        products: {
-          createMany: {
-            data: array(10).map((_, i) => ({
-              name: faker.commerce.productName(),
-              description: faker.commerce.productDescription(),
-              price: faker.datatype.number({
-                min: 100,
-                max: 10000,
-              }),
-              image: faker.image.imageUrl(),
-              rating: faker.datatype.number(),
-            })),
-          },
-        },
       } as Prisma.CategoryUncheckedCreateInput),
   ),
 ];
 
-const orderData: Prisma.OrderUncheckedCreateInput[] = [
-  ...array(10).map((_, i) => {
-    const customerId = foreignKey(userData);
-    return {
-      reference: faker.datatype.uuid(),
-      total: faker.datatype.number(),
-      status: faker.helpers.arrayElement(Object.values(OrderStatus)),
-      customerId: customerId,
-      payment: {
-        create: {
-          status: PaymentStatus.Confirmed,
-        },
-      },
-      items: {
-        createMany: {
-          data: array(faker.datatype.number({ min: 1, max: 3 })).map(
-            (_, i) => ({
-              customerId: customerId,
-              productId: faker.datatype.number({ min: 1, max: 60 }),
-              quantity: faker.datatype.number({ min: 1, max: 5 }),
-            }),
-          ),
-        },
-      },
-    } as Prisma.OrderUncheckedCreateInput;
-  }),
+const loadProductData = (
+  length: number,
+  categories: Category[],
+): Prisma.ProductUncheckedCreateInput[] => [
+  ...array(length).map(
+    (_, i) =>
+      ({
+        name: faker.commerce.productName(),
+        description: faker.commerce.productDescription(),
+        price: faker.datatype.number({
+          min: 100,
+          max: 10000,
+        }),
+        image: faker.image.imageUrl(),
+        rating: faker.datatype.number(),
+        categoryId: randomItem(categories).id,
+      } as Prisma.ProductUncheckedCreateInput),
+  ),
 ];
 
-const reviewData: Prisma.ReviewCreateManyInput[] = [
-  ...array(50).map((_, i) => ({
-    title: faker.lorem.sentence(),
-    details: faker.lorem.paragraph(),
+const loadOrderData = (
+  users: User[],
+  products: Product[],
+): Prisma.OrderUncheckedCreateInput[] => {
+  const uniqueKeyPairs = new Set<string>();
+
+  const generateOrderItem = (
+    customerId: number,
+    productId: number,
+  ): Prisma.CustomerProductCreateManyInput | null => {
+    const key = `${customerId}-${productId}`;
+    if (uniqueKeyPairs.has(key)) {
+      return null;
+    }
+
+    uniqueKeyPairs.add(key);
+
+    return {
+      customerId: customerId,
+      productId: productId,
+      quantity: faker.datatype.number({ min: 1, max: 5 }),
+    };
+  };
+
+  return users.reduce((acc, user) => {
+    const orderItems = faker.helpers
+      .arrayElements(products, faker.datatype.number({ min: 0, max: 3 }))
+      .map((product) => generateOrderItem(user.id, product.id))
+      .filter(
+        (product) => product !== null,
+      ) as Prisma.CustomerProductCreateManyInput[];
+
+    if (orderItems.length === 0) {
+      return acc;
+    }
+
+    return [
+      ...acc,
+      {
+        reference: faker.color.rgb(),
+        total: faker.datatype.number(),
+        status: faker.helpers.arrayElement(Object.values(OrderStatus)),
+        customerId: user.id,
+        payment: { create: { status: PaymentStatus.Confirmed } },
+        items: { createMany: { data: orderItems } },
+      } as Prisma.OrderUncheckedCreateInput,
+    ];
+  }, [] as Prisma.OrderUncheckedCreateInput[]);
+};
+
+const loadReviewData = (
+  length: number,
+  orders: Order[],
+  users: User[],
+  products: Product[],
+): Prisma.ReviewCreateManyInput[] => [
+  ...array(length).map((_, i) => ({
+    title: faker.lorem.sentence(3),
+    details: faker.lorem.sentence(10),
     rating: faker.datatype.number(),
-    productId: faker.datatype.number({ min: 1, max: 60 }),
-    orderId: foreignKey(orderData),
-    authorId: foreignKey(userData),
+    productId: randomItem(products).id,
+    orderId: randomItem(orders).id,
+    authorId: randomItem(users).id,
   })),
 ];
 
 const main = async () => {
   await clearDatabase();
 
-  // TODO: Fix this function - Seeding is not working because it cannot find the foreign keys
-  return;
+  const users = await Promise.all(
+    loadUserData(8).map((user) => prisma.user.create({ data: user })),
+  );
 
-  for (const user of userData) {
-    await prisma.user.create({ data: user });
-  }
+  const categories = await Promise.all(
+    loadCategoryData(6).map((category) =>
+      prisma.category.create({ data: category }),
+    ),
+  );
 
-  for (const category of categoryData) {
-    await prisma.category.create({ data: category });
-  }
+  const products = await Promise.all(
+    loadProductData(30, categories).map((product) =>
+      prisma.product.create({ data: product }),
+    ),
+  );
 
-  for (const order of orderData) {
-    await prisma.order.create({ data: order });
-  }
+  const orders = await Promise.all(
+    loadOrderData(users, products).map((order) =>
+      prisma.order.create({ data: order }),
+    ),
+  );
 
-  //   const data = await prisma.$transaction([
-  //     ...categoryData.map((category) =>
-  //       prisma.category.create({ data: category }),
-  //     ),
-  //     ...userData.map((user) => prisma.user.create({ data: user })),
-  //     ...orderData.map((order) => prisma.order.create({ data: order })),
-  //   ]);
+  const reviews = await Promise.all(
+    loadReviewData(50, orders, users.slice(1), products).map((review) =>
+      prisma.review.create({ data: review }),
+    ),
+  );
 
-  //   console.log('Created users :', users.count);
-  //   console.log('Created profiles :', profiles.count);
-  //   console.log('Created categories :', categories.count);
-  //   console.log('Created products :', products.count);
-  //   console.log('Created orders :', orders.count);
-  //   console.log('Created payments :', payments.count);
-  //   console.log('Created reviews :', reviews.count);
+  console.log(users.length, `users created`);
+  console.log(categories.length, `categories created`);
+  console.log(products.length, `products created`);
+  console.log(orders.length, `orders created`);
+  console.log(reviews.length, `reviews created`);
 };
 
 main()
