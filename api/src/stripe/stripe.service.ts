@@ -3,10 +3,7 @@ import Stripe from 'stripe';
 import { ConfigService } from '@nestjs/config';
 import { HelperService } from '../helper/helper.service';
 import { PrismaService } from '../prisma/prisma.service';
-import {
-  OrderWithProducts,
-  StripeMetadata,
-} from './interfaces/stripe.interface';
+import { FullOrder, StripeMetadata } from './interfaces/stripe.interface';
 import { ProductWithQuantity } from 'src/common/interfaces/product';
 import { PaymentStatus, Product } from '@prisma/client';
 
@@ -51,10 +48,7 @@ export class StripeService {
     });
   }
 
-  async createOrder(
-    userId: number,
-    sessionId: string,
-  ): Promise<OrderWithProducts> {
+  async createOrder(userId: number, sessionId: string): Promise<FullOrder> {
     const customerProducts = await this.prismaService.customerProduct.findMany({
       where: { customerId: userId },
       include: { product: true },
@@ -91,7 +85,11 @@ export class StripeService {
             },
           },
         },
-        include: { products: { include: { product: true } } },
+        include: {
+          customer: true,
+          payment: true,
+          products: { include: { product: true } },
+        },
       }),
       this.prismaService.customerProduct.deleteMany({
         where: {
@@ -104,21 +102,12 @@ export class StripeService {
     return order;
   }
 
-  async getWebhookEvent(request: RawBodyRequest<Request>) {
+  async getWebhookEvent(payload: Buffer | string, signature: string) {
     const secret = this.configService.getOrThrow<string>(
       'stripe.signingSecret',
     );
-    const signature = request.headers.get('stripe-signature');
 
-    if (!signature) {
-      throw new Error('No signature');
-    }
-
-    return this.stripe.webhooks.constructEventAsync(
-      request.rawBody!,
-      signature,
-      secret,
-    );
+    return this.stripe.webhooks.constructEventAsync(payload, signature, secret);
   }
 
   parseMetadata(metadata: Stripe.Metadata | null): StripeMetadata {

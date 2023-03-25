@@ -1,12 +1,14 @@
 import { Prisma } from '@prisma/client';
 
-export type OrderWithProducts = Prisma.OrderGetPayload<{
+export type FullOrder = Prisma.OrderGetPayload<{
   include: {
     products: {
       include: {
         product: true;
       };
     };
+    customer: true;
+    payment: true;
   };
 }>;
 
