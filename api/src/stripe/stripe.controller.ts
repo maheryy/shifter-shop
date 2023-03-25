@@ -1,6 +1,6 @@
 import { Controller, Post, RawBodyRequest, Req } from '@nestjs/common';
 import { StripeService } from './stripe.service';
-import { ProductWithQuantity } from './interfaces/stripe.interface';
+import Stripe from 'stripe';
 
 @Controller('stripe')
 export class StripeController {
@@ -8,13 +8,8 @@ export class StripeController {
 
   @Post('checkout')
   async getCheckoutSession() {
-    // TODO: Get products from cart
-    const products: ProductWithQuantity[] = [
-      { id: 1, name: 'Shifter', price: 100, quantity: 1 },
-      { id: 2, name: 'Turbo', price: 169, quantity: 3 },
-    ];
-
-    const session = await this.stripeService.createCheckoutSession(products);
+    const userId = 111;
+    const session = await this.stripeService.createCheckoutSession(userId);
 
     return { url: session.url };
   }
@@ -24,9 +19,20 @@ export class StripeController {
     try {
       const event = await this.stripeService.getWebhookEvent(request);
 
-      if (event.type === 'payment_intent.succeeded') {
-        const paymentIntent = event.data.object;
-        const connectedAccountId = event.account;
+      switch (event.type) {
+        // case 'charge.succeeded':
+        // case 'payment_intent.created':
+        // case 'payment_intent.succeeded':
+        // case 'payment_intent.payment_failed':
+        // case 'checkout.session.async_payment_succeeded':
+        // case 'checkout.session.async_payment_failed'
+        case 'checkout.session.completed': {
+          const eventData = event.data.object as Stripe.Checkout.Session;
+          const metadata = this.stripeService.parseMetadata(eventData.metadata);
+
+          this.stripeService.createOrder(metadata.customer, eventData.id);
+          break;
+        }
       }
     } catch (err) {
       throw new Error((err as Error).message);

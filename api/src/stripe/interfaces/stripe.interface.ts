@@ -1,7 +1,16 @@
-// Temporary interface to represent a product with a quantity
-export interface ProductWithQuantity {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
+import { Prisma } from '@prisma/client';
+
+export type OrderWithProducts = Prisma.OrderGetPayload<{
+  include: {
+    products: {
+      include: {
+        product: true;
+      };
+    };
+  };
+}>;
+
+export interface StripeMetadata {
+  customer: number;
+  products: number[];
 }
