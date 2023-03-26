@@ -9,6 +9,7 @@ import {
 import { StripeService } from './stripe.service';
 import Stripe from 'stripe';
 import { MailerService } from '../mailer/mailer.service';
+import { Request } from 'express';
 
 @Controller('stripe')
 export class StripeController {
