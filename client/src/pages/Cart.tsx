@@ -3,6 +3,7 @@ import { formatPrice } from "../utils/format";
 import CartSummaryItem from "../components/cart/CartSummaryItem";
 import { useMemo } from "react";
 import { useCartContext } from "../hooks/context";
+import { StripePayload } from "../types/stripe";
 
 const Cart = () => {
   const {
@@ -19,7 +20,25 @@ const Cart = () => {
     [products]
   );
 
-  const order = () => {};
+  const order = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/stripe/checkout", {
+        method: "POST",
+      });
+      if (!response.ok) {
+        throw new Error("Failed to create order.");
+      }
+
+      const data = (await response.json()) as StripePayload;
+      if (!data.url) {
+        throw new Error("No redirect url returned from server.");
+      }
+
+      window.location.assign(data.url);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="container py-8 grid grid-cols-12 items-start gap-6">

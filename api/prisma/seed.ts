@@ -55,7 +55,11 @@ const loadUserData = (length: number): Prisma.UserCreateInput[] => [
     const lastname = faker.name.lastName();
 
     return {
-      email: faker.internet.email(firstname, lastname, 'shiftershop.com'),
+      email: faker.internet.email(
+        firstname.toLowerCase(),
+        lastname.toLowerCase(),
+        'shiftershop.com',
+      ),
       firstname: firstname,
       lastname: lastname,
       password: 'password',

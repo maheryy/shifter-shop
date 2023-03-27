@@ -1,4 +1,11 @@
-import { Controller, Headers, Post, RawBodyRequest, Req } from '@nestjs/common';
+import {
+  Controller,
+  Headers,
+  HttpCode,
+  Post,
+  RawBodyRequest,
+  Req,
+} from '@nestjs/common';
 import { StripeService } from './stripe.service';
 import Stripe from 'stripe';
 import { MailerService } from '../mailer/mailer.service';
@@ -11,8 +18,9 @@ export class StripeController {
   ) {}
 
   @Post('checkout')
+  @HttpCode(200)
   async getCheckoutSession() {
-    const userId = 111;
+    const userId = 115;
     const session = await this.stripeService.createCheckoutSession(userId);
 
     return { url: session.url };
