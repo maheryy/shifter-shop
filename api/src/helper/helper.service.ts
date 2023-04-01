@@ -7,7 +7,7 @@ import {
 import { PrismaService } from '../prisma/prisma.service';
 import puppeteer from 'puppeteer';
 import { readFile } from 'fs/promises';
-import { compile } from 'handlebars';
+import Handlebars from 'handlebars';
 
 @Injectable()
 export class HelperService {
@@ -41,6 +41,29 @@ export class HelperService {
     );
   }
 
+  formatPrice(price: number) {
+    return price.toLocaleString('fr-FR', {
+      style: 'currency',
+      currency: 'EUR',
+    });
+  }
+
+  formatDisplayDate(date: string | Date) {
+    return new Date(date).toLocaleDateString('fr-FR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  }
+
+  formatDisplayShortDate(date: string | Date) {
+    return new Date(date).toLocaleString('fr-FR', {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+    });
+  }
+
   async getHandlebarsTemplate(
     path: string,
     context?: Record<string, unknown>,
@@ -49,7 +72,11 @@ export class HelperService {
       throw new Error('Invalid template');
     }
     const template = await readFile(path, { encoding: 'utf-8' });
-    return compile(template)(context);
+
+    Handlebars.registerHelper('formatPrice', this.formatPrice);
+    Handlebars.registerHelper('formatDate', this.formatDisplayShortDate);
+
+    return Handlebars.compile(template)(context);
   }
 
   async generatePDF(content: string): Promise<Buffer> {

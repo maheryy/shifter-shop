@@ -24,7 +24,7 @@ export class InvoiceService {
 
     const template = await this.helperService.getHandlebarsTemplate(
       'src/invoice/templates/invoice.hbs',
-      { name: 'Test' },
+      { order: order },
     );
 
     return this.helperService.generatePDF(template);

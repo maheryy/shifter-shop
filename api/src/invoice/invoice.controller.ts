@@ -20,7 +20,7 @@ export class InvoiceController {
   ): Promise<StreamableFile> {
     try {
       const filename = `invoice_${reference}`;
-      const invoice = await this.invoiceService.generateInvoice(reference);
+      const invoice = await this.invoiceService.generateInvoice('5EM1ONEY6I');
 
       return new StreamableFile(invoice, {
         disposition: `attachment; filename="${filename}.pdf"`,
