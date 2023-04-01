@@ -43,6 +43,7 @@ model Product {
   categoryId  Int
   reviews     Review[]
   customers   CustomerProduct[]
+  orders      OrderProduct[]
 
   @@map("products")
 }
@@ -73,26 +74,35 @@ model Review {
 
 model CustomerProduct {
   quantity   Int
-  product    Product @relation(fields: [productId], references: [id])
-  productId  Int
   customer   User    @relation(fields: [customerId], references: [id])
   customerId Int
-  orderId    Int?
-  order      Order?  @relation(fields: [orderId], references: [id])
+  product    Product @relation(fields: [productId], references: [id])
+  productId  Int
 
-  @@id([productId, customerId])
+  @@id([customerId, productId])
   @@map("customer_products")
 }
 
+model OrderProduct {
+  quantity  Int
+  order     Order   @relation(fields: [orderId], references: [id])
+  orderId   Int
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
+
+  @@id([orderId, productId])
+  @@map("order_products")
+}
+
 model Order {
-  id         Int               @id @default(autoincrement())
-  reference  String            @unique
+  id         Int            @id @default(autoincrement())
+  reference  String         @unique
   total      Float
-  date       DateTime          @default(now())
-  status     OrderStatus       @default(Pending)
-  customer   User              @relation(fields: [customerId], references: [id])
+  date       DateTime       @default(now())
+  status     OrderStatus    @default(Pending)
+  customer   User           @relation(fields: [customerId], references: [id])
   customerId Int
-  items      CustomerProduct[]
+  products   OrderProduct[]
   reviews    Review[]
   payment    Payment?
 
@@ -100,7 +110,7 @@ model Order {
 }
 
 model Payment {
-  id      Int           @id @default(autoincrement())
+  id      String        @id
   date    DateTime      @default(now())
   status  PaymentStatus @default(Pending)
   order   Order         @relation(fields: [orderId], references: [id])

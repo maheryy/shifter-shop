@@ -17,6 +17,7 @@ import Profile from "../pages/customer/Profile";
 import Reviews from "../pages/customer/Reviews";
 import { getOrderAndProduct } from "../api/order.api";
 import ReviewForm from "../pages/customer/ReviewForm";
+import PostCheckout from "../pages/PostCheckout";
 
 const routes: RouteObject[] = [
   {
@@ -101,6 +102,10 @@ const routes: RouteObject[] = [
             element: <div>Delete Account</div>,
           },
         ],
+      },
+      {
+        path: "/checkout/success",
+        element: <PostCheckout />,
       },
     ],
   },

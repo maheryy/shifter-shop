@@ -18,6 +18,7 @@ const randomItem = <T>(data: T[]): T => faker.helpers.arrayElement(data);
 const clearDatabase = async () => {
   await prisma.$transaction([
     prisma.review.deleteMany(),
+    prisma.orderProduct.deleteMany(),
     prisma.customerProduct.deleteMany(),
     prisma.product.deleteMany(),
     prisma.payment.deleteMany(),
@@ -54,7 +55,11 @@ const loadUserData = (length: number): Prisma.UserCreateInput[] => [
     const lastname = faker.name.lastName();
 
     return {
-      email: faker.internet.email(firstname, lastname, 'shiftershop.com'),
+      email: faker.internet.email(
+        firstname.toLowerCase(),
+        lastname.toLowerCase(),
+        'shiftershop.com',
+      ),
       firstname: firstname,
       lastname: lastname,
       password: 'password',
@@ -109,7 +114,56 @@ const loadOrderData = (
   const generateOrderItem = (
     customerId: number,
     productId: number,
-  ): Prisma.CustomerProductCreateManyInput | null => {
+  ): Prisma.OrderProductCreateManyOrderInput | null => {
+    const key = `${customerId}-${productId}`;
+    if (uniqueKeyPairs.has(key)) {
+      return null;
+    }
+
+    uniqueKeyPairs.add(key);
+
+    return {
+      productId: productId,
+      quantity: faker.datatype.number({ min: 1, max: 5 }),
+    };
+  };
+
+  return users.reduce((acc, user) => {
+    const orderItems = faker.helpers
+      .arrayElements(products, faker.datatype.number({ min: 0, max: 3 }))
+      .map((product) => generateOrderItem(user.id, product.id))
+      .filter(
+        (product) => product !== null,
+      ) as Prisma.OrderProductCreateManyOrderInput[];
+
+    if (orderItems.length === 0) {
+      return acc;
+    }
+
+    return [
+      ...acc,
+      {
+        reference: faker.color.rgb(),
+        total: faker.datatype.number(),
+        status: faker.helpers.arrayElement(Object.values(OrderStatus)),
+        customerId: user.id,
+        payment: { create: { status: PaymentStatus.Confirmed } },
+        products: { createMany: { data: orderItems } },
+      } as Prisma.OrderUncheckedCreateInput,
+    ];
+  }, [] as Prisma.OrderUncheckedCreateInput[]);
+};
+
+const loadCustomerProductData = (
+  users: User[],
+  products: Product[],
+): Prisma.CustomerProductUncheckedCreateInput[] => {
+  const uniqueKeyPairs = new Set<string>();
+
+  const generateItem = (
+    customerId: number,
+    productId: number,
+  ): Prisma.CustomerProductUncheckedCreateInput | null => {
     const key = `${customerId}-${productId}`;
     if (uniqueKeyPairs.has(key)) {
       return null;
@@ -127,27 +181,17 @@ const loadOrderData = (
   return users.reduce((acc, user) => {
     const orderItems = faker.helpers
       .arrayElements(products, faker.datatype.number({ min: 0, max: 3 }))
-      .map((product) => generateOrderItem(user.id, product.id))
+      .map((product) => generateItem(user.id, product.id))
       .filter(
         (product) => product !== null,
-      ) as Prisma.CustomerProductCreateManyInput[];
+      ) as Prisma.CustomerProductUncheckedCreateInput[];
 
     if (orderItems.length === 0) {
       return acc;
     }
 
-    return [
-      ...acc,
-      {
-        reference: faker.color.rgb(),
-        total: faker.datatype.number(),
-        status: faker.helpers.arrayElement(Object.values(OrderStatus)),
-        customerId: user.id,
-        payment: { create: { status: PaymentStatus.Confirmed } },
-        items: { createMany: { data: orderItems } },
-      } as Prisma.OrderUncheckedCreateInput,
-    ];
-  }, [] as Prisma.OrderUncheckedCreateInput[]);
+    return [...acc, ...orderItems];
+  }, [] as Prisma.CustomerProductUncheckedCreateInput[]);
 };
 
 const loadReviewData = (
@@ -185,8 +229,14 @@ const main = async () => {
     ),
   );
 
+  const customerProducts = await Promise.all(
+    loadCustomerProductData(users.slice(1), products).map((order) =>
+      prisma.customerProduct.create({ data: order }),
+    ),
+  );
+
   const orders = await Promise.all(
-    loadOrderData(users, products).map((order) =>
+    loadOrderData(users.slice(1), products).map((order) =>
       prisma.order.create({ data: order }),
     ),
   );
@@ -200,6 +250,7 @@ const main = async () => {
   console.log(users.length, `users created`);
   console.log(categories.length, `categories created`);
   console.log(products.length, `products created`);
+  console.log(customerProducts.length, `customer products created`);
   console.log(orders.length, `orders created`);
   console.log(reviews.length, `reviews created`);
 };

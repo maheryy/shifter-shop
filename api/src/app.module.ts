@@ -6,11 +6,15 @@ import { MailerModule } from './mailer/mailer.module';
 import { ConfigModule } from '@nestjs/config';
 import stripeConfig from './config/stripe.config';
 import appConfig from './config/app.config';
+import { StripeModule } from './stripe/stripe.module';
+import { HelperModule } from './helper/helper.module';
 
 @Module({
   imports: [
     PrismaModule,
     MailerModule,
+    StripeModule,
+    HelperModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [appConfig, stripeConfig],

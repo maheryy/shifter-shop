@@ -47,6 +47,20 @@ services:
     ports:
       - 1025:1025
       - 8025:8025
+    networks:
+      - nwa_app
+
+  stripe:
+    container_name: stripe
+    image: stripe/stripe-cli:v1.13.12
+    command: listen --forward-to server:3000/stripe/webhook
+    environment:
+      - STRIPE_API_KEY=sk_test_XXXX
+      - STRIPE_DEVICE_NAME=shifter_shop_docker
+    depends_on:
+      - server
+    networks:
+      - nwa_app
 
 networks:
   nwa_app:
