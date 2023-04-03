@@ -1,4 +1,4 @@
-import { Injectable, RawBodyRequest } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import Stripe from 'stripe';
 import { ConfigService } from '@nestjs/config';
 import { HelperService } from '../helper/helper.service';
@@ -86,9 +86,9 @@ export class StripeService {
           },
         },
         include: {
-          customer: true,
-          payment: true,
+          customer: { include: { profile: true } },
           products: { include: { product: true } },
+          payment: true,
         },
       }),
       this.prismaService.customerProduct.deleteMany({

@@ -9,6 +9,7 @@ import {
 import { StripeService } from './stripe.service';
 import Stripe from 'stripe';
 import { MailerService } from '../mailer/mailer.service';
+import { Request } from 'express';
 
 @Controller('stripe')
 export class StripeController {
@@ -20,7 +21,7 @@ export class StripeController {
   @Post('checkout')
   @HttpCode(200)
   async getCheckoutSession() {
-    const userId = 115;
+    const userId = 113;
     const session = await this.stripeService.createCheckoutSession(userId);
 
     return { url: session.url };
@@ -59,10 +60,7 @@ export class StripeController {
             eventData.id,
           );
 
-          await this.mailerService.sendOrderConfirmation(
-            order.customer,
-            order.reference,
-          );
+          await this.mailerService.sendOrderConfirmation(order);
 
           console.log('Order created !', metadata);
           break;

@@ -7,7 +7,7 @@ export type FullOrder = Prisma.OrderGetPayload<{
         product: true;
       };
     };
-    customer: true;
+    customer: { include: { profile: true } };
     payment: true;
   };
 }>;
