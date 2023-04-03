@@ -21,7 +21,7 @@ export class StripeController {
   @Post('checkout')
   @HttpCode(200)
   async getCheckoutSession() {
-    const userId = 115;
+    const userId = 113;
     const session = await this.stripeService.createCheckoutSession(userId);
 
     return { url: session.url };
@@ -60,10 +60,7 @@ export class StripeController {
             eventData.id,
           );
 
-          await this.mailerService.sendOrderConfirmation(
-            order.customer,
-            order.reference,
-          );
+          await this.mailerService.sendOrderConfirmation(order);
 
           console.log('Order created !', metadata);
           break;

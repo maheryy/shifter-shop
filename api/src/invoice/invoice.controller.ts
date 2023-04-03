@@ -19,8 +19,9 @@ export class InvoiceController {
     @Res({ passthrough: true }) res: Response,
   ): Promise<StreamableFile> {
     try {
+      const reference = '5EM1ONEY6I';
       const filename = `invoice_${reference}`;
-      const invoice = await this.invoiceService.generateInvoice('5EM1ONEY6I');
+      const invoice = await this.invoiceService.generateInvoice(reference);
 
       return new StreamableFile(invoice, {
         disposition: `attachment; filename="${filename}.pdf"`,

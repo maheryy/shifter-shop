@@ -86,9 +86,9 @@ export class StripeService {
           },
         },
         include: {
-          customer: true,
-          payment: true,
+          customer: { include: { profile: true } },
           products: { include: { product: true } },
+          payment: true,
         },
       }),
       this.prismaService.customerProduct.deleteMany({
