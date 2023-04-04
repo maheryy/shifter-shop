@@ -1,8 +1,8 @@
 module.exports = {
   apps: [
     {
-      name: 'nwa-api',
-      script: 'dist/main.js',
+      name: 'shifter-shop-api',
+      script: 'dist/src/main.js',
       instances: 2,
       exec_mode: 'cluster',
       autorestart: true,
