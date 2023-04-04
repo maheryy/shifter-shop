@@ -21,6 +21,15 @@ services:
     networks:
       - ss_app
 
+  admin:
+    container_name: admin
+    build:
+      context: ./admin
+    ports:
+      - 8081:80
+    networks:
+      - ss_app
+
   database:
     container_name: database
     image: postgres:15
