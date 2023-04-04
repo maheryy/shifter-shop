@@ -1,17 +1,17 @@
-version: '3.8'
+version: "3.8"
 services:
   server:
     container_name: server
     build:
       context: ./api
     ports:
-      - 8081:3000
+      - 3000:3000
     networks:
-      - nwa_app
-      - nwa_database
+      - ss_app
+      - ss_database
     depends_on:
       - database
-  
+
   client:
     container_name: client
     build:
@@ -19,23 +19,23 @@ services:
     ports:
       - 8080:80
     networks:
-      - nwa_app
-  
+      - ss_app
+
   database:
     container_name: database
     image: postgres:15
     volumes:
-      - nwa_data:/var/lib/postgresql/data/
+      - ss_data:/var/lib/postgresql/data/
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=app
     networks:
-      - nwa_database
+      - ss_database
 
 networks:
-  nwa_app:
-  nwa_database:
+  ss_app:
+  ss_database:
 
 volumes:
-  nwa_data:
+  ss_data:
