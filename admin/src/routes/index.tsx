@@ -15,6 +15,35 @@ const routes: RouteObject[] = [
         path: "/analytics",
         element: <div>Analytics</div>,
       },
+      {
+        path: "/orders",
+        element: <div>Orders</div>,
+      },
+      {
+        path: "/customers",
+        element: <div>Customers</div>,
+      },
+      {
+        path: "/newsletter",
+        element: <div>Newsletter</div>,
+      },
+      {
+        path: "/products",
+        children: [
+          {
+            path: "",
+            element: <div>All products</div>,
+          },
+          {
+            path: "new",
+            element: <div>New product</div>,
+          },
+          {
+            path: "categories",
+            element: <div>All categories</div>,
+          },
+        ],
+      },
     ],
   },
   {
