@@ -3,22 +3,31 @@ import { useLocation } from "react-router-dom";
 
 export const LayoutContext = createContext<LayoutContextProps>(null!);
 
+const getCurrentTheme = () =>
+  window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+
 const LayoutProvider = ({ children }: LayoutProviderProps) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [theme, setTheme] = useState<"light" | "dark">(getCurrentTheme());
   const sidebarRef = useRef<HTMLDivElement>(null);
   const { pathname: currentPath } = useLocation();
 
   const toggleSidebar = () =>
     setIsSidebarOpen((isSidebarOpen) => !isSidebarOpen);
 
+  const toggleTheme = () =>
+    setTheme((theme) => (theme === "light" ? "dark" : "light"));
+
   // Close sidebar when clicking outside
+  // TODO: find a better solution to ignore the toggle button (preventing event loop)
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
       if (
         isSidebarOpen &&
         sidebarRef.current &&
         !sidebarRef.current.contains(event.target as Node) &&
-        (event.target as HTMLDivElement).ariaLabel !== "Sidebar menu"
+        (event.target as HTMLElement).parentElement?.ariaLabel !==
+          "Toggle sidebar"
       ) {
         setIsSidebarOpen(false);
       }
@@ -37,6 +46,25 @@ const LayoutProvider = ({ children }: LayoutProviderProps) => {
     }
   }, [currentPath]);
 
+  useEffect(() => {
+    const handleChange = (e: MediaQueryListEvent) =>
+      setTheme(e.matches ? "dark" : "light");
+
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", handleChange);
+
+    return () => {
+      window
+        .matchMedia("(prefers-color-scheme: dark)")
+        .removeEventListener("change", handleChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.className = theme;
+  }, [theme]);
+
   return (
     <LayoutContext.Provider
       value={{
@@ -44,6 +72,8 @@ const LayoutProvider = ({ children }: LayoutProviderProps) => {
         toggleSidebar,
         sidebarRef,
         currentPath,
+        theme,
+        toggleTheme,
       }}
     >
       {children}
@@ -58,8 +88,10 @@ interface LayoutProviderProps {
 interface LayoutContextProps {
   isSidebarOpen: boolean;
   sidebarRef: React.RefObject<HTMLDivElement>;
-  toggleSidebar: () => void;
+  theme: "light" | "dark";
   currentPath: string;
+  toggleTheme: () => void;
+  toggleSidebar: () => void;
 }
 
 export default LayoutProvider;

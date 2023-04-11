@@ -35,7 +35,7 @@ const SidebarMenu = ({ icon, label, baseUrl, items }: SidebarMenuProps) => {
       </button>
       <ul
         className={
-          "overflow-hidden text-sm font-medium text-gray-500 rounded-md shadow-inner bg-gray-50 dark:text-gray-400 dark:bg-gray-900 transition-all ease-in-out duration-300" +
+          "overflow-hidden text-sm font-medium text-gray-500 rounded-md shadow-inner bg-gray-50 dark:text-gray-400 dark:bg-gray-900 transition-[max-height,opacity,padding,margin] ease-in-out duration-300" +
           (isMenuOpen
             ? " py-2 mt-2 max-h-[36rem] opacity-100"
             : " max-h-0 opacity-25")

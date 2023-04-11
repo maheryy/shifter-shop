@@ -61,17 +61,10 @@ const Sidebar = () => {
           </div>
         </div>
       </aside>
-
-      <div
-        className={
-          "fixed md:hidden inset-0 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center transition-opacity ease-in-out duration-150" +
-          (isSidebarOpen ? " opacity-100 z-10" : " opacity-0 -z-10")
-        }
-      ></div>
       <aside
         ref={sidebarRef}
         className={
-          "fixed inset-y-0 flex-shrink-0 w-64 mt-16 overflow-y-auto bg-white dark:bg-gray-800 md:hidden transition ease-in-out duration-150" +
+          "fixed inset-y-0 flex-shrink-0 w-64 mt-14 overflow-y-auto bg-white dark:bg-gray-800 md:hidden transition ease-in-out duration-150" +
           (isSidebarOpen
             ? " z-20 opacity-100 transform"
             : " -z-10 opacity-0 transform -translate-x-20")
@@ -123,6 +116,12 @@ const Sidebar = () => {
           </div>
         </div>
       </aside>
+      <div
+        className={
+          "fixed md:hidden inset-0 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center transition-opacity ease-in-out duration-150" +
+          (isSidebarOpen ? " opacity-100 z-10" : " opacity-0 -z-10")
+        }
+      ></div>
     </>
   );
 };

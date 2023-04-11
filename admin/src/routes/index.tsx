@@ -28,6 +28,14 @@ const routes: RouteObject[] = [
         element: <div>Newsletter</div>,
       },
       {
+        path: "/profile",
+        element: <div>Profile</div>,
+      },
+      {
+        path: "/settings",
+        element: <div>Settings</div>,
+      },
+      {
         path: "/products",
         children: [
           {
