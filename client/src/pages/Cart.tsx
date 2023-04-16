@@ -22,9 +22,12 @@ const Cart = () => {
 
   const order = async () => {
     try {
-      const response = await fetch("http://localhost:3000/stripe/checkout", {
-        method: "POST",
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/stripe/checkout`,
+        {
+          method: "POST",
+        }
+      );
       if (!response.ok) {
         throw new Error("Failed to create order.");
       }

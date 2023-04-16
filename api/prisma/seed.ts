@@ -147,7 +147,12 @@ const loadOrderData = (
         total: faker.datatype.number(),
         status: faker.helpers.arrayElement(Object.values(OrderStatus)),
         customerId: user.id,
-        payment: { create: { status: PaymentStatus.Confirmed } },
+        payment: {
+          create: {
+            status: PaymentStatus.Confirmed,
+            id: faker.database.mongodbObjectId(),
+          },
+        },
         products: { createMany: { data: orderItems } },
       } as Prisma.OrderUncheckedCreateInput,
     ];

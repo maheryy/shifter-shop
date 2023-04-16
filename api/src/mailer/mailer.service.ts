@@ -9,14 +9,14 @@ import { FullOrder } from 'src/stripe/interfaces/stripe.interface';
 
 @Injectable()
 export class MailerService {
-  private host: string;
+  private clientUrl: string;
 
   constructor(
     private mailerService: NestMailerService,
     private configService: ConfigService,
     private helperService: HelperService,
   ) {
-    this.host = this.configService.getOrThrow<string>('clientHost');
+    this.clientUrl = this.configService.getOrThrow<string>('clientUrl');
   }
 
   private async sendMail(

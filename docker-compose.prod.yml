@@ -6,6 +6,14 @@ services:
       context: ./api
     ports:
       - 3000:3000
+    environment:
+      - CLIENT_URL=http://localhost:8080
+      - DATABASE_URL=postgres://postgres:password@database/app
+      - JWT_SECRET=jwt-secret
+      - MAILER_DSN=smtp://mailer:1025
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - STRIPE_PUBLIC_KEY=${STRIPE_PUBLIC_KEY}
+      - STRIPE_WEBHOOK_SIGNING_SECRET=${STRIPE_WEBHOOK_SIGNING_SECRET}
     networks:
       - ss_app
       - ss_database
@@ -16,6 +24,8 @@ services:
     container_name: client
     build:
       context: ./client
+      args:
+        - VITE_API_URL=http://localhost:3000
     ports:
       - 8080:80
     networks:
@@ -42,6 +52,26 @@ services:
     networks:
       - ss_database
 
+  mailer:
+    container_name: mailer
+    image: mailhog/mailhog:latest
+    ports:
+      - 1025:1025
+      - 8025:8025
+    networks:
+      - ss_app
+  
+  stripe:
+    container_name: stripe
+    image: stripe/stripe-cli:v1.13.12
+    command: listen --forward-to http://server:3000/stripe/webhook
+    environment:
+      - STRIPE_DEVICE_NAME=shifter_shop_docker
+      - STRIPE_API_KEY=${STRIPE_SECRET_KEY}
+    depends_on:
+      - server
+    networks:
+      - ss_app
 networks:
   ss_app:
   ss_database:

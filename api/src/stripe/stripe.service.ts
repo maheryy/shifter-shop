@@ -24,26 +24,32 @@ export class StripeService {
   }
 
   async createCheckoutSession(userId: number) {
-    const host = this.configService.getOrThrow<string>('clientHost');
+    const clientUrl = this.configService.getOrThrow<string>('clientUrl');
+
+    /* temporary fetch random user that has cart products */
+    const user = await this.prismaService.user.findFirst({
+      where: { products: { some: { productId: { gt: 0 } } } },
+    });
+    userId = user?.id || 0;
 
     const customerProducts = await this.prismaService.customerProduct.findMany({
       where: { customerId: userId },
       include: { product: true },
     });
 
-    const products =
-      this.helperService.getProductsWithQuantity(customerProducts);
-
     if (customerProducts.length === 0) {
       throw new Error('No products in cart');
     }
+
+    const products =
+      this.helperService.getProductsWithQuantity(customerProducts);
 
     return this.stripe.checkout.sessions.create({
       line_items: this.getCheckoutItems(products),
       currency: 'eur',
       mode: 'payment',
-      success_url: `${host}/checkout/success`,
-      cancel_url: `${host}/cart`,
+      success_url: `${clientUrl}/checkout/success`,
+      cancel_url: `${clientUrl}/cart`,
       metadata: { data: this.generateMetadata(userId, products) },
     });
   }
