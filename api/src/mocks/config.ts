@@ -6,7 +6,7 @@ export const configModuleOptions: ConfigModuleOptions = {
   load: [
     () => ({
       debug: false,
-      clientHost: 'http://localhost:3000',
+      clientUrl: 'http://localhost:3000',
       mailer: 'smtp://localhost:1025',
       stripe: {
         secretKey: 'sk_test_51JY2Z',

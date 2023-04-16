@@ -10,13 +10,22 @@ export class InvoiceService {
   ) {}
 
   async generateInvoice(reference: string): Promise<Buffer> {
-    const order = await this.prismaService.order.findUnique({
-      where: { reference },
+    /* temporary fetch random order */
+    const order = await this.prismaService.order.findFirst({
       include: {
         customer: { include: { profile: true } },
         products: { include: { product: true } },
       },
     });
+
+    // Working code here
+    // const order = await this.prismaService.order.findUnique({
+    //   where: { reference },
+    //   include: {
+    //     customer: { include: { profile: true } },
+    //     products: { include: { product: true } },
+    //   },
+    // });
 
     if (!order) {
       throw new NotFoundException('Order not found');
