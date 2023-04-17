@@ -9,6 +9,8 @@ import appConfig from './config/app.config';
 import { StripeModule } from './stripe/stripe.module';
 import { HelperModule } from './helper/helper.module';
 import { InvoiceModule } from './invoice/invoice.module';
+import { EncryptionModule } from './encryption/encryption.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -21,6 +23,8 @@ import { InvoiceModule } from './invoice/invoice.module';
       isGlobal: true,
       load: [appConfig, stripeConfig],
     }),
+    EncryptionModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

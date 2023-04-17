@@ -10,7 +10,11 @@ describe('StripeService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [ConfigModule.forRoot(configModuleOptions), PrismaModule, HelperModule],
+      imports: [
+        ConfigModule.forRoot(configModuleOptions),
+        PrismaModule,
+        HelperModule,
+      ],
       providers: [StripeService],
     }).compile();
 
