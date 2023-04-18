@@ -13,7 +13,10 @@ build-admin:
       - admin/.npm
       - admin/node_modules
   only:
-    - merge_requests
+    changes:
+      - admin/**/*
+    refs:
+      - merge_requests
 
 test-admin:
   stage: test
@@ -30,7 +33,10 @@ test-admin:
       - admin/.npm
       - admin/node_modules
   only:
-    - merge_requests
+    changes:
+      - admin/**/*
+    refs:
+      - merge_requests
 
 deploy-admin:
   stage: deploy
@@ -46,5 +52,8 @@ deploy-admin:
       - admin/.npm
       - admin/node_modules
   only:
-    - dev
-    - main
+    changes:
+      - admin/**/*
+    refs:
+      - dev
+      - main

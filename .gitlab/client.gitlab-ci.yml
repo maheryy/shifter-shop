@@ -13,8 +13,11 @@ build-client:
       - client/node_modules
       - client/.npm
   only:
-    - merge_requests
-
+    changes:
+      - client/**/*
+    refs:
+      - merge_requests
+    
 test-client:
   stage: test
   image: node:18
@@ -30,7 +33,10 @@ test-client:
       - client/node_modules
       - client/.npm
   only:
-    - merge_requests
+    changes:
+      - client/**/*
+    refs:
+      - merge_requests
 
 deploy-client:
   stage: deploy
@@ -46,5 +52,8 @@ deploy-client:
       - client/node_modules
       - client/.npm
   only:
-    - dev
-    - main
+    changes:
+      - client/**/*
+    refs:
+      - dev
+      - main

@@ -13,7 +13,10 @@ build-api:
       - api/.npm
       - api/node_modules
   only:
-    - merge_requests
+    changes:
+      - api/**/*
+    refs:
+      - merge_requests
 
 test-api:
   stage: test
@@ -30,7 +33,10 @@ test-api:
       - api/.npm
       - api/node_modules
   only:
-    - merge_requests
+    changes:
+      - api/**/*
+    refs:
+      - merge_requests
 
 deploy-api:
   stage: deploy
@@ -46,5 +52,8 @@ deploy-api:
       - api/.npm
       - api/node_modules
   only:
-    - dev
-    - main
+    changes:
+      - api/**/*
+    refs:
+      - dev
+      - main
