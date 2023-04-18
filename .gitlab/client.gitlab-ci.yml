@@ -13,8 +13,6 @@ build-client:
       - client/node_modules
       - client/.npm
   only:
-    - dev
-    - main
     - merge_requests
 
 test-client:
@@ -32,8 +30,6 @@ test-client:
       - client/node_modules
       - client/.npm
   only:
-    - dev
-    - main
     - merge_requests
 
 deploy-client:

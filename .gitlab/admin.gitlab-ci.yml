@@ -13,8 +13,6 @@ build-admin:
       - admin/.npm
       - admin/node_modules
   only:
-    - dev
-    - main
     - merge_requests
 
 test-admin:
@@ -32,8 +30,6 @@ test-admin:
       - admin/.npm
       - admin/node_modules
   only:
-    - dev
-    - main
     - merge_requests
 
 deploy-admin:

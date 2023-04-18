@@ -13,8 +13,6 @@ build-api:
       - api/.npm
       - api/node_modules
   only:
-    - dev
-    - main
     - merge_requests
 
 test-api:
@@ -32,8 +30,6 @@ test-api:
       - api/.npm
       - api/node_modules
   only:
-    - dev
-    - main
     - merge_requests
 
 deploy-api:
