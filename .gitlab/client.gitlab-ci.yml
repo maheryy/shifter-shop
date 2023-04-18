@@ -1,0 +1,59 @@
+build-client:
+  stage: build
+  image: node:18
+  script:
+    - cd client
+    - npm ci --cache .npm --prefer-offline
+    - npm run build
+  cache:
+    key:
+      files:
+        - client/package-lock.json
+    paths:
+      - client/node_modules
+      - client/.npm
+  only:
+    changes:
+      - client/**/*
+    refs:
+      - merge_requests
+    
+test-client:
+  stage: test
+  image: node:18
+  script:
+    - cd client
+    - npm ci --cache .npm --prefer-offline
+    - npm run test
+  cache:
+    key:
+      files:
+        - client/package-lock.json
+    paths:
+      - client/node_modules
+      - client/.npm
+  only:
+    changes:
+      - client/**/*
+    refs:
+      - merge_requests
+
+deploy-client:
+  stage: deploy
+  image: node:18
+  script:
+    - cd client
+    - echo "Deploying client"
+  cache:
+    key:
+      files:
+        - client/package-lock.json
+    paths:
+      - client/node_modules
+      - client/.npm
+  only:
+    changes:
+      - client/**/*
+    refs:
+      - dev
+      - main
