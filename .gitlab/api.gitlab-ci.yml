@@ -1,0 +1,54 @@
+build-api:
+  stage: build
+  image: node:18
+  script:
+    - cd api
+    - npm ci --cache .npm --prefer-offline
+    - npm run build
+  cache:
+    key:
+      files:
+        - api/package-lock.json
+      paths:
+        - api/.npm
+        - api/node_modules
+  only:
+    - dev
+    - main
+    - merge_requests
+
+test-api:
+  stage: test
+  image: node:18
+  script:
+    - cd api
+    - npm ci --cache .npm --prefer-offline
+    - npm run test
+  cache:
+    key:
+      files:
+        - api/package-lock.json
+      paths:
+        - api/.npm
+        - api/node_modules
+  only:
+    - dev
+    - main
+    - merge_requests
+
+deploy-api:
+  stage: deploy
+  image: node:18
+  script:
+    - cd api
+    - echo "Deploying API"
+  cache:
+    key:
+      files:
+        - api/package-lock.json
+      paths:
+        - api/.npm
+        - api/node_modules
+  only:
+    - dev
+    - main

@@ -1,0 +1,54 @@
+build-admin:
+  stage: build
+  image: node:18
+  script:
+    - cd admin
+    - npm ci --cache .npm --prefer-offline
+    - npm run build
+  cache:
+    key:
+      files:
+        - admin/package-lock.json
+      paths:
+        - admin/.npm
+        - admin/node_modules
+  only:
+    - dev
+    - main
+    - merge_requests
+
+test-admin:
+  stage: test
+  image: node:18
+  script:
+    - cd admin
+    - npm ci --cache .npm --prefer-offline
+    - npm run test
+  cache:
+    key:
+      files:
+        - admin/package-lock.json
+      paths:
+        - admin/.npm
+        - admin/node_modules
+  only:
+    - dev
+    - main
+    - merge_requests
+
+deploy-admin:
+  stage: deploy
+  image: node:18
+  script:
+    - cd admin
+    - echo "Deploying admin"
+  cache:
+    key:
+      files:
+        - admin/package-lock.json
+      paths:
+        - admin/.npm
+        - admin/node_modules
+  only:
+    - dev
+    - main

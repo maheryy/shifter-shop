@@ -1,0 +1,18 @@
+stages:
+  - build
+  - test
+  - deploy
+
+include:
+  - local: .gitlab/client.gitlab-ci.yml
+    rules:
+      - changes:
+          - client/**/*
+  - local: .gitlab/admin.gitlab-ci.yml
+    rules:
+      - changes:
+          - admin/**/*
+  - local: .gitlab/api.gitlab-ci.yml
+    rules:
+      - changes:
+          - api/**/*
