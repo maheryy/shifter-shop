@@ -9,9 +9,9 @@ build-admin:
     key:
       files:
         - admin/package-lock.json
-      paths:
-        - admin/.npm
-        - admin/node_modules
+    paths:
+      - admin/.npm
+      - admin/node_modules
   only:
     - dev
     - main
@@ -28,9 +28,9 @@ test-admin:
     key:
       files:
         - admin/package-lock.json
-      paths:
-        - admin/.npm
-        - admin/node_modules
+    paths:
+      - admin/.npm
+      - admin/node_modules
   only:
     - dev
     - main
@@ -46,9 +46,9 @@ deploy-admin:
     key:
       files:
         - admin/package-lock.json
-      paths:
-        - admin/.npm
-        - admin/node_modules
+    paths:
+      - admin/.npm
+      - admin/node_modules
   only:
     - dev
     - main

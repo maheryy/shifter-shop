@@ -9,9 +9,9 @@ build-api:
     key:
       files:
         - api/package-lock.json
-      paths:
-        - api/.npm
-        - api/node_modules
+    paths:
+      - api/.npm
+      - api/node_modules
   only:
     - dev
     - main
@@ -28,9 +28,9 @@ test-api:
     key:
       files:
         - api/package-lock.json
-      paths:
-        - api/.npm
-        - api/node_modules
+    paths:
+      - api/.npm
+      - api/node_modules
   only:
     - dev
     - main
@@ -46,9 +46,9 @@ deploy-api:
     key:
       files:
         - api/package-lock.json
-      paths:
-        - api/.npm
-        - api/node_modules
+    paths:
+      - api/.npm
+      - api/node_modules
   only:
     - dev
     - main

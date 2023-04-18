@@ -9,9 +9,9 @@ build-client:
     key:
       files:
         - client/package-lock.json
-      paths:
-        - client/node_modules
-        - client/.npm
+    paths:
+      - client/node_modules
+      - client/.npm
   only:
     - dev
     - main
@@ -28,9 +28,9 @@ test-client:
     key:
       files:
         - client/package-lock.json
-      paths:
-        - client/node_modules
-        - client/.npm
+    paths:
+      - client/node_modules
+      - client/.npm
   only:
     - dev
     - main
@@ -46,9 +46,9 @@ deploy-client:
     key:
       files:
         - client/package-lock.json
-      paths:
-        - client/node_modules
-        - client/.npm
+    paths:
+      - client/node_modules
+      - client/.npm
   only:
     - dev
     - main
