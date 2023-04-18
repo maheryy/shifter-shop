@@ -12,7 +12,12 @@ describe.skip('StripeController', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [ConfigModule.forRoot(configModuleOptions), PrismaModule, HelperModule, MailerModule],
+      imports: [
+        ConfigModule.forRoot(configModuleOptions),
+        PrismaModule,
+        HelperModule,
+        MailerModule,
+      ],
       providers: [StripeService],
       controllers: [StripeController],
     }).compile();

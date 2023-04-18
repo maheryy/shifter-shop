@@ -39,3 +39,6 @@ lerna-debug.log*
 
 *.test.html
 .db_data
+
+# VSCode REST Client
+*.http

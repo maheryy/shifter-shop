@@ -4,6 +4,6 @@ import { InvoiceController } from './invoice.controller';
 
 @Module({
   providers: [InvoiceService],
-  controllers: [InvoiceController]
+  controllers: [InvoiceController],
 })
 export class InvoiceModule {}
