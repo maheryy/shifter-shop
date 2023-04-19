@@ -1,13 +1,13 @@
-import { useLayoutContext } from "../../hooks/context";
-import MenuIcon from "../../assets/icons/menu.svg";
-import SettingsIcon from "../../assets/icons/cog.svg";
-import ProfileIcon from "../../assets/icons/user.svg";
-import LogoutIcon from "../../assets/icons/leave.svg";
-import NotificationIcon from "../../assets/icons/bell.svg";
-import LightThemeIcon from "../../assets/icons/sun.svg";
-import DarkThemeIcon from "../../assets/icons/moon.svg";
-import Avatar from "../../assets/images/avatar.svg";
-import HeaderMenu from "./HeaderMenu";
+import { useLayoutContext } from "@/hooks/context";
+import MenuIcon from "@icons/menu.svg";
+import SettingsIcon from "@icons/cog.svg";
+import ProfileIcon from "@icons/user.svg";
+import LogoutIcon from "@icons/leave.svg";
+import NotificationIcon from "@icons/bell.svg";
+import LightThemeIcon from "@icons/sun.svg";
+import DarkThemeIcon from "@icons/moon.svg";
+import Avatar from "@/assets/images/avatar.svg";
+import HeaderMenu from "@/components/Header/HeaderMenu";
 
 const Header = () => {
   const { toggleSidebar, toggleTheme, theme } = useLayoutContext();

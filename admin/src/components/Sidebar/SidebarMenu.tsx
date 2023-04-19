@@ -1,7 +1,7 @@
 import { ReactNode, useMemo, useState } from "react";
-import { useLayoutContext } from "../../hooks/context";
-import SidebarMenuItem from "./SidebarMenuItem";
-import ChevronIcon from "../../assets/icons/chevron-down.svg";
+import { useLayoutContext } from "@/hooks/context";
+import SidebarMenuItem from "@/components/Sidebar/SidebarMenuItem";
+import ChevronIcon from "@icons/chevron-down.svg";
 
 const SidebarMenu = ({ icon, label, baseUrl, items }: SidebarMenuProps) => {
   const { currentPath } = useLayoutContext();

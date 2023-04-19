@@ -1,6 +1,6 @@
 import { ReactNode, useState } from "react";
 import { Link } from "react-router-dom";
-import ChevronIcon from "../../assets/icons/chevron-down.svg";
+import ChevronIcon from "@icons/chevron-down.svg";
 
 const HeaderMenu = ({ label, icon, items }: HeaderMenuProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

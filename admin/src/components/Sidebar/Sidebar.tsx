@@ -1,13 +1,13 @@
-import { useLayoutContext } from "../../hooks/context";
 import { Link } from "react-router-dom";
-import SidebarItem from "./SidebarItem";
-import SidebarMenu from "./SidebarMenu";
-import HomeIcon from "../../assets/icons/home.svg";
-import ChartIcon from "../../assets/icons/chart-bar.svg";
-import NewsletterIcon from "../../assets/icons/newspaper.svg";
-import CubeIcon from "../../assets/icons/cube.svg";
-import CustomersIcon from "../../assets/icons/users.svg";
-import StackIcon from "../../assets/icons/rectangle-stack.svg";
+import { useLayoutContext } from "@/hooks/context";
+import SidebarItem from "@/components/Sidebar/SidebarItem";
+import SidebarMenu from "@/components/Sidebar/SidebarMenu";
+import HomeIcon from "@icons/home.svg";
+import ChartIcon from "@icons/chart-bar.svg";
+import NewsletterIcon from "@icons/newspaper.svg";
+import CubeIcon from "@icons/cube.svg";
+import CustomersIcon from "@icons/users.svg";
+import StackIcon from "@icons/rectangle-stack.svg";
 
 const Sidebar = () => {
   const { isSidebarOpen, sidebarRef } = useLayoutContext();
