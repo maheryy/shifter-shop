@@ -11,9 +11,6 @@ RUN npm install --silent
 
 COPY . .
 
-ENV NODE_ENV production
-ENV APP_ENV production
-
 RUN npx prisma generate
 RUN npm run build
 
@@ -21,6 +18,9 @@ RUN npm run build
 FROM node:19-bullseye-slim as runner
 
 WORKDIR /app
+
+ENV NODE_ENV production
+ENV APP_ENV production
 
 # Puppeteer dependencies
 RUN apt-get update && apt-get install curl gnupg -y \

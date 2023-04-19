@@ -16,7 +16,7 @@ import { ConfigService } from '@nestjs/config';
           from: 'No Reply <noreply@shiftershop.com>',
         },
         template: {
-          dir: join(__dirname, 'templates'),
+          dir: join(__dirname, '../assets/templates'),
           adapter: new HandlebarsAdapter(),
           options: { strict: true },
         },

@@ -40,7 +40,7 @@ export class MailerService {
 
   async sendOrderConfirmation(order: FullOrder) {
     const template = await this.helperService.getHandlebarsTemplate(
-      'src/invoice/templates/invoice.hbs',
+      'invoice.hbs',
       { order: order },
     );
 

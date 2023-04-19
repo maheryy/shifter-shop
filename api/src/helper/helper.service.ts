@@ -8,6 +8,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import puppeteer from 'puppeteer';
 import { readFile } from 'fs/promises';
 import Handlebars from 'handlebars';
+import { resolve } from 'path';
 
 @Injectable()
 export class HelperService {
@@ -65,13 +66,16 @@ export class HelperService {
   }
 
   async getHandlebarsTemplate(
-    path: string,
+    filename: string,
     context?: Record<string, unknown>,
   ): Promise<string> {
-    if (!path.includes('.hbs')) {
+    if (!filename.includes('.hbs')) {
       throw new Error('Invalid template');
     }
-    const template = await readFile(path, { encoding: 'utf-8' });
+    const template = await readFile(
+      resolve(__dirname, '..', 'assets/templates', filename),
+      { encoding: 'utf-8' },
+    );
 
     Handlebars.registerHelper('formatPrice', this.formatPrice);
     Handlebars.registerHelper('formatDate', this.formatDisplayShortDate);
@@ -82,8 +86,12 @@ export class HelperService {
   async generatePDF(content: string): Promise<Buffer> {
     const browser = await puppeteer.launch({
       headless: true,
-      executablePath: '/usr/bin/google-chrome',
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      ...(process.env.APP_ENV === 'production'
+        ? {
+            executablePath: '/usr/bin/google-chrome',
+            args: ['--no-sandbox', '--disable-setuid-sandbox'],
+          }
+        : {}),
     });
     const page = await browser.newPage();
     await page.setContent(content, { waitUntil: 'domcontentloaded' });

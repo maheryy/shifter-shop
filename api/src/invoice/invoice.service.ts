@@ -32,7 +32,7 @@ export class InvoiceService {
     }
 
     const template = await this.helperService.getHandlebarsTemplate(
-      'src/invoice/templates/invoice.hbs',
+      'invoice.hbs',
       { order: order },
     );
 
