@@ -33,5 +33,3 @@ override.tf.json
 .terraformrc
 terraform.rc
 
-# VSCode settings
-.vscode/settings.json
