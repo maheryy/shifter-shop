@@ -4,7 +4,7 @@ import {
   CustomerProduct,
   ProductWithQuantity,
 } from 'src/common/interfaces/product';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from 'src/prisma/prisma.service';
 import puppeteer from 'puppeteer';
 import { readFile } from 'fs/promises';
 import Handlebars from 'handlebars';

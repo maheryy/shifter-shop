@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { HelperService } from './helper.service';
-import { PrismaModule } from '../prisma/prisma.module';
+import { HelperService } from 'src//helper/helper.service';
+import { PrismaModule } from 'src/prisma/prisma.module';
 
 describe('HelperService', () => {
   let service: HelperService;

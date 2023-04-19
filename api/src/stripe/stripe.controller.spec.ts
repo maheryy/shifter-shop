@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { StripeController } from './stripe.controller';
+import { StripeController } from 'src/stripe/stripe.controller';
 import { ConfigModule } from '@nestjs/config';
-import { configModuleOptions } from '../mocks/config';
-import { StripeService } from './stripe.service';
-import { PrismaModule } from '../prisma/prisma.module';
-import { HelperModule } from '../helper/helper.module';
-import { MailerModule } from '../mailer/mailer.module';
+import { configModuleOptions } from 'src/mocks/config';
+import { StripeService } from 'src/stripe/stripe.service';
+import { PrismaModule } from 'src/prisma/prisma.module';
+import { HelperModule } from 'src/helper/helper.module';
+import { MailerModule } from 'src/mailer/mailer.module';
 
 describe.skip('StripeController', () => {
   let controller: StripeController;

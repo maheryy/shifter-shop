@@ -4,7 +4,7 @@ import {
   MailerService as NestMailerService,
 } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
-import { HelperService } from '../helper/helper.service';
+import { HelperService } from 'src/helper/helper.service';
 import { FullOrder } from 'src/stripe/interfaces/stripe.interface';
 
 @Injectable()

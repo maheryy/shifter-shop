@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { InvoiceService } from './invoice.service';
-import { HelperModule } from '../helper/helper.module';
-import { PrismaModule } from '../prisma/prisma.module';
+import { InvoiceService } from 'src/invoice/invoice.service';
+import { HelperModule } from 'src/helper/helper.module';
+import { PrismaModule } from 'src/prisma/prisma.module';
 
 describe('InvoiceService', () => {
   let service: InvoiceService;

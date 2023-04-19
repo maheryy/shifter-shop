@@ -1,6 +1,6 @@
 import { ConfigService } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
-import { EncryptionService } from './encryption.service';
+import { EncryptionService } from 'src/encryption/encryption.service';
 
 describe('EncryptionService', () => {
   const testingModuleBuilder = Test.createTestingModule({

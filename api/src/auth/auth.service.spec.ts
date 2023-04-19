@@ -1,10 +1,10 @@
 import { Test } from '@nestjs/testing';
 import { Prisma, Role } from '@prisma/client';
 import { createMock } from '@golevelup/ts-jest';
-import { AuthService } from './auth.service';
-import { UserService } from '../user/user.service';
+import { AuthService } from 'src/auth/auth.service';
+import { UserService } from 'src/user/user.service';
 import { ConflictException, UnauthorizedException } from '@nestjs/common';
-import { EncryptionService } from '../encryption/encryption.service';
+import { EncryptionService } from 'src/encryption/encryption.service';
 import { JwtService } from '@nestjs/jwt';
 
 describe('AuthService', () => {

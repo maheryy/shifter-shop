@@ -3,10 +3,10 @@ import { ConfigService } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
 import { Prisma } from '@prisma/client';
-import { AuthModule } from '../src/auth/auth.module';
-import { EncryptionService } from '../src/encryption/encryption.service';
-import { UserService } from '../src/user/user.service';
-import { PrismaService } from '../src/prisma/prisma.service';
+import { AuthModule } from 'src/auth/auth.module';
+import { EncryptionService } from 'src/encryption/encryption.service';
+import { UserService } from 'src/user/user.service';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 describe('Auth (e2e)', () => {
   const configService = {
