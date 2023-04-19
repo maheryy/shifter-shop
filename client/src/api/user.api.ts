@@ -1,5 +1,5 @@
-import { User } from "../types/user";
-import user from "../../data/user.json";
+import { User } from "@/types/user";
+import user from "@data/user.json";
 
 export const getUser = async (token: string): Promise<User> => {
   const res = user;

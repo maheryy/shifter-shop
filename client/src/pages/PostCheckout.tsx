@@ -1,4 +1,4 @@
-import BagIcon from "../assets/icons/bag.svg";
+import BagIcon from "@icons/bag.svg";
 import { Link } from "react-router-dom";
 
 const PostCheckout = () => {

@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuthContext } from "../hooks/context";
-import { getAuthToken, getUser } from "../api/user.api";
+import { useAuthContext } from "@/hooks/context";
+import { getAuthToken, getUser } from "@/api/user.api";
 
 const Login = () => {
   const [email, setEmail] = useState("");

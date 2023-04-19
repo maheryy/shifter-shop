@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useRef, useState } from "react";
-import useComponentUpdate from "../hooks/componentUpdate";
+import useComponentUpdate from "@/hooks/componentUpdate";
 
 export const DownloadContext = createContext<DownloadContextProps>(null!);
 

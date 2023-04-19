@@ -1,5 +1,5 @@
 import { ReactNode, useState } from "react";
-import EllipsisIcon from "../assets/icons/ellipsis-vertical.svg";
+import EllipsisIcon from "@icons/ellipsis-vertical.svg";
 
 const DropdownMenu = ({ children, label }: DropdownMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);

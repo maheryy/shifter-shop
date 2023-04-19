@@ -1,4 +1,4 @@
-import { Category } from "./category";
+import { Category } from "@/types/category";
 
 export interface ProductListFilters {
   q?: string;

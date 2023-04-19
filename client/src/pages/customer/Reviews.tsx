@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Review } from "../../types/review";
-import { getReviews } from "../../api/review.api";
-import ReviewCard from "../../components/account/ReviewCard";
+import { Review } from "@/types/review";
+import { getReviews } from "@/api/review.api";
+import ReviewCard from "@/components/account/ReviewCard";
 
 const Reviews = () => {
   const [reviews, setReviews] = useState<Review[]>([]);

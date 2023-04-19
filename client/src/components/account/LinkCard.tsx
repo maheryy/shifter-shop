@@ -1,11 +1,11 @@
-import { ComponentPropsWithoutRef } from "react";
+import { ComponentPropsWithoutRef, ReactNode } from "react";
 import { Link } from "react-router-dom";
 
 const LinkCard = ({
   title,
   description,
   link,
-  Icon,
+  icon,
   ...props
 }: LinkCardProps) => {
   return (
@@ -15,7 +15,7 @@ const LinkCard = ({
       {...props}
     >
       <span className="basis-14 w-14 p-2 rounded-full bg-primary text-white">
-        <Icon />
+        {icon}
       </span>
       <span className="basis-full flex flex-col gap-2">
         <span className="text-base font-medium capitalize">{title}</span>
@@ -28,8 +28,8 @@ const LinkCard = ({
 interface LinkCardProps extends ComponentPropsWithoutRef<"a"> {
   title: string;
   description: string;
-  Icon: string;
   link: string;
+  icon: ReactNode;
 }
 
 export default LinkCard;

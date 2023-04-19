@@ -1,10 +1,10 @@
-import { Product } from "../types/product";
+import { Product } from "@/types/product";
 import { useEffect, useState } from "react";
-import { getAllProducts } from "../api/product.api";
-import { getAllCategories } from "../api/category.api";
-import { Category } from "../types/category";
-import ProductCard from "../components/ProductCard";
-import { ProductListFilters, SortType, SortTypeMapping } from "../types/filter";
+import { getAllProducts } from "@/api/product.api";
+import { getAllCategories } from "@/api/category.api";
+import { Category } from "@/types/category";
+import ProductCard from "@/components/ProductCard";
+import { SortType, SortTypeMapping } from "@/types/filter";
 
 const ProductList = () => {
   const [products, setProducts] = useState<Product[]>([]);

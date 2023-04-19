@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { AuthContext } from "../providers/AuthProvider";
-import { CustomerContext } from "../providers/CustomerProvider";
-import { CartContext } from "../providers/CartProvider";
-import { DownloadContext } from "../providers/DownloadProvider";
+import { AuthContext } from "@/providers/AuthProvider";
+import { CustomerContext } from "@/providers/CustomerProvider";
+import { CartContext } from "@/providers/CartProvider";
+import { DownloadContext } from "@/providers/DownloadProvider";
 
 export const useAuthContext = () => {
   const context = useContext(AuthContext);

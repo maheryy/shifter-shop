@@ -1,8 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
-import { ProductWithQuantity } from "../../types/product";
-import BagIcon from "../../assets/icons/bag.svg";
-import StarIcon from "../../assets/icons/star-empty.svg";
-import { useCartContext } from "../../hooks/context";
+import { ProductWithQuantity } from "@/types/product";
+import BagIcon from "@icons/bag.svg";
+import StarIcon from "@icons/star-empty.svg";
+import { useCartContext } from "@/hooks/context";
 
 const OrderProductCard = ({ product, orderId }: OrderProductCardProps) => {
   const { addToCart } = useCartContext();

@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import { useAuthContext } from "../../hooks/context";
+import { useAuthContext } from "@/hooks/context";
 
 const Profile = () => {
   const { user } = useAuthContext();

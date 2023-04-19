@@ -1,6 +1,6 @@
-import StarFull from "../assets/icons/star-full.svg";
-import StarEmpty from "../assets/icons/star-empty.svg";
-import StarHalf from "../assets/icons/star-half.svg";
+import StarFull from "@icons/star-full.svg";
+import StarEmpty from "@icons/star-empty.svg";
+import StarHalf from "@icons/star-half.svg";
 import { useMemo } from "react";
 
 const Rating = ({ value, size = "md" }: RatingProps) => {

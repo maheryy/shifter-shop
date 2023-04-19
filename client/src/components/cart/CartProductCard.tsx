@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { ProductWithQuantity } from "../../types/product";
-import { formatPrice } from "../../utils/format";
-import QuantityPicker from "../QuantityPicker";
-import TrashIcon from "../../assets/icons/trash.svg";
-import Rating from "../Rating";
+import { ProductWithQuantity } from "@/types/product";
+import { formatPrice } from "@/utils/format";
+import QuantityPicker from "@/components/QuantityPicker";
+import TrashIcon from "@icons/trash.svg";
+import Rating from "@/components/Rating";
 
 const CartProductCard = ({
   product,

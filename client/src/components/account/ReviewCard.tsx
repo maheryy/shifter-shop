@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { Review } from "../../types/review";
-import Rating from "../Rating";
-import { formatDisplayDate } from "../../utils/format";
+import { Review } from "@/types/review";
+import Rating from "@/components/Rating";
+import { formatDisplayDate } from "@/utils/format";
 
 const ReviewCard = ({ review }: ReviewCardProps) => {
   return (

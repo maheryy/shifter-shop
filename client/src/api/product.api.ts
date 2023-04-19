@@ -1,5 +1,5 @@
-import products from "../../data/products.json";
-import { Product, ProductWithQuantity } from "../types/product";
+import products from "@data/products.json";
+import { Product, ProductWithQuantity } from "@/types/product";
 
 export const getAllProducts = async (): Promise<Product[]> => {
   return getShuffledProducts();

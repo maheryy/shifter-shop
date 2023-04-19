@@ -1,9 +1,9 @@
-import CartProductCard from "../components/cart/CartProductCard";
-import { formatPrice } from "../utils/format";
-import CartSummaryItem from "../components/cart/CartSummaryItem";
+import CartProductCard from "@/components/cart/CartProductCard";
+import { formatPrice } from "@/utils/format";
+import CartSummaryItem from "@/components/cart/CartSummaryItem";
 import { useMemo } from "react";
-import { useCartContext } from "../hooks/context";
-import { StripePayload } from "../types/stripe";
+import { useCartContext } from "@/hooks/context";
+import { StripePayload } from "@/types/stripe";
 
 const Cart = () => {
   const {

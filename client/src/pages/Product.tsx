@@ -1,13 +1,13 @@
 import { useParams, useLoaderData } from "react-router-dom";
-import { Product } from "../types/product";
 import { useEffect, useState } from "react";
-import { getRelatedProducts } from "../api/product.api";
-import ProductCard from "../components/ProductCard";
-import { formatPrice } from "../utils/format";
-import QuantityPicker from "../components/QuantityPicker";
-import BagIcon from "../assets/icons/bag.svg";
-import Rating from "../components/Rating";
-import { useCartContext } from "../hooks/context";
+import { Product } from "@/types/product";
+import { getRelatedProducts } from "@/api/product.api";
+import ProductCard from "@/components/ProductCard";
+import { formatPrice } from "@/utils/format";
+import QuantityPicker from "@/components/QuantityPicker";
+import BagIcon from "@icons/bag.svg";
+import Rating from "@/components/Rating";
+import { useCartContext } from "@/hooks/context";
 
 const Product = () => {
   const { id } = useParams();

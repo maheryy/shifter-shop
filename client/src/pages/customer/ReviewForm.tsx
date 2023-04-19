@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
-import RatingPicker from "../../components/RatingPicker";
+import RatingPicker from "@/components/RatingPicker";
 import { Link, useLoaderData } from "react-router-dom";
-import { OrderAndProduct } from "../../types/order";
+import { OrderAndProduct } from "@/types/order";
 
 const ReviewForm = () => {
   const { order, product } = useLoaderData() as OrderAndProduct;

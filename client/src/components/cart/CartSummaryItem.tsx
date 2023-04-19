@@ -1,5 +1,5 @@
-import { ProductWithQuantity } from "../../types/product";
-import { formatPrice } from "../../utils/format";
+import { ProductWithQuantity } from "@/types/product";
+import { formatPrice } from "@/utils/format";
 
 const CartSummaryItem = ({ product }: CartSummaryItemProps) => {
   return (
