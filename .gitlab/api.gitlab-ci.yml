@@ -1,3 +1,16 @@
+.cache-api:
+  cache:
+    key:
+      files:
+        - api/package-lock.json
+    paths:
+      - api/.npm
+    policy: pull-push
+  artifacts:
+    expire_in: 1h
+    paths:
+      - api/node_modules
+
 build-api:
   stage: build
   image: node:18
@@ -5,38 +18,22 @@ build-api:
     - cd api
     - npm ci --cache .npm --prefer-offline
     - npm run build
-  cache:
-    key:
-      files:
-        - api/package-lock.json
-    paths:
-      - api/.npm
-      - api/node_modules
-  only:
-    changes:
-      - api/**/*
-    refs:
-      - merge_requests
+  extends: .cache-api
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - api/**/*
 
 test-api:
   stage: test
   image: node:18
   script:
     - cd api
-    - npm ci --cache .npm --prefer-offline
     - npm run test
-  cache:
-    key:
-      files:
-        - api/package-lock.json
-    paths:
-      - api/.npm
-      - api/node_modules
-  only:
-    changes:
-      - api/**/*
-    refs:
-      - merge_requests
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - api/**/*
 
 deploy-api:
   stage: deploy
@@ -44,16 +41,7 @@ deploy-api:
   script:
     - cd api
     - echo "Deploying API"
-  cache:
-    key:
-      files:
-        - api/package-lock.json
-    paths:
-      - api/.npm
-      - api/node_modules
-  only:
-    changes:
-      - api/**/*
-    refs:
-      - dev
-      - main
+  rules:
+    - if: $CI_COMMIT_BRANCH == "dev" || $CI_COMMIT_BRANCH == "main"
+      changes:
+        - api/**/*
