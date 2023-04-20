@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  labels:
+    app: api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+        - name: api
+          image: maherydock77/shifter-shop.api
+          ports:
+            - containerPort: 3000
+          env:
+            - name: CLIENT_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: app
+                  key: client_url
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: database
+                  key: database_url
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: app
+                  key: jwt_secret
+            - name: MAILER_DSN
+              valueFrom:
+                secretKeyRef:
+                  name: mailer
+                  key: mailer_dsn
+            - name: STRIPE_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: stripe
+                  key: private_key
+            - name: STRIPE_PUBLIC_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: stripe
+                  key: public_key
+            - name: STRIPE_WEBHOOK_SIGNING_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: stripe
+                  key: webhook_key
