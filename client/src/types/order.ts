@@ -1,5 +1,5 @@
-import { Product, ProductWithQuantity } from "./product";
-import { User } from "./user";
+import { Product, ProductWithQuantity } from "@/types/product";
+import { User } from "@/types/user";
 
 export interface Order {
   id: number;

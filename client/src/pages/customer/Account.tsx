@@ -1,11 +1,11 @@
-import LinkCard from "../../components/account/LinkCard";
-import IdentificationIcon from "../../assets/icons/solid/identification.svg";
-import CartIcon from "../../assets/icons/solid/cart.svg";
-import ReviewIcon from "../../assets/icons/solid/review.svg";
-import ListIcon from "../../assets/icons/solid/queue-list.svg";
-import ShieldIcon from "../../assets/icons/solid/shield-check.svg";
-import LogoutIcon from "../../assets/icons/out.svg";
-import { useCustomerContext } from "../../hooks/context";
+import LinkCard from "@/components/account/LinkCard";
+import IdentificationIcon from "@icons/solid/identification.svg";
+import CartIcon from "@icons/solid/cart.svg";
+import ReviewIcon from "@icons/solid/review.svg";
+import ListIcon from "@icons/solid/queue-list.svg";
+import ShieldIcon from "@icons/solid/shield-check.svg";
+import LogoutIcon from "@icons/out.svg";
+import { useCustomerContext } from "@/hooks/context";
 
 const Account = () => {
   const { logout } = useCustomerContext();
@@ -16,37 +16,37 @@ const Account = () => {
         title="Order history"
         description="View your order history and details"
         link="/account/orders"
-        Icon={ListIcon}
+        icon={<ListIcon />}
       />
       <LinkCard
         title="Product reviews"
         description="View and manage your product reviews"
         link="/account/reviews"
-        Icon={ReviewIcon}
+        icon={<ReviewIcon />}
       />
       <LinkCard
         title="Cart"
         description="View your cart"
         link="/cart"
-        Icon={CartIcon}
+        icon={<CartIcon />}
       />
       <LinkCard
         title="Profile information"
         description="Update your account details"
         link="/account/profile"
-        Icon={IdentificationIcon}
+        icon={<IdentificationIcon />}
       />
       <LinkCard
         title="Security"
         description="Change your password"
         link="/account/change-password"
-        Icon={ShieldIcon}
+        icon={<ShieldIcon />}
       />
       <LinkCard
         title="Logout"
         description="Log out from your account"
         link="#"
-        Icon={LogoutIcon}
+        icon={<LogoutIcon />}
         onClick={logout}
       />
     </div>

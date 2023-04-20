@@ -1,12 +1,11 @@
-import { Link } from "react-router-dom";
-import Logo from "./Logo";
+import Logo from "@/components/Logo";
 
 const Footer = () => {
   return (
     <footer className="bg-white pt-16 pb-12 border-t border-gray-100">
       <div className="container flex items-center gap-20">
         <div className="self-start basis-1/3">
-          <Logo clickable={false}/>
+          <Logo clickable={false} />
           <p className="text-gray-500 mt-4">
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt
             ab consequuntur accusantium, ipsa perspiciatis laborum, earum

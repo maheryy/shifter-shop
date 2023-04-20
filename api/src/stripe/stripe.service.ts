@@ -1,11 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import Stripe from 'stripe';
 import { ConfigService } from '@nestjs/config';
-import { HelperService } from '../helper/helper.service';
-import { PrismaService } from '../prisma/prisma.service';
-import { FullOrder, StripeMetadata } from './interfaces/stripe.interface';
-import { ProductWithQuantity } from 'src/common/interfaces/product';
 import { PaymentStatus, Product } from '@prisma/client';
+import { HelperService } from 'src/helper/helper.service';
+import { PrismaService } from 'src/prisma/prisma.service';
+import {
+  FullOrder,
+  StripeMetadata,
+} from 'src/stripe/interfaces/stripe.interface';
+import { ProductWithQuantity } from 'src/common/interfaces/product';
 
 @Injectable()
 export class StripeService {

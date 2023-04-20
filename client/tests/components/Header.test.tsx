@@ -1,4 +1,4 @@
-import Header from "../../src/components/Header";
+import Header from "@/components/Header";
 
 describe("Header component", () => {
   it("should display Logo", () => {

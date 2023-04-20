@@ -1,8 +1,8 @@
 import { useState, createContext, useEffect } from "react";
-import { Product, ProductWithQuantity } from "../types/product";
-import { retrieve, store } from "../utils/storage";
-import { StorageKey } from "../types/storage";
-import useComponentUpdate from "../hooks/componentUpdate";
+import { Product, ProductWithQuantity } from "@/types/product";
+import { retrieve, store } from "@/utils/storage";
+import { StorageKey } from "@/types/storage";
+import useComponentUpdate from "@/hooks/componentUpdate";
 
 export const CartContext = createContext<CartContextProps>(null!);
 

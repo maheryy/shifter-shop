@@ -1,6 +1,6 @@
 import { createContext } from "react";
-import { useAuthContext } from "../hooks/context";
 import { Navigate, useNavigate } from "react-router-dom";
+import { useAuthContext } from "@/hooks/context";
 
 export const CustomerContext = createContext<CustomerContextProps>(null!);
 

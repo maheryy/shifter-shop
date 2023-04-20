@@ -1,4 +1,4 @@
-import { StorageKey } from "../types/storage";
+import { StorageKey } from "@/types/storage";
 
 export const store = <T>(key: StorageKey, value: T) => {
   localStorage.setItem(

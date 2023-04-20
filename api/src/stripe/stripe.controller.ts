@@ -6,9 +6,9 @@ import {
   RawBodyRequest,
   Req,
 } from '@nestjs/common';
-import { StripeService } from './stripe.service';
+import { StripeService } from 'src/stripe/stripe.service';
 import Stripe from 'stripe';
-import { MailerService } from '../mailer/mailer.service';
+import { MailerService } from 'src/mailer/mailer.service';
 import { Request } from 'express';
 
 @Controller('stripe')

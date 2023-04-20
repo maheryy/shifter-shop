@@ -1,7 +1,7 @@
-import { Order, OrderAndProduct } from "../types/order";
-import orders from "../../data/orders.json";
-import products from "../../data/products.json";
-import { getShuffledProducts } from "./product.api";
+import { Order, OrderAndProduct } from "@/types/order";
+import orders from "@data/orders.json";
+import products from "@data/products.json";
+import { getShuffledProducts } from "@/api/product.api";
 
 export const getOrders = async (): Promise<Order[]> => {
   const res = orders as Order[];

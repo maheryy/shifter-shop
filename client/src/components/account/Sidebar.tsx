@@ -1,10 +1,10 @@
 import { NavLink } from "react-router-dom";
-import { useAuthContext, useCustomerContext } from "../../hooks/context";
-import UserIcon from "../../assets/icons/user-circle.svg";
-import LogoutIcon from "../../assets/icons/out.svg";
-import BagIcon from "../../assets/icons/bag.svg";
-import ListIcon from "../../assets/icons/queue-list.svg";
-import IdentificationIcon from "../../assets/icons/identification.svg";
+import { useAuthContext, useCustomerContext } from "@/hooks/context";
+import UserIcon from "@icons/user-circle.svg";
+import LogoutIcon from "@icons/out.svg";
+import BagIcon from "@icons/bag.svg";
+import ListIcon from "@icons/queue-list.svg";
+import IdentificationIcon from "@icons/identification.svg";
 
 const Sidebar = () => {
   const { user } = useAuthContext();

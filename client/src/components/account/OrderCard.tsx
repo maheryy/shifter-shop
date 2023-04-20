@@ -1,10 +1,10 @@
-import { Order } from "../../types/order";
-import { formatDisplayDate, formatPrice } from "../../utils/format";
-import OrderProductCard from "./OrderProductCard";
-import { generateInvoiceFilename } from "../../utils/generator";
-import DropdownMenu from "../DropdownMenu";
-import DownloadIcon from "../../assets/icons/download.svg";
-import { useDownloadContext } from "../../hooks/context";
+import { Order } from "@/types/order";
+import { formatDisplayDate, formatPrice } from "@/utils/format";
+import OrderProductCard from "@/components/account/OrderProductCard";
+import { generateInvoiceFilename } from "@/utils/generator";
+import DropdownMenu from "@/components/DropdownMenu";
+import DownloadIcon from "@icons/download.svg";
+import { useDownloadContext } from "@/hooks/context";
 
 const OrderCard = ({ order }: OrderCardProps) => {
   const { download, isLoading: isDownloading } = useDownloadContext();

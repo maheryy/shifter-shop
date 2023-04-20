@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { HelperService } from '../helper/helper.service';
-import { PrismaService } from '../prisma/prisma.service';
+import { HelperService } from 'src/helper/helper.service';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class InvoiceService {
@@ -32,7 +32,7 @@ export class InvoiceService {
     }
 
     const template = await this.helperService.getHandlebarsTemplate(
-      'src/invoice/templates/invoice.hbs',
+      'invoice.hbs',
       { order: order },
     );
 

@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { Product } from "../types/product";
-import { formatPrice } from "../utils/format";
-import Rating from "./Rating";
-import { useCartContext } from "../hooks/context";
+import { Product } from "@/types/product";
+import { formatPrice } from "@/utils/format";
+import Rating from "@/components/Rating";
+import { useCartContext } from "@/hooks/context";
 
 const ProductCard = ({ product }: ProductCardProps) => {
   const { addToCart } = useCartContext();

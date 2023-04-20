@@ -1,4 +1,4 @@
-import { Product } from "./product";
+import { Product } from "@/types/product";
 
 export interface Review {
   id: number;

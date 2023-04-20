@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
-import StarEmptyIcon from "../assets/icons/star-empty.svg";
-import StarFullIcon from "../assets/icons/star-full.svg";
+import { useMemo, useState } from "react";
+import StarEmptyIcon from "@icons/star-empty.svg";
+import StarFullIcon from "@icons/star-full.svg";
 
 const RatingPicker = ({ rating, onChange }: RatingPickerProps) => {
   const [ratingHover, setRatingHover] = useState<number | null>(null);

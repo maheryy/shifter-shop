@@ -3,13 +3,13 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { LoginDto } from './dtos/login.dto';
-import { UserService } from '../user/user.service';
+import { LoginDto } from 'src/auth/dtos/login.dto';
+import { UserService } from 'src/user/user.service';
 import { JwtService } from '@nestjs/jwt';
-import { Payload } from './interfaces/payload.interface';
+import { Payload } from 'src/auth/interfaces/payload.interface';
 import { Prisma, User } from '@prisma/client';
-import { RegisterDto } from './dtos/register.dto';
-import { EncryptionService } from '../encryption/encryption.service';
+import { RegisterDto } from 'src/auth/dtos/register.dto';
+import { EncryptionService } from 'src/encryption/encryption.service';
 
 @Injectable()
 export class AuthService {

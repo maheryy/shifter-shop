@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import { Product } from "../types/product";
-import { getAllProducts } from "../api/product.api";
-import { Category } from "../types/category";
-import { getAllCategories } from "../api/category.api";
-import Feature from "../components/home/Feature";
-import Hero from "../components/home/Hero";
-import CategoryCard from "../components/home/CategoryCard";
-import ProductCard from "../components/ProductCard";
-import Ad from "../components/home/Ad";
-import VanIcon from "../assets/icons/van.svg";
-import RefundIcon from "../assets/icons/refund.svg";
-import SupportIcon from "../assets/icons/support-247.svg";
+import { Product } from "@/types/product";
+import { getAllProducts } from "@/api/product.api";
+import { Category } from "@/types/category";
+import { getAllCategories } from "@/api/category.api";
+import Feature from "@/components/home/Feature";
+import Hero from "@/components/home/Hero";
+import CategoryCard from "@/components/home/CategoryCard";
+import ProductCard from "@/components/ProductCard";
+import Ad from "@/components/home/Ad";
+import VanIcon from "@icons/van.svg";
+import RefundIcon from "@icons/refund.svg";
+import SupportIcon from "@icons/support-247.svg";
 
 const Home = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -39,17 +39,17 @@ const Home = () => {
       <section className="container py-16">
         <div className="w-10/12 grid grid-cols-3 gap-6 mx-auto justify-center">
           <Feature
-            Icon={VanIcon}
+            icon={<VanIcon />}
             title="Free Shipping"
             subtitle="Order over 200€"
           />
           <Feature
-            Icon={RefundIcon}
+            icon={<RefundIcon />}
             title="Money back"
             subtitle="30-days money back"
           />
           <Feature
-            Icon={SupportIcon}
+            icon={<SupportIcon />}
             title="24/7 Support"
             subtitle="Customer support"
           />

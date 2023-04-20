@@ -7,12 +7,12 @@ import {
   Post,
 } from '@nestjs/common';
 import { User } from '@prisma/client';
-import { RequestUser } from '../decorators/request-user.decorator';
-import { AuthService } from './auth.service';
-import { LoginDto } from './dtos/login.dto';
-import { RegisterDto } from './dtos/register.dto';
-import { RemovePassword } from '../decorators/remove-password.decorator';
-import { IsAuthenticated } from './decorators/is-authenticated.decorator';
+import { RequestUser } from 'src/decorators/request-user.decorator';
+import { AuthService } from 'src/auth/auth.service';
+import { LoginDto } from 'src/auth/dtos/login.dto';
+import { RegisterDto } from 'src/auth/dtos/register.dto';
+import { RemovePassword } from 'src/decorators/remove-password.decorator';
+import { IsAuthenticated } from 'src/auth/decorators/is-authenticated.decorator';
 
 @RemovePassword()
 @Controller('auth')

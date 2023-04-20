@@ -1,9 +1,9 @@
 import { NavLink } from "react-router-dom";
-import { useAuthContext, useCartContext } from "../hooks/context";
-import Logo from "./Logo";
-import AccountIcon from "../assets/icons/account.svg";
-import CartIcon from "../assets/icons/cart.svg";
-import SearchIcon from "../assets/icons/search.svg";
+import { useAuthContext, useCartContext } from "@/hooks/context";
+import Logo from "@/components/Logo";
+import AccountIcon from "@icons/account.svg";
+import CartIcon from "@icons/cart.svg";
+import SearchIcon from "@icons/search.svg";
 
 const Header = () => {
   const { isAuthenticated } = useAuthContext();

@@ -1,5 +1,5 @@
-import AuthProvider from "./AuthProvider";
-import CartProvider from "./CartProvider";
+import AuthProvider from "@/providers/AuthProvider";
+import CartProvider from "@/providers/CartProvider";
 
 const Providers = ({ children }: ProvidersProps) => {
   return (

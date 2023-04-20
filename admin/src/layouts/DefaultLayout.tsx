@@ -1,8 +1,8 @@
 import { Outlet } from "react-router-dom";
 import { ReactNode } from "react";
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
-import LayoutProvider from "../providers/LayoutProvider";
+import Header from "@/components/Header";
+import Sidebar from "@/components/Sidebar";
+import LayoutProvider from "@/providers/LayoutProvider";
 
 const DefaultLayout = ({ children }: DefaultLayoutProps) => {
   return (

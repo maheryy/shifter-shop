@@ -1,4 +1,4 @@
-import Home from "../../src/pages/Home";
+import Home from "@/pages/Home";
 
 describe("Header component", () => {
   it("should display Logo", () => {

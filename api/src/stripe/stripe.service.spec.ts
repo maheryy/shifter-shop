@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { StripeService } from './stripe.service';
+import { StripeService } from 'src/stripe/stripe.service';
 import { ConfigModule } from '@nestjs/config';
-import { configModuleOptions } from '../mocks/config';
-import { PrismaModule } from '../prisma/prisma.module';
-import { HelperModule } from '../helper/helper.module';
+import { configModuleOptions } from 'src/mocks/config';
+import { PrismaModule } from 'src/prisma/prisma.module';
+import { HelperModule } from 'src/helper/helper.module';
 
 describe('StripeService', () => {
   let service: StripeService;

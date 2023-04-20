@@ -7,7 +7,7 @@ import {
   Res,
   StreamableFile,
 } from '@nestjs/common';
-import { InvoiceService } from './invoice.service';
+import { InvoiceService } from 'src/invoice/invoice.service';
 
 @Controller('invoice')
 export class InvoiceController {
