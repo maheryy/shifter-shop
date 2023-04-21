@@ -12,6 +12,16 @@ services:
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=app
 
+  mongo:
+    image: mongo:5
+    ports:
+      - 27017:27017
+    volumes:
+      - .mongo_data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+
   mailer:
     container_name: mailer
     image: mailhog/mailhog:latest
