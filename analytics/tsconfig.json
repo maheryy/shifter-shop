@@ -1,20 +1,17 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
+    "target": "ES2016",
     "module": "CommonJS",
     "lib": ["ESNext"],
     "moduleResolution": "node",
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "outDir": "./dist",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strictPropertyInitialization": false,
     "strict": true,
     "skipLibCheck": true,
-    "strictNullChecks": true,
-    "paths": {
-      "*": ["src/*"]
-    }
+    "strictNullChecks": true
   },
   "ts-node": {
     "require": ["tsconfig-paths/register"]

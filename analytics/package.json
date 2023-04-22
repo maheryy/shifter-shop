@@ -7,7 +7,7 @@
   "description": "",
   "scripts": {
     "dev": "nodemon --watch src --exec ts-node src/index.ts",
-    "build": "tsc",
+    "build": "tsc && tsc-alias",
     "start": "npm run build && node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -26,6 +26,7 @@
     "@types/ua-parser-js": "^0.7.36",
     "nodemon": "^2.0.22",
     "ts-node": "^10.9.1",
+    "tsc-alias": "^1.8.5",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.0.4"
   }
