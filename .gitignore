@@ -41,6 +41,7 @@ lerna-debug.log*
 
 # Docker
 .db_data
+.mongo_data
 
 # VSCode REST Client
 *.http
