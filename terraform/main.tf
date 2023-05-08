@@ -38,7 +38,7 @@ module "gke" {
   version = "~> 25.0"
 
   project_id               = var.project_id
-  name                     = "${var.project_id}"
+  name                     = var.project_id
   region                   = var.region
   network                  = module.vpc.network_name
   subnetwork               = module.vpc.subnets_names.0
@@ -49,8 +49,8 @@ module "gke" {
 
   node_pools = [
     {
-      name      = "e2-medium"
-      max_count = 3
+      name      = "e2-micro"
+      max_count = 2
     },
   ]
 
@@ -63,7 +63,7 @@ module "gke" {
 }
 
 resource "google_artifact_registry_repository" "repo" {
-  location = var.region
-  repository_id = "${var.project_id}"
-  format = "DOCKER"
+  location      = var.region
+  repository_id = var.project_id
+  format        = "DOCKER"
 }
