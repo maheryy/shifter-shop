@@ -46,7 +46,7 @@ module "gke" {
   ip_range_services        = local.ip_range_services
   remove_default_node_pool = true
   initial_node_count       = 1
-  kubernetes_version       = "1.25.8-gke.500"
+  kubernetes_version       = "1.26.3-gke.1000"
 
   node_pools = [
     {
