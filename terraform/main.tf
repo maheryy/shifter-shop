@@ -39,7 +39,8 @@ module "gke" {
 
   project_id               = var.project_id
   name                     = var.project_id
-  region                   = var.region
+  zones                    = [var.zone]
+  regional                 = false
   network                  = module.vpc.network_name
   subnetwork               = module.vpc.subnets_names.0
   ip_range_pods            = local.ip_range_pods
