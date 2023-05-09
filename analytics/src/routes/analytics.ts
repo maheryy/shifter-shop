@@ -1,17 +1,18 @@
-import Mongo from "database/Mongo";
+import Mongo, { db } from "database/Mongo";
 import { Router } from "express";
 import { UAParser } from "ua-parser-js";
 
 const router = Router();
 
-router.get("/", async (req, res) => {
-  // const db = await Mongo.getDatabase();
-  const data = UAParser(req.headers["user-agent"]);
-  console.log(data, req.ip);
-  res.send("Hello from analytics");
+router.get("/test", async (req, res) => {
+  const userAgent = UAParser(req.headers["user-agent"]);
+  const data = await db.collection("test").find().toArray();
+  req.sendEvent({ type: "test", data: { userAgent } });
+
+  res.json([data, userAgent]);
 });
 
-router.post("/analytics", async (req, res) => {
+router.post("/event", async (req, res) => {
   res.send("Hello from analytics");
 });
 
