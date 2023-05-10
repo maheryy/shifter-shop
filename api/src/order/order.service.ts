@@ -34,4 +34,10 @@ export class OrderService {
       where: { id },
     });
   }
+
+  async findAllByCustomerId(customerId: number) {
+    return this.prismaService.order.findMany({
+      where: { customerId },
+    });
+  }
 }

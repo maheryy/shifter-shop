@@ -34,4 +34,9 @@ export class OrderController {
   async remove(@Param('id') id: number) {
     return this.orderService.remove(id);
   }
+
+  @Get('orders/customer/:customerId')
+  async findAllByCustomerId(@Param('customerId') customerId: number) {
+    return this.orderService.findAllByCustomerId(customerId);
+  }
 }

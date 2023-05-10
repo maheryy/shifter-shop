@@ -34,4 +34,16 @@ export class ReviewService {
       where: { id },
     });
   }
+
+  async findAllByAuthorId(authorId: number) {
+    return this.prismaService.review.findMany({
+      where: { authorId },
+    });
+  }
+
+  async findAllByProductId(productId: number) {
+    return this.prismaService.review.findMany({
+      where: { productId },
+    });
+  }
 }

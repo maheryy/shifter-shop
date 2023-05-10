@@ -34,4 +34,14 @@ export class ReviewController {
   async remove(@Param('id') id: number) {
     return this.reviewService.remove(id);
   }
+
+  @Get('reviews/author/:authorId')
+  async findAllByAuthorId(@Param('authorId') authorId: number) {
+    return this.reviewService.findAllByAuthorId(authorId);
+  }
+
+  @Get('reviews/product/:productId')
+  async findAllByProductId(@Param('productId') productId: number) {
+    return this.reviewService.findAllByProductId(productId);
+  }
 }
