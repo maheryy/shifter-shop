@@ -13,6 +13,7 @@ import { EncryptionModule } from 'src/encryption/encryption.module';
 import { AuthModule } from 'src/auth/auth.module';
 import { UserModule } from './user/user.module';
 import { ReviewModule } from './review/review.module';
+import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { ReviewModule } from './review/review.module';
     AuthModule,
     UserModule,
     ReviewModule,
+    OrderModule,
   ],
   controllers: [AppController],
   providers: [AppService],
