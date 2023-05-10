@@ -3,28 +3,44 @@ resource "google_service_account" "readonly_secrets" {
   display_name = "Read secrets"
 }
 
-module "secret_manager_iam" {
-  source = "terraform-google-modules/iam/google//modules/secret_manager_iam"
-
-  secrets = module.secret_manager.secret_names
-
-  bindings = {
-    "roles/secretmanager.secretAccessor" = [
-      "serviceAccount:${google_service_account.readonly_secrets.email}"
-    ]
-  }
+resource "google_secret_manager_secret_iam_member" "jwt_secret_iam_member" {
+  role      = "roles/secretmanager.secretAccessor"
+  secret_id = google_secret_manager_secret.jwt_secret.id
+  member    = "serviceAccount:${google_service_account.readonly_secrets.email}"
 }
 
-module "service_accounts_iam" {
-  source = "terraform-google-modules/iam/google//modules/service_accounts_iam"
+resource "google_secret_manager_secret_iam_member" "stripe_private_key_iam_member" {
+  role      = "roles/secretmanager.secretAccessor"
+  secret_id = google_secret_manager_secret.stripe_private_key.id
+  member    = "serviceAccount:${google_service_account.readonly_secrets.email}"
+}
 
-  service_accounts = [
-    google_service_account.readonly_secrets.name
-  ]
+resource "google_secret_manager_secret_iam_member" "stripe_public_key_iam_member" {
+  role      = "roles/secretmanager.secretAccessor"
+  secret_id = google_secret_manager_secret.stripe_public_key.id
+  member    = "serviceAccount:${google_service_account.readonly_secrets.email}"
+}
 
-  bindings = {
-    "roles/iam.workloadIdentityUser" = [
-      "serviceAccount:${var.project_id}.svc.id.goog[default/readonly-secrets]"
-    ]
-  }
+resource "google_secret_manager_secret_iam_member" "stripe_webhook_key_iam_member" {
+  role      = "roles/secretmanager.secretAccessor"
+  secret_id = google_secret_manager_secret.stripe_webhook_key.id
+  member    = "serviceAccount:${google_service_account.readonly_secrets.email}"
+}
+
+resource "google_secret_manager_secret_iam_member" "database_url_iam_member" {
+  role      = "roles/secretmanager.secretAccessor"
+  secret_id = google_secret_manager_secret.database_url.id
+  member    = "serviceAccount:${google_service_account.readonly_secrets.email}"
+}
+
+resource "google_secret_manager_secret_iam_member" "mailer_dsn_iam_member" {
+  role      = "roles/secretmanager.secretAccessor"
+  secret_id = google_secret_manager_secret.mailer_dsn.id
+  member    = "serviceAccount:${google_service_account.readonly_secrets.email}"
+}
+
+resource "google_service_account_iam_member" "readonly_secrets_member" {
+  service_account_id = google_service_account.readonly_secrets.name
+  role               = "roles/iam.workloadIdentityUser"
+  member             = "serviceAccount:${var.project_id}.svc.id.goog[default/readonly-secrets]"
 }
