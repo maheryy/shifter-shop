@@ -114,7 +114,7 @@ describe('AuthService', () => {
 
       const userService = testingModule.get(UserService);
 
-      jest.mocked(userService).findOne.mockResolvedValueOnce(user);
+      jest.mocked(userService).findOneByEmail.mockResolvedValueOnce(user);
 
       const authService = testingModule.get(AuthService);
       const returnedValue = await authService.login(credentials);
@@ -132,7 +132,7 @@ describe('AuthService', () => {
 
       const userService = testingModule.get(UserService);
 
-      jest.mocked(userService).findOne.mockResolvedValueOnce(null);
+      jest.mocked(userService).findOneByEmail.mockResolvedValueOnce(null);
 
       const authService = testingModule.get(AuthService);
       const promise = authService.login(credentials);
