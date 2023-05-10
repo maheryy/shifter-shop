@@ -12,6 +12,7 @@ import { InvoiceModule } from 'src/invoice/invoice.module';
 import { EncryptionModule } from 'src/encryption/encryption.module';
 import { AuthModule } from 'src/auth/auth.module';
 import { UserModule } from './user/user.module';
+import { ReviewModule } from './review/review.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { UserModule } from './user/user.module';
     EncryptionModule,
     AuthModule,
     UserModule,
+    ReviewModule,
   ],
   controllers: [AppController],
   providers: [AppService],
