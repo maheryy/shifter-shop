@@ -8,6 +8,7 @@ import {
   StreamableFile,
 } from '@nestjs/common';
 import { InvoiceService } from 'src/invoice/invoice.service';
+import { Response } from 'express';
 
 @Controller('invoice')
 export class InvoiceController {
