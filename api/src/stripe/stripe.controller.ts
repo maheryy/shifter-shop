@@ -21,7 +21,7 @@ export class StripeController {
   @Post('checkout')
   @HttpCode(200)
   async getCheckoutSession() {
-    const session = await this.stripeService.createCheckoutSession(0);
+    const session = await this.stripeService.createCheckoutSession('');
 
     return { url: session.url };
   }

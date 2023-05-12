@@ -13,6 +13,6 @@ export type FullOrder = Prisma.OrderGetPayload<{
 }>;
 
 export interface StripeMetadata {
-  customer: number;
-  products: number[];
+  customer: string;
+  products: string[];
 }

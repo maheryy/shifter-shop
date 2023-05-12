@@ -26,14 +26,14 @@ export class StripeService {
     });
   }
 
-  async createCheckoutSession(userId: number) {
+  async createCheckoutSession(userId: string) {
     const clientUrl = this.configService.getOrThrow<string>('clientUrl');
 
     /* temporary fetch random user that has cart products */
     const user = await this.prismaService.user.findFirst({
-      where: { products: { some: { productId: { gt: 0 } } } },
+      where: { cartProducts: { some: { productId: { gt: '' } } } },
     });
-    userId = user?.id || 0;
+    userId = user?.id || '';
 
     const customerProducts = await this.prismaService.customerProduct.findMany({
       where: { customerId: userId },
@@ -57,7 +57,7 @@ export class StripeService {
     });
   }
 
-  async createOrder(userId: number, sessionId: string): Promise<FullOrder> {
+  async createOrder(userId: string, sessionId: string): Promise<FullOrder> {
     const customerProducts = await this.prismaService.customerProduct.findMany({
       where: { customerId: userId },
       include: { product: true },
@@ -142,7 +142,7 @@ export class StripeService {
     }));
   }
 
-  private generateMetadata(customerId: number, products: Product[]): string {
+  private generateMetadata(customerId: string, products: Product[]): string {
     return JSON.stringify({
       customer: customerId,
       products: products.map((p) => p.id),
