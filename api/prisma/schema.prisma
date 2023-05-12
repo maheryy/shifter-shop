@@ -3,55 +3,60 @@ generator client {
 }
 
 datasource db {
-  provider     = "postgresql"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-  id        Int               @id @default(autoincrement())
-  email     String            @unique
-  firstname String            @db.VarChar(255)
-  lastname  String            @db.VarChar(255)
-  password  String            @db.VarChar(255)
-  role      Role              @default(User)
-  profileId Int?              @unique
-  profile   Profile?          @relation(fields: [profileId], references: [id])
-  reviews   Review[]
-  orders    Order[]
-  products  CustomerProduct[]
+  id              String            @id @default(uuid())
+  email           String            @unique
+  firstname       String            @db.VarChar(255)
+  lastname        String            @db.VarChar(255)
+  password        String            @db.VarChar(255)
+  role            Role              @default(Customer)
+  profileId       String?           @unique
+  profile         Profile?          @relation(fields: [profileId], references: [id])
+  reviews         Review[]
+  orders          Order[]
+  createdProducts Product[]
+  cartProducts    CustomerProduct[]
+  status          Status            @default(Default)
 
   @@map("users")
 }
 
 model Profile {
-  id      Int     @id @default(autoincrement())
+  id      String  @id @default(uuid())
   phone   String? @db.VarChar(255)
   address String? @db.VarChar(255)
   user    User?
+  status  Status  @default(Default)
 
   @@map("profiles")
 }
 
 model Product {
-  id          Int               @id @default(autoincrement())
+  id          String            @id @default(uuid())
   name        String            @db.VarChar(255)
   description String            @db.VarChar(255)
   rating      Float             @default(0)
   price       Float
   image       String            @db.VarChar(255)
   category    Category          @relation(fields: [categoryId], references: [id])
-  categoryId  Int
+  categoryId  String
   reviews     Review[]
   customers   CustomerProduct[]
   orders      OrderProduct[]
+  status      Status            @default(Default)
+  seller      User              @relation(fields: [sellerId], references: [id])
+  sellerId    String
 
   @@index([categoryId])
   @@map("products")
 }
 
 model Category {
-  id       Int       @id @default(autoincrement())
+  id       String    @id @default(uuid())
   name     String    @db.VarChar(255)
   products Product[]
 
@@ -59,63 +64,56 @@ model Category {
 }
 
 model Review {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   title     String?  @db.VarChar(255)
   details   String?  @db.VarChar(255)
   rating    Int
   date      DateTime @default(now())
   product   Product  @relation(fields: [productId], references: [id])
-  productId Int
+  productId String
   order     Order    @relation(fields: [orderId], references: [id])
-  orderId   Int
-  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  authorId  Int
+  orderId   String
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+  status    Status   @default(Default)
 
-  @@index([authorId])
-  @@index([orderId])
-  @@index([productId])
   @@map("reviews")
 }
 
 model CustomerProduct {
   quantity   Int
-  customer   User    @relation(fields: [customerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  customerId Int
+  customer   User    @relation(fields: [customerId], references: [id])
+  customerId String
   product    Product @relation(fields: [productId], references: [id])
-  productId  Int
+  productId  String
 
   @@id([customerId, productId])
-  @@index([customerId])
-  @@index([productId])
   @@map("customer_products")
 }
 
 model OrderProduct {
   quantity  Int
   order     Order   @relation(fields: [orderId], references: [id])
-  orderId   Int
+  orderId   String
   product   Product @relation(fields: [productId], references: [id])
-  productId Int
+  productId String
 
   @@id([orderId, productId])
-  @@index([orderId])
-  @@index([productId])
   @@map("order_products")
 }
 
 model Order {
-  id         Int            @id @default(autoincrement())
+  id         String         @id @default(uuid())
   reference  String         @unique
   total      Float
   date       DateTime       @default(now())
   status     OrderStatus    @default(Pending)
-  customer   User           @relation(fields: [customerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  customerId Int
+  customer   User           @relation(fields: [customerId], references: [id])
+  customerId String
   products   OrderProduct[]
   reviews    Review[]
   payment    Payment?
 
-  @@index([customerId])
   @@map("orders")
 }
 
@@ -124,14 +122,15 @@ model Payment {
   date    DateTime      @default(now())
   status  PaymentStatus @default(Pending)
   order   Order         @relation(fields: [orderId], references: [id])
-  orderId Int           @unique
+  orderId String        @unique
 
   @@map("payments")
 }
 
 enum Role {
   Admin
-  User
+  Seller
+  Customer
 }
 
 enum OrderStatus {
@@ -146,4 +145,10 @@ enum PaymentStatus {
   Pending
   Confirmed
   Refused
+  Deleted
+}
+
+enum Status {
+  Default
+  Deleted
 }

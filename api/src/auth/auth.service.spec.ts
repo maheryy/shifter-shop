@@ -1,5 +1,5 @@
 import { Test } from '@nestjs/testing';
-import { Prisma, Role } from '@prisma/client';
+import { Prisma, Role, Status } from '@prisma/client';
 import { createMock } from '@golevelup/ts-jest';
 import { AuthService } from 'src/auth/auth.service';
 import { UserService } from 'src/user/user.service';
@@ -20,13 +20,14 @@ describe('AuthService', () => {
       const userService = testingModule.get(UserService);
 
       const user = {
-        id: 1,
+        id: '77959f4d-e8d9-421e-89da-9216cfc2d123',
         email: 'leone@abbacch.io',
         firstname: 'Leone',
         lastname: 'Abbacchio',
         password: '5482J9$01l5',
-        role: Role.User,
+        role: Role.Customer,
         profileId: null,
+        status: Status.Default,
       };
 
       jest.mocked(userService).create.mockResolvedValueOnce(user);
@@ -43,12 +44,12 @@ describe('AuthService', () => {
       const userService = testingModule.get(UserService);
 
       const user = {
-        id: 1,
+        id: '77959f4d-e8d9-421e-89da-9216cfc2d123',
         email: 'leone@abbacch.io',
         firstname: 'Leone',
         lastname: 'Abbacchio',
         password: '5482J9$01l5',
-        role: Role.User,
+        role: Role.Customer,
         profileId: null,
       };
 
@@ -74,12 +75,12 @@ describe('AuthService', () => {
       const userService = testingModule.get(UserService);
 
       const user = {
-        id: 1,
+        id: '77959f4d-e8d9-421e-89da-9216cfc2d123',
         email: 'leone@abbacch.io',
         firstname: 'Leone',
         lastname: 'Abbacchio',
         password: '5482J9$01l5',
-        role: Role.User,
+        role: Role.Customer,
         profileId: null,
       };
 
@@ -104,12 +105,13 @@ describe('AuthService', () => {
       };
 
       const user = {
-        id: 1,
+        id: '77959f4d-e8d9-421e-89da-9216cfc2d123',
         firstname: 'Leone',
         lastname: 'Abbacchio',
-        role: Role.User,
+        role: Role.Customer,
         profileId: null,
         ...credentials,
+        status: Status.Default,
       };
 
       const userService = testingModule.get(UserService);
@@ -172,7 +174,7 @@ describe('AuthService', () => {
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImlhdCI6MTY4MTcyNjUwM30.T1I0xTbyip1LMf7niqC0zLO9SSKDrhY07D9w8tMDfOM',
           );
 
-        const userId = 1;
+        const userId = '77959f4d-e8d9-421e-89da-9216cfc2d123';
         const authService = testingModule.get(AuthService);
         const token = authService.getToken(userId);
 

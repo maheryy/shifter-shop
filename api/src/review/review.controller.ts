@@ -20,28 +20,28 @@ export class ReviewController {
   }
 
   @Get('reviews/:id')
-  async findOne(@Param('id') id: number) {
+  async findOne(@Param('id') id: string) {
     return this.reviewService.findOneById(id);
   }
 
   @Patch('reviews/:id')
-  async update(@Body() review: Review, @Param('id') id: number) {
+  async update(@Body() review: Review, @Param('id') id: string) {
     return this.reviewService.update(id, review);
   }
 
   @Delete('reviews/:id')
   @HttpCode(204)
-  async remove(@Param('id') id: number) {
+  async remove(@Param('id') id: string) {
     return this.reviewService.remove(id);
   }
 
   @Get('reviews/author/:authorId')
-  async findAllByAuthorId(@Param('authorId') authorId: number) {
+  async findAllByAuthorId(@Param('authorId') authorId: string) {
     return this.reviewService.findAllByAuthorId(authorId);
   }
 
   @Get('reviews/product/:productId')
-  async findAllByProductId(@Param('productId') productId: number) {
+  async findAllByProductId(@Param('productId') productId: string) {
     return this.reviewService.findAllByProductId(productId);
   }
 }

@@ -20,18 +20,18 @@ export class UserController {
   }
 
   @Get('users/:id')
-  async findOne(@Param('id') id: number) {
+  async findOne(@Param('id') id: string) {
     return this.userService.findOneById(id);
   }
 
   @Patch('users/:id')
-  async update(@Body() user: User, @Param('id') id: number) {
+  async update(@Body() user: User, @Param('id') id: string) {
     return this.userService.update(id, user);
   }
 
   @Delete('users/:id')
   @HttpCode(204)
-  async remove(@Param('id') id: number) {
+  async remove(@Param('id') id: string) {
     return this.userService.remove(id);
   }
 }

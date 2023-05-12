@@ -16,32 +16,32 @@ export class ReviewService {
     return this.prismaService.review.findMany();
   }
 
-  async findOneById(id: number) {
+  async findOneById(id: string) {
     return this.prismaService.review.findUnique({
       where: { id },
     });
   }
 
-  async update(id: number, data: Prisma.ReviewUpdateInput) {
+  async update(id: string, data: Prisma.ReviewUpdateInput) {
     return this.prismaService.review.update({
       data,
       where: { id },
     });
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     return this.prismaService.review.delete({
       where: { id },
     });
   }
 
-  async findAllByAuthorId(authorId: number) {
+  async findAllByAuthorId(authorId: string) {
     return this.prismaService.review.findMany({
       where: { authorId },
     });
   }
 
-  async findAllByProductId(productId: number) {
+  async findAllByProductId(productId: string) {
     return this.prismaService.review.findMany({
       where: { productId },
     });

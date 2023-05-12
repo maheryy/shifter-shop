@@ -12,7 +12,7 @@ import {
 import { faker } from '@faker-js/faker';
 const prisma = new PrismaClient();
 
-const array = (length: number = 0) => Array.from({ length });
+const array = (length: number): number[] => [...Array(length).keys()];
 const randomItem = <T>(data: T[]): T => faker.helpers.arrayElement(data);
 
 const clearDatabase = async () => {
@@ -38,11 +38,24 @@ const loadUserData = (length: number): Prisma.UserCreateInput[] => [
     role: Role.Admin,
   },
   {
-    email: 'user@shiftershop.com',
+    email: 'seller@shiftershop.com',
     firstname: 'Shifter',
     lastname: 'Low',
     password: 'password',
-    role: Role.User,
+    role: Role.Seller,
+    profile: {
+      create: {
+        phone: faker.phone.number(),
+        address: faker.address.streetAddress(),
+      },
+    },
+  },
+  {
+    email: 'customer@shiftershop.com',
+    firstname: 'Shifter',
+    lastname: 'High',
+    password: 'password',
+    role: Role.Customer,
     profile: {
       create: {
         phone: faker.phone.number(),
@@ -63,7 +76,7 @@ const loadUserData = (length: number): Prisma.UserCreateInput[] => [
       firstname: firstname,
       lastname: lastname,
       password: 'password',
-      role: Role.User,
+      role: Role.Customer,
       profile: {
         create: {
           phone: faker.phone.number(),
@@ -88,6 +101,7 @@ const loadCategoryData = (
 const loadProductData = (
   length: number,
   categories: Category[],
+  users: User[],
 ): Prisma.ProductUncheckedCreateInput[] => [
   ...array(length).map(
     (_, i) =>
@@ -101,6 +115,7 @@ const loadProductData = (
         image: faker.image.imageUrl(),
         rating: faker.datatype.number(),
         categoryId: randomItem(categories).id,
+        sellerId: randomItem(users).id,
       } as Prisma.ProductUncheckedCreateInput),
   ),
 ];
@@ -112,8 +127,8 @@ const loadOrderData = (
   const uniqueKeyPairs = new Set<string>();
 
   const generateOrderItem = (
-    customerId: number,
-    productId: number,
+    customerId: string,
+    productId: string,
   ): Prisma.OrderProductCreateManyOrderInput | null => {
     const key = `${customerId}-${productId}`;
     if (uniqueKeyPairs.has(key)) {
@@ -166,8 +181,8 @@ const loadCustomerProductData = (
   const uniqueKeyPairs = new Set<string>();
 
   const generateItem = (
-    customerId: number,
-    productId: number,
+    customerId: string,
+    productId: string,
   ): Prisma.CustomerProductUncheckedCreateInput | null => {
     const key = `${customerId}-${productId}`;
     if (uniqueKeyPairs.has(key)) {
@@ -229,7 +244,7 @@ const main = async () => {
   );
 
   const products = await Promise.all(
-    loadProductData(30, categories).map((product) =>
+    loadProductData(30, categories, users).map((product) =>
       prisma.product.create({ data: product }),
     ),
   );
