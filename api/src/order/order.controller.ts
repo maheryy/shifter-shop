@@ -20,23 +20,23 @@ export class OrderController {
   }
 
   @Get('orders/:id')
-  async findOne(@Param('id') id: number) {
+  async findOne(@Param('id') id: string) {
     return this.orderService.findOneById(id);
   }
 
   @Patch('orders/:id')
-  async update(@Body() order: Order, @Param('id') id: number) {
+  async update(@Body() order: Order, @Param('id') id: string) {
     return this.orderService.update(id, order);
   }
 
   @Delete('orders/:id')
   @HttpCode(204)
-  async remove(@Param('id') id: number) {
+  async remove(@Param('id') id: string) {
     return this.orderService.remove(id);
   }
 
   @Get('orders/customer/:customerId')
-  async findAllByCustomerId(@Param('customerId') customerId: number) {
+  async findAllByCustomerId(@Param('customerId') customerId: string) {
     return this.orderService.findAllByCustomerId(customerId);
   }
 }

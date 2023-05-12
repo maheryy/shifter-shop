@@ -16,26 +16,26 @@ export class OrderService {
     return this.prismaService.order.findMany();
   }
 
-  async findOneById(id: number) {
+  async findOneById(id: string) {
     return this.prismaService.order.findUnique({
       where: { id },
     });
   }
 
-  async update(id: number, data: Prisma.OrderUpdateInput) {
+  async update(id: string, data: Prisma.OrderUpdateInput) {
     return this.prismaService.order.update({
       data,
       where: { id },
     });
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     return this.prismaService.order.delete({
       where: { id },
     });
   }
 
-  async findAllByCustomerId(customerId: number) {
+  async findAllByCustomerId(customerId: string) {
     return this.prismaService.order.findMany({
       where: { customerId },
     });
