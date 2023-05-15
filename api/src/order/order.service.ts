@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class OrderService {
@@ -17,9 +18,13 @@ export class OrderService {
   }
 
   async findOneById(id: string) {
-    return this.prismaService.order.findUnique({
+    const order = await this.prismaService.order.findUnique({
       where: { id },
     });
+    if (!order) {
+      throw new NotFoundException(`Order with id: ${id} does not exist`);
+    }
+    return order;
   }
 
   async update(id: string, data: Prisma.OrderUpdateInput) {
@@ -29,15 +34,13 @@ export class OrderService {
     });
   }
 
-  async remove(id: string) {
-    return this.prismaService.order.delete({
-      where: { id },
-    });
-  }
-
   async findAllByCustomerId(customerId: string) {
-    return this.prismaService.order.findMany({
+    const orders = await this.prismaService.order.findMany({
       where: { customerId },
     });
+    if (!orders) {
+      throw new Error(`Orders with customerId: ${customerId} do not exist`);
+    }
+    return orders;
   }
 }
