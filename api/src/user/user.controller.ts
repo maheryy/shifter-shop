@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Body,
-  Get,
-  Param,
-  Patch,
-  Delete,
-  HttpCode,
-} from '@nestjs/common';
+import { Controller, Body, Get, Param, Patch } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from '@prisma/client';
 
@@ -27,11 +19,5 @@ export class UserController {
   @Patch('users/:id')
   async update(@Body() user: User, @Param('id') id: string) {
     return this.userService.update(id, user);
-  }
-
-  @Delete('users/:id')
-  @HttpCode(204)
-  async remove(@Param('id') id: string) {
-    return this.userService.remove(id);
   }
 }

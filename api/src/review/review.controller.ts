@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Body,
-  Get,
-  Param,
-  Patch,
-  Delete,
-  HttpCode,
-} from '@nestjs/common';
+import { Controller, Body, Get, Param, Patch } from '@nestjs/common';
 import { ReviewService } from './review.service';
 import { Review } from '@prisma/client';
 
@@ -27,12 +19,6 @@ export class ReviewController {
   @Patch('reviews/:id')
   async update(@Body() review: Review, @Param('id') id: string) {
     return this.reviewService.update(id, review);
-  }
-
-  @Delete('reviews/:id')
-  @HttpCode(204)
-  async remove(@Param('id') id: string) {
-    return this.reviewService.remove(id);
   }
 
   @Get('reviews/author/:authorId')

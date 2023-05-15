@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class UserService {
@@ -17,13 +18,17 @@ export class UserService {
   }
 
   async findOneById(id: string) {
-    return this.prismaService.user.findUnique({
+    const user = await this.prismaService.user.findUnique({
       where: { id },
     });
+    if (!user) {
+      throw new NotFoundException(`User with id: ${id} does not exist`);
+    }
+    return user;
   }
 
   async findOneByEmail(email: string) {
-    return this.prismaService.user.findUnique({
+    return await this.prismaService.user.findUnique({
       where: { email },
     });
   }
@@ -31,12 +36,6 @@ export class UserService {
   async update(id: string, data: Prisma.UserUpdateInput) {
     return this.prismaService.user.update({
       data,
-      where: { id },
-    });
-  }
-
-  async remove(id: string) {
-    return this.prismaService.user.delete({
       where: { id },
     });
   }
