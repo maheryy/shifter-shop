@@ -64,6 +64,20 @@ module "gke" {
   }
 }
 
+module "database" {
+  source  = "GoogleCloudPlatform/sql-db/google//modules/postgresql"
+  version = "15.0.0"
+
+  project_id        = var.project_id
+  name              = var.project_id
+  zone              = var.zone
+  availability_type = "ZONAL"
+  database_version  = "POSTGRES_15"
+  user_name         = var.database_user_name
+  user_password     = var.database_user_password
+
+}
+
 resource "google_artifact_registry_repository" "repo" {
   location      = var.region
   repository_id = var.project_id
