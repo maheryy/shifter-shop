@@ -40,3 +40,14 @@ variable "mailer_dsn" {
   type      = string
   sensitive = true
 }
+
+
+variable "database_user_name" {
+  type      = string
+  sensitive = true
+}
+
+variable "database_user_password" {
+  type      = string
+  sensitive = true
+}
