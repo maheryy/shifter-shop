@@ -72,7 +72,7 @@ module "database" {
   name              = var.project_id
   zone              = var.zone
   availability_type = "ZONAL"
-  database_version  = "POSTGRES_15"
+  database_version  = "POSTGRES_14"
   user_name         = var.database_user_name
   user_password     = var.database_user_password
 
