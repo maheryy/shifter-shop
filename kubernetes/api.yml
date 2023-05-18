@@ -13,6 +13,7 @@ spec:
       labels:
         app: api
     spec:
+      serviceAccount: readonly-secrets
       containers:
         - name: api
           image: maherydock77/shifter-shop.api
@@ -20,10 +21,14 @@ spec:
             - containerPort: 3000
           resources:
             requests:
-              cpu: "500m"
+              cpu: "200m"
               memory: "256Mi"
             limits:
               memory: "256Mi"
+          volumeMounts:
+            - name: secrets
+              mountPath: "/mnt/secrets"
+              readOnly: true
           env:
             - name: CLIENT_URL
               valueFrom:
@@ -33,33 +38,40 @@ spec:
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
-                  name: database
-                  key: database_url
+                  name: database-url
+                  key: database-url
             - name: JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: app
-                  key: jwt_secret
+                  name: jwt-secret
+                  key: jwt-secret
             - name: MAILER_DSN
               valueFrom:
                 secretKeyRef:
-                  name: mailer
-                  key: mailer_dsn
+                  name: mailer-dsn
+                  key: mailer-dsn
             - name: STRIPE_SECRET_KEY
               valueFrom:
                 secretKeyRef:
-                  name: stripe
-                  key: private_key
+                  name: stripe-private-key
+                  key: stripe-private-key
             - name: STRIPE_PUBLIC_KEY
               valueFrom:
                 secretKeyRef:
-                  name: stripe
-                  key: public_key
+                  name: stripe-public-key
+                  key: stripe-public-key
             - name: STRIPE_WEBHOOK_SIGNING_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: stripe
-                  key: webhook_key
+                  name: stripe-webhook-key
+                  key: stripe-webhook-key
+      volumes:
+        - name: secrets
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: secret-manager
 
 ---
 apiVersion: autoscaling/v2
