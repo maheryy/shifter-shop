@@ -13,7 +13,7 @@ spec:
       labels:
         app: api
     spec:
-      serviceAccount: readonly-secrets
+      serviceAccount: api
       containers:
         - name: api
           image: maherydock77/shifter-shop.api
