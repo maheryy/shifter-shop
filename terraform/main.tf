@@ -86,8 +86,10 @@ module "database" {
   user_name         = var.database_user_name
   user_password     = var.database_user_password
 
+
+
   ip_configuration = {
-    allocated_ip_range                            = "${local.subnet_name}-database"
+    allocated_ip_range                            = "google-managed-services-${module.vpc.network_name}"
     authorized_networks                           = []
     enable_private_path_for_google_cloud_services = false
     ipv4_enabled                                  = true
