@@ -2,6 +2,12 @@ resource "google_service_account" "shifter_shop_api" {
   account_id = "shifter-shop-api"
 }
 
+resource "google_service_account_iam_member" "shifter_shop_api_iam_member_cloudsql_client" {
+  service_account_id = google_service_account.shifter_shop_api.name
+  role               = "roles/cloudsql.client"
+  member             = "serviceAccount:${google_service_account.shifter_shop_api.email}"
+}
+
 resource "google_secret_manager_secret_iam_member" "jwt_secret_iam_member" {
   role      = "roles/secretmanager.secretAccessor"
   secret_id = google_secret_manager_secret.jwt_secret.id
