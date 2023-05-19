@@ -86,8 +86,6 @@ module "database" {
   user_name         = var.database_user_name
   user_password     = var.database_user_password
 
-
-
   ip_configuration = {
     allocated_ip_range                            = "google-managed-services-${module.vpc.network_name}"
     authorized_networks                           = []
