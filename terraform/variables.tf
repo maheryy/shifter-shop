@@ -6,7 +6,6 @@ variable "region" {
   type = string
 }
 
-
 variable "zone" {
   type = string
 }
@@ -40,7 +39,6 @@ variable "mailer_dsn" {
   type      = string
   sensitive = true
 }
-
 
 variable "database_user_name" {
   type      = string
