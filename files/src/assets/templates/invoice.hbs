@@ -1,0 +1,116 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Invoice - {{order.reference}}</title>
+    <style>
+      * { box-sizing: border-box; padding: 0; margin: 0; } .invoice {
+      background: #fff; width: 100%; height: 100%; color: rgb(55 65 81);
+      display: flex; flex-direction: column; } .header { display: flex;
+      flex-direction: column; gap: 30px; } .header-top { display: flex;
+      justify-content: space-between; align-items: flex-start; } .header-left {
+      font-size: 1.5rem; font-weight: 600; } .header-right { text-align: right;
+      text-transform: uppercase; letter-spacing: 0.1em; font-size: 1.25rem; }
+      .header-bottom { display: flex; align-items: center; } .header-bottom
+      .blank { background-color: #2c666e; height: 1.25rem; flex: 1; }
+      .header-details { width: fit-content; padding-left: 15px; display: flex;
+      gap: 15px; } .content { padding: 30px 0; flex: 1; } .head { margin-bottom:
+      30px; } .head-details { display: flex; flex-direction: column; }
+      .head-title { font-weight: 600; font-size: 1.1rem; margin-bottom: 5px; }
+      table { width: 100%; border-collapse: collapse; } table thead {
+      background-color: #2c666e; color: #fff; } table th, table td { padding:
+      15px 15px; } table th { text-align: left; } table th:first-of-type {
+      min-width: 250px; border-top-left-radius: 2px; } table th:last-of-type {
+      border-top-right-radius: 2px; } table tbody tr { border-bottom: 1px solid
+      #ccc; } .table-footer { margin-top: 30px; display: flex; justify-content:
+      space-between; width: 100%; } .table-footer h3 { font-size: 1.15rem;
+      font-weight: 600; padding: 10px 0; } .table-footer .footer-rows { display:
+      flex; flex-direction: column; width: 45%; } .table-footer .footer-row {
+      display: flex; justify-content: space-between; padding: 5px 20px; }
+      .footer-row span:first-of-type { font-weight: 600; } .footer-row.total {
+      margin-top: 15px; padding: 10px 20px; background-color: #2c666e; color:
+      #fff; font-size: 1.15rem; border-radius: 2px; } .footer { margin-top:
+      50px; text-align: center; } .footer p { font-size: 0.8rem; color: #9b9696;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="invoice">
+      <div class="header">
+        <div class="header-top">
+          <div class="header-left">
+            <h2>Shifter Shop</h2>
+          </div>
+          <div class="header-right">
+            <h1>Invoice</h1>
+          </div>
+        </div>
+        <div class="header-bottom">
+          <div class="blank"></div>
+          <div class="header-details">
+            <span>Invoice No: <strong>{{order.reference}}</strong></span>
+            <span>Date:
+              <strong>{{formatDisplayShortDate order.date}}</strong></span>
+          </div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="head">
+          <div class="head-details">
+            <span class="head-title">Invoice to</span>
+            <span>{{order.customer.firstname}}
+              {{order.customer.lastname}}</span>
+            <span>{{order.customer.profile.address}}</span>
+            <span>{{order.customer.email}}</span>
+          </div>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Qty</th>
+                <th>Unit Price</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each order.products as |item|}}
+                <tr>
+                  <td>{{item.product.name}}</td>
+                  <td>{{item.quantity}}</td>
+                  <td>{{formatPrice item.product.price}}</td>
+                  <td>{{formatPrice item.product.price}}</td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+          <div class="table-footer">
+            <div>
+              <h3>Thank you for shopping with us!</h3>
+            </div>
+            <div class="footer-rows">
+              <div class="footer-row">
+                <span>Subtotal</span>
+                <span>{{formatPrice order.total}}</span>
+              </div>
+              <div class="footer-row">
+                <span>Tax</span>
+                <span>0.00%</span>
+              </div>
+              <div class="footer-row total">
+                <span>Total</span>
+                <span>{{formatPrice order.total}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <p>
+          For any questions concerning this invoice, please contact us at
+          contact@shiftershop.com
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
