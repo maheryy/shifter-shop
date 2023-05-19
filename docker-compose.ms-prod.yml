@@ -1,0 +1,96 @@
+version: "3.8"
+services:
+  files:
+    container_name: files
+    build:
+      context: ./files
+    ports:
+      - 3001:3000
+    networks:
+      - ss_microservices
+
+  mailer:
+    container_name: mailer
+    build:
+      context: ./mailer
+    ports:
+      - 3002:3000
+    environment:
+      - MAILER_DSN=${MAILER_DSN}
+    networks:
+      - ss_microservices
+
+  payment:
+    container_name: payment
+    build:
+      context: ./payment
+    ports:
+      - 3003:3000
+    environment:
+      - CLIENT_URL=http://localhost:8080
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - STRIPE_PUBLIC_KEY=${STRIPE_PUBLIC_KEY}
+      - STRIPE_WEBHOOK_SIGNING_SECRET=${STRIPE_WEBHOOK_SIGNING_SECRET}
+    networks:
+      - ss_microservices
+    depends_on:
+      - stripe
+
+  client:
+    container_name: client
+    build:
+      context: ./client
+      args:
+        - VITE_API_URL=http://localhost:3000
+    ports:
+      - 8080:80
+    networks:
+      - ss_app
+
+  admin:
+    container_name: admin
+    build:
+      context: ./admin
+    ports:
+      - 8081:80
+    networks:
+      - ss_app
+
+  postgres:
+    container_name: postgres
+    image: postgres:15
+    volumes:
+      - ss_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=app
+    networks:
+      - ss_database
+
+  mailhog:
+    container_name: mailhog
+    image: mailhog/mailhog:latest
+    ports:
+      - 1025:1025
+      - 8025:8025
+    networks:
+      - ss_microservices
+
+  stripe:
+    container_name: stripe
+    image: stripe/stripe-cli:v1.14.6
+    command: listen --forward-to http://payment:3000/payment/webhook
+    environment:
+      - STRIPE_DEVICE_NAME=shifter_shop_docker
+      - STRIPE_API_KEY=${STRIPE_SECRET_KEY}
+    networks:
+      - ss_microservices
+
+networks:
+  ss_app:
+  ss_microservices:
+  ss_database:
+
+volumes:
+  ss_data:
