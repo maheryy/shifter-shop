@@ -51,7 +51,7 @@ module "gke" {
 
   node_pools = [
     {
-      name      = "e2-small"
+      name      = "e2-medium"
       max_count = 2
     },
   ]
