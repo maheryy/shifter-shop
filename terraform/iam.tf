@@ -1,45 +1,45 @@
-resource "google_service_account" "api" {
-  account_id = "api"
+resource "google_service_account" "shifter_shop_api" {
+  account_id = "shifter-shop-api"
 }
 
 resource "google_secret_manager_secret_iam_member" "jwt_secret_iam_member" {
   role      = "roles/secretmanager.secretAccessor"
   secret_id = google_secret_manager_secret.jwt_secret.id
-  member    = "serviceAccount:${google_service_account.api.email}"
+  member    = "serviceAccount:${google_service_account.shifter_shop_api.email}"
 }
 
 resource "google_secret_manager_secret_iam_member" "stripe_private_key_iam_member" {
   role      = "roles/secretmanager.secretAccessor"
   secret_id = google_secret_manager_secret.stripe_private_key.id
-  member    = "serviceAccount:${google_service_account.api.email}"
+  member    = "serviceAccount:${google_service_account.shifter_shop_api.email}"
 }
 
 resource "google_secret_manager_secret_iam_member" "stripe_public_key_iam_member" {
   role      = "roles/secretmanager.secretAccessor"
   secret_id = google_secret_manager_secret.stripe_public_key.id
-  member    = "serviceAccount:${google_service_account.api.email}"
+  member    = "serviceAccount:${google_service_account.shifter_shop_api.email}"
 }
 
 resource "google_secret_manager_secret_iam_member" "stripe_webhook_key_iam_member" {
   role      = "roles/secretmanager.secretAccessor"
   secret_id = google_secret_manager_secret.stripe_webhook_key.id
-  member    = "serviceAccount:${google_service_account.api.email}"
+  member    = "serviceAccount:${google_service_account.shifter_shop_api.email}"
 }
 
 resource "google_secret_manager_secret_iam_member" "database_url_iam_member" {
   role      = "roles/secretmanager.secretAccessor"
   secret_id = google_secret_manager_secret.database_url.id
-  member    = "serviceAccount:${google_service_account.api.email}"
+  member    = "serviceAccount:${google_service_account.shifter_shop_api.email}"
 }
 
 resource "google_secret_manager_secret_iam_member" "mailer_dsn_iam_member" {
   role      = "roles/secretmanager.secretAccessor"
   secret_id = google_secret_manager_secret.mailer_dsn.id
-  member    = "serviceAccount:${google_service_account.api.email}"
+  member    = "serviceAccount:${google_service_account.shifter_shop_api.email}"
 }
 
 resource "google_service_account_iam_member" "api_member" {
-  service_account_id = google_service_account.api.name
+  service_account_id = google_service_account.shifter_shop_api.name
   role               = "roles/iam.workloadIdentityUser"
-  member             = "serviceAccount:${var.project_id}.svc.id.goog[default/api]"
+  member             = "serviceAccount:${var.project_id}.svc.id.goog[default/shifter-shop-api]"
 }

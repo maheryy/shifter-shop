@@ -13,7 +13,7 @@ spec:
       labels:
         app: api
     spec:
-      serviceAccount: api
+      serviceAccount: shifter-shop-api
       containers:
         - name: api
           image: maherydock77/shifter-shop.api
