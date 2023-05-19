@@ -64,6 +64,15 @@ module "gke" {
   }
 }
 
+module "peering" {
+  source  = "GoogleCloudPlatform/sql-db/google//modules/private_service_access"
+  version = "15.0.0"
+
+  project_id    = var.project_id
+  vpc_network   = module.vpc.network_name
+  prefix_length = 24
+}
+
 module "database" {
   source  = "GoogleCloudPlatform/sql-db/google//modules/postgresql"
   version = "15.0.0"
