@@ -77,6 +77,14 @@ module "database" {
   user_name         = var.database_user_name
   user_password     = var.database_user_password
 
+  ip_configuration = {
+    allocated_ip_range                            = "${local.subnet_name}-database"
+    authorized_networks                           = []
+    enable_private_path_for_google_cloud_services = false
+    ipv4_enabled                                  = true
+    private_network                               = "projects/${var.project_id}/global/networks/${module.vpc.network_name}"
+    require_ssl                                   = false
+  }
 }
 
 resource "google_artifact_registry_repository" "repo" {
