@@ -105,7 +105,7 @@ module "dns" {
   version = "5.0.0"
 
   project_id = var.project_id
-  name       = "shiftershop.pro"
+  name       = "shiftershop-pro"
   type       = "public"
   domain     = "shiftershop.pro."
 
