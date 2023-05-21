@@ -111,7 +111,7 @@ module "dns" {
 
   recordsets = [
     {
-      name = "api"
+      name = "www"
       type = "A"
       ttl  = 300
       records = [
@@ -119,13 +119,21 @@ module "dns" {
       ]
     },
     {
-      name = "www"
+      name = ""
+      type = "CNAME"
+      ttl  = 300
+      records = [
+        "www.shiftershop.pro"
+      ]
+    },
+    {
+      name = "api"
       type = "A"
       ttl  = 300
       records = [
         google_compute_global_address.shiftershop.address
       ]
-    }
+    },
   ]
 }
 
