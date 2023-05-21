@@ -20,7 +20,7 @@ spec:
             - containerPort: 3000
           resources:
             requests:
-              cpu: "500m"
+              cpu: "100m"
               memory: "256Mi"
             limits:
               memory: "256Mi"
@@ -51,6 +51,7 @@ kind: Service
 metadata:
   name: client
 spec:
+  type: NodePort
   selector:
     app: client
   ports:
@@ -62,17 +63,28 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: client
-  labels:
-    name: client
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: shiftershop
+    networking.gke.io/managed-certificates: client
 spec:
   rules:
     - host: shiftershop.pro
       http:
         paths:
           - pathType: Prefix
-            path: "/"
+            path: /
             backend:
               service:
                 name: client
                 port:
                   number: 3000
+
+---
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: client
+spec:
+  domains:
+    - shiftershop.pro
+    - www.shiftershop.pro
