@@ -120,10 +120,10 @@ module "dns" {
     },
     {
       name = ""
-      type = "CNAME"
+      type = "A"
       ttl  = 300
       records = [
-        "www.shiftershop.pro"
+        google_compute_global_address.shiftershop.address
       ]
     },
     {
