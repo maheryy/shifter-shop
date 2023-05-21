@@ -2,10 +2,10 @@ resource "google_service_account" "shifter_shop_api" {
   account_id = "shifter-shop-api"
 }
 
-resource "google_service_account_iam_member" "shifter_shop_api_iam_member_cloudsql_client" {
-  service_account_id = google_service_account.shifter_shop_api.name
-  role               = "roles/cloudsql.client"
-  member             = "serviceAccount:${google_service_account.shifter_shop_api.email}"
+resource "google_project_iam_member" "shifter_shop_api_cloudsql_client" {
+  project = var.project_id
+  role    = "roles/cloudsql.client"
+  member  = "serviceAccount:${google_service_account.shifter_shop_api.email}"
 }
 
 resource "google_secret_manager_secret_iam_member" "jwt_secret_iam_member" {
@@ -44,7 +44,7 @@ resource "google_secret_manager_secret_iam_member" "mailer_dsn_iam_member" {
   member    = "serviceAccount:${google_service_account.shifter_shop_api.email}"
 }
 
-resource "google_service_account_iam_member" "api_member" {
+resource "google_service_account_iam_member" "shifter_shop_api_iam_member" {
   service_account_id = google_service_account.shifter_shop_api.name
   role               = "roles/iam.workloadIdentityUser"
   member             = "serviceAccount:${var.project_id}.svc.id.goog[default/shifter-shop-api]"
