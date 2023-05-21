@@ -96,6 +96,31 @@ module "database" {
   }
 }
 
+resource "google_compute_global_address" "shiftershop" {
+  name = "shiftershop"
+}
+
+module "dns" {
+  source  = "terraform-google-modules/cloud-dns/google"
+  version = "5.0.0"
+
+  project_id = var.project_id
+  name       = "shiftershop.pro"
+  type       = "public"
+  domain     = "shiftershop.pro."
+
+  recordsets = [
+    {
+      name = "api"
+      type = "A"
+      ttl  = 300
+      records = [
+        google_compute_global_address.shiftershop.address
+      ]
+    },
+  ]
+}
+
 resource "google_artifact_registry_repository" "repo" {
   location      = var.region
   repository_id = var.project_id

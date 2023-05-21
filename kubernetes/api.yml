@@ -114,6 +114,7 @@ kind: Service
 metadata:
   name: api
 spec:
+  type: NodePort
   selector:
     app: api
   ports:
@@ -125,17 +126,27 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: api
-  labels:
-    name: api
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: shiftershop
+    networking.gke.io/managed-certificates: api
 spec:
   rules:
     - host: api.shiftershop.pro
       http:
         paths:
           - pathType: Prefix
-            path: "/"
+            path: /
             backend:
               service:
                 name: api
                 port:
                   number: 3000
+
+---
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: api
+spec:
+  domains:
+    - api.shiftershop.pro
