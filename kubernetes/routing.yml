@@ -26,7 +26,7 @@ spec:
               service:
                 name: client
                 port:
-                  number: 3000
+                  number: 80
 
 ---
 apiVersion: networking.gke.io/v1
