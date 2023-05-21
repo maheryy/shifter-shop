@@ -17,6 +17,16 @@ spec:
                 name: api
                 port:
                   number: 3000
+    - host: shiftershop.pro
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: client
+                port:
+                  number: 80
     - host: www.shiftershop.pro
       http:
         paths:
