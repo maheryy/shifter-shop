@@ -35,5 +35,6 @@ metadata:
   name: shiftershop
 spec:
   domains:
+    - shiftershop.pro
     - api.shiftershop.pro
     - www.shiftershop.pro
