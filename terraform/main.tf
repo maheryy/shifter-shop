@@ -137,6 +137,31 @@ module "dns" {
   ]
 }
 
+resource "google_compute_url_map" "shiftershop" {
+  name = "shiftershop"
+
+  host_rule {
+    hosts        = ["shiftershop.pro"]
+    path_matcher = "redirect-to-www"
+  }
+
+  path_matcher {
+    name = "redirect-to-www"
+
+    default_url_redirect {
+      host_redirect  = "www.shiftershop.pro"
+      https_redirect = true
+      strip_query    = false
+    }
+  }
+
+  default_url_redirect {
+    host_redirect  = "www.shiftershop.pro"
+    https_redirect = true
+    strip_query    = false
+  }
+}
+
 resource "google_artifact_registry_repository" "repo" {
   location      = var.region
   repository_id = var.project_id
