@@ -33,12 +33,13 @@ export class UpdateProductDto {
 
   @IsOptional()
   @IsEnum(Status)
-  status?: string;
+  status?: Status;
 
+  @IsOptional()
   @IsNotEmpty()
   @IsUUID()
-  categoryId: string;
+  categoryId?: string;
 
   @Transform(({ value }) => ({ connect: { id: value } }))
-  category?: { connect: { id: string } };
+  category: { connect: { id: string } };
 }
