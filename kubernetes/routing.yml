@@ -17,7 +17,7 @@ spec:
                 name: api
                 port:
                   number: 3000
-    - host: www.shiftershop.pro
+    - host: shiftershop.pro
       http:
         paths:
           - pathType: Prefix
@@ -37,4 +37,3 @@ spec:
   domains:
     - shiftershop.pro
     - api.shiftershop.pro
-    - www.shiftershop.pro
