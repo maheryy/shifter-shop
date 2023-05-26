@@ -111,14 +111,6 @@ module "dns" {
 
   recordsets = [
     {
-      name = "www"
-      type = "A"
-      ttl  = 300
-      records = [
-        google_compute_global_address.shiftershop.address
-      ]
-    },
-    {
       name = ""
       type = "A"
       ttl  = 300
@@ -135,31 +127,6 @@ module "dns" {
       ]
     },
   ]
-}
-
-resource "google_compute_url_map" "shiftershop" {
-  name = "shiftershop"
-
-  host_rule {
-    hosts        = ["shiftershop.pro"]
-    path_matcher = "redirect-to-www"
-  }
-
-  path_matcher {
-    name = "redirect-to-www"
-
-    default_url_redirect {
-      host_redirect  = "www.shiftershop.pro"
-      https_redirect = true
-      strip_query    = false
-    }
-  }
-
-  default_url_redirect {
-    host_redirect  = "www.shiftershop.pro"
-    https_redirect = true
-    strip_query    = false
-  }
 }
 
 resource "google_artifact_registry_repository" "repo" {
