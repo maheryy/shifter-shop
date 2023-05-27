@@ -36,6 +36,15 @@ services:
     depends_on:
       - stripe
 
+  invoice:
+    container_name: invoice
+    build:
+      context: ./invoice
+    ports:
+      - 3004:3000
+    networks:
+      - ss_microservices
+
   client:
     container_name: client
     build:
