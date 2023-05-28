@@ -43,20 +43,10 @@ const getCheckoutItems = (
     price_data: {
       currency: "eur",
       unit_amount: product.price * 100,
-      product_data: {
-        name: product.name,
-        metadata: { id: product.id },
-      },
+      product_data: { name: product.name },
     },
     quantity: product.quantity,
   }));
-};
-
-const generateMetadata = (customerId: string, products: any[]): string => {
-  return JSON.stringify({
-    customer: customerId,
-    products: products.map((p) => p.id),
-  } as StripeMetadata);
 };
 
 export const getWebhookEvent = (
@@ -68,6 +58,14 @@ export const getWebhookEvent = (
     signature,
     process.env.STRIPE_WEBHOOK_SIGNING_SECRET!
   );
+};
+
+const generateMetadata = (customerId: string, products: any[]): string => {
+  return JSON.stringify({
+    customer: customerId,
+    products: products.map((p) => ({ id: p.id, quantity: p.quantity })),
+    amount: products.reduce((acc, p) => acc + p.price * p.quantity, 0),
+  } as StripeMetadata);
 };
 
 export const parseMetadata = (

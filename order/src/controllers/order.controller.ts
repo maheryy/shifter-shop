@@ -9,15 +9,18 @@ import {
 } from "services/order.service";
 import { OrderCreationData, OrderStatus, OrderUpdateData } from "types/order";
 
-export const createOrder = async (data: OrderCreationData) => {
+export const createOrder = async (
+  data: Omit<OrderCreationData, "reference">
+) => {
   const orderData: OrderCreationData = {
     customer: data.customer,
     reference: await generateOrderReference(),
-    total: 200,
+    amount: data.amount,
     products: data.products,
+    ...(data.status ? { status: data.status } : {}),
   };
 
-  return await create(orderData);
+  return create(orderData);
 };
 
 export const updateOrder = async (id: string, data: OrderUpdateData) => {

@@ -6,7 +6,7 @@ export interface Order {
   date: Date;
   reference: string;
   status: OrderStatus;
-  total: number;
+  amount: number;
   products: ProductReferenceWithQuantity[];
 }
 
@@ -18,6 +18,12 @@ export enum OrderStatus {
   Cancelled = "Cancelled",
 }
 
-export type OrderCreationData = Omit<Order, "id" | "status" | "date">;
+export interface OrderCreationData {
+  customer: string;
+  reference: string;
+  amount: number;
+  status?: OrderStatus;
+  products: ProductReferenceWithQuantity[];
+}
 
 export type OrderUpdateData = Pick<Order, "status">;

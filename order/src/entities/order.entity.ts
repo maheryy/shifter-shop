@@ -14,7 +14,7 @@ export class Order extends BaseEntity {
   reference: string;
 
   @Column("float")
-  total: number;
+  amount: number;
 
   @Column("jsonb")
   products: ProductReferenceWithQuantity[];

@@ -5,6 +5,8 @@ import {
   getWebhookEvent,
   parseMetadata,
 } from "services/payment.service";
+import amqp from "lib/amqp";
+import { Queue } from "types/message";
 
 export const checkoutSession = async (req: Request, res: Response) => {
   const session = await createCheckoutSession("");
@@ -32,11 +34,9 @@ export const webhook = async (req: Request, res: Response) => {
       case "checkout.session.completed": {
         const eventData = event.data.object as Stripe.Checkout.Session;
         const metadata = parseMetadata(eventData.metadata);
-
         console.log("Checkout session completed !", metadata);
 
-        // TODO: Handle order creation
-        // TODO: Send order confirmation email
+        amqp.publish(Queue.PaymentSuccess, { ...metadata });
         break;
       }
     }

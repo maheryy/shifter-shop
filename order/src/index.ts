@@ -2,8 +2,9 @@ import "config";
 import express from "express";
 import cors from "cors";
 import order from "routes/order";
-import amqp, { Queue } from "lib/amqp";
+import amqp from "lib/amqp";
 import { onPaymentSucceeded } from "controllers/message.controller";
+import { Queue } from "types/message";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
