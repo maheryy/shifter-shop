@@ -1,9 +1,9 @@
 import { createBrowserRouter, RouteObject } from "react-router-dom";
 import Home from "@/pages/Home";
 import Product from "@/pages/Product";
-import ProductList from "@/pages/ProductList";
+import ProductList, { ProductListData } from "@/pages/ProductList";
 import Cart from "@/pages/Cart";
-import { getProduct } from "@/api/product.api";
+import { getProducts, getProduct } from "@/api/product.api";
 import CustomerLayout from "@/layouts/CustomerLayout";
 import NotFound from "@/pages/errors/NotFound";
 import PublicLayout from "@/layouts/PublicLayout";
@@ -18,6 +18,7 @@ import Reviews from "@/pages/customer/Reviews";
 import { getOrderAndProduct } from "@/api/order.api";
 import ReviewForm from "@/pages/customer/ReviewForm";
 import PostCheckout from "@/pages/PostCheckout";
+import { getCategories } from "@/api/category.api";
 
 const routes: RouteObject[] = [
   {
@@ -47,6 +48,28 @@ const routes: RouteObject[] = [
       {
         path: "/products",
         element: <ProductList />,
+        loader: async ({ request }): Promise<ProductListData> => {
+          const { searchParams } = new URL(request.url);
+
+          const initialParams = {
+            categories: searchParams.get("categories")?.split(",").map(Number),
+            maxPrice: Number(searchParams.get("maxPrice")) || undefined,
+            minPrice: Number(searchParams.get("minPrice")) || undefined,
+            q: searchParams.get("q") || undefined,
+            sortBy: searchParams.get("sortBy") || undefined,
+          };
+
+          const [categories, initialProducts] = await Promise.all([
+            getCategories(),
+            getProducts(initialParams),
+          ]);
+
+          return {
+            categories,
+            initialParams,
+            initialProducts,
+          };
+        },
       },
       {
         path: "/products/:id",

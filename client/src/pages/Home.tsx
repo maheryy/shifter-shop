@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Product } from "@/types/product";
-import { getAllProducts } from "@/api/product.api";
+import { getProducts } from "@/api/product.api";
 import { Category } from "@/types/category";
-import { getAllCategories } from "@/api/category.api";
+import { getCategories } from "@/api/category.api";
 import Feature from "@/components/home/Feature";
 import Hero from "@/components/home/Hero";
 import CategoryCard from "@/components/home/CategoryCard";
@@ -17,13 +17,8 @@ const Home = () => {
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
-    getAllProducts()
-      .then((products) => setProducts(products))
-      .catch((err) => console.log(err));
-
-    getAllCategories()
-      .then((categories) => setCategories(categories))
-      .catch((err) => console.log(err));
+    getProducts().then(setProducts).catch(console.error);
+    getCategories().then(setCategories).catch(console.error);
   }, []);
 
   return (
