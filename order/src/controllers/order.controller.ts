@@ -7,27 +7,47 @@ import {
   updateOrder as update,
   generateOrderReference,
 } from "services/order.service";
-import { OrderCreationData, OrderStatus } from "types/order";
+import { OrderCreationData, OrderStatus, OrderUpdateData } from "types/order";
 
 export const createOrder = async (data: OrderCreationData) => {
-  try {
-    const orderData: OrderCreationData = {
-      customer: data.customer,
-      reference: await generateOrderReference(),
-      total: 200,
-      products: data.products,
-    };
-    const order = await create(orderData);
-    return order;
-  } catch (error) {
-    console.log(error);
+  const orderData: OrderCreationData = {
+    customer: data.customer,
+    reference: await generateOrderReference(),
+    total: 200,
+    products: data.products,
+  };
+
+  return await create(orderData);
+};
+
+export const updateOrder = async (id: string, data: OrderUpdateData) => {
+  if (!data.status) {
+    throw new Error("You must provide a status");
   }
+  if (!Object.values(OrderStatus).includes(data.status)) {
+    throw new Error(
+      "Invalid status : must be one of 'Pending', 'Confirmed', 'Shipping', 'Delivered', 'Cancelled'"
+    );
+  }
+
+  const result = await update(id, { status: data.status });
+  if (!result.affected) {
+    throw new ReferenceError("Order not found");
+  }
+
+  return result;
 };
 
 export const newOrder = async (req: Request, res: Response) => {
-  const order = await createOrder(req.body);
-
-  res.status(201).json(order);
+  try {
+    const order = await createOrder(req.body);
+    res.status(201).json(order);
+  } catch (error) {
+    console.log((error as Error).message);
+    res
+      .status(400)
+      .json({ error: { code: 400, message: (error as Error).message } });
+  }
 };
 
 export const getAllOrders = async (req: Request, res: Response) => {
@@ -48,25 +68,12 @@ export const getOrder = async (req: Request, res: Response) => {
   res.status(200).json(order);
 };
 
-export const updateOrder = async (req: Request, res: Response) => {
+export const patchOrder = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { status } = req.body;
 
   try {
-    if (!status) {
-      throw new Error("You must provide a status");
-    }
-    if (!Object.values(OrderStatus).includes(status)) {
-      throw new Error(
-        "Invalid status : must be one of 'Pending', 'Confirmed', 'Shipping', 'Delivered', 'Cancelled'"
-      );
-    }
-
-    const result = await update(id, { status });
-    if (!result.affected) {
-      throw new ReferenceError("Order not found");
-    }
-
+    await updateOrder(id, { status });
     res.status(204).end();
   } catch (error) {
     console.log((error as Error).message);

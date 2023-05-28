@@ -112,6 +112,15 @@ services:
     networks:
       - ss_microservices
 
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.10-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - ss_microservices
+
 networks:
   ss_app:
   ss_microservices:

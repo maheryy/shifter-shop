@@ -29,3 +29,10 @@ services:
     ports:
       - 1025:1025
       - 8025:8025
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.10-management-alpine
+    ports:
+      - 5672:5672
+      - 15672:15672

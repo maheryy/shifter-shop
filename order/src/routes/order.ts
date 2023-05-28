@@ -6,7 +6,7 @@ const router = Router();
 router.get("/", OrderController.getAllOrders);
 router.post("/", OrderController.newOrder); // POST for testing purposes only
 router.get("/:id", OrderController.getOrder);
-router.patch("/:id", OrderController.updateOrder);
+router.patch("/:id", OrderController.patchOrder);
 router.get("/customer/:id", OrderController.getCustomerOrders);
 
 export default router;
