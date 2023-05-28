@@ -1,8 +1,59 @@
 import products from "@data/products.json";
 import { Product, ProductWithQuantity } from "@/types/product";
+import { ProductListParams } from "@/types/params";
 
-export const getAllProducts = async (): Promise<Product[]> => {
-  return getShuffledProducts();
+export const getProducts = async (params?: ProductListParams) => {
+  const shuffledProducts = getShuffledProducts();
+
+  if (!params) {
+    return shuffledProducts;
+  }
+
+  const byCategories = (product: Product) => {
+    const { categories } = params;
+
+    if (!categories || categories.length === 0) {
+      return true;
+    }
+
+    return categories.includes(product.category);
+  };
+
+  const byMinPrice = (product: Product) => {
+    const { minPrice } = params;
+
+    if (!minPrice) {
+      return true;
+    }
+
+    return product.price >= minPrice;
+  };
+
+  const byMaxPrice = (product: Product) => {
+    const { maxPrice } = params;
+
+    if (!maxPrice) {
+      return true;
+    }
+
+    return product.price <= maxPrice;
+  };
+
+  const bySearch = (product: Product) => {
+    const { q } = params;
+
+    if (!q) {
+      return true;
+    }
+
+    return new RegExp(q, "i").test(product.name);
+  };
+
+  return shuffledProducts
+    .filter(byCategories)
+    .filter(byMinPrice)
+    .filter(byMaxPrice)
+    .filter(bySearch);
 };
 
 export const getProduct = async (id: number): Promise<Product> => {

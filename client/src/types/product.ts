@@ -4,6 +4,7 @@ export interface Product {
   description: string;
   price: number;
   image: string;
+  category: number;
 }
 
 export interface ProductWithQuantity extends Product {

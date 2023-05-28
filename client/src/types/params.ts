@@ -1,10 +1,10 @@
 import { Category } from "@/types/category";
 
-export interface ProductListFilters {
-  q?: string;
+export interface ProductListParams {
   categories?: Category["id"][];
-  minPrice?: number;
   maxPrice?: number;
+  minPrice?: number;
+  q?: string;
   sortBy?: string;
 }
 
