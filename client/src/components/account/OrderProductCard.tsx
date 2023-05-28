@@ -13,12 +13,14 @@ const OrderProductCard = ({ product, orderId }: OrderProductCardProps) => {
     navigate("/cart");
   };
 
+  const to = `/products/${product.id}`;
+
   return (
     <div className="py-4 px-6 grid grid-cols-12 text-sm">
       <div className="col-span-9 flex gap-4 items-start">
-        <div className="basis-16 w-16 h-16">
+        <Link to={to} className="basis-16 w-16 h-16">
           <img src={product.image} alt={product.name} />
-        </div>
+        </Link>
         <div className="flex flex-col flex-1 gap-1">
           <Link
             className="font-medium text-gray-800 w-fit"
