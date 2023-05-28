@@ -10,13 +10,15 @@ const CartProductCard = ({
   updateQuantity,
   deleteProduct,
 }: CartProductCardProps) => {
+  const to = `/products/${product.id}`;
+
   return (
     <div className="flex items-center justify-between border gap-6 p-4 border-gray-200 rounded">
-      <div className="w-28">
+      <Link to={to} className="w-28">
         <img src={product.image} alt={product.name} className="w-full" />
-      </div>
+      </Link>
       <div className="w-1/3 flex flex-col gap-4">
-        <Link to={`/products/${product.id}`}>
+        <Link to={to}>
           <span className="font-roboto text-gray-800 font-medium">
             {product.name}
           </span>

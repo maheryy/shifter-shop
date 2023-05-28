@@ -7,16 +7,15 @@ import { useCartContext } from "@/hooks/context";
 const ProductCard = ({ product }: ProductCardProps) => {
   const { addToCart } = useCartContext();
 
+  const to = `/products/${product.id}`;
+
   return (
     <div className="bg-white shadow rounded overflow-hidden group flex flex-col">
-      <div>
+      <Link to={to}>
         <img src={product.image} alt={product.name} className="w-full h-64" />
-      </div>
+      </Link>
       <div className="pt-4 pb-3 px-4 flex-1 flex flex-col justify-between">
-        <Link
-          to={`/products/${product.id}`}
-          className="max-h-14 overflow-y-hidden"
-        >
+        <Link to={to} className="max-h-14 overflow-y-hidden">
           <span className="font-medium text-lg mb-2 text-gray-800 hover:text-primary transition">
             {product.name}
           </span>
