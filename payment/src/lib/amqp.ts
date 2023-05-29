@@ -43,7 +43,8 @@ export class AMQP {
     console.log(`[rabbitmq] queue ${queue} is ready to receive messages`);
   }
 
-  publish<T>(queue: string, data: T) {
+  async publish<T>(queue: string, data: T) {
+    await this.channel.assertQueue(queue);
     return this.channel.sendToQueue(queue, Buffer.from(JSON.stringify(data)));
   }
 
