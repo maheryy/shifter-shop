@@ -13,3 +13,13 @@ export const getAuthToken = async (
   const token = "token";
   return token;
 };
+
+type UserUpdate = Pick<User, "firstname" | "lastname" | "phone">;
+
+export function updateUser(user: UserUpdate) {
+  return Promise.reject(new Error("Not implemented"));
+}
+
+export function updatePassword(password: string) {
+  return Promise.reject(new Error("Not implemented"));
+}

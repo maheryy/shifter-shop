@@ -15,6 +15,7 @@ import Account from "@/pages/customer/Account";
 import Orders from "@/pages/customer/Orders";
 import Profile from "@/pages/customer/Profile";
 import Reviews from "@/pages/customer/Reviews";
+import ChangePassword from "@/pages/customer/ChangePassword";
 import { getOrderAndProduct } from "@/api/order.api";
 import ReviewForm from "@/pages/customer/ReviewForm";
 import PostCheckout from "@/pages/PostCheckout";
@@ -100,7 +101,7 @@ const routes: RouteObject[] = [
           },
           {
             path: "change-password",
-            element: <div>Change Password</div>,
+            element: <ChangePassword />,
           },
           {
             path: "orders",
