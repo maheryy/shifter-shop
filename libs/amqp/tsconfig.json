@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ES2016",
+    "module": "CommonJS",
+    "lib": ["ESNext"],
+    "moduleResolution": "node",
+    "baseUrl": "./src",
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strictPropertyInitialization": false,
+    "strict": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true
+  },
+  "exclude": ["node_modules"],
+  "include": ["src"]
+}

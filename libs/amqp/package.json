@@ -1,0 +1,15 @@
+{
+  "name": "@shifter-shop/amqp",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "amqplib": "^0.10.3",
+    "dotenv": "^16.0.3"
+  },
+  "devDependencies": {
+    "@types/amqplib": "^0.10.1",
+    "typescript": "^5.0.4"
+  }
+}
