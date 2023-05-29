@@ -1,25 +1,35 @@
 import { FieldValues, Path, UseFormRegister } from "react-hook-form";
+import classNames from "classnames";
 
-interface InputProps<T extends FieldValues> {
+interface InputProps<T extends FieldValues>
+  extends React.HTMLProps<HTMLInputElement> {
   errorMessage?: string;
   id: Path<T>;
   label: string;
   register: UseFormRegister<T>;
-  type: string;
 }
 
 function Input<T extends FieldValues>({
+  disabled,
   errorMessage,
   id,
   label,
   register,
-  type,
+  type = "text",
 }: InputProps<T>) {
+  const inputClass = classNames(
+    "block border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400",
+    {
+      "bg-gray-200 cursor-not-allowed": disabled,
+    }
+  );
+
   return (
-    <div className="grid gap-2">
+    <div className="grid gap-2 w-full md:max-w-md">
       <label htmlFor={id}>{label}</label>
       <input
-        className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
+        className={inputClass}
+        disabled={disabled}
         id={id}
         type={type}
         {...register(id)}

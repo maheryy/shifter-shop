@@ -2,9 +2,11 @@ import { useCallback } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { updatePassword } from "@/api/user.api";
 import Input from "@/components/Input";
+import Button from "@/components/Button";
+import Form from "@/components/Form";
 
 const schema = z
   .object({
@@ -52,32 +54,33 @@ function ChangePassword() {
 
   return (
     <section className="shadow rounded px-6 pt-5 pb-7">
-      <ToastContainer />
       <h1 className="text-xl capitalize font-medium mb-6">Change password</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4">
-        <Input
-          errorMessage={errors.currentPassword?.message}
-          id="currentPassword"
-          label="Current Password"
-          register={register}
-          type="password"
-        />
-        <Input
-          errorMessage={errors.newPassword?.message}
-          id="newPassword"
-          label="New Password"
-          register={register}
-          type="password"
-        />
-        <Input
-          errorMessage={errors.confirmPassword?.message}
-          id="confirmPassword"
-          label="Confirm Password"
-          register={register}
-          type="password"
-        />
-        <button type="submit">Update</button>
-      </form>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <div className="grid gap-4 w-full justify-items-center">
+          <Input
+            errorMessage={errors.currentPassword?.message}
+            id="currentPassword"
+            label="Current Password"
+            register={register}
+            type="password"
+          />
+          <Input
+            errorMessage={errors.newPassword?.message}
+            id="newPassword"
+            label="New Password"
+            register={register}
+            type="password"
+          />
+          <Input
+            errorMessage={errors.confirmPassword?.message}
+            id="confirmPassword"
+            label="Confirm Password"
+            register={register}
+            type="password"
+          />
+        </div>
+        <Button>Update</Button>
+      </Form>
     </section>
   );
 }
