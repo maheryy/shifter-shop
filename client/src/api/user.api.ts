@@ -13,3 +13,7 @@ export const getAuthToken = async (
   const token = "token";
   return token;
 };
+
+export function updatePassword(password: string) {
+  return Promise.reject(new Error("Not implemented"));
+}
