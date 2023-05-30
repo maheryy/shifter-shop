@@ -27,16 +27,6 @@ spec:
                 name: client
                 port:
                   number: 80
-    - host: business.shiftershop.pro
-      http:
-        paths:
-          - pathType: Prefix
-            path: /
-            backend:
-              service:
-                name: business
-                port:
-                  number: 3000
 
 ---
 apiVersion: networking.gke.io/v1
@@ -47,4 +37,3 @@ spec:
   domains:
     - shiftershop.pro
     - api.shiftershop.pro
-    - business.shiftershop.pro

@@ -126,14 +126,6 @@ module "dns" {
         google_compute_global_address.shiftershop.address
       ]
     },
-    {
-      name = "business"
-      type = "A"
-      ttl = 300
-      records = [
-        google_compute_global_address.shiftershop.address
-      ]
-    }
   ]
 }
 
