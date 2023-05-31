@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "ES2016",
+    "module": "CommonJS",
+    "lib": ["ESNext", "dom"],
+    "moduleResolution": "node",
+    "rootDir": ".",
+    "baseUrl": ".",
+    "skipLibCheck": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "skipDefaultLibCheck": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strictPropertyInitialization": false,
+    "typeRoots": ["node_modules/@types"],
+    "paths": {
+      "@shifter-shop/amqp": ["libs/amqp"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}
