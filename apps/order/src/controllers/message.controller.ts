@@ -1,7 +1,8 @@
-import { PaymentSuccessData, Queue } from "types/message";
+import { Queue } from "@shifter-shop/amqp";
+import { PaymentSuccessData } from "types/message";
 import { OrderStatus } from "types/order";
 import { createOrder } from "./order.controller";
-import amqp from "@shifter-shop/amqp";
+import amqp from "lib/amqp";
 
 export const onPaymentSucceeded = async (data: PaymentSuccessData) => {
   const order = await createOrder({

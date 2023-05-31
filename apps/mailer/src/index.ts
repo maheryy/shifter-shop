@@ -2,9 +2,9 @@ import "config";
 import express from "express";
 import cors from "cors";
 import mailer from "routes/mailer";
-import { Queue } from "types/message";
 import { onOrderCreated } from "controllers/message.controller";
-import amqp from "@shifter-shop/amqp";
+import amqp from "lib/amqp";
+import { Queue } from "@shifter-shop/amqp";
 
 const app = express();
 const PORT = process.env.PORT || 3000;

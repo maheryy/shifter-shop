@@ -2,7 +2,7 @@ import "config";
 import express from "express";
 import cors from "cors";
 import payment from "routes/payment";
-import amqp from "@shifter-shop/amqp";
+import amqp from "lib/amqp";
 
 const app = express();
 const PORT = process.env.PORT || 3000;

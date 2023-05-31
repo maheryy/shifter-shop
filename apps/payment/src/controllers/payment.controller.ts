@@ -5,8 +5,8 @@ import {
   getWebhookEvent,
   parseMetadata,
 } from "services/payment.service";
-import { Queue } from "types/message";
-import amqp from "@shifter-shop/amqp";
+import amqp from "lib/amqp";
+import { Queue } from "@shifter-shop/amqp";
 
 export const checkoutSession = async (req: Request, res: Response) => {
   const session = await createCheckoutSession("");
