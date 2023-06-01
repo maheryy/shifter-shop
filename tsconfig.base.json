@@ -15,7 +15,7 @@
     "strictPropertyInitialization": false,
     "typeRoots": ["node_modules/@types"],
     "paths": {
-      "@shifter-shop/amqp": ["libs/amqp/src/index.ts"]
+      "@shifter-shop/*": ["./libs/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]

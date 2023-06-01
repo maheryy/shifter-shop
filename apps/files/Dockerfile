@@ -4,11 +4,17 @@ WORKDIR /app
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 
+# Copy node packages and build config
 COPY package*.json .
-RUN npm install
-COPY . .
-RUN npm run build
+COPY tsconfig.base.json .
+COPY nx.json .
 
+# Copy target app and its libs dependencies
+COPY apps/files ./apps/files
+
+# Install packages and build the app
+RUN npm install
+RUN npx nx build files-svc
 
 FROM node:19-bullseye-slim as runner
 
@@ -25,10 +31,9 @@ RUN apt-get update && apt-get install gnupg wget -y && \
     apt-get install google-chrome-stable -y --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=build /app/dist .
-COPY --from=build /app/src/assets ./assets
+COPY --from=build /app/apps/files/dist .
 COPY --from=build /app/node_modules ./node_modules
 
 EXPOSE 3000
 
-CMD ["node", "index.js" ]
+CMD ["node", "index.js"]

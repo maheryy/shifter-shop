@@ -1,29 +1,36 @@
 version: "3.8"
 services:
-  files:
-    container_name: files
+  files-svc:
+    container_name: files-svc
     build:
-      context: ./files
+      context: .
+      dockerfile: ./apps/files/Dockerfile
     ports:
       - 3001:3000
     networks:
       - ss_microservices
 
-  mailer:
-    container_name: mailer
+  mailer-svc:
+    container_name: mailer-svc
     build:
-      context: ./mailer
+      context: .
+      dockerfile: ./apps/mailer/Dockerfile
     ports:
       - 3002:3000
     environment:
       - MAILER_DSN=${MAILER_DSN}
+      - AMQP_URL=amqp://rabbitmq:5672
     networks:
       - ss_microservices
+    depends_on:
+      - rabbitmq
+      - mailhog
 
-  payment:
-    container_name: payment
+  payment-svc:
+    container_name: payment-svc
     build:
-      context: ./payment
+      context: .
+      dockerfile: ./apps/payment/Dockerfile
     ports:
       - 3003:3000
     environment:
@@ -31,33 +38,39 @@ services:
       - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
       - STRIPE_PUBLIC_KEY=${STRIPE_PUBLIC_KEY}
       - STRIPE_WEBHOOK_SIGNING_SECRET=${STRIPE_WEBHOOK_SIGNING_SECRET}
+      - AMQP_URL=amqp://rabbitmq:5672
     networks:
       - ss_microservices
     depends_on:
       - stripe
+      - rabbitmq
 
-  invoice:
-    container_name: invoice
+  invoice-svc:
+    container_name: invoice-svc
     build:
-      context: ./invoice
+      context: .
+      dockerfile: ./apps/invoice/Dockerfile
     ports:
       - 3004:3000
     networks:
       - ss_microservices
 
-  order:
-    container_name: order
+  order-svc:
+    container_name: order-svc
     build:
-      context: ./order
+      context: .
+      dockerfile: ./apps/order/Dockerfile
     ports:
       - 3005:3000
     environment:
       - DATABASE_URL=postgres://postgres:password@postgres:5432/orders
+      - AMQP_URL=amqp://rabbitmq:5672
     networks:
       - ss_microservices
       - ss_database
     depends_on:
       - postgres
+      - rabbitmq
 
   client:
     container_name: client
@@ -105,7 +118,7 @@ services:
   stripe:
     container_name: stripe
     image: stripe/stripe-cli:v1.14.6
-    command: listen --forward-to http://payment:3000/payment/webhook
+    command: listen --forward-to http://payment-svc:3000/payment/webhook
     environment:
       - STRIPE_DEVICE_NAME=shifter_shop_docker
       - STRIPE_API_KEY=${STRIPE_SECRET_KEY}
