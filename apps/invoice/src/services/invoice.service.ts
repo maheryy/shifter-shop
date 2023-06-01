@@ -1,6 +1,12 @@
 import { Order } from "types/order";
 import fetch from "node-fetch";
 import { arraytoBuffer } from "utils/converter";
+import { Service, ServiceType } from "@shifter-shop/svc-map";
+
+const services = {
+  files: Service.get(ServiceType.Files),
+  order: Service.get(ServiceType.Order),
+};
 
 export const getOrder = async (reference: string): Promise<Order> => {
   // TODO: fetch order from database
@@ -43,8 +49,7 @@ export const getOrder = async (reference: string): Promise<Order> => {
 };
 
 export const getInvoiceContent = async (order: Order): Promise<Buffer> => {
-  // TODO: handle dynamic api url for any environment
-  const response = await fetch("http://localhost:3001/pdf/invoice", {
+  const response = await fetch(`${services.files.url}/pdf/invoice`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
