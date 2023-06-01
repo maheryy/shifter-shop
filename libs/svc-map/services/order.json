@@ -1,0 +1,9 @@
+{
+  "name": "order",
+  "production": {
+    "url": "http://order-svc:3000"
+  },
+  "development": {
+    "url": "http://localhost:3005"
+  }
+}

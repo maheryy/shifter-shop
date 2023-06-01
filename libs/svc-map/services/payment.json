@@ -1,0 +1,9 @@
+{
+  "name": "payment",
+  "production": {
+    "url": "http://payment-svc:3000"
+  },
+  "development": {
+    "url": "http://localhost:3003"
+  }
+}

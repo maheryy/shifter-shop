@@ -1,0 +1,9 @@
+{
+  "name": "mailer",
+  "production": {
+    "url": "http://mailer-svc:3000"
+  },
+  "development": {
+    "url": "http://localhost:3002"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "files",
+  "production": {
+    "url": "http://files-svc:3000"
+  },
+  "development": {
+    "url": "http://localhost:3001"
+  }
+}
