@@ -1,8 +1,9 @@
 import { User } from "@/types/user";
-import user from "@data/user.json";
+import users from "@data/users.json";
 
 export const getUser = async (token: string): Promise<User> => {
-  const res = user;
+  const res = users.at(0)!;
+
   return res;
 };
 
@@ -22,4 +23,12 @@ export function updateUser(user: UserUpdate) {
 
 export function updatePassword(password: string) {
   return Promise.reject(new Error("Not implemented"));
+}
+
+export function hasAccount(email: string): Promise<boolean> {
+  return new Promise((resolve, reject) => {
+    const user = users.find((user) => user.email === email);
+
+    return resolve(!!user);
+  });
 }

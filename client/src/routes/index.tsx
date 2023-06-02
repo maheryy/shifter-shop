@@ -20,6 +20,7 @@ import { getOrderAndProduct } from "@/api/order.api";
 import ReviewForm from "@/pages/customer/ReviewForm";
 import PostCheckout from "@/pages/PostCheckout";
 import { getCategories } from "@/api/category.api";
+import businessRoutes from "./business";
 
 const routes: RouteObject[] = [
   {
@@ -133,6 +134,7 @@ const routes: RouteObject[] = [
       },
     ],
   },
+  ...businessRoutes,
 ];
 
 const router = createBrowserRouter(routes);

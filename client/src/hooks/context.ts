@@ -3,6 +3,7 @@ import { AuthContext } from "@/providers/AuthProvider";
 import { CustomerContext } from "@/providers/CustomerProvider";
 import { CartContext } from "@/providers/CartProvider";
 import { DownloadContext } from "@/providers/DownloadProvider";
+import { RegisterContext } from "@/providers/business/RegisterContext";
 
 export const useAuthContext = () => {
   const context = useContext(AuthContext);
@@ -39,3 +40,13 @@ export const useDownloadContext = () => {
   }
   return context;
 };
+
+export function useRegisterContext() {
+  const context = useContext(RegisterContext);
+
+  if (!context) {
+    throw new Error("useRegisterContext must be in <RegisterProvider>");
+  }
+
+  return context;
+}

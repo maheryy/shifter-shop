@@ -14,7 +14,10 @@ module.exports = {
         roboto: ["Roboto", "sans-serif"],
       },
       colors: {
-        primary: "#2C666E",
+        primary: {
+          DEFAULT: "#2C666E",
+          light: "#D5E0E2",
+        },
       },
       keyframes: {
         fadeIn: {
