@@ -28,32 +28,30 @@ const Home = () => {
         subtitle="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aperiam
         accusantium perspiciatis, sapiente magni eos dolorum ex quos dolores
         odio"
-        title="Best collection for this summer !"
+        title="Summer Must-Haves!"
       />
-      <section className="container py-16">
-        <div className="mx-auto grid w-10/12 grid-cols-3 justify-center gap-6">
-          <Feature
-            icon={<VanIcon />}
-            subtitle="Order over 200€"
-            title="Free Shipping"
-          />
-          <Feature
-            icon={<RefundIcon />}
-            subtitle="30-days money back"
-            title="Money back"
-          />
-          <Feature
-            icon={<SupportIcon />}
-            subtitle="Customer support"
-            title="24/7 Support"
-          />
-        </div>
+      <section className="container grid gap-4 py-16 md:grid-flow-col">
+        <Feature
+          icon={<VanIcon />}
+          subtitle="Order over 200€"
+          title="Free Shipping"
+        />
+        <Feature
+          icon={<RefundIcon />}
+          subtitle="30-days money back"
+          title="Money back"
+        />
+        <Feature
+          icon={<SupportIcon />}
+          subtitle="Customer support"
+          title="24/7 Support"
+        />
       </section>
       <section className="container py-8">
         <h2 className="mb-6 text-2xl font-medium uppercase text-gray-800">
           Categories
         </h2>
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
           {categories.map((category) => (
             <CategoryCard category={category} key={`c-${category.id}`} />
           ))}
@@ -63,7 +61,7 @@ const Home = () => {
         <h2 className="mb-6 text-2xl font-medium uppercase text-gray-800">
           Top new arrivals
         </h2>
-        <div className="grid grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           {products.slice(0, 4).map((product) => (
             <ProductCard key={`tna-${product.id}`} product={product} />
           ))}
@@ -80,7 +78,7 @@ const Home = () => {
         <h2 className="mb-6 text-2xl font-medium uppercase text-gray-800">
           Recommended for you
         </h2>
-        <div className="grid grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
           {products.slice(4, 12).map((product) => (
             <ProductCard key={`rfy-${product.id}`} product={product} />
           ))}

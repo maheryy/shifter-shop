@@ -6,13 +6,12 @@ import { formatPrice } from "@/utils/format";
 
 const ProductCard = ({ product }: ProductCardProps) => {
   const { addToCart } = useCartContext();
-
   const to = `/products/${product.id}`;
 
   return (
-    <div className="group flex flex-col overflow-hidden rounded bg-white shadow">
+    <div className="group flex flex-col rounded bg-white shadow">
       <Link to={to}>
-        <img alt={product.name} className="h-64 w-full" src={product.image} />
+        <img alt={product.name} src={product.image} />
       </Link>
       <div className="flex flex-1 flex-col justify-between px-4 pb-3 pt-4">
         <Link className="max-h-14 overflow-y-hidden" to={to}>
