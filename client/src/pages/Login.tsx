@@ -24,7 +24,7 @@ const Login = () => {
   };
 
   return (
-    <div className="contain py-16">
+    <div className="container py-16">
       <div className="mx-auto max-w-lg overflow-hidden rounded px-6 py-7 shadow">
         <h1 className="mb-8 text-2xl font-medium uppercase">Login</h1>
         <form autoComplete="off" onSubmit={onSubmit}>
