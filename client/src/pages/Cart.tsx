@@ -46,8 +46,8 @@ const Cart = () => {
   };
 
   return (
-    <div className="container grid grid-cols-12 items-start gap-6 py-8">
-      <div className="col-span-8 flex flex-col gap-2">
+    <section className="container grid items-start gap-4 py-8 lg:grid-cols-12">
+      <div className="grid gap-2 lg:col-span-8">
         {products.map((product) => (
           <CartProductCard
             deleteProduct={deleteProduct}
@@ -57,35 +57,35 @@ const Cart = () => {
           />
         ))}
       </div>
-      <div className="col-span-4 rounded border border-gray-200 p-4">
-        <h4 className="mb-4 text-lg font-medium uppercase text-gray-800">
+      <div className="grid gap-4 rounded border border-gray-200 p-4 lg:col-span-4">
+        <h4 className="text-lg font-medium uppercase text-gray-800">
           Order summary
         </h4>
-        <div className="space-y-3">
+        <div className="">
           {products.map((product) => (
             <CartSummaryItem key={product.id} product={product} />
           ))}
         </div>
-        <div className="uppercas mt-3 flex justify-between border-b border-gray-200 py-2 text-sm font-medium text-gray-800">
+        <div className="flex justify-between border-b border-gray-200 py-2 text-sm font-medium uppercase text-gray-800">
           <span>Subtotal</span>
           <span>{formatPrice(totalPrice)}</span>
         </div>
-        <div className="uppercas mt-1 flex justify-between border-b border-gray-200 py-2 text-sm font-medium text-gray-800">
+        <div className="flex justify-between border-b border-gray-200 py-2 text-sm font-medium uppercase text-gray-800">
           <span>Shipping</span>
           <span>Free</span>
         </div>
-        <div className="uppercas flex justify-between py-3 font-medium text-gray-800">
+        <div className="flex justify-between py-4 font-medium uppercase text-gray-800">
           <span className="font-semibold">Total</span>
           <span>{formatPrice(totalPrice)}</span>
         </div>
         <button
-          className="mt-2 block w-full rounded-md border border-primary bg-primary px-4 py-3 text-center font-medium text-white transition hover:bg-transparent hover:text-primary"
+          className="block w-full rounded-md border border-primary bg-primary px-4 py-2 text-center font-medium text-white transition hover:bg-transparent hover:text-primary"
           onClick={order}
         >
           Order
         </button>
       </div>
-    </div>
+    </section>
   );
 };
 

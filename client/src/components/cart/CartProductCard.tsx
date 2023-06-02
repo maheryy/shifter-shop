@@ -13,34 +13,40 @@ const CartProductCard = ({
   const to = `/products/${product.id}`;
 
   return (
-    <div className="flex items-center justify-between gap-6 rounded border border-gray-200 p-4">
-      <Link className="w-28" to={to}>
-        <img alt={product.name} className="w-full" src={product.image} />
+    <article className="grid grid-cols-2 items-center justify-items-center gap-4 rounded border border-gray-200 p-4 md:flex md:justify-between">
+      <Link className="md:w-28" to={to}>
+        <img alt={product.name} src={product.image} />
       </Link>
-      <div className="flex w-1/3 flex-col gap-4">
-        <Link to={to}>
-          <span className="font-roboto font-medium text-gray-800">
-            {product.name}
-          </span>
+      <div className="grid gap-4">
+        <Link
+          className="text-center font-roboto font-medium text-gray-800"
+          to={to}
+        >
+          {product.name}
         </Link>
-        <div className="flex items-center gap-2">
+        <div className="grid justify-center gap-2 md:flex">
           <Rating size="sm" value={4.5} />
-          <span className="text-xs text-gray-500">(150 reviews)</span>
+          <span className="text-center text-xs text-gray-500">
+            (150 reviews)
+          </span>
         </div>
       </div>
-      <QuantityPicker
-        onChange={(value) => updateQuantity(product.id, value)}
-        value={product.quantity}
-      />
+      <div className="flex justify-center">
+        <QuantityPicker
+          onChange={(value) => updateQuantity(product.id, value)}
+          value={product.quantity}
+        />
+      </div>
       <div className="text-lg font-semibold text-primary">
         {formatPrice(product.price)}
       </div>
-      <button onClick={() => deleteProduct(product.id)}>
-        <span className="block w-6 cursor-pointer text-gray-600 hover:text-red-500">
-          <TrashIcon />
-        </span>
+      <button
+        className="col-start-2 block w-6 cursor-pointer text-gray-600 hover:text-red-500"
+        onClick={() => deleteProduct(product.id)}
+      >
+        <TrashIcon />
       </button>
-    </div>
+    </article>
   );
 };
 
