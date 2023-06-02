@@ -72,6 +72,23 @@ services:
       - postgres
       - rabbitmq
 
+  cart-svc:
+    container_name: cart-svc
+    build:
+      context: .
+      dockerfile: ./apps/cart/Dockerfile
+    ports:
+      - 3006:3000
+    environment:
+      - DATABASE_URL=postgres://postgres:password@postgres:5432/cart
+      - AMQP_URL=amqp://rabbitmq:5672
+    networks:
+      - ss_microservices
+      - ss_database
+    depends_on:
+      - postgres
+      - rabbitmq
+
   client:
     container_name: client
     build:
