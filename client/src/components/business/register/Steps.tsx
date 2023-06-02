@@ -17,7 +17,7 @@ function Steps() {
   const steps = [...new Set(Object.values(record))];
 
   return (
-    <ul className="grid grid-flow-col p-4">
+    <ul className="flex p-4">
       {steps.map((step) => {
         const currentStep = record[pathname];
         const currentStepIndex = steps.indexOf(currentStep);

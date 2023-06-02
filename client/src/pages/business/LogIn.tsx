@@ -72,8 +72,8 @@ const LogIn = () => {
           register={register}
           type="password"
         />
-        <div className="grid grid-flow-col gap-4">
-          <div className="grid grid-flow-col gap-2">
+        <div className="flex gap-4">
+          <div className="flex gap-2">
             <input
               className="cursor-pointer rounded-sm text-primary focus:ring-0"
               id="remember"
