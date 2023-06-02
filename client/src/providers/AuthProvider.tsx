@@ -1,9 +1,9 @@
-import { useState, createContext, useEffect } from "react";
-import { User } from "@/types/user";
-import { remove, retrieve, store } from "@/utils/storage";
-import { StorageKey } from "@/types/storage";
+import { createContext, useEffect, useState } from "react";
 import { getUser } from "@/api/user.api";
 import useComponentUpdate from "@/hooks/componentUpdate";
+import { StorageKey } from "@/types/storage";
+import { User } from "@/types/user";
+import { remove, retrieve, store } from "@/utils/storage";
 
 export const AuthContext = createContext<AuthContextProps>(null!);
 

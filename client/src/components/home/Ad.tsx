@@ -3,20 +3,20 @@ import { Link } from "react-router-dom";
 const Ad = ({ title, subtitle, image }: AdProps) => {
   return (
     <div
-      className="border-gray-200 border-2 bg-cover bg-no-repeat bg-center"
+      className="border-2 border-gray-200 bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: `url("${image}")` }}
     >
-      <div className="w-full h-full bg-black bg-opacity-50 flex flex-col items-center justify-center gap-12 z-50 py-10">
+      <div className="z-50 flex h-full w-full flex-col items-center justify-center gap-12 bg-black bg-opacity-50 py-10">
         <div>
-          <h2 className="text-5xl text-white font-medium uppercase">{title}</h2>
-          <p className="font-roboto text-white text-2xl mt-4 font-thin text-center">
+          <h2 className="text-5xl font-medium uppercase text-white">{title}</h2>
+          <p className="mt-4 text-center font-roboto text-2xl font-thin text-white">
             {subtitle}
           </p>
         </div>
         <Link
+          className="rounded-md border border-primary bg-primary px-8 py-3 font-medium 
+                    text-white"
           to="/products"
-          className="bg-primary border border-primary text-white px-8 py-3 font-medium 
-                    rounded-md"
         >
           Shop Now
         </Link>

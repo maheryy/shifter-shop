@@ -10,6 +10,7 @@ const Register = () => {
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
+
     if (password !== passwordConfirm) {
       return alert("Passwords do not match");
     }
@@ -17,89 +18,89 @@ const Register = () => {
 
   return (
     <div className="contain py-16">
-      <div className="max-w-lg mx-auto shadow px-6 py-7 rounded overflow-hidden">
-        <h1 className="text-2xl uppercase font-medium mb-8">
+      <div className="mx-auto max-w-lg overflow-hidden rounded px-6 py-7 shadow">
+        <h1 className="mb-8 text-2xl font-medium uppercase">
           Create an account
         </h1>
-        <form onSubmit={onSubmit} autoComplete="off">
+        <form autoComplete="off" onSubmit={onSubmit}>
           <div className="space-y-2">
             <div className="flex gap-5">
               <div className="flex-1">
-                <label htmlFor="firstname" className="text-gray-600 mb-2 block">
+                <label className="mb-2 block text-gray-600" htmlFor="firstname">
                   First name
                 </label>
                 <input
-                  type="text"
-                  name="firstname"
+                  className="block w-full rounded border border-gray-300 px-4 py-3 text-sm text-gray-600 placeholder:text-gray-400 focus:border-primary focus:ring-0"
                   id="firstname"
-                  className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
-                  placeholder="Bobby"
-                  value={firstname}
+                  name="firstname"
                   onChange={(e) => setFirstname(e.target.value)}
+                  placeholder="Bobby"
+                  type="text"
+                  value={firstname}
                 />
               </div>
               <div className="flex-1">
-                <label htmlFor="lastname" className="text-gray-600 mb-2 block">
+                <label className="mb-2 block text-gray-600" htmlFor="lastname">
                   Last name
                 </label>
                 <input
-                  type="text"
-                  name="lastname"
+                  className="block w-full rounded border border-gray-300 px-4 py-3 text-sm text-gray-600 placeholder:text-gray-400 focus:border-primary focus:ring-0"
                   id="lastname"
-                  className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
-                  placeholder="Johnson"
-                  value={lastname}
+                  name="lastname"
                   onChange={(e) => setLastname(e.target.value)}
+                  placeholder="Johnson"
+                  type="text"
+                  value={lastname}
                 />
               </div>
             </div>
             <div>
-              <label htmlFor="email" className="text-gray-600 mb-2 block">
+              <label className="mb-2 block text-gray-600" htmlFor="email">
                 Email address
               </label>
               <input
-                type="email"
-                name="email"
+                className="block w-full rounded border border-gray-300 px-4 py-3 text-sm text-gray-600 placeholder:text-gray-400 focus:border-primary focus:ring-0"
                 id="email"
-                className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
-                placeholder="email@example.com"
-                value={email}
+                name="email"
                 onChange={(e) => setEmail(e.target.value)}
+                placeholder="email@example.com"
+                type="email"
+                value={email}
               />
             </div>
             <div>
-              <label htmlFor="password" className="text-gray-600 mb-2 block">
+              <label className="mb-2 block text-gray-600" htmlFor="password">
                 Password
               </label>
               <input
-                type="password"
-                name="password"
+                className="block w-full rounded border border-gray-300 px-4 py-3 text-sm text-gray-600 placeholder:text-gray-400 focus:border-primary focus:ring-0"
                 id="password"
-                className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
-                placeholder="*********"
-                value={password}
+                name="password"
                 onChange={(e) => setPassword(e.target.value)}
+                placeholder="*********"
+                type="password"
+                value={password}
               />
             </div>
             <div>
-              <label htmlFor="confirm" className="text-gray-600 mb-2 block">
+              <label className="mb-2 block text-gray-600" htmlFor="confirm">
                 Confirm password
               </label>
               <input
-                type="password"
-                name="confirm"
+                className="block w-full rounded border border-gray-300 px-4 py-3 text-sm text-gray-600 placeholder:text-gray-400 focus:border-primary focus:ring-0"
                 id="confirm"
-                className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
-                placeholder="*********"
-                value={passwordConfirm}
+                name="confirm"
                 onChange={(e) => setPasswordConfirm(e.target.value)}
+                placeholder="*********"
+                type="password"
+                value={passwordConfirm}
               />
             </div>
           </div>
           <div className="mt-8">
             <button
+              className="block w-full rounded border border-primary bg-primary py-2 text-center font-roboto font-medium uppercase text-white transition hover:bg-transparent hover:text-primary"
               type="submit"
-              className="block w-full py-2 text-center text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium"
             >
               create account
             </button>
@@ -107,7 +108,7 @@ const Register = () => {
         </form>
         <p className="mt-4 text-center text-gray-600">
           Already have account?&nbsp;
-          <Link to="/login" className="text-primary">
+          <Link className="text-primary" to="/login">
             Login now
           </Link>
         </p>

@@ -1,13 +1,13 @@
-import Form from "@/components/Form";
-import Input from "@/components/Input";
-import Button from "@/components/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { z } from "zod";
 import { Link, useNavigate } from "react-router-dom";
-import { useRegisterContext } from "@/hooks/context";
 import isMobilePhone from "validator/es/lib/isMobilePhone";
+import { z } from "zod";
+import Button from "@/components/Button";
+import Form from "@/components/Form";
+import Input from "@/components/Input";
+import { useRegisterContext } from "@/hooks/context";
 
 const schema = z.object({
   phoneNumber: z
@@ -52,7 +52,7 @@ function BusinessInfo() {
 
   return (
     <section className="p-4">
-      <div className="grid p-4 gap-4">
+      <div className="grid gap-4 p-4">
         <h1 className="text-xl font-bold">Enter your business details</h1>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid gap-4">
@@ -117,8 +117,8 @@ function BusinessInfo() {
         <small className="text-gray-600">
           By creating a business account, you agree to the{" "}
           <Link
+            className="text-primary underline-offset-4 hover:underline"
             to="#"
-            className="text-primary hover:underline underline-offset-4"
           >
             Shifter Shop Business Accounts Terms and Conditions
           </Link>

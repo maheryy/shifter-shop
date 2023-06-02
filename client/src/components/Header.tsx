@@ -1,58 +1,57 @@
-import { NavLink } from "react-router-dom";
-import { useAuthContext, useCartContext } from "@/hooks/context";
-import Logo from "@/components/Logo";
 import AccountIcon from "@icons/account.svg";
 import CartIcon from "@icons/cart.svg";
 import SearchIcon from "@icons/search.svg";
+import { NavLink } from "react-router-dom";
+import Logo from "@/components/Logo";
+import { useAuthContext, useCartContext } from "@/hooks/context";
 
 const Header = () => {
   const { isAuthenticated } = useAuthContext();
   const { cartItems } = useCartContext();
 
   return (
-    <header className="py-4 shadow-sm bg-white">
+    <header className="bg-white py-4 shadow-sm">
       <div className="container flex items-center justify-between">
         <Logo />
-        <div className="w-full max-w-xl relative flex h-10">
-          <span className="absolute text-gray-400 w-6 top-1/2 -translate-y-1/2 left-3">
+        <div className="relative flex h-10 w-full max-w-xl">
+          <span className="absolute left-3 top-1/2 w-6 -translate-y-1/2 text-gray-400">
             <SearchIcon />
           </span>
           <input
-            type="text"
-            name="search"
+            className="w-full rounded-l-md border border-r-0 border-primary py-2 pl-12 pr-3 focus:outline-none"
             id="search"
-            className="w-full border border-primary border-r-0 pl-12 py-2 pr-3 rounded-l-md focus:outline-none"
+            name="search"
             placeholder="Search here..."
+            type="text"
           />
-          <button className="bg-primary border border-primary text-white px-8 rounded-r-md hover:bg-transparent hover:text-primary transition">
+          <button className="rounded-r-md border border-primary bg-primary px-8 text-white transition hover:bg-transparent hover:text-primary">
             Search
           </button>
         </div>
-
         <div className="flex items-center space-x-5">
           <NavLink
-            to="/cart"
             className={({ isActive }) =>
-              "flex flex-col items-center text-gray-700 hover:text-primary transition relative" +
+              "relative flex flex-col items-center text-gray-700 transition hover:text-primary" +
               (isActive ? " text-primary" : "")
             }
+            to="/cart"
           >
             <span className="block w-6">
               <CartIcon />
             </span>
             <span className="text-xs">Cart</span>
             {!!cartItems.length && (
-              <div className="absolute -right-3 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs">
+              <div className="absolute -right-3 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-white">
                 {cartItems.length}
               </div>
             )}
           </NavLink>
           <NavLink
-            to={isAuthenticated ? "/account" : "/login"}
             className={({ isActive }) =>
-              "flex flex-col items-center text-gray-700 hover:text-primary transition relative" +
+              "relative flex flex-col items-center text-gray-700 transition hover:text-primary" +
               (isActive ? " text-primary" : "")
             }
+            to={isAuthenticated ? "/account" : "/login"}
           >
             <span className="block w-6">
               <AccountIcon />

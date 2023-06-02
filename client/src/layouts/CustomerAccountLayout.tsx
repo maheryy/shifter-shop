@@ -1,5 +1,5 @@
-import { Outlet } from "react-router-dom";
 import { ReactNode } from "react";
+import { Outlet } from "react-router-dom";
 import Sidebar from "@/components/account/Sidebar";
 
 const CustomerAccountLayout = ({ children }: CustomerAccountLayoutProps) => {

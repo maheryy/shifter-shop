@@ -1,25 +1,25 @@
 import { createBrowserRouter, RouteObject } from "react-router-dom";
-import Home from "@/pages/Home";
-import Product from "@/pages/Product";
-import ProductList, { ProductListData } from "@/pages/ProductList";
-import Cart from "@/pages/Cart";
-import { getProducts, getProduct } from "@/api/product.api";
-import CustomerLayout from "@/layouts/CustomerLayout";
-import NotFound from "@/pages/errors/NotFound";
-import PublicLayout from "@/layouts/PublicLayout";
-import FetchFailure from "@/pages/errors/FetchFailure";
-import Login from "@/pages/Login";
-import Register from "@/pages/Register";
+import { getCategories } from "@/api/category.api";
+import { getOrderAndProduct } from "@/api/order.api";
+import { getProduct, getProducts } from "@/api/product.api";
 import CustomerAccountLayout from "@/layouts/CustomerAccountLayout";
+import CustomerLayout from "@/layouts/CustomerLayout";
+import PublicLayout from "@/layouts/PublicLayout";
+import Cart from "@/pages/Cart";
 import Account from "@/pages/customer/Account";
+import ChangePassword from "@/pages/customer/ChangePassword";
 import Orders from "@/pages/customer/Orders";
 import Profile from "@/pages/customer/Profile";
-import Reviews from "@/pages/customer/Reviews";
-import ChangePassword from "@/pages/customer/ChangePassword";
-import { getOrderAndProduct } from "@/api/order.api";
 import ReviewForm from "@/pages/customer/ReviewForm";
+import Reviews from "@/pages/customer/Reviews";
+import FetchFailure from "@/pages/errors/FetchFailure";
+import NotFound from "@/pages/errors/NotFound";
+import Home from "@/pages/Home";
+import Login from "@/pages/Login";
 import PostCheckout from "@/pages/PostCheckout";
-import { getCategories } from "@/api/category.api";
+import Product from "@/pages/Product";
+import ProductList, { ProductListData } from "@/pages/ProductList";
+import Register from "@/pages/Register";
 import businessRoutes from "./business";
 
 const routes: RouteObject[] = [
@@ -114,7 +114,7 @@ const routes: RouteObject[] = [
             loader: ({ params }) =>
               getOrderAndProduct(
                 Number(params.orderId),
-                Number(params.productId)
+                Number(params.productId),
               ),
             errorElement: <NotFound />,
           },

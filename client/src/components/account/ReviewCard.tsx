@@ -1,22 +1,22 @@
 import { Link } from "react-router-dom";
-import { Review } from "@/types/review";
 import Rating from "@/components/Rating";
+import { Review } from "@/types/review";
 import { formatDisplayDate } from "@/utils/format";
 
 const ReviewCard = ({ review }: ReviewCardProps) => {
   return (
-    <div className="shadow rounded flex flex-col">
+    <div className="flex flex-col rounded shadow">
       <div className="flex rounded-t border-b border-gray-200 bg-gray-50">
-        <div className="basis-16 w-16 h-16 flex items-center rounded-tl">
+        <div className="flex h-16 w-16 basis-16 items-center rounded-tl">
           <img
+            alt={review.product.name}
             className="rounded-tl"
             src={review.product.image}
-            alt={review.product.name}
           />
         </div>
-        <div className="p-2 flex flex-col flex-1 leading-7 overflow-hidden">
+        <div className="flex flex-1 flex-col overflow-hidden p-2 leading-7">
           <Link
-            className="text-gray-600 font-roboto font-medium truncate ..."
+            className="... truncate font-roboto font-medium text-gray-600"
             to={`/products/${review.product.id}`}
           >
             {review.product.name}
@@ -26,13 +26,13 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
           </span>
         </div>
       </div>
-      <div className="flex-1 p-3 flex flex-col">
+      <div className="flex flex-1 flex-col p-3">
         {review.details ? (
-          <div className="text-sm leading-7 pb-2">{review.details}</div>
+          <div className="pb-2 text-sm leading-7">{review.details}</div>
         ) : (
-          <div className="text-xs italic py-2">Aucun commentaire.</div>
+          <div className="py-2 text-xs italic">Aucun commentaire.</div>
         )}
-        <div className="flex justify-end items-end flex-1 py-2">
+        <div className="flex flex-1 items-end justify-end py-2">
           <Rating value={review.rating} />
         </div>
       </div>

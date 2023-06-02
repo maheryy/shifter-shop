@@ -1,12 +1,12 @@
-import Form from "@/components/Form";
-import Input from "@/components/Input";
-import Button from "@/components/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { hasAccount } from "@/api/user.api";
-import { useNavigate } from "react-router-dom";
+import Button from "@/components/Button";
+import Form from "@/components/Form";
+import Input from "@/components/Input";
 import { useRegisterContext } from "@/hooks/context";
 
 export interface ToLogInNavigationState {
@@ -73,7 +73,7 @@ function Landing() {
 
   return (
     <section className="p-4">
-      <div className="grid p-4 gap-4">
+      <div className="grid gap-4 p-4">
         <h1 className="text-xl font-bold">
           Let's create your free Shifter Shop Business account
         </h1>
@@ -82,12 +82,12 @@ function Landing() {
             errorMessage={errors.email?.message}
             id="email"
             label="Enter the email you'd like to use for your business account"
-            type="email"
-            register={register}
             placeholder="Enter email"
+            register={register}
+            type="email"
           />
           {mustConvert ? (
-            <div className="bg-primary-light p-4 grid gap-4 justify-items-center">
+            <div className="grid justify-items-center gap-4 bg-primary-light p-4">
               <h2 className="text-lg font-medium">
                 This email is already in use for a Shifter Shop account
               </h2>
@@ -99,7 +99,7 @@ function Landing() {
                 Continue with this email
               </Button>
               <div
-                className="underline underline-offset-4 cursor-pointer"
+                className="cursor-pointer underline underline-offset-4"
                 onClick={onUseDifferentEmailClick}
               >
                 Use a different email

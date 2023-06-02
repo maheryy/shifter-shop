@@ -1,5 +1,5 @@
-import StarFull from "@icons/star-full.svg";
 import StarEmpty from "@icons/star-empty.svg";
+import StarFull from "@icons/star-full.svg";
 import StarHalf from "@icons/star-half.svg";
 import { useMemo } from "react";
 
@@ -8,7 +8,7 @@ const Rating = ({ value, size = "md" }: RatingProps) => {
   const sizeClass = size === "md" ? "w-6 h-6" : "w-4 h-4";
 
   return (
-    <div className="flex items-center gap-1 text-yellow-400 relative">
+    <div className="relative flex items-center gap-1 text-yellow-400">
       {[...Array(5)].map((_, index) => {
         const rating = index + 1;
         const Star =
@@ -17,6 +17,7 @@ const Rating = ({ value, size = "md" }: RatingProps) => {
             : value < rating && value >= rating - 0.5
             ? StarHalf
             : StarEmpty;
+
         return (
           <span
             className={`${sizeClass} relative bottom-[1px]`}

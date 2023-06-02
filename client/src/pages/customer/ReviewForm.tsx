@@ -1,6 +1,6 @@
 import { FormEvent, useState } from "react";
-import RatingPicker from "@/components/RatingPicker";
 import { Link, useLoaderData } from "react-router-dom";
+import RatingPicker from "@/components/RatingPicker";
 import { OrderAndProduct } from "@/types/order";
 
 const ReviewForm = () => {
@@ -14,53 +14,53 @@ const ReviewForm = () => {
   };
 
   return (
-    <div className="shadow py-6 px-12">
-      <h1 className="font-medium text-xl mb-6 capitalize">
+    <div className="px-12 py-6 shadow">
+      <h1 className="mb-6 text-xl font-medium capitalize">
         Share your feedback
       </h1>
-      <div className="flex gap-2 py-4 mb-6 border-b border-gray-200">
-        <div className="w-12 h-12">
+      <div className="mb-6 flex gap-2 border-b border-gray-200 py-4">
+        <div className="h-12 w-12">
           <img src={product.image} />
         </div>
         <div className="flex flex-col">
           <Link
+            className="text-md font-medium text-gray-800"
             to={`/products/${product.id}`}
-            className="text-gray-800 font-medium text-md"
           >
             {product.name}
           </Link>
-          <span className="text-gray-500 text-xs">
+          <span className="text-xs text-gray-500">
             Order #{order.reference}
           </span>
         </div>
       </div>
-      <form onSubmit={onSubmit} className="flex flex-col gap-6">
+      <form className="flex flex-col gap-6" onSubmit={onSubmit}>
         <div className="flex flex-col gap-1">
-          <RatingPicker rating={rating} onChange={setRating} />
+          <RatingPicker onChange={setRating} rating={rating} />
         </div>
         <div>
           <input
+            className="block w-full rounded border border-gray-300 p-3 text-sm text-gray-600 placeholder:text-gray-400 focus:border-primary focus:ring-0"
             id="title"
-            value={title}
-            placeholder="Give your review a title (optional)"
             onChange={(e) => setTitle(e.target.value)}
-            className="block w-full border border-gray-300 px-3 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
+            placeholder="Give your review a title (optional)"
+            value={title}
           />
         </div>
         <div>
           <textarea
+            className="block w-full resize-none rounded border border-gray-300 p-3 text-sm text-gray-600 placeholder:text-gray-400 focus:border-primary focus:ring-0"
             id="description"
-            value={details}
-            placeholder="Tell us about your experience (optional)"
             onChange={(e) => setDetails(e.target.value)}
+            placeholder="Tell us about your experience (optional)"
             rows={4}
-            className="block w-full border border-gray-300 px-3 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400 resize-none"
+            value={details}
           ></textarea>
         </div>
-        <div className="flex mt-3">
+        <div className="mt-3 flex">
           <button
+            className="rounded-md border border-primary bg-primary px-4 py-3 text-center text-sm font-medium uppercase text-white transition hover:bg-transparent hover:text-primary"
             type="submit"
-            className="py-3 px-4 text-center text-white bg-primary border border-primary rounded-md hover:bg-transparent hover:text-primary transition font-medium uppercase text-sm"
           >
             Send review
           </button>

@@ -1,13 +1,13 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useAuthContext } from "@/hooks/context";
-import { getAuthToken, getUser } from "@/api/user.api";
-import { z } from "zod";
-import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Form from "@/components/Form";
 import { useCallback } from "react";
-import Input from "@/components/Input";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { z } from "zod";
+import { getAuthToken, getUser } from "@/api/user.api";
 import Button from "@/components/Button";
+import Form from "@/components/Form";
+import Input from "@/components/Input";
+import { useAuthContext } from "@/hooks/context";
 import { ToLogInNavigationState } from "./Register/Landing";
 
 const schema = z.object({
@@ -51,40 +51,40 @@ const LogIn = () => {
         }
       }
     },
-    []
+    [],
   );
 
   return (
     <section className="p-4">
-      <h1 className="text-2xl font-medium mb-8">Log in to get started</h1>
+      <h1 className="mb-8 text-2xl font-medium">Log in to get started</h1>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Input
-          type="email"
-          label="Email"
-          id="email"
-          register={register}
           errorMessage={errors.email?.message}
+          id="email"
+          label="Email"
+          register={register}
+          type="email"
         />
         <Input
-          type="password"
-          label="password"
-          id="password"
-          register={register}
           errorMessage={errors.password?.message}
+          id="password"
+          label="password"
+          register={register}
+          type="password"
         />
         <div className="grid grid-flow-col gap-4">
           <div className="grid grid-flow-col gap-2">
             <input
-              type="checkbox"
-              name="remember"
+              className="cursor-pointer rounded-sm text-primary focus:ring-0"
               id="remember"
-              className="text-primary focus:ring-0 rounded-sm cursor-pointer"
+              name="remember"
+              type="checkbox"
             />
-            <label htmlFor="remember" className="text-gray-600 cursor-pointer">
+            <label className="cursor-pointer text-gray-600" htmlFor="remember">
               Remember me
             </label>
           </div>
-          <Link to="#" className="text-primary">
+          <Link className="text-primary" to="#">
             I Forgot my password
           </Link>
         </div>

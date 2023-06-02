@@ -1,8 +1,8 @@
-import { Outlet } from "react-router-dom";
 import { ReactNode } from "react";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import { Outlet } from "react-router-dom";
 import Copyright from "@/components/Copyright";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
 
 const PublicLayout = ({ children }: PublicLayoutProps) => {
   return (

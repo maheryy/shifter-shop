@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 
 const useOutsideClick = <T extends HTMLElement = HTMLElement>(
-  handler: Function
+  handler: Function,
 ) => {
   const ref = useRef<T>(null);
 
@@ -13,6 +13,7 @@ const useOutsideClick = <T extends HTMLElement = HTMLElement>(
     };
 
     document.addEventListener("click", handleClick);
+
     return () => {
       document.removeEventListener("click", handleClick);
     };

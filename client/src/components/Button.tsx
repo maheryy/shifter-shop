@@ -15,7 +15,7 @@ function Button({
     "w-full md:max-w-md py-3 px-4 text-center text-white bg-primary border border-primary rounded-md hover:bg-transparent hover:text-primary transition font-medium uppercase text-sm",
     {
       "bg-gray-200 cursor-not-allowed": disabled,
-    }
+    },
   );
 
   return (

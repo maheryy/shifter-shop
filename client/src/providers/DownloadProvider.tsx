@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useRef, useState } from "react";
+import { createContext, ReactNode, useRef, useState } from "react";
 import useComponentUpdate from "@/hooks/componentUpdate";
 
 export const DownloadContext = createContext<DownloadContextProps>(null!);
@@ -16,7 +16,7 @@ const DownloadProvider = ({ children }: DownloadProviderProps) => {
 
   const getDownloadLink = async (
     endpoint: string,
-    { data, filename, method = "GET" }: DownloadLinkProps
+    { data, filename, method = "GET" }: DownloadLinkProps,
   ): Promise<DownloadLinkData> => {
     const response = await fetch(endpoint, {
       method,
@@ -37,9 +37,10 @@ const DownloadProvider = ({ children }: DownloadProviderProps) => {
       ?.match(/filename="(.*)"/) as string[];
 
     const blob = await response.blob();
+
     if (blob.size === 0) {
       throw new Error(
-        "Erreur lors de la récupération des données à télécharger"
+        "Erreur lors de la récupération des données à télécharger",
       );
     }
 
@@ -51,7 +52,7 @@ const DownloadProvider = ({ children }: DownloadProviderProps) => {
 
   const download = async (
     endpoint: string,
-    { data, filename, method = "GET" }: DownloadLinkProps
+    { data, filename, method = "GET" }: DownloadLinkProps,
   ) => {
     try {
       setIsLoading(true);
@@ -60,6 +61,7 @@ const DownloadProvider = ({ children }: DownloadProviderProps) => {
         filename,
         method,
       });
+
       setData(linkData);
     } catch (error) {
       console.error(error);
@@ -72,7 +74,7 @@ const DownloadProvider = ({ children }: DownloadProviderProps) => {
   return (
     <DownloadContext.Provider value={{ download, isLoading }}>
       {children}
-      <a aria-hidden="true" tabIndex={-1} ref={ref} {...data} />
+      <a aria-hidden="true" ref={ref} tabIndex={-1} {...data} />
     </DownloadContext.Provider>
   );
 };

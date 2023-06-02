@@ -10,14 +10,14 @@ const LinkCard = ({
 }: LinkCardProps) => {
   return (
     <Link
+      className="flex items-start justify-start gap-3 rounded p-6 shadow transition hover:bg-gray-50"
       to={link}
-      className="shadow rounded flex items-start justify-start gap-3 p-6 hover:bg-gray-50 transition"
       {...props}
     >
-      <span className="basis-14 w-14 p-2 rounded-full bg-primary text-white">
+      <span className="w-14 basis-14 rounded-full bg-primary p-2 text-white">
         {icon}
       </span>
-      <span className="basis-full flex flex-col gap-2">
+      <span className="flex basis-full flex-col gap-2">
         <span className="text-base font-medium capitalize">{title}</span>
         <span className="text-sm leading-5">{description}</span>
       </span>

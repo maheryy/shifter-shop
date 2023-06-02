@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { Order } from "@/types/order";
 import { getOrders } from "@/api/order.api";
 import OrderCard from "@/components/account/OrderCard";
 import DownloadProvider from "@/providers/DownloadProvider";
+import { Order } from "@/types/order";
 
 const Orders = () => {
   const [orders, setOrders] = useState<Order[]>([]);

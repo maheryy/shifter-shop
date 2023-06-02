@@ -1,12 +1,12 @@
-import { useCallback } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { useCallback } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { z } from "zod";
 import { updatePassword } from "@/api/user.api";
-import Input from "@/components/Input";
 import Button from "@/components/Button";
 import Form from "@/components/Form";
+import Input from "@/components/Input";
 
 const schema = z
   .object({
@@ -23,7 +23,7 @@ const schema = z
     {
       message: "Passwords do not match",
       path: ["confirmPassword"],
-    }
+    },
   );
 
 type Inputs = z.infer<typeof schema>;
@@ -49,14 +49,14 @@ function ChangePassword() {
         }
       }
     },
-    []
+    [],
   );
 
   return (
-    <section className="shadow rounded px-6 pt-5 pb-7">
-      <h1 className="text-xl capitalize font-medium mb-6">Change password</h1>
+    <section className="rounded px-6 pb-7 pt-5 shadow">
+      <h1 className="mb-6 text-xl font-medium capitalize">Change password</h1>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid gap-4 w-full justify-items-center">
+        <div className="grid w-full justify-items-center gap-4">
           <Input
             errorMessage={errors.currentPassword?.message}
             id="currentPassword"

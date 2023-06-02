@@ -1,7 +1,7 @@
-import { Order, OrderAndProduct } from "@/types/order";
 import orders from "@data/orders.json";
 import products from "@data/products.json";
 import { getShuffledProducts } from "@/api/product.api";
+import { Order, OrderAndProduct } from "@/types/order";
 
 export const getOrders = async (): Promise<Order[]> => {
   const res = orders as Order[];
@@ -9,14 +9,14 @@ export const getOrders = async (): Promise<Order[]> => {
   return res.map((order) => ({
     ...order,
     products: getShuffledProducts(Math.floor(Math.random() * 3) + 1).map(
-      (product) => ({ ...product, quantity: 1 })
+      (product) => ({ ...product, quantity: 1 }),
     ),
   }));
 };
 
 export const getOrderAndProduct = async (
   orderId: number,
-  productId: number
+  productId: number,
 ): Promise<OrderAndProduct> => {
   const res = orders as Order[];
 

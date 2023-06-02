@@ -1,7 +1,7 @@
-import Copyright from "@/components/Copyright";
-import Header from "@/components/business/register/Header";
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
+import Header from "@/components/business/register/Header";
+import Copyright from "@/components/Copyright";
 
 export function BecomeSeller() {
   return (
@@ -41,7 +41,7 @@ export function BecomeSeller() {
             </div>
           </div>
           <Link
-            className="w-full md:max-w-md py-3 px-4 text-center text-white bg-primary border border-primary rounded-md hover:bg-transparent hover:text-primary transition font-medium uppercase text-sm"
+            className="w-full rounded-md border border-primary bg-primary px-4 py-3 text-center text-sm font-medium uppercase text-white transition hover:bg-transparent hover:text-primary md:max-w-md"
             to="/business/register/landing"
           >
             Begin

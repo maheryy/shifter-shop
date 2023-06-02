@@ -1,10 +1,10 @@
+import { useCallback, useEffect, useReducer, useState } from "react";
+import { useLoaderData, useSearchParams } from "react-router-dom";
 import { getProducts } from "@/api/product.api";
 import ProductCard from "@/components/ProductCard";
 import { Category } from "@/types/category";
 import { ProductListParams, SortType, SortTypeMapping } from "@/types/params";
 import { Product } from "@/types/product";
-import { useCallback, useEffect, useReducer, useState } from "react";
-import { useLoaderData, useSearchParams } from "react-router-dom";
 
 export interface ProductListData {
   categories: Category[];
@@ -20,7 +20,7 @@ type ParamsAction =
 
 function paramsReducer(
   params: ProductListParams,
-  { payload, type }: ParamsAction
+  { payload, type }: ParamsAction,
 ) {
   switch (type) {
     case "CATEGORIES": {
@@ -140,11 +140,11 @@ const ProductList = () => {
       return setParams({
         type: "CATEGORIES",
         payload: (params.categories || []).filter(
-          (category) => category !== Number(value)
+          (category) => category !== Number(value),
         ),
       });
     },
-    [params.categories]
+    [params.categories],
   );
 
   const onMinPriceChange = useCallback(
@@ -156,7 +156,7 @@ const ProductList = () => {
         payload: Number(value),
       });
     },
-    []
+    [],
   );
 
   const onMaxPriceChange = useCallback(
@@ -168,7 +168,7 @@ const ProductList = () => {
         payload: Number(value),
       });
     },
-    []
+    [],
   );
 
   const onSortByChange = useCallback(
@@ -180,33 +180,33 @@ const ProductList = () => {
         payload: value as SortType,
       });
     },
-    []
+    [],
   );
 
   return (
     <div className="container py-8">
-      <div className="grid grid-cols-4 gap-6 items-start">
-        <div className="col-span-1 bg-white px-4 pb-6 shadow rounded overflow-hidden relative">
-          <div className="divide-y divide-gray-200 space-y-5">
+      <div className="grid grid-cols-4 items-start gap-6">
+        <div className="relative col-span-1 overflow-hidden rounded bg-white px-4 pb-6 shadow">
+          <div className="space-y-5 divide-y divide-gray-200">
             <div>
-              <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">
+              <h3 className="mb-3 text-xl font-medium uppercase text-gray-800">
                 Categories
               </h3>
               <div className="space-y-2">
                 {categories.map((category) => (
                   <div className="flex items-center" key={`cat-${category.id}`}>
                     <input
-                      type="checkbox"
-                      name="categories[]"
-                      id={`cat-${category.id}`}
-                      value={category.id}
-                      onChange={onCategoryChange}
-                      className="text-primary focus:ring-0 rounded-sm cursor-pointer"
                       checked={params.categories?.includes(category.id)}
+                      className="cursor-pointer rounded-sm text-primary focus:ring-0"
+                      id={`cat-${category.id}`}
+                      name="categories[]"
+                      onChange={onCategoryChange}
+                      type="checkbox"
+                      value={category.id}
                     />
                     <label
+                      className="ml-3 cursor-pointer text-gray-600"
                       htmlFor={`cat-${category.id}`}
-                      className="text-gray-600 ml-3 cursor-pointer"
                     >
                       {category.name}
                     </label>
@@ -214,43 +214,41 @@ const ProductList = () => {
                 ))}
               </div>
             </div>
-
             <div className="pt-4">
-              <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">
+              <h3 className="mb-3 text-xl font-medium uppercase text-gray-800">
                 Price
               </h3>
               <div className="mt-4 flex items-center">
                 <input
-                  type="number"
-                  name="min"
+                  className="w-full rounded border-gray-300 px-3 py-1 text-gray-600 shadow-sm focus:border-primary focus:ring-0"
                   min="1"
-                  className="w-full border-gray-300 focus:border-primary rounded focus:ring-0 px-3 py-1 text-gray-600 shadow-sm"
-                  placeholder="min"
+                  name="min"
                   onChange={onMinPriceChange}
+                  placeholder="min"
+                  type="number"
                   value={params.minPrice || ""}
                 />
                 <span className="mx-3 text-gray-500">-</span>
                 <input
-                  type="number"
-                  name="max"
+                  className="w-full rounded border-gray-300 px-3 py-1 text-gray-600 shadow-sm focus:border-primary focus:ring-0"
                   min="1"
-                  className="w-full border-gray-300 focus:border-primary rounded focus:ring-0 px-3 py-1 text-gray-600 shadow-sm"
-                  placeholder="max"
+                  name="max"
                   onChange={onMaxPriceChange}
+                  placeholder="max"
+                  type="number"
                   value={params.maxPrice || ""}
                 />
               </div>
             </div>
           </div>
         </div>
-
         <div className="col-span-3">
-          <div className="flex items-center mb-4 justify-start">
+          <div className="mb-4 flex items-center justify-start">
             <select
-              onChange={onSortByChange}
+              className="w-44 rounded border-gray-300 px-4 py-3 text-sm text-gray-600 shadow-sm focus:border-primary focus:ring-primary"
               name="sort"
+              onChange={onSortByChange}
               value={params.sortBy}
-              className="w-44 text-sm text-gray-600 py-3 px-4 border-gray-300 shadow-sm rounded focus:ring-primary focus:border-primary"
             >
               {Object.keys(SortTypeMapping).map((key) => {
                 return (
@@ -261,7 +259,6 @@ const ProductList = () => {
               })}
             </select>
           </div>
-
           <div className="grid grid-cols-3 gap-6">
             {products.map((product) => (
               <ProductCard key={product.id} product={product} />

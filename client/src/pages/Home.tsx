@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react";
-import { Product } from "@/types/product";
-import { getProducts } from "@/api/product.api";
-import { Category } from "@/types/category";
-import { getCategories } from "@/api/category.api";
-import Feature from "@/components/home/Feature";
-import Hero from "@/components/home/Hero";
-import CategoryCard from "@/components/home/CategoryCard";
-import ProductCard from "@/components/ProductCard";
-import Ad from "@/components/home/Ad";
-import VanIcon from "@icons/van.svg";
 import RefundIcon from "@icons/refund.svg";
 import SupportIcon from "@icons/support-247.svg";
+import VanIcon from "@icons/van.svg";
+import { useEffect, useState } from "react";
+import { getCategories } from "@/api/category.api";
+import { getProducts } from "@/api/product.api";
+import Ad from "@/components/home/Ad";
+import CategoryCard from "@/components/home/CategoryCard";
+import Feature from "@/components/home/Feature";
+import Hero from "@/components/home/Hero";
+import ProductCard from "@/components/ProductCard";
+import { Category } from "@/types/category";
+import { Product } from "@/types/product";
 
 const Home = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -24,46 +24,43 @@ const Home = () => {
   return (
     <>
       <Hero
-        title="Best collection for this summer !"
+        image="https://images.unsplash.com/photo-1441035844538-e2ce7dba066b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80"
         subtitle="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aperiam
         accusantium perspiciatis, sapiente magni eos dolorum ex quos dolores
         odio"
-        image="https://images.unsplash.com/photo-1441035844538-e2ce7dba066b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80"
+        title="Best collection for this summer !"
       />
-
       <section className="container py-16">
-        <div className="w-10/12 grid grid-cols-3 gap-6 mx-auto justify-center">
+        <div className="mx-auto grid w-10/12 grid-cols-3 justify-center gap-6">
           <Feature
             icon={<VanIcon />}
-            title="Free Shipping"
             subtitle="Order over 200€"
+            title="Free Shipping"
           />
           <Feature
             icon={<RefundIcon />}
-            title="Money back"
             subtitle="30-days money back"
+            title="Money back"
           />
           <Feature
             icon={<SupportIcon />}
-            title="24/7 Support"
             subtitle="Customer support"
+            title="24/7 Support"
           />
         </div>
       </section>
-
       <section className="container py-8">
-        <h2 className="text-2xl font-medium text-gray-800 uppercase mb-6">
+        <h2 className="mb-6 text-2xl font-medium uppercase text-gray-800">
           Categories
         </h2>
         <div className="grid grid-cols-3 gap-3">
           {categories.map((category) => (
-            <CategoryCard key={`c-${category.id}`} category={category} />
+            <CategoryCard category={category} key={`c-${category.id}`} />
           ))}
         </div>
       </section>
-
       <section className="container py-8">
-        <h2 className="text-2xl font-medium text-gray-800 uppercase mb-6">
+        <h2 className="mb-6 text-2xl font-medium uppercase text-gray-800">
           Top new arrivals
         </h2>
         <div className="grid grid-cols-4 gap-6">
@@ -72,17 +69,15 @@ const Home = () => {
           ))}
         </div>
       </section>
-
       <section className="container py-12">
         <Ad
-          title="Online exclusive ! 25% OFF !"
-          subtitle="For new customers only, use the promotional code NEW15"
           image="https://images.unsplash.com/photo-1561365452-adb940139ffa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2356&q=80"
+          subtitle="For new customers only, use the promotional code NEW15"
+          title="Online exclusive ! 25% OFF !"
         />
       </section>
-
       <section className="container py-8">
-        <h2 className="text-2xl font-medium text-gray-800 uppercase mb-6">
+        <h2 className="mb-6 text-2xl font-medium uppercase text-gray-800">
           Recommended for you
         </h2>
         <div className="grid grid-cols-4 gap-6">

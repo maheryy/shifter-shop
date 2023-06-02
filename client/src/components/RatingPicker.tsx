@@ -1,6 +1,6 @@
-import { useMemo, useState } from "react";
 import StarEmptyIcon from "@icons/star-empty.svg";
 import StarFullIcon from "@icons/star-full.svg";
+import { useMemo, useState } from "react";
 
 const RatingPicker = ({ rating, onChange }: RatingPickerProps) => {
   const [ratingHover, setRatingHover] = useState<number | null>(null);
@@ -8,14 +8,14 @@ const RatingPicker = ({ rating, onChange }: RatingPickerProps) => {
   const choices = useMemo(() => [1, 2, 3, 4, 5], []);
 
   return (
-    <div className="flex text-yellow-400 -mx-0.5">
+    <div className="-mx-0.5 flex text-yellow-400">
       {choices.map((value) => (
         <label
-          key={`rp-label-${uid}-${value}`}
+          className="h-10 w-10 cursor-pointer px-0.5"
           htmlFor={`rating-${value}`}
-          className="w-10 h-10 cursor-pointer px-0.5"
-          onMouseOver={() => setRatingHover(value)}
+          key={`rp-label-${uid}-${value}`}
           onMouseLeave={() => setRatingHover(null)}
+          onMouseOver={() => setRatingHover(value)}
         >
           {(ratingHover && ratingHover >= value) || rating >= value ? (
             <StarFullIcon />
@@ -27,12 +27,12 @@ const RatingPicker = ({ rating, onChange }: RatingPickerProps) => {
       <div className="hidden">
         {choices.map((value) => (
           <input
+            checked={rating === value}
+            id={`rating-${value}`}
             key={`rp-input-${uid}-${value}`}
             name="rating"
-            type="radio"
-            id={`rating-${value}`}
             onChange={() => onChange(value)}
-            checked={rating === value}
+            type="radio"
           />
         ))}
       </div>

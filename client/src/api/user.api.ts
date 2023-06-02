@@ -1,5 +1,5 @@
-import { User } from "@/types/user";
 import users from "@data/users.json";
+import { User } from "@/types/user";
 
 export const getUser = async (token: string): Promise<User> => {
   const res = users.at(0)!;
@@ -9,9 +9,10 @@ export const getUser = async (token: string): Promise<User> => {
 
 export const getAuthToken = async (
   email: string,
-  password: string
+  password: string,
 ): Promise<string> => {
   const token = "token";
+
   return token;
 };
 

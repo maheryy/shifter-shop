@@ -1,18 +1,18 @@
 const QuantityPicker = ({ value, onChange }: QuantityPickerProps) => {
   return (
-    <div className="flex border border-gray-300 text-gray-600 divide-x divide-gray-300 w-max">
+    <div className="flex w-max divide-x divide-gray-300 border border-gray-300 text-gray-600">
       <button
+        className="flex h-8 w-8 cursor-pointer items-center justify-center text-xl"
         onClick={() => onChange(value > 1 ? value - 1 : 1)}
-        className="h-8 w-8 text-xl flex items-center justify-center cursor-pointer"
       >
         -
       </button>
-      <span className="h-8 w-8 text-base flex items-center justify-center">
+      <span className="flex h-8 w-8 items-center justify-center text-base">
         {value}
       </span>
       <button
+        className="flex h-8 w-8 cursor-pointer items-center justify-center text-xl"
         onClick={() => onChange(value + 1)}
-        className="h-8 w-8 text-xl flex items-center justify-center cursor-pointer"
       >
         +
       </button>

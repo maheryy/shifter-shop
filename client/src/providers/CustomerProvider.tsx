@@ -14,7 +14,7 @@ const CustomerProvider = ({ children }: CustomerProviderProps) => {
   };
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace={true} />;
+    return <Navigate replace={true} to="/login" />;
   }
 
   return (

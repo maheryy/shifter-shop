@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { Product } from "@/types/product";
-import { formatPrice } from "@/utils/format";
 import Rating from "@/components/Rating";
 import { useCartContext } from "@/hooks/context";
+import { Product } from "@/types/product";
+import { formatPrice } from "@/utils/format";
 
 const ProductCard = ({ product }: ProductCardProps) => {
   const { addToCart } = useCartContext();
@@ -10,30 +10,30 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const to = `/products/${product.id}`;
 
   return (
-    <div className="bg-white shadow rounded overflow-hidden group flex flex-col">
+    <div className="group flex flex-col overflow-hidden rounded bg-white shadow">
       <Link to={to}>
-        <img src={product.image} alt={product.name} className="w-full h-64" />
+        <img alt={product.name} className="h-64 w-full" src={product.image} />
       </Link>
-      <div className="pt-4 pb-3 px-4 flex-1 flex flex-col justify-between">
-        <Link to={to} className="max-h-14 overflow-y-hidden">
-          <span className="font-medium text-lg mb-2 text-gray-800 hover:text-primary transition">
+      <div className="flex flex-1 flex-col justify-between px-4 pb-3 pt-4">
+        <Link className="max-h-14 overflow-y-hidden" to={to}>
+          <span className="mb-2 text-lg font-medium text-gray-800 transition hover:text-primary">
             {product.name}
           </span>
         </Link>
         <div>
-          <div className="flex items-baseline mb-1 space-x-2">
-            <p className="text-xl text-primary font-semibold">
+          <div className="mb-1 flex items-baseline space-x-2">
+            <p className="text-xl font-semibold text-primary">
               {formatPrice(product.price)}
             </p>
           </div>
           <div className="flex items-center">
-            <Rating value={5} size="sm" />
-            <span className="text-xs text-gray-500 ml-2">(150)</span>
+            <Rating size="sm" value={5} />
+            <span className="ml-2 text-xs text-gray-500">(150)</span>
           </div>
         </div>
       </div>
       <button
-        className="block w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition"
+        className="block w-full rounded-b border border-primary bg-primary py-1 text-center text-white transition hover:bg-transparent hover:text-primary"
         onClick={() => addToCart(product)}
       >
         Add to cart
