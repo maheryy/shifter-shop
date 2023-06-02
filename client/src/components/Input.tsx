@@ -1,4 +1,9 @@
-import { FieldValues, Path, UseFormRegister } from "react-hook-form";
+import {
+  FieldError,
+  FieldValues,
+  Path,
+  UseFormRegister,
+} from "react-hook-form";
 import classNames from "classnames";
 
 interface InputProps<T extends FieldValues>
@@ -15,7 +20,7 @@ function Input<T extends FieldValues>({
   id,
   label,
   register,
-  type = "text",
+  ...props
 }: InputProps<T>) {
   const inputClass = classNames(
     "block border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400",
@@ -31,8 +36,8 @@ function Input<T extends FieldValues>({
         className={inputClass}
         disabled={disabled}
         id={id}
-        type={type}
         {...register(id)}
+        {...props}
       />
       {errorMessage && <p className="text-red-500">{errorMessage}</p>}
     </div>

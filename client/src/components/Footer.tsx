@@ -1,4 +1,5 @@
 import Logo from "@/components/Logo";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -74,6 +75,12 @@ const Footer = () => {
               >
                 Blog
               </a>
+              <Link
+                className="text-base text-gray-500 hover:text-gray-900 block"
+                to="/business/become-seller"
+              >
+                Become seller
+              </Link>
             </div>
           </div>
           <div>
