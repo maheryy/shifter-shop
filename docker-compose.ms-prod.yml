@@ -1,5 +1,15 @@
 version: "3.8"
 services:
+  api-gateway:
+    container_name: api-gateway
+    build:
+      context: .
+      dockerfile: ./apps/gateway/Dockerfile
+    ports:
+      - 3000:3000
+    networks:
+      - ss_microservices
+  
   files-svc:
     container_name: files-svc
     build:

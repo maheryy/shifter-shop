@@ -3,15 +3,15 @@ import { RegistryEnvMap } from "./registry";
 export enum ServiceType {
   Files = "files",
   Mailer = "mailer",
-  Auth = "auth",
-  User = "user",
+  // Auth = "auth",
+  // User = "user",
   Invoice = "invoice",
   Order = "order",
   Payment = "payment",
-  Product = "product",
+  // Product = "product",
   Cart = "cart",
-  Category = "category",
-  Review = "review",
+  // Category = "category",
+  // Review = "review",
   Analytics = "analytics",
 }
 
