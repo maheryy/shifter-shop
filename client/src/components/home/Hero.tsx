@@ -1,36 +1,32 @@
 import { Link } from "react-router-dom";
 
-const Banner = ({ title, subtitle, image }: BannerProps) => {
+const Hero = ({ title, subtitle, image }: HeroProps) => {
   return (
     <section
-      className="bg-cover bg-no-repeat bg-center py-24"
+      className="bg-cover bg-center bg-no-repeat py-24"
       style={{
         backgroundImage: `url("${image}")`,
       }}
     >
-      <div className="container flex flex-col gap-12">
-        <div>
-          <h1 className="text-6xl text-white font-medium w-2/5">{title}</h1>
-          <p className="text-white w-2/5 mt-4">{subtitle}</p>
-        </div>
-        <div className="">
-          <Link
-            to="/products"
-            className="bg-primary border border-primary text-white px-8 py-3 font-medium 
-                    rounded-md hover:bg-transparent hover:text-primary"
-          >
-            Shop Now
-          </Link>
-        </div>
+      <div className="container grid gap-12">
+        <h1 className="text-6xl font-medium text-white">{title}</h1>
+        <p className="text-white md:w-1/2">{subtitle}</p>
+        <Link
+          className="w-fit rounded-md border border-primary bg-primary px-8 py-3 font-medium 
+                    text-white hover:bg-white hover:text-primary"
+          to="/products"
+        >
+          Shop Now
+        </Link>
       </div>
     </section>
   );
 };
 
-interface BannerProps {
+interface HeroProps {
   title: string;
   subtitle: string;
   image: string;
 }
 
-export default Banner;
+export default Hero;

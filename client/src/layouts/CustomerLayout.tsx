@@ -1,9 +1,9 @@
-import { Outlet } from "react-router-dom";
 import { ReactNode } from "react";
-import CustomerProvider from "@/providers/CustomerProvider";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import { Outlet } from "react-router-dom";
 import Copyright from "@/components/Copyright";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import CustomerProvider from "@/providers/CustomerProvider";
 
 const CustomerLayout = ({ children }: CustomerLayoutProps) => {
   return (

@@ -1,6 +1,6 @@
 import products from "@data/products.json";
-import { Product, ProductWithQuantity } from "@/types/product";
 import { ProductListParams } from "@/types/params";
+import { Product, ProductWithQuantity } from "@/types/product";
 
 export const getProducts = async (params?: ProductListParams) => {
   const shuffledProducts = getShuffledProducts();

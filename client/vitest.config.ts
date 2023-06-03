@@ -1,6 +1,6 @@
 import react from "@vitejs/plugin-react-swc";
-import { defineConfig } from "vitest/config";
 import path from "path";
+import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   plugins: [react()],
@@ -14,6 +14,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "src"),
       "@data": path.resolve(__dirname, "data"),
       "@icons": path.resolve(__dirname, "src/assets/icons"),
+      "@illustrations": path.resolve(__dirname, "src/assets/illustrations"),
     },
   },
 });

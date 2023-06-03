@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuthContext } from "@/hooks/context";
 import { getAuthToken, getUser } from "@/api/user.api";
+import { useAuthContext } from "@/hooks/context";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -24,78 +24,78 @@ const Login = () => {
   };
 
   return (
-    <div className="contain py-16">
-      <div className="max-w-lg mx-auto shadow px-6 py-7 rounded overflow-hidden">
-        <h1 className="text-2xl uppercase font-medium mb-8">Login</h1>
-        <form onSubmit={onSubmit} autoComplete="off">
+    <section className="container py-16">
+      <div className="mx-auto max-w-lg overflow-hidden rounded px-6 py-7 shadow">
+        <h1 className="mb-8 text-2xl font-medium uppercase">Login</h1>
+        <form autoComplete="off" onSubmit={onSubmit}>
           <div className="space-y-2">
             <div>
-              <label htmlFor="email" className="text-gray-600 mb-2 block">
+              <label className="mb-2 block text-gray-600" htmlFor="email">
                 Email address
               </label>
               <input
-                type="email"
-                name="email"
+                className="block w-full rounded border border-gray-300 px-4 py-3 text-sm text-gray-600 placeholder:text-gray-400 focus:border-primary focus:ring-0"
                 id="email"
-                required
-                className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
-                placeholder="email@example.com"
-                value={email}
+                name="email"
                 onChange={(e) => setEmail(e.target.value)}
+                placeholder="email@example.com"
+                required
+                type="email"
+                value={email}
               />
             </div>
             <div>
-              <label htmlFor="password" className="text-gray-600 mb-2 block">
+              <label className="mb-2 block text-gray-600" htmlFor="password">
                 Password
               </label>
               <input
-                type="password"
-                name="password"
-                required
+                className="block w-full rounded border border-gray-300 px-4 py-3 text-sm text-gray-600 placeholder:text-gray-400 focus:border-primary focus:ring-0"
                 id="password"
-                className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
-                placeholder="*******"
-                value={password}
+                name="password"
                 onChange={(e) => setPassword(e.target.value)}
+                placeholder="*******"
+                required
+                type="password"
+                value={password}
               />
             </div>
           </div>
-          <div className="flex items-center justify-between mt-6">
+          <div className="mt-6 flex items-center justify-between">
             <div className="flex items-center">
               <input
-                type="checkbox"
-                name="remember"
+                className="cursor-pointer rounded-sm text-primary focus:ring-0"
                 id="remember"
-                className="text-primary focus:ring-0 rounded-sm cursor-pointer"
+                name="remember"
+                type="checkbox"
               />
               <label
+                className="ml-3 cursor-pointer text-gray-600"
                 htmlFor="remember"
-                className="text-gray-600 ml-3 cursor-pointer"
               >
                 Remember me
               </label>
             </div>
-            <Link to="#" className="text-primary">
+            <Link className="text-primary" to="#">
               Forgot password
             </Link>
           </div>
           <div className="mt-4">
             <button
+              className="block w-full rounded border border-primary bg-primary py-2 text-center font-roboto font-medium uppercase text-white transition hover:bg-transparent hover:text-primary"
               type="submit"
-              className="block w-full py-2 text-center text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium"
             >
               Login
             </button>
           </div>
         </form>
         <p className="mt-4 text-center text-gray-600">
-          Don't have account?&nbsp;
-          <Link to="/register" className="text-primary">
+          Don’t have account?&nbsp;
+          <Link className="text-primary" to="/register">
             Register now
           </Link>
         </p>
       </div>
-    </div>
+    </section>
   );
 };
 

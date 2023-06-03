@@ -1,11 +1,11 @@
-import Form from "@/components/Form";
-import Input from "@/components/Input";
-import Button from "@/components/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { z } from "zod";
 import { Link, useNavigate } from "react-router-dom";
+import { z } from "zod";
+import Button from "@/components/Button";
+import Form from "@/components/Form";
+import Input from "@/components/Input";
 import { useRegisterContext } from "@/hooks/context";
 
 const schema = z
@@ -47,7 +47,7 @@ function Register() {
 
   return (
     <section className="p-4">
-      <div className="grid p-4 gap-4">
+      <div className="grid gap-4 p-4">
         <h1 className="text-xl font-bold">
           Enter your full name and choose your business password
         </h1>
@@ -68,38 +68,38 @@ function Register() {
             errorMessage={errors.email?.message}
             id="email"
             label="Email"
-            type="email"
             register={register}
+            type="email"
           />
           <Input
             errorMessage={errors.password?.message}
             id="password"
             label="Password"
-            type="password"
             placeholder="At least 8 characters"
             register={register}
+            type="password"
           />
           <Input
             errorMessage={errors.confirmPassword?.message}
             id="confirmPassword"
             label="Re-enter password"
-            type="password"
             register={register}
+            type="password"
           />
           <Button>Next step</Button>
         </Form>
         <small className="text-gray-600">
           By creating an account, you agree to Shifter Shop's
           <Link
+            className="text-primary underline-offset-4 hover:underline"
             to="#"
-            className="text-primary hover:underline underline-offset-4"
           >
             Conditions of Use
           </Link>
           and{" "}
           <Link
+            className="text-primary underline-offset-4 hover:underline"
             to="#"
-            className="text-primary hover:underline underline-offset-4"
           >
             Privacy Notice
           </Link>

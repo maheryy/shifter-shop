@@ -1,9 +1,9 @@
+import TrashIcon from "@icons/trash.svg";
 import { Link } from "react-router-dom";
+import QuantityPicker from "@/components/QuantityPicker";
+import Rating from "@/components/Rating";
 import { ProductWithQuantity } from "@/types/product";
 import { formatPrice } from "@/utils/format";
-import QuantityPicker from "@/components/QuantityPicker";
-import TrashIcon from "@icons/trash.svg";
-import Rating from "@/components/Rating";
 
 const CartProductCard = ({
   product,
@@ -13,34 +13,40 @@ const CartProductCard = ({
   const to = `/products/${product.id}`;
 
   return (
-    <div className="flex items-center justify-between border gap-6 p-4 border-gray-200 rounded">
-      <Link to={to} className="w-28">
-        <img src={product.image} alt={product.name} className="w-full" />
+    <article className="grid grid-cols-2 items-center justify-items-center gap-4 rounded border border-gray-200 p-4 md:flex md:justify-between">
+      <Link className="md:w-28" to={to}>
+        <img alt={product.name} src={product.image} />
       </Link>
-      <div className="w-1/3 flex flex-col gap-4">
-        <Link to={to}>
-          <span className="font-roboto text-gray-800 font-medium">
-            {product.name}
-          </span>
+      <div className="grid gap-4">
+        <Link
+          className="text-center font-roboto font-medium text-gray-800"
+          to={to}
+        >
+          {product.name}
         </Link>
-        <div className="flex items-center gap-2">
-          <Rating value={4.5} size="sm" />
-          <span className="text-xs text-gray-500">(150 reviews)</span>
+        <div className="grid justify-center gap-2 md:flex">
+          <Rating size="sm" value={4.5} />
+          <span className="text-center text-xs text-gray-500">
+            (150 reviews)
+          </span>
         </div>
       </div>
-      <QuantityPicker
-        value={product.quantity}
-        onChange={(value) => updateQuantity(product.id, value)}
-      />
-      <div className="text-primary text-lg font-semibold">
+      <div className="flex justify-center">
+        <QuantityPicker
+          onChange={(value) => updateQuantity(product.id, value)}
+          value={product.quantity}
+        />
+      </div>
+      <div className="text-lg font-semibold text-primary">
         {formatPrice(product.price)}
       </div>
-      <button onClick={() => deleteProduct(product.id)}>
-        <span className="block w-6 text-gray-600 cursor-pointer hover:text-red-500">
-          <TrashIcon />
-        </span>
+      <button
+        className="col-start-2 block w-6 cursor-pointer text-gray-600 hover:text-red-500"
+        onClick={() => deleteProduct(product.id)}
+      >
+        <TrashIcon />
       </button>
-    </div>
+    </article>
   );
 };
 

@@ -1,8 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
-import { ProductWithQuantity } from "@/types/product";
 import BagIcon from "@icons/bag.svg";
 import StarIcon from "@icons/star-empty.svg";
+import { Link, useNavigate } from "react-router-dom";
 import { useCartContext } from "@/hooks/context";
+import { ProductWithQuantity } from "@/types/product";
 
 const OrderProductCard = ({ product, orderId }: OrderProductCardProps) => {
   const { addToCart } = useCartContext();
@@ -16,41 +16,41 @@ const OrderProductCard = ({ product, orderId }: OrderProductCardProps) => {
   const to = `/products/${product.id}`;
 
   return (
-    <div className="py-4 px-6 grid grid-cols-12 text-sm">
-      <div className="col-span-9 flex gap-4 items-start">
-        <Link to={to} className="basis-16 w-16 h-16">
-          <img src={product.image} alt={product.name} />
+    <article className="grid px-6 py-4 text-sm md:grid-cols-12">
+      <div className="flex items-start gap-4 md:col-span-9">
+        <Link className="h-16 w-16 basis-16" to={to}>
+          <img alt={product.name} src={product.image} />
         </Link>
-        <div className="flex flex-col flex-1 gap-1">
+        <div className="flex flex-1 flex-col gap-1">
           <Link
-            className="font-medium text-gray-800 w-fit"
+            className="w-fit font-medium text-gray-800"
             to={`/products/${product.id}`}
           >
             {product.name}
           </Link>
           <button
-            className="px-2 py-1 w-fit text-center border border-primary rounded text-primary hover:bg-primary hover:text-white transition duration-100 flex justify-center items-center gap-2 text-xs"
+            className="flex w-fit items-center justify-center gap-2 rounded border border-primary px-2 py-1 text-center text-xs text-primary transition duration-100 hover:bg-primary hover:text-white"
             onClick={buyAgain}
           >
-            <span className="block w-4 relative bottom-0.5">
+            <span className="relative bottom-0.5 block w-4">
               <BagIcon />
             </span>
             Buy again
           </button>
         </div>
       </div>
-      <div className="col-span-3 flex items-center justify-end">
+      <div className="flex items-center justify-end md:col-span-3">
         <Link
+          className="flex w-fit items-center justify-center gap-2 rounded border border-primary bg-primary px-4 py-2 text-center text-xs text-white transition duration-100 hover:bg-transparent hover:text-primary"
           to={`/account/orders/${orderId}/review/${product.id}`}
-          className="px-4 py-2 w-fit text-center border border-primary rounded hover:bg-transparent text-white bg-primary hover:text-primary transition duration-100 flex justify-center items-center gap-2 text-xs"
         >
-          <span className="block w-4 relative bottom-0.5">
+          <span className="relative bottom-0.5 block w-4">
             <StarIcon />
           </span>
-          Review this product
+          Review
         </Link>
       </div>
-    </div>
+    </article>
   );
 };
 

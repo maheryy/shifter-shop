@@ -4,16 +4,16 @@ import { Link } from "react-router-dom";
 const PostCheckout = () => {
   return (
     <div className="container py-16">
-      <div className="flex flex-col gap-7 w-fit m-auto items-center">
+      <div className="m-auto flex w-fit flex-col items-center gap-7">
         <div>
-          <div className="w-12 h-12 text-gray-800 mx-auto mb-3">
+          <div className="mx-auto mb-3 h-12 w-12 text-gray-800">
             <BagIcon />
           </div>
-          <h1 className="text-5xl font-semibold text-gray-800 text-center">
+          <h1 className="text-center text-5xl font-semibold text-gray-800">
             Thank you!
           </h1>
         </div>
-        <div className="text-lg text-center text-gray-800 font-roboto">
+        <div className="text-center font-roboto text-lg text-gray-800">
           <p className="leading-8">
             Your order has been successfully processed.
           </p>
@@ -23,9 +23,9 @@ const PostCheckout = () => {
           <p className="leading-8">Thank you for choosing our store!</p>
         </div>
         <Link
+          className="rounded-md border border-primary bg-primary px-8 py-3 font-medium 
+                    text-white hover:bg-transparent hover:text-primary"
           to="/products"
-          className="bg-primary border border-primary text-white px-8 py-3 font-medium 
-                    rounded-md hover:bg-transparent hover:text-primary"
         >
           Continue shopping
         </Link>

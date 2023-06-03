@@ -1,10 +1,10 @@
+import DownloadIcon from "@icons/download.svg";
+import OrderProductCard from "@/components/account/OrderProductCard";
+import DropdownMenu from "@/components/DropdownMenu";
+import { useDownloadContext } from "@/hooks/context";
 import { Order } from "@/types/order";
 import { formatDisplayDate, formatPrice } from "@/utils/format";
-import OrderProductCard from "@/components/account/OrderProductCard";
 import { generateInvoiceFilename } from "@/utils/generator";
-import DropdownMenu from "@/components/DropdownMenu";
-import DownloadIcon from "@icons/download.svg";
-import { useDownloadContext } from "@/hooks/context";
 
 const OrderCard = ({ order }: OrderCardProps) => {
   const { download, isLoading: isDownloading } = useDownloadContext();
@@ -15,51 +15,53 @@ const OrderCard = ({ order }: OrderCardProps) => {
     });
 
   return (
-    <div className="border border-gray-200 rounded">
-      <div className="bg-gray-50 py-3 px-6 border-b border-gray-200 rounded-t grid grid-cols-10 gap-4 text-gray-600 text-sm">
-        <div className="col-span-3 flex flex-col">
-          <span className="uppercase font-medium">
+    <article className="rounded border border-gray-200">
+      <div className="grid gap-4 rounded-t border-b border-gray-200 bg-primary-light px-6 py-3 text-sm text-gray-600 md:grid-cols-10">
+        <div className="grid md:col-span-3">
+          <span className="font-medium uppercase">
             Order #{order.reference}
           </span>
           <span>{formatDisplayDate(order.date)}</span>
         </div>
-        <div className="col-span-3 flex flex-col">
-          <span className="uppercase font-medium">Status</span>
-          <span className="capitalize">{order.status}</span>
-        </div>
-        <div className="col-span-4 justify-end flex">
-          <div className="flex flex-col items-end">
-            <span className="uppercase font-medium">Total</span>
-            <span>{formatPrice(order.totalAmount)}</span>
+        <div className="grid grid-flow-col md:col-span-7">
+          <div className="grid">
+            <span className="font-medium uppercase">Status</span>
+            <span className="capitalize">{order.status}</span>
           </div>
-          <div className="flex items-center relative left-4">
-            <DropdownMenu>
-              <button
-                className="px-6 py-2 text-gray-700 w-full bg-none transition duration-100 text-xs text-left gap-2 flex items-center hover:bg-gray-100 disabled:cursor-wait disabled:text-gray-300"
-                onClick={downloadInvoice}
-                disabled={isDownloading}
-              >
-                <span className="block w-4 h-4">
-                  <DownloadIcon />
-                </span>
-                Download invoice
-              </button>
-            </DropdownMenu>
+          <div className="flex justify-end">
+            <div className="grid items-end">
+              <span className="font-medium uppercase">Total</span>
+              <span>{formatPrice(order.totalAmount)}</span>
+            </div>
+            <div className="relative left-4 flex items-center">
+              <DropdownMenu>
+                <button
+                  className="flex w-full items-center gap-2 bg-none px-6 py-2 text-left text-xs text-gray-700 transition duration-100 hover:bg-gray-100 disabled:cursor-wait disabled:text-gray-300"
+                  disabled={isDownloading}
+                  onClick={downloadInvoice}
+                >
+                  <div className="h-4 w-4">
+                    <DownloadIcon />
+                  </div>
+                  Download invoice
+                </button>
+              </DropdownMenu>
+            </div>
           </div>
         </div>
       </div>
-      <div className="bg-white rounded-b">
+      <div className="rounded-b bg-white">
         <div className="flex flex-col divide-y-[1px] divide-gray-200">
           {order.products.map((product) => (
             <OrderProductCard
               key={`${order.reference}_${product.id}`}
-              product={product}
               orderId={order.id}
+              product={product}
             />
           ))}
         </div>
       </div>
-    </div>
+    </article>
   );
 };
 

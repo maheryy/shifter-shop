@@ -1,13 +1,14 @@
-import { useCallback } from "react";
-import { useAuthContext } from "@/hooks/context";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Fragment, useCallback } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import Input from "@/components/Input";
+import { z } from "zod";
+import { updateUser } from "@/api/user.api";
 import Button from "@/components/Button";
 import Form from "@/components/Form";
-import { updateUser } from "@/api/user.api";
+import Input from "@/components/Input";
+import { useAuthContext } from "@/hooks/context";
 
 const schema = z.object({
   firstname: z.string(),
@@ -43,12 +44,16 @@ const Profile = () => {
   }, []);
 
   return (
-    <div className="shadow rounded px-6 pt-5 pb-7">
-      <h1 className="text-xl capitalize font-medium mb-6">
-        Profile information
-      </h1>
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid gap-4 w-full justify-items-center">
+    <section className="grid gap-8">
+      <Link className="md:hidden" to="/account">
+        &lt; Back
+      </Link>
+      <div className="grid gap-4 rounded p-4 shadow">
+        <h1 className="text-xl font-medium capitalize">Profile information</h1>
+        <Form
+          className="justify-items-center"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <Input
             errorMessage={errors.firstname?.message}
             id="firstname"
@@ -64,12 +69,12 @@ const Profile = () => {
             type="text"
           />
           <Input
+            disabled
             errorMessage={errors.email?.message}
             id="email"
             label="Email Address"
             register={register}
             type="email"
-            disabled
           />
           <Input
             errorMessage={errors.phone?.message}
@@ -78,10 +83,10 @@ const Profile = () => {
             register={register}
             type="tel"
           />
-        </div>
-        <Button>Save changes</Button>
-      </Form>
-    </div>
+          <Button>Save changes</Button>
+        </Form>
+      </div>
+    </section>
   );
 };
 

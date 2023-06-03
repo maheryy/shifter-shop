@@ -6,6 +6,7 @@ const useComponentUpdate = (callback: EffectCallback, deps: DependencyList) => {
   useEffect(() => {
     if (didMount.current) {
       didMount.current = false;
+
       return;
     }
 

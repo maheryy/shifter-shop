@@ -1,13 +1,13 @@
-import { useParams, useLoaderData } from "react-router-dom";
+import BagIcon from "@icons/bag.svg";
 import { useEffect, useState } from "react";
-import { Product } from "@/types/product";
+import { useLoaderData, useParams } from "react-router-dom";
 import { getRelatedProducts } from "@/api/product.api";
 import ProductCard from "@/components/ProductCard";
-import { formatPrice } from "@/utils/format";
 import QuantityPicker from "@/components/QuantityPicker";
-import BagIcon from "@icons/bag.svg";
 import Rating from "@/components/Rating";
 import { useCartContext } from "@/hooks/context";
+import { Product } from "@/types/product";
+import { formatPrice } from "@/utils/format";
 
 const Product = () => {
   const { id } = useParams();
@@ -20,7 +20,7 @@ const Product = () => {
     getRelatedProducts(Number(id))
       .then((products) => setRelatedProducts(products))
       .catch((err) => console.log(err));
-  }, [product]);
+  }, [id, product]);
 
   const productDetails = {
     color: null,
@@ -29,84 +29,69 @@ const Product = () => {
   };
 
   return (
-    <div className="container py-16">
-      <div className="grid grid-cols-2 gap-6">
-        <div>
-          <img src={product.image} alt={product.name} className="w-full" />
-        </div>
-
-        <div>
-          <h1 className="text-3xl font-medium uppercase mb-2">
-            {product.name}
-          </h1>
-          <div className="flex items-center mb-4">
-            <Rating value={3.5} size="md" />
-            <span className="text-sm text-gray-500 ml-3">(150 Reviews)</span>
+    <section className="container grid gap-16 py-16">
+      <div className="grid gap-8 md:grid-cols-2">
+        <img alt={product.name} src={product.image} />
+        <div className="grid gap-4">
+          <h1 className="text-3xl font-medium uppercase">{product.name}</h1>
+          <div className="flex items-center gap-2">
+            <Rating size="md" value={3.5} />
+            <span className="text-sm text-gray-500">(150 Reviews)</span>
           </div>
-          <div className="space-y-2">
-            <p className="text-gray-800 font-semibold space-x-2">
+          <div className="grid gap-2">
+            <p className="flex gap-2 font-semibold text-gray-800">
               <span>Availability: </span>
               <span className="text-green-600">In Stock</span>
             </p>
-            <p className="space-x-2">
-              <span className="text-gray-800 font-semibold">Reference: </span>
+            <p className="flex gap-2">
+              <span className="font-semibold text-gray-800">Reference: </span>
               <span className="text-gray-600">798QZEZAD0</span>
             </p>
-            <p className="space-x-2">
-              <span className="text-gray-800 font-semibold">Category: </span>
+            <p className="flex gap-2">
+              <span className="font-semibold text-gray-800">Category: </span>
               <span className="text-gray-600">Health</span>
             </p>
           </div>
-          <div className="flex items-baseline mb-1 space-x-2 font-roboto mt-8">
-            <p className="text-2xl text-primary font-semibold">
-              {formatPrice(product.price)}
-            </p>
-          </div>
-
-          <p className="mt-4 text-gray-600">
+          <p className="text-2xl font-semibold text-primary">
+            {formatPrice(product.price)}
+          </p>
+          <p className="text-gray-600">
             {product.description.length > 450
               ? product.description.slice(0, 450) + "..."
               : product.description}
           </p>
-
-          <div className="mt-4">
-            <span className="text-sm text-gray-800 uppercase font-semibold">
+          <div className="grid gap-2">
+            <span className="text-sm font-semibold uppercase text-gray-800">
               Quantity
             </span>
-            <div className="my-2">
-              <QuantityPicker value={quantity} onChange={setQuantity} />
-            </div>
+            <QuantityPicker onChange={setQuantity} value={quantity} />
           </div>
-
-          <div className="mt-6 flex gap-3 pb-5 pt-5">
-            <button
-              className="bg-primary border border-primary text-white px-8 py-2 font-medium rounded uppercase flex justify-center items-center gap-2 hover:bg-transparent hover:text-primary transition relative"
-              onClick={() => addToCart(product, quantity)}
-            >
-              <span className="block w-5 relative bottom-0.5">
-                <BagIcon />
-              </span>
-              Add to cart
-            </button>
-          </div>
+          <button
+            className="relative flex w-fit items-center justify-center gap-2 rounded border border-primary bg-primary px-8 py-2 font-medium uppercase text-white transition hover:bg-transparent hover:text-primary"
+            onClick={() => addToCart(product, quantity)}
+          >
+            <span className="relative bottom-0.5 block w-5">
+              <BagIcon />
+            </span>
+            Add to cart
+          </button>
         </div>
       </div>
-
-      <div className="pb-16">
-        <h3 className="border-b border-gray-200 font-roboto text-gray-800 pt-6 pb-3 font-medium">
+      <div className="grid gap-4">
+        <h3 className="border-b border-gray-200 pb-2 font-roboto font-medium text-gray-800">
           Product details
         </h3>
-        <div className="w-3/5 pt-4">
+        <div className="md:w-3/5">
           <div className="text-gray-600">{product.description}</div>
           {!!Object.keys(productDetails).length && (
-            <table className="table-auto border-collapse w-full text-left text-gray-600 text-sm mt-6">
+            <table className="mt-6 w-full table-auto border-collapse text-left text-sm text-gray-600">
               <tbody>
                 {Object.keys(productDetails).map((key) => (
                   <tr key={key}>
-                    <th className="py-2 px-4 border border-gray-300 w-40 font-medium capitalize">
+                    <th className="w-40 border border-gray-300 px-4 py-2 font-medium capitalize">
                       {key}
                     </th>
-                    <th className="py-2 px-4 border border-gray-300 ">
+                    <th className="border border-gray-300 px-4 py-2 ">
                       {productDetails[key as keyof typeof productDetails] ||
                         "N/A"}
                     </th>
@@ -117,17 +102,17 @@ const Product = () => {
           )}
         </div>
       </div>
-      <div className="pb-16">
-        <h2 className="text-2xl font-medium text-gray-800 uppercase mb-6">
+      <div className="grid gap-4">
+        <h2 className="text-2xl font-medium uppercase text-gray-800">
           Related products
         </h2>
-        <div className="grid grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           {relatedProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

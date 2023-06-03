@@ -1,5 +1,5 @@
-import { ReactNode, useState } from "react";
 import EllipsisIcon from "@icons/ellipsis-vertical.svg";
+import { ReactNode, useState } from "react";
 
 const DropdownMenu = ({ children, label }: DropdownMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,19 +16,19 @@ const DropdownMenu = ({ children, label }: DropdownMenuProps) => {
     >
       <div className="flex">
         <button
-          type="button"
+          aria-expanded="true"
+          aria-haspopup="true"
           className={
             label
               ? "inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-              : "bg-none outline-none w-fit"
+              : "w-fit bg-none outline-none"
           }
           id="menu-button"
-          aria-expanded="true"
-          aria-haspopup="true"
           onClick={toggle}
+          type="button"
         >
           {label || (
-            <span className="block w-7 h-7 text-gray-500">
+            <span className="block h-7 w-7 text-gray-500">
               <EllipsisIcon />
             </span>
           )}
@@ -36,15 +36,13 @@ const DropdownMenu = ({ children, label }: DropdownMenuProps) => {
       </div>
       {isOpen && (
         <div
-          className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none animate-fade-in"
-          role="menu"
-          aria-orientation="vertical"
           aria-labelledby="menu-button"
+          aria-orientation="vertical"
+          className="absolute right-0 z-10 mt-2 w-48 origin-top-right animate-fade-in rounded-sm bg-white shadow-lg ring-1 ring-black/5 focus:outline-none"
+          role="menu"
           tabIndex={-1}
         >
-          <div role="none">
-            {children}
-          </div>
+          <div role="none">{children}</div>
         </div>
       )}
     </div>
