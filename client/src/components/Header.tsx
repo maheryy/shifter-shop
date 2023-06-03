@@ -10,7 +10,7 @@ const Header = () => {
   const { cartItems } = useCartContext();
 
   return (
-    <header className="container grid h-20 grid-cols-2 grid-rows-2 items-center gap-y-4 bg-white py-4 shadow-sm md:flex md:justify-between md:gap-x-4">
+    <header className="container grid grid-cols-2 grid-rows-2 items-center gap-y-4 bg-white py-4 shadow-sm md:flex md:h-20 md:justify-between md:gap-x-4">
       <Logo />
       <SearchBar />
       <div className="col-start-2 row-start-1 grid grid-flow-col items-center justify-end gap-4">
