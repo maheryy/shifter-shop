@@ -1,4 +1,5 @@
 import { RegistryEnvMap } from "./registry";
+import { Route } from "./route";
 
 export enum ServiceType {
   Files = "files",
@@ -19,6 +20,8 @@ export type Services = `${ServiceType}`;
 
 export interface ServiceConfig extends RegistryEnvMap {
   name: ServiceType;
+  path: string;
+  routes: Route[];
 }
 
 export interface ServiceEnvConfig {
