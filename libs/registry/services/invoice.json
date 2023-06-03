@@ -1,9 +1,17 @@
 {
   "name": "invoice",
+  "path": "/invoices",
   "production": {
     "url": "http://invoice-svc:3000"
   },
   "development": {
     "url": "http://localhost:3004"
-  }
+  },
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/:reference",
+      "middlewares": ["auth"]
+    }
+  ]
 }

@@ -1,9 +1,22 @@
 {
   "name": "cart",
+  "path": "/cart",
   "production": {
     "url": "http://cart-svc:3000"
   },
   "development": {
     "url": "http://localhost:3006"
-  }
+  },
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "PATCH",
+      "path": "/:productId",
+      "middlewares": ["auth"]
+    }
+  ]
 }

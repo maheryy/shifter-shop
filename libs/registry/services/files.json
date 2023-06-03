@@ -1,5 +1,6 @@
 {
   "name": "files",
+  "private": true,
   "production": {
     "url": "http://files-svc:3000"
   },

@@ -1,9 +1,20 @@
 {
   "name": "payment",
+  "path": "/payment",
   "production": {
     "url": "http://payment-svc:3000"
   },
   "development": {
     "url": "http://localhost:3003"
-  }
+  },
+  "routes": [
+    {
+      "method": "POST",
+      "path": "/checkout"
+    },
+    {
+      "method": "POST",
+      "path": "/webhook"
+    }
+  ]
 }

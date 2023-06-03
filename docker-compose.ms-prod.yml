@@ -9,7 +9,7 @@ services:
       - 3000:3000
     networks:
       - ss_microservices
-  
+
   files-svc:
     container_name: files-svc
     build:
@@ -145,7 +145,7 @@ services:
   stripe:
     container_name: stripe
     image: stripe/stripe-cli:v1.14.6
-    command: listen --forward-to http://api-gateway:3000/payment/webhook
+    command: listen --forward-to http://payment-svc:3000/webhook
     environment:
       - STRIPE_DEVICE_NAME=shifter_shop_docker
       - STRIPE_API_KEY=${STRIPE_SECRET_KEY}

@@ -20,8 +20,9 @@ export type Services = `${ServiceType}`;
 
 export interface ServiceConfig extends RegistryEnvMap {
   name: ServiceType;
-  path: string;
-  routes: Route[];
+  path?: string;
+  private?: boolean;
+  routes?: Route[];
 }
 
 export interface ServiceEnvConfig {
