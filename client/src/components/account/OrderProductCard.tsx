@@ -16,8 +16,8 @@ const OrderProductCard = ({ product, orderId }: OrderProductCardProps) => {
   const to = `/products/${product.id}`;
 
   return (
-    <div className="grid grid-cols-12 px-6 py-4 text-sm">
-      <div className="col-span-9 flex items-start gap-4">
+    <article className="grid px-6 py-4 text-sm md:grid-cols-12">
+      <div className="flex items-start gap-4 md:col-span-9">
         <Link className="h-16 w-16 basis-16" to={to}>
           <img alt={product.name} src={product.image} />
         </Link>
@@ -39,7 +39,7 @@ const OrderProductCard = ({ product, orderId }: OrderProductCardProps) => {
           </button>
         </div>
       </div>
-      <div className="col-span-3 flex items-center justify-end">
+      <div className="flex items-center justify-end md:col-span-3">
         <Link
           className="flex w-fit items-center justify-center gap-2 rounded border border-primary bg-primary px-4 py-2 text-center text-xs text-white transition duration-100 hover:bg-transparent hover:text-primary"
           to={`/account/orders/${orderId}/review/${product.id}`}
@@ -47,10 +47,10 @@ const OrderProductCard = ({ product, orderId }: OrderProductCardProps) => {
           <span className="relative bottom-0.5 block w-4">
             <StarIcon />
           </span>
-          Review this product
+          Review
         </Link>
       </div>
-    </div>
+    </article>
   );
 };
 

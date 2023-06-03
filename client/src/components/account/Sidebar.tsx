@@ -11,8 +11,8 @@ const Sidebar = () => {
   const { logout } = useCustomerContext();
 
   return (
-    <>
-      <div className="flex items-center gap-2 px-4 py-3 shadow">
+    <aside className="hidden gap-4 md:grid">
+      <div className="flex items-center gap-2 p-4 shadow">
         <span className="h-14 w-14 rounded-full text-gray-500">
           <UserIcon />
         </span>
@@ -23,7 +23,7 @@ const Sidebar = () => {
           </span>
         </div>
       </div>
-      <div className="mt-6 space-y-4 divide-y divide-gray-200 rounded bg-white p-4 text-gray-600 shadow">
+      <div className="grid gap-4 divide-y divide-gray-200 rounded bg-white p-4 text-gray-600 shadow">
         <div className="space-y-1 pl-8">
           <div className="relative block font-medium capitalize transition">
             <span className="absolute -left-7 top-1 h-4 w-4">
@@ -113,7 +113,7 @@ const Sidebar = () => {
           </button>
         </div>
       </div>
-    </>
+    </aside>
   );
 };
 

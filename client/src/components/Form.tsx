@@ -1,6 +1,13 @@
-function Form({ children, ...props }: React.DOMAttributes<HTMLFormElement>) {
+import classNames from "classnames";
+import { HTMLAttributes } from "react";
+
+function Form({
+  children,
+  className,
+  ...props
+}: HTMLAttributes<HTMLFormElement>) {
   return (
-    <form className="grid gap-8" {...props}>
+    <form className={classNames("grid gap-8", className)} {...props}>
       {children}
     </form>
   );

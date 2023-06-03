@@ -4,11 +4,11 @@ import Sidebar from "@/components/account/Sidebar";
 
 const CustomerAccountLayout = ({ children }: CustomerAccountLayoutProps) => {
   return (
-    <div className="container grid grid-cols-12 gap-6 py-12">
-      <div className="col-span-3">
+    <div className="container grid gap-4 py-12 lg:grid-cols-12">
+      <div className="lg:col-span-3">
         <Sidebar />
       </div>
-      <div className="col-span-9">
+      <div className="lg:col-span-9">
         <Outlet />
         {children}
       </div>

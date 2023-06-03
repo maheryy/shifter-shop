@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { updatePassword } from "@/api/user.api";
@@ -53,10 +54,16 @@ function ChangePassword() {
   );
 
   return (
-    <section className="rounded px-6 pb-7 pt-5 shadow">
-      <h1 className="mb-6 text-xl font-medium capitalize">Change password</h1>
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid w-full justify-items-center gap-4">
+    <section className="grid gap-8 ">
+      <Link className="md:hidden" to="/account">
+        &lt; Back
+      </Link>
+      <div className="grid gap-4 rounded p-4 shadow">
+        <h1 className="text-xl font-medium capitalize">Change password</h1>
+        <Form
+          className="justify-items-center"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <Input
             errorMessage={errors.currentPassword?.message}
             id="currentPassword"
@@ -78,9 +85,9 @@ function ChangePassword() {
             register={register}
             type="password"
           />
-        </div>
-        <Button>Update</Button>
-      </Form>
+          <Button>Update</Button>
+        </Form>
+      </div>
     </section>
   );
 }
