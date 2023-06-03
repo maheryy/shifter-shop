@@ -9,7 +9,7 @@ COPY nx.json .
 
 # Copy target app and its libs dependencies
 COPY apps/invoice ./apps/invoice
-COPY libs/svc-map ./libs/svc-map
+COPY libs/registry ./libs/registry
 
 # Install packages and build the app
 RUN npm install

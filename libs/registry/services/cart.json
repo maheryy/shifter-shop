@@ -1,0 +1,9 @@
+{
+  "name": "cart",
+  "production": {
+    "url": "http://cart-svc:3000"
+  },
+  "development": {
+    "url": "http://localhost:3006"
+  }
+}

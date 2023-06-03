@@ -1,16 +1,12 @@
 import { getServiceConfig } from "../utils/parser";
-import {
-  ServiceConfig,
-  ServiceEnv,
-  ServiceOptions,
-  ServiceType,
-} from "../types/service";
+import { ServiceConfig, ServiceType, Services } from "../types/service";
+import { RegistryEnv, RegistryOptions } from "types/registry";
 
-export class Service {
+export class Registry {
   private serviceConfig: ServiceConfig;
-  private envKey: ServiceEnv = "development";
+  private envKey: RegistryEnv = "development";
 
-  private constructor(serviceConfig: ServiceConfig, options?: ServiceOptions) {
+  private constructor(serviceConfig: ServiceConfig, options?: RegistryOptions) {
     this.serviceConfig = serviceConfig;
 
     if (options?.env) {
@@ -18,8 +14,8 @@ export class Service {
     }
   }
 
-  public static get(name: ServiceType, options?: ServiceOptions): Service {
-    if (!Object.values(ServiceType).includes(name)) {
+  public static get(name: Services, options?: RegistryOptions): Registry {
+    if (!Object.values(ServiceType).includes(name as ServiceType)) {
       throw new Error(
         `Unkown service ${name}: must be one of ${Object.values(
           ServiceType
@@ -31,8 +27,13 @@ export class Service {
       options = { ...options, env: "production" };
     }
 
-    const serviceConfig = getServiceConfig(name);
-    return new Service(serviceConfig, options);
+    return new Registry(getServiceConfig(name as ServiceType), options);
+  }
+
+  public static getServices(): ServiceConfig[] {
+    return Object.values(ServiceType).map((service) =>
+      getServiceConfig(service)
+    );
   }
 
   public get config(): ServiceConfig {

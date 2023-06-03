@@ -1,5 +1,5 @@
 {
-  "name": "@shifter-shop/svc-map",
+  "name": "@shifter-shop/registry",
   "version": "1.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

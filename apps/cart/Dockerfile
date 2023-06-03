@@ -10,7 +10,7 @@ COPY nx.json .
 # Copy target app and its libs dependencies
 COPY apps/cart ./apps/cart
 COPY libs/amqp ./libs/amqp
-COPY libs/svc-map ./libs/svc-map
+COPY libs/registry ./libs/registry
 
 # Install packages and build the app
 RUN npm install

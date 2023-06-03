@@ -1,11 +1,11 @@
 import { Order } from "types/order";
 import fetch from "node-fetch";
 import { arraytoBuffer } from "utils/converter";
-import { Service, ServiceType } from "@shifter-shop/svc-map";
+import { Registry, ServiceType } from "@shifter-shop/registry";
 
 const services = {
-  files: Service.get(ServiceType.Files),
-  order: Service.get(ServiceType.Order),
+  files: Registry.get(ServiceType.Files),
+  order: Registry.get(ServiceType.Order),
 };
 
 export const getOrder = async (reference: string): Promise<Order> => {
