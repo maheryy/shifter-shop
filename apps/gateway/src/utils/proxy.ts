@@ -13,9 +13,9 @@ export const proxify = (app: Express, services: ServiceConfig[]) => {
         target: service[NODE_ENV].url,
         headers: { "powered-by": "shifter-shop" },
         changeOrigin: true,
-        // pathRewrite: {
-        //   [`^/${service.name}`]: "",
-        // },
+        pathRewrite: {
+          [`^/${service.name}`]: "",
+        },
       })
     );
   });

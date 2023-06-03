@@ -1,7 +1,7 @@
 import "config";
 import express from "express";
 import cors from "cors";
-import order from "routes/order";
+import orderRoutes from "routes/order";
 import { onPaymentSucceeded } from "controllers/message.controller";
 import amqp from "lib/amqp";
 import { Queue } from "@shifter-shop/amqp";
@@ -16,7 +16,7 @@ amqp.connect().then(() => {
 
 app.use(express.json());
 app.use(cors());
-app.use("/orders", order);
+app.use(orderRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server started at http://localhost:${PORT}`);
