@@ -1,12 +1,6 @@
 import { Order } from "types/order";
-import fetch from "node-fetch";
 import { arraytoBuffer } from "utils/converter";
-import { Registry, ServiceType } from "@shifter-shop/registry";
-
-const services = {
-  files: Registry.get(ServiceType.Files),
-  order: Registry.get(ServiceType.Order),
-};
+import { ServiceType, fetchService } from "@shifter-shop/registry";
 
 export const getOrder = async (reference: string): Promise<Order> => {
   // TODO: fetch order from database
@@ -49,14 +43,17 @@ export const getOrder = async (reference: string): Promise<Order> => {
 };
 
 export const getInvoiceContent = async (order: Order): Promise<Buffer> => {
-  const response = await fetch(`${services.files.url}/pdf/invoice`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/pdf",
-    },
-    body: JSON.stringify({ data: { order } }),
-  });
+  const response = await fetchService(
+    { service: ServiceType.Files, endpoint: "pdf/invoice" },
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/pdf",
+      },
+      body: JSON.stringify({ data: { order } }),
+    }
+  );
 
   if (!response.ok) {
     throw new Error("Unable to generate invoice : " + response.statusText);
