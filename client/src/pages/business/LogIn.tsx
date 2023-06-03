@@ -21,7 +21,8 @@ const LogIn = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { authenticate } = useAuthContext();
-  const { email, redirectTo } = location.state as ToLogInNavigationState;
+  const { email, redirectTo } =
+    (location.state as ToLogInNavigationState) || {};
 
   const {
     register,

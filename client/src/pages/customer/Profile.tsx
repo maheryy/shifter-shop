@@ -48,12 +48,9 @@ const Profile = () => {
       <Link className="md:hidden" to="/account">
         &lt; Back
       </Link>
-      <div className="grid gap-4 rounded p-4 shadow">
+      <div className="grid gap-8 rounded md:justify-items-center md:p-4 md:shadow">
         <h1 className="text-xl font-medium capitalize">Profile information</h1>
-        <Form
-          className="justify-items-center"
-          onSubmit={handleSubmit(onSubmit)}
-        >
+        <Form onSubmit={handleSubmit(onSubmit)}>
           <Input
             errorMessage={errors.firstname?.message}
             id="firstname"
