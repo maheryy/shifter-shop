@@ -33,23 +33,26 @@ function Landing() {
     getValues,
   } = useForm<Inputs>({ resolver: zodResolver(schema) });
 
-  const onSubmit: SubmitHandler<Inputs> = useCallback(async ({ email }) => {
-    try {
-      const mustConvert = await hasAccount(email);
+  const onSubmit: SubmitHandler<Inputs> = useCallback(
+    async ({ email }) => {
+      try {
+        const mustConvert = await hasAccount(email);
 
-      if (!mustConvert) {
-        setState({ ...state, email });
+        if (!mustConvert) {
+          setState({ ...state, email });
 
-        return navigate("/business/register");
+          return navigate("/business/register");
+        }
+
+        return setMustConvert(mustConvert);
+      } catch (error) {
+        if (error instanceof Error) {
+          console.error(error.message);
+        }
       }
-
-      return setMustConvert(mustConvert);
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error(error.message);
-      }
-    }
-  }, []);
+    },
+    [navigate, setState, state],
+  );
 
   const onContinueWithThisEmailClick = useCallback(() => {
     if (!mustConvert) {
@@ -64,56 +67,54 @@ function Landing() {
     navigate("/business/login", {
       state,
     });
-  }, [mustConvert]);
+  }, [getValues, mustConvert, navigate]);
 
   const onUseDifferentEmailClick = useCallback(() => {
     resetField("email");
     setMustConvert(false);
-  }, []);
+  }, [resetField]);
 
   return (
-    <section className="p-4">
-      <div className="grid gap-4 p-4">
-        <h1 className="text-xl font-bold">
-          Let's create your free Shifter Shop Business account
-        </h1>
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <Input
-            errorMessage={errors.email?.message}
-            id="email"
-            label="Enter the email you'd like to use for your business account"
-            placeholder="Enter email"
-            register={register}
-            type="email"
-          />
-          {mustConvert ? (
-            <div className="grid justify-items-center gap-4 bg-primary-light p-4">
-              <h2 className="text-lg font-medium">
-                This email is already in use for a Shifter Shop account
-              </h2>
-              <p>
-                If you continue, the existing account will become a Shifter Shop
-                Business account.
-              </p>
-              <Button onClick={onContinueWithThisEmailClick}>
-                Continue with this email
-              </Button>
-              <div
-                className="cursor-pointer underline underline-offset-4"
-                onClick={onUseDifferentEmailClick}
-              >
-                Use a different email
-              </div>
-            </div>
-          ) : (
-            <Button>Get started</Button>
-          )}
-        </Form>
-        <small className="text-gray-600">
-          Make sure you have information about your organization to help us
-          verify your business account faster.
-        </small>
-      </div>
+    <section className="container grid gap-8 py-16 md:justify-items-center">
+      <h1 className="text-2xl font-bold">
+        Let’s create your free Shifter Shop Business account
+      </h1>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Input
+          errorMessage={errors.email?.message}
+          id="email"
+          label="What email would you like to use ?"
+          placeholder="Enter email"
+          register={register}
+          type="email"
+        />
+        {mustConvert ? (
+          <div className="grid justify-items-center gap-4 bg-primary-light p-8">
+            <h2 className="text-lg font-medium">
+              This email is already in use
+            </h2>
+            <p>
+              If you continue, the existing account will become a Shifter Shop
+              Business account.
+            </p>
+            <Button onClick={onContinueWithThisEmailClick}>
+              Continue with this email
+            </Button>
+            <button
+              className="cursor-pointer underline underline-offset-4"
+              onClick={onUseDifferentEmailClick}
+            >
+              Use a different email
+            </button>
+          </div>
+        ) : (
+          <Button>Get started</Button>
+        )}
+      </Form>
+      <small className="text-gray-600">
+        Make sure you have information about your organization to help us verify
+        your business account faster.
+      </small>
     </section>
   );
 }

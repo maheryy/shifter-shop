@@ -1,7 +1,7 @@
 function Finish() {
   return (
-    <section className="grid gap-8 p-4">
-      <h1 className="text-xl font-bold">Submission Successful!</h1>
+    <section className="container grid gap-8 py-16 md:justify-items-center">
+      <h1 className="text-2xl font-bold">Submission Successful!</h1>
       <p>
         Thank you for choosing Shifter Shop, we appreciate your interest and are
         excited to connect with you soon.

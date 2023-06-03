@@ -6,7 +6,10 @@ const Logo = ({ clickable = true }: LogoProps) => {
     : { to: "#", className: "pointer-events-none" };
 
   return (
-    <Link {...linkProps} className="grid items-center text-xl">
+    <Link
+      {...linkProps}
+      className="grid items-center self-baseline text-xl md:self-auto"
+    >
       Shifter Shop
     </Link>
   );

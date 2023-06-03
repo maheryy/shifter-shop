@@ -1,10 +1,5 @@
 import classNames from "classnames";
-import {
-  FieldError,
-  FieldValues,
-  Path,
-  UseFormRegister,
-} from "react-hook-form";
+import { FieldValues, Path, UseFormRegister } from "react-hook-form";
 
 interface InputProps<T extends FieldValues>
   extends React.HTMLProps<HTMLInputElement> {
@@ -23,14 +18,14 @@ function Input<T extends FieldValues>({
   ...props
 }: InputProps<T>) {
   const inputClass = classNames(
-    "block border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400",
+    "md:w-96 block border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400",
     {
       "bg-gray-200 cursor-not-allowed": disabled,
     },
   );
 
   return (
-    <div className="grid w-full gap-2 md:max-w-md">
+    <div className="grid w-full gap-2 md:max-w-md md:justify-center">
       <label htmlFor={id}>{label}</label>
       <input
         className={inputClass}

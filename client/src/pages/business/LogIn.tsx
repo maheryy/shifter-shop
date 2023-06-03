@@ -12,7 +12,7 @@ import { ToLogInNavigationState } from "./Register/Landing";
 
 const schema = z.object({
   email: z.string().email(),
-  password: z.string(),
+  password: z.string().nonempty({ message: "Required" }),
 });
 
 type Inputs = z.infer<typeof schema>;
@@ -51,12 +51,12 @@ const LogIn = () => {
         }
       }
     },
-    [],
+    [authenticate, navigate, redirectTo],
   );
 
   return (
-    <section className="p-4">
-      <h1 className="mb-8 text-2xl font-medium">Log in to get started</h1>
+    <section className="container grid gap-8 py-16 md:justify-items-center">
+      <h1 className="text-2xl font-bold">Log in to get started</h1>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Input
           errorMessage={errors.email?.message}
@@ -68,11 +68,11 @@ const LogIn = () => {
         <Input
           errorMessage={errors.password?.message}
           id="password"
-          label="password"
+          label="Password"
           register={register}
           type="password"
         />
-        <div className="flex gap-4">
+        <div className="flex justify-between">
           <div className="flex gap-2">
             <input
               className="cursor-pointer rounded-sm text-primary focus:ring-0"

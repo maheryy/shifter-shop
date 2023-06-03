@@ -24,7 +24,7 @@ const Login = () => {
   };
 
   return (
-    <div className="container py-16">
+    <section className="container py-16">
       <div className="mx-auto max-w-lg overflow-hidden rounded px-6 py-7 shadow">
         <h1 className="mb-8 text-2xl font-medium uppercase">Login</h1>
         <form autoComplete="off" onSubmit={onSubmit}>
@@ -89,13 +89,13 @@ const Login = () => {
           </div>
         </form>
         <p className="mt-4 text-center text-gray-600">
-          Don't have account?&nbsp;
+          Don’t have account?&nbsp;
           <Link className="text-primary" to="/register">
             Register now
           </Link>
         </p>
       </div>
-    </div>
+    </section>
   );
 };
 

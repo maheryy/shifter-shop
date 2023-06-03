@@ -17,7 +17,7 @@ function Steps() {
   const steps = [...new Set(Object.values(record))];
 
   return (
-    <ul className="flex p-4">
+    <ul className="container flex justify-between md:justify-around">
       {steps.map((step) => {
         const currentStep = record[pathname];
         const currentStepIndex = steps.indexOf(currentStep);
@@ -26,7 +26,7 @@ function Steps() {
         const isDone = currentStepIndex > stepIndex;
 
         return (
-          <Step isActive={isActive} isDone={isDone}>
+          <Step isActive={isActive} isDone={isDone} key={step}>
             {step}
           </Step>
         );
