@@ -19,7 +19,9 @@ export const registerRoutes = (services: ServiceConfig[]): Router => {
         !Array.isArray(service.routes) ||
         service.routes.length === 0
       ) {
-        console.error(`[${service.name}] No available routes found`);
+        console.error(
+          `\x1b[33m[${service.name}] No available routes found\x1b[0m`
+        );
         return;
       }
 
@@ -50,11 +52,11 @@ export const registerRoutes = (services: ServiceConfig[]): Router => {
         router[method](endpoint, ...middlewares, serviceProxy);
 
         console.info(
-          `[${
+          `\x1b[36m[${
             service.name
           }] ${route.method.toUpperCase()} ${endpoint} -> ${proxyEndpoint} ${
             middlewares.length > 0 ? `(${middlewares.length} middlewares)` : ""
-          }`
+          }\x1b[0m`
         );
       });
 

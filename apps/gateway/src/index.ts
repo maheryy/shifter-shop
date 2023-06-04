@@ -10,5 +10,7 @@ app.use(helmet());
 app.use(registerRoutes(Registry.getServices()));
 
 app.listen(PORT, () => {
-  console.log(`API Gateway started at http://localhost:${PORT}`);
+  console.log(
+    `\x1b[32m[API Gateway] Server started at http://localhost:${PORT}\x1b[0m`
+  );
 });
