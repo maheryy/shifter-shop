@@ -1,3 +1,4 @@
+import HomeIcon from "@icons/home.svg";
 import LogoutIcon from "@icons/out.svg";
 import CartIcon from "@icons/solid/cart.svg";
 import IdentificationIcon from "@icons/solid/identification.svg";
@@ -35,6 +36,12 @@ const Account = () => {
         icon={<IdentificationIcon />}
         link="/account/profile"
         title="Profile information"
+      />
+      <LinkCard
+        description="Update your addresses"
+        icon={<HomeIcon />}
+        link="/account/addresses"
+        title="Saved addresses"
       />
       <LinkCard
         description="Change your password"

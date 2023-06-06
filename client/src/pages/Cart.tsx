@@ -1,13 +1,15 @@
 import EmptyCart from "@illustrations/empty-cart.svg";
 import { Fragment, useMemo } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { createOrder } from "@/api/order.api";
 import CartProductCard from "@/components/cart/CartProductCard";
 import CartSummaryItem from "@/components/cart/CartSummaryItem";
 import { useCartContext } from "@/hooks/context";
-import { StripePayload } from "@/types/stripe";
 import { formatPrice } from "@/utils/format";
 
 const Cart = () => {
+  const navigate = useNavigate();
+
   const {
     cartItems: products,
     removeFromCart: deleteProduct,
@@ -18,37 +20,15 @@ const Cart = () => {
 
   const totalPrice = useMemo(
     () =>
-      products.reduce(
-        (acc, product) => acc + product.price * product.quantity,
-        0,
-      ),
+      products.reduce((acc, { price, quantity }) => acc + price * quantity, 0),
     [products],
   );
 
-  const order = async () => {
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/stripe/checkout`,
-        {
-          method: "POST",
-        },
-      );
+  function onOrder() {
+    createOrder({});
 
-      if (!response.ok) {
-        throw new Error("Failed to create order.");
-      }
-
-      const data = (await response.json()) as StripePayload;
-
-      if (!data.url) {
-        throw new Error("No redirect url returned from server.");
-      }
-
-      window.location.assign(data.url);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    navigate("/order");
+  }
 
   return (
     <Fragment>
@@ -101,7 +81,7 @@ const Cart = () => {
             </div>
             <button
               className="block w-full rounded-md border border-primary bg-primary px-4 py-2 text-center font-medium text-white transition hover:bg-transparent hover:text-primary"
-              onClick={order}
+              onClick={onOrder}
             >
               Order
             </button>

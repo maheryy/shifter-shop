@@ -1,0 +1,41 @@
+[
+  {
+    "id": 1,
+    "user": 1,
+    "address1": "456 Elmwood Avenue",
+    "city": "Oakville",
+    "state": "California",
+    "zip": "90210",
+    "isDefault": false
+  },
+  {
+    "id": 2,
+    "user": 1,
+    "address1": "789 Maple Street",
+    "address2": "Apartment 4B",
+    "city": "Willowbrook",
+    "state": "California",
+    "zip": "90212",
+    "isDefault": true
+  },
+  {
+    "id": 3,
+    "user": 1,
+    "address1": "123 Oak Avenue",
+    "address2": "Unit 7C",
+    "city": "Springfield",
+    "state": "New York",
+    "zip": "12345",
+    "isDefault": false
+  },
+  {
+    "id": 4,
+    "user": 1,
+    "address1": "456 Elm Street",
+    "address2": "Suite 3D",
+    "city": "Meadowville",
+    "state": "Texas",
+    "zip": "78901",
+    "isDefault": false
+  }
+]

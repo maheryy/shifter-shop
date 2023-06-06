@@ -47,6 +47,16 @@ const Sidebar = () => {
               (isActive ? " text-primary" : "")
             }
             end
+            to="/account/addresses"
+          >
+            Saved addresses
+          </NavLink>
+          <NavLink
+            className={({ isActive }) =>
+              "relative block capitalize transition hover:text-primary" +
+              (isActive ? " text-primary" : "")
+            }
+            end
             to="/account/change-password"
           >
             Change password
