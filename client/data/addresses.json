@@ -2,40 +2,48 @@
   {
     "id": 1,
     "user": 1,
+    "fullName": "John Doe",
     "address1": "456 Elmwood Avenue",
     "city": "Oakville",
-    "state": "California",
+    "province": "California",
     "zip": "90210",
-    "isDefault": false
+    "isDefault": false,
+    "phone": "1234567890"
   },
   {
     "id": 2,
     "user": 1,
+    "fullName": "Jane Doe",
     "address1": "789 Maple Street",
     "address2": "Apartment 4B",
     "city": "Willowbrook",
-    "state": "California",
+    "province": "California",
     "zip": "90212",
-    "isDefault": true
+    "isDefault": true,
+    "phone": "2222222222"
   },
   {
     "id": 3,
     "user": 1,
+    "fullName": "John Smith",
     "address1": "123 Oak Avenue",
     "address2": "Unit 7C",
     "city": "Springfield",
-    "state": "New York",
+    "province": "New York",
     "zip": "12345",
-    "isDefault": false
+    "isDefault": false,
+    "phone": "3333333333"
   },
   {
     "id": 4,
     "user": 1,
+    "fullName": "Jane Smith",
     "address1": "456 Elm Street",
     "address2": "Suite 3D",
     "city": "Meadowville",
-    "state": "Texas",
+    "province": "Texas",
     "zip": "78901",
-    "isDefault": false
+    "isDefault": false,
+    "phone": "0987654321"
   }
 ]

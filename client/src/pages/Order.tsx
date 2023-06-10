@@ -2,32 +2,55 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ChangeEvent, useCallback, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useLoaderData } from "react-router-dom";
-import isMobilePhone from "validator/es/lib/isMobilePhone";
-import { z } from "zod";
 import Button from "@/components/Button";
-import Form from "@/components/Form";
-import Input from "@/components/Input";
+import AddressForm, {
+  AddressFormInputs,
+  addressSchema,
+} from "@/components/forms/AddressForm";
 import { Address } from "@/types/address";
 import { StripePayload } from "@/types/stripe";
+import isEmpty from "@/utils/isEmpty";
 
 export interface OrderData {
-  addresses?: Address[];
+  addresses: Address[];
 }
 
-const schema = z.object({
-  phoneNumber: z
-    .string()
-    .refine(isMobilePhone, { message: "Invalid phone number" }),
-  address: z.object({
-    address1: z.string().nonempty({ message: "Required" }),
-    address2: z.string().optional(),
-    zip: z.string().nonempty({ message: "Required" }),
-    city: z.string().nonempty({ message: "Required" }),
-    state: z.string().nonempty({ message: "Required" }),
-  }),
-});
+function getUseFormOptions(addresses: Address[]) {
+  const options = {
+    resolver: zodResolver(addressSchema),
+  };
 
-type Inputs = z.infer<typeof schema>;
+  if (isEmpty(addresses)) {
+    return options;
+  }
+
+  const [address] = addresses;
+
+  const defaultValues = {
+    address,
+  };
+
+  return {
+    ...options,
+    defaultValues,
+  };
+}
+
+function getReadableAddress({
+  address1,
+  address2,
+  city,
+  province,
+  zip,
+}: Omit<Address, "id">) {
+  const mandatoryPart = `, ${zip} ${city}, ${province}`;
+
+  if (!address2) {
+    return address1 + mandatoryPart;
+  }
+
+  return `${address1}, ${address2}` + mandatoryPart;
+}
 
 function Order() {
   const { addresses } = useLoaderData() as OrderData;
@@ -38,45 +61,23 @@ function Order() {
     primaryAddress?.id,
   );
 
-  function getUseFormOptions() {
-    const options = {
-      resolver: zodResolver(schema),
-    };
+  const form = useForm<AddressFormInputs>(getUseFormOptions(addresses));
+  const { setValue } = form;
 
-    if (hasAddresses) {
-      const [address] = addresses;
+  const onSubmit: SubmitHandler<AddressFormInputs> = useCallback(
+    async (data) => {
+      try {
+        console.log(data);
 
-      const defaultValues = {
-        address,
-      };
-
-      return {
-        defaultValues,
-        ...options,
-      };
-    }
-
-    return options;
-  }
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-  } = useForm<Inputs>(getUseFormOptions());
-
-  const onSubmit: SubmitHandler<Inputs> = useCallback(async (data) => {
-    try {
-      console.log(data);
-
-      checkout();
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error(error.message);
+        checkout();
+      } catch (error) {
+        if (error instanceof Error) {
+          console.error(error.message);
+        }
       }
-    }
-  }, []);
+    },
+    [],
+  );
 
   async function checkout() {
     try {
@@ -101,22 +102,6 @@ function Order() {
     } catch (error) {
       console.error(error);
     }
-  }
-
-  function getReadableAddress({
-    address1,
-    address2,
-    city,
-    state,
-    zip,
-  }: Omit<Address, "id">) {
-    const mandatoryPart = `, ${zip} ${city}, ${state}`;
-
-    if (!address2) {
-      return address1 + mandatoryPart;
-    }
-
-    return `${address1}, ${address2}` + mandatoryPart;
   }
 
   const onAddressChange = useCallback(
@@ -149,68 +134,26 @@ function Order() {
   return (
     <section className="container grid gap-8 py-16 md:justify-items-center">
       <h1 className="text-2xl font-bold">Shipping details</h1>
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid gap-4">
-          <h2 className="text-lg font-medium">Shipping address</h2>
-          {hasAddresses && (
-            <div className="grid gap-2">
-              <label htmlFor="addresses">Registered adresses</label>
-              <select
-                className="rounded border-gray-300 px-4 py-3 text-sm text-gray-600 shadow-sm focus:border-primary focus:ring-primary md:w-96"
-                id="addresses"
-                onChange={onAddressChange}
-                value={selectedAddressId}
-              >
-                {addresses.map(({ id, ...address }) => (
-                  <option key={id} value={id}>
-                    {getReadableAddress(address)}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
-          <Input
-            errorMessage={errors.address?.address1?.message}
-            id="address.address1"
-            label="Street address"
-            register={register}
-          />
-          <Input
-            errorMessage={errors.address?.address2?.message}
-            id="address.address2"
-            label="Suite, unit, floor (optional)"
-            register={register}
-          />
-          <Input
-            errorMessage={errors.address?.zip?.message}
-            id="address.zip"
-            label="ZIP code"
-            register={register}
-          />
-          <Input
-            errorMessage={errors.address?.city?.message}
-            id="address.city"
-            label="City"
-            register={register}
-          />
-          <Input
-            errorMessage={errors.address?.state?.message}
-            id="address.state"
-            label="State"
-            register={register}
-          />
+      {hasAddresses && (
+        <div className="grid gap-2">
+          <label htmlFor="addresses">Registered adresses</label>
+          <select
+            className="rounded border-gray-300 px-4 py-3 text-sm text-gray-600 shadow-sm focus:border-primary focus:ring-primary md:w-96"
+            id="addresses"
+            onChange={onAddressChange}
+            value={selectedAddressId}
+          >
+            {addresses.map(({ id, ...address }) => (
+              <option key={id} value={id}>
+                {getReadableAddress(address)}
+              </option>
+            ))}
+          </select>
         </div>
-        <div className="grid gap-4">
-          <h2 className="text-lg font-medium">Contact information</h2>
-          <Input
-            errorMessage={errors.phoneNumber?.message}
-            id="phoneNumber"
-            label="Phone number"
-            register={register}
-          />
-        </div>
+      )}
+      <AddressForm form={form} onSubmit={onSubmit}>
         <Button>Proceed to checkout</Button>
-      </Form>
+      </AddressForm>
     </section>
   );
 }

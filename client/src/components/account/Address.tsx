@@ -11,7 +11,7 @@ function Address({
   address1,
   address2,
   city,
-  state,
+  province,
   zip,
   isDefault = false,
 }: AddressProps) {
@@ -39,9 +39,9 @@ function Address({
               <br />
             </Fragment>
           )}
-          {zip}&nbsp;{state}
+          {zip}&nbsp;{city}
           <br />
-          {city}
+          {province}
         </p>
         <button
           className="self-start justify-self-end hover:text-primary"

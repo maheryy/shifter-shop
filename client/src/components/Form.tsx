@@ -7,7 +7,10 @@ function Form({
   ...props
 }: HTMLAttributes<HTMLFormElement>) {
   return (
-    <form className={classNames("grid gap-8", className)} {...props}>
+    <form
+      className={classNames("grid gap-8 lg:grid-cols-2", className)}
+      {...props}
+    >
       {children}
     </form>
   );
