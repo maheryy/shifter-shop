@@ -33,17 +33,20 @@ function Register() {
     formState: { errors },
   } = useForm<Inputs>({ defaultValues: state, resolver: zodResolver(schema) });
 
-  const onSubmit: SubmitHandler<Inputs> = useCallback(async (data) => {
-    try {
-      setState({ ...state, ...data });
+  const onSubmit: SubmitHandler<Inputs> = useCallback(
+    async (data) => {
+      try {
+        setState({ ...state, ...data });
 
-      navigate("/business/register/business-info");
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error(error.message);
+        navigate("/business/register/business-info");
+      } catch (error) {
+        if (error instanceof Error) {
+          console.error(error.message);
+        }
       }
-    }
-  }, []);
+    },
+    [navigate, setState, state],
+  );
 
   return (
     <section className="p-4">
@@ -52,18 +55,20 @@ function Register() {
           Enter your full name and choose your business password
         </h1>
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <Input
-            errorMessage={errors.firstName?.message}
-            id="firstName"
-            label="First name"
-            register={register}
-          />
-          <Input
-            errorMessage={errors.lastName?.message}
-            id="lastName"
-            label="Last name"
-            register={register}
-          />
+          <div className="grid gap-8 lg:grid-cols-2">
+            <Input
+              errorMessage={errors.firstName?.message}
+              id="firstName"
+              label="First name"
+              register={register}
+            />
+            <Input
+              errorMessage={errors.lastName?.message}
+              id="lastName"
+              label="Last name"
+              register={register}
+            />
+          </div>
           <Input
             errorMessage={errors.email?.message}
             id="email"
@@ -86,25 +91,27 @@ function Register() {
             register={register}
             type="password"
           />
-          <Button>Next step</Button>
+          <div className="grid justify-items-center gap-8 justify-self-center">
+            <Button>Next step</Button>
+            <small className="text-gray-600">
+              By creating an account, you agree to Shifter Shop’s
+              <Link
+                className="text-primary underline-offset-4 hover:underline"
+                to="#"
+              >
+                Conditions of Use
+              </Link>
+              and{" "}
+              <Link
+                className="text-primary underline-offset-4 hover:underline"
+                to="#"
+              >
+                Privacy Notice
+              </Link>
+              .
+            </small>
+          </div>
         </Form>
-        <small className="text-gray-600">
-          By creating an account, you agree to Shifter Shop's
-          <Link
-            className="text-primary underline-offset-4 hover:underline"
-            to="#"
-          >
-            Conditions of Use
-          </Link>
-          and{" "}
-          <Link
-            className="text-primary underline-offset-4 hover:underline"
-            to="#"
-          >
-            Privacy Notice
-          </Link>
-          .
-        </small>
       </div>
     </section>
   );

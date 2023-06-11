@@ -82,7 +82,7 @@ function ChangePassword() {
             register={register}
             type="password"
           />
-          <Button>Update</Button>
+          <Button className="justify-self-center">Update</Button>
         </Form>
       </div>
     </section>

@@ -51,20 +51,22 @@ const Profile = () => {
       <div className="grid gap-8 rounded md:justify-items-center md:p-4 md:shadow">
         <h1 className="text-xl font-medium capitalize">Profile information</h1>
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <Input
-            errorMessage={errors.firstname?.message}
-            id="firstname"
-            label="First name"
-            register={register}
-            type="text"
-          />
-          <Input
-            errorMessage={errors.lastname?.message}
-            id="lastname"
-            label="Last name"
-            register={register}
-            type="text"
-          />
+          <div className="grid gap-8 lg:grid-cols-2">
+            <Input
+              errorMessage={errors.firstname?.message}
+              id="firstname"
+              label="First name"
+              register={register}
+              type="text"
+            />
+            <Input
+              errorMessage={errors.lastname?.message}
+              id="lastname"
+              label="Last name"
+              register={register}
+              type="text"
+            />
+          </div>
           <Input
             disabled
             errorMessage={errors.email?.message}
@@ -80,7 +82,7 @@ const Profile = () => {
             register={register}
             type="tel"
           />
-          <Button>Save changes</Button>
+          <Button className="justify-self-center">Save changes</Button>
         </Form>
       </div>
     </section>

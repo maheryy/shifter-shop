@@ -37,25 +37,27 @@ function getUseFormOptions(addresses: Address[]) {
 }
 
 function getReadableAddress({
+  fullName,
   address1,
   address2,
   city,
   province,
   zip,
 }: Omit<Address, "id">) {
-  const mandatoryPart = `, ${zip} ${city}, ${province}`;
+  const mandatoryStart = `${fullName}, ${address1}`;
+  const mandatoryEnd = `, ${zip} ${city}, ${province}`;
 
   if (!address2) {
-    return address1 + mandatoryPart;
+    return mandatoryStart + mandatoryEnd;
   }
 
-  return `${address1}, ${address2}` + mandatoryPart;
+  return mandatoryStart + `, ${address2}` + mandatoryEnd;
 }
 
 function Order() {
   const { addresses } = useLoaderData() as OrderData;
-  const hasAddresses = !!addresses?.length;
-  const [primaryAddress] = addresses || [undefined];
+  const hasAddresses = !isEmpty(addresses);
+  const [primaryAddress] = hasAddresses ? addresses : [undefined];
 
   const [selectedAddressId, setSelectedAddressId] = useState(
     primaryAddress?.id,
@@ -138,7 +140,7 @@ function Order() {
         <div className="grid gap-2">
           <label htmlFor="addresses">Registered adresses</label>
           <select
-            className="rounded border-gray-300 px-4 py-3 text-sm text-gray-600 shadow-sm focus:border-primary focus:ring-primary md:w-96"
+            className="rounded border-gray-300 px-4 py-3 text-sm text-gray-600 shadow-sm focus:border-primary focus:ring-primary"
             id="addresses"
             onChange={onAddressChange}
             value={selectedAddressId}
@@ -152,7 +154,7 @@ function Order() {
         </div>
       )}
       <AddressForm form={form} onSubmit={onSubmit}>
-        <Button>Proceed to checkout</Button>
+        <Button className="justify-self-center">Proceed to checkout</Button>
       </AddressForm>
     </section>
   );

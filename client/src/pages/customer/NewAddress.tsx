@@ -27,7 +27,7 @@ function NewAddress() {
       <div className="grid gap-8 rounded md:justify-items-center md:p-4 md:shadow">
         <h1 className="text-xl font-medium capitalize">Add a new address</h1>
         <AddressForm form={form} onSubmit={onSubmit}>
-          <div className="flex items-center gap-8">
+          <div className="grid justify-items-center gap-8">
             <Button>Add address</Button>
             <Link to="/account/addresses">Cancel</Link>
           </div>

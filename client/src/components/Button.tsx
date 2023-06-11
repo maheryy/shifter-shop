@@ -8,6 +8,7 @@ function Button({
   children,
   disabled,
   isLoading,
+  className,
   type = "submit",
   ...props
 }: ButtonProps) {
@@ -16,6 +17,7 @@ function Button({
     {
       "bg-gray-200 cursor-not-allowed": disabled,
     },
+    className,
   );
 
   return (

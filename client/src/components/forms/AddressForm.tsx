@@ -36,52 +36,46 @@ function AddressForm({ onSubmit, form, children }: AddressProps) {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <div className="lg:col-span-2">
+      <Input
+        errorMessage={errors.address?.fullName?.message}
+        id="address.fullName"
+        label="Full name"
+        register={register}
+      />
+      <Input
+        errorMessage={errors.address?.address1?.message}
+        id="address.address1"
+        label="Address"
+        register={register}
+      />
+      <Input
+        errorMessage={errors.address?.address2?.message}
+        id="address.address2"
+        label="Address"
+        placeholder="(Optional) Apt, suite, building, unit, floor, etc"
+        register={register}
+      />
+      <div className="grid gap-8 lg:grid-cols-2">
         <Input
-          errorMessage={errors.address?.fullName?.message}
-          id="address.fullName"
-          label="Full name"
+          errorMessage={errors.address?.city?.message}
+          id="address.city"
+          label="City"
           register={register}
         />
-      </div>
-      <div className="lg:col-span-2">
         <Input
-          errorMessage={errors.address?.address1?.message}
-          id="address.address1"
-          label="Address"
-          register={register}
-        />
-      </div>
-      <div className="lg:col-span-2">
-        <Input
-          errorMessage={errors.address?.address2?.message}
-          id="address.address2"
-          label="Address"
-          placeholder="(Optional) Apt, suite, building, unit, floor, etc"
+          errorMessage={errors.address?.zip?.message}
+          id="address.zip"
+          label="ZIP code"
           register={register}
         />
       </div>
       <Input
-        errorMessage={errors.address?.city?.message}
-        id="address.city"
-        label="City"
+        errorMessage={errors.address?.province?.message}
+        id="address.province"
+        label="Province"
         register={register}
       />
-      <Input
-        errorMessage={errors.address?.zip?.message}
-        id="address.zip"
-        label="ZIP code"
-        register={register}
-      />
-      <div className="lg:col-span-2">
-        <Input
-          errorMessage={errors.address?.province?.message}
-          id="address.province"
-          label="State"
-          register={register}
-        />
-      </div>
-      <div className="lg:col-span-2">
+      <div className="grid gap-2">
         <Input
           errorMessage={errors.address?.phone?.message}
           id="address.phone"
@@ -91,17 +85,15 @@ function AddressForm({ onSubmit, form, children }: AddressProps) {
         />
         <p>In case there are questions about delivering your order.</p>
       </div>
-      <div className="grid gap-8 lg:col-span-2">
-        <div className="flex gap-2">
-          <input
-            id="isDefault"
-            type="checkbox"
-            {...register("address.isDefault")}
-          />
-          <label htmlFor="isDefault">Set as default</label>
-        </div>
-        {children}
+      <div className="flex gap-2">
+        <input
+          id="isDefault"
+          type="checkbox"
+          {...register("address.isDefault")}
+        />
+        <label htmlFor="isDefault">Set as default</label>
       </div>
+      {children}
     </Form>
   );
 }
