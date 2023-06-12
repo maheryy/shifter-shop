@@ -1,6 +1,6 @@
 import { Category } from "@/types/category";
 
-export interface ProductListParams {
+export interface ProductsParams {
   categories?: Category["id"][];
   maxPrice?: number;
   minPrice?: number;

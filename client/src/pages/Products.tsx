@@ -3,12 +3,12 @@ import { useLoaderData, useSearchParams } from "react-router-dom";
 import { getProducts } from "@/api/product.api";
 import ProductCard from "@/components/ProductCard";
 import { Category } from "@/types/category";
-import { ProductListParams, SortType, SortTypeMapping } from "@/types/params";
+import { ProductsParams, SortType, SortTypeMapping } from "@/types/params";
 import { Product } from "@/types/product";
 
-export interface ProductListData {
+export interface ProductsData {
   categories: Category[];
-  initialParams: ProductListParams;
+  initialParams: ProductsParams;
   initialProducts: Product[];
 }
 
@@ -19,7 +19,7 @@ type ParamsAction =
   | { type: "CATEGORIES"; payload: Category["id"][] };
 
 function paramsReducer(
-  params: ProductListParams,
+  params: ProductsParams,
   { payload, type }: ParamsAction,
 ) {
   switch (type) {
@@ -57,11 +57,11 @@ function paramsReducer(
   }
 }
 
-const ProductList = () => {
+function Products() {
   const [, setSearchParams] = useSearchParams();
 
   const { categories, initialParams, initialProducts } =
-    useLoaderData() as ProductListData;
+    useLoaderData() as ProductsData;
 
   const [params, dispatch] = useReducer(paramsReducer, initialParams);
   const [products, setProducts] = useState<Product[]>(initialProducts);
@@ -272,6 +272,6 @@ const ProductList = () => {
       </div>
     </section>
   );
-};
+}
 
-export default ProductList;
+export default Products;
