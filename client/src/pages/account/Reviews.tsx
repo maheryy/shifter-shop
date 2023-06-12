@@ -1,15 +1,16 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getReviews } from "@/api/review.api";
 import ReviewCard from "@/components/account/ReviewCard";
+import { useData } from "@/hooks/useData";
+import { Loader } from "@/types/loader";
 import { Review } from "@/types/review";
 
-const Reviews = () => {
-  const [reviews, setReviews] = useState<Review[]>([]);
+export const reviewsLoader: Loader<Review[]> = async () => {
+  return getReviews();
+};
 
-  useEffect(() => {
-    getReviews().then(setReviews).catch(console.error);
-  }, []);
+const Reviews = () => {
+  const reviews = useData<Review[]>();
 
   return (
     <section className="grid gap-8 md:grid-cols-2">

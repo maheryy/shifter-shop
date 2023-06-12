@@ -1,5 +1,4 @@
 import { RouteObject } from "react-router-dom";
-import { getProduct } from "@/api/product.api";
 import PublicLayout from "@/layouts/PublicLayout";
 import Cart from "@/pages/Cart";
 import FetchFailure from "@/pages/errors/FetchFailure";
