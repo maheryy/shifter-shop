@@ -3,12 +3,15 @@ import { ProductService } from './product.service';
 import { Product } from '@prisma/client';
 import { CreateProductDto } from './dtos/create-product.dto';
 import { Public } from 'src/auth/guards/allow.public.guard';
+import { Roles } from 'src/decorators/roles.decorator';
+import { Role } from '@prisma/client';
 
 @Controller()
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Post('products')
+  @Roles(Role.Admin, Role.Seller)
   async create(@Body() product: CreateProductDto) {
     return this.productService.create(product);
   }
@@ -38,6 +41,7 @@ export class ProductController {
   }
 
   @Patch('products/:id')
+  @Roles(Role.Admin, Role.Seller)
   async update(@Body() product: Product, @Param('id') id: string) {
     return this.productService.update(id, product);
   }
