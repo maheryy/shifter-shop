@@ -1,12 +1,21 @@
-import addresses from "@data/addresses.json";
 import { Link } from "react-router-dom";
+import { getAdresses } from "@/api/address.api";
 import Address from "@/components/account/Address";
+import { useData } from "@/hooks/useData";
 
 export interface AddressesData {
   addresses: Address[];
 }
 
+export async function addressesLoader(): Promise<AddressesData> {
+  const addresses = await getAdresses();
+
+  return { addresses };
+}
+
 function Addresses() {
+  const { addresses } = useData<AddressesData>();
+
   return (
     <section className="grid gap-8">
       <Link className="md:hidden" to="/account">

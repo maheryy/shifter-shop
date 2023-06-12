@@ -1,10 +1,9 @@
 import { RouteObject } from "react-router-dom";
-import { getUserAdresses } from "@/api/address.api";
 import { getOrderAndProduct } from "@/api/order.api";
 import CustomerAccountLayout from "@/layouts/CustomerAccountLayout";
 import CustomerLayout from "@/layouts/CustomerLayout";
 import Account from "@/pages/customer/Account";
-import Addresses, { AddressesData } from "@/pages/customer/Addresses";
+import Addresses, { addressesLoader } from "@/pages/customer/Addresses";
 import ChangePassword from "@/pages/customer/ChangePassword";
 import NewAddress from "@/pages/customer/NewAddress";
 import Orders from "@/pages/customer/Orders";
@@ -41,16 +40,9 @@ const customerRoutes: RouteObject = {
           path: "addresses",
           children: [
             {
-              path: "",
+              index: true,
               element: <Addresses />,
-              loader: async (): Promise<AddressesData> => {
-                // TODO: dynamic user id
-                const addresses = await getUserAdresses(1);
-
-                return {
-                  addresses,
-                };
-              },
+              loader: addressesLoader,
             },
             {
               path: "new",

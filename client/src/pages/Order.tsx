@@ -1,12 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChangeEvent, useCallback, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useLoaderData } from "react-router-dom";
+import { getAdresses } from "@/api/address.api";
 import Button from "@/components/Button";
 import AddressForm, {
   AddressFormInputs,
   addressSchema,
 } from "@/components/forms/AddressForm";
+import { useData } from "@/hooks/useData";
 import { Address } from "@/types/address";
 import { StripePayload } from "@/types/stripe";
 import isEmpty from "@/utils/isEmpty";
@@ -15,47 +16,14 @@ export interface OrderData {
   addresses: Address[];
 }
 
-function getUseFormOptions(addresses: Address[]) {
-  const options = {
-    resolver: zodResolver(addressSchema),
-  };
+export async function orderLoader(): Promise<OrderData> {
+  const addresses = await getAdresses();
 
-  if (isEmpty(addresses)) {
-    return options;
-  }
-
-  const [address] = addresses;
-
-  const defaultValues = {
-    address,
-  };
-
-  return {
-    ...options,
-    defaultValues,
-  };
-}
-
-function getReadableAddress({
-  fullName,
-  address1,
-  address2,
-  city,
-  province,
-  zip,
-}: Omit<Address, "id">) {
-  const mandatoryStart = `${fullName}, ${address1}`;
-  const mandatoryEnd = `, ${zip} ${city}, ${province}`;
-
-  if (!address2) {
-    return mandatoryStart + mandatoryEnd;
-  }
-
-  return mandatoryStart + `, ${address2}` + mandatoryEnd;
+  return { addresses };
 }
 
 function Order() {
-  const { addresses } = useLoaderData() as OrderData;
+  const { addresses } = useData<OrderData>();
   const hasAddresses = !isEmpty(addresses);
   const [primaryAddress] = hasAddresses ? addresses : [undefined];
 
@@ -158,6 +126,45 @@ function Order() {
       </AddressForm>
     </section>
   );
+}
+
+function getUseFormOptions(addresses: Address[]) {
+  const options = {
+    resolver: zodResolver(addressSchema),
+  };
+
+  if (isEmpty(addresses)) {
+    return options;
+  }
+
+  const [address] = addresses;
+
+  const defaultValues = {
+    address,
+  };
+
+  return {
+    ...options,
+    defaultValues,
+  };
+}
+
+function getReadableAddress({
+  fullName,
+  address1,
+  address2,
+  city,
+  province,
+  zip,
+}: Omit<Address, "id">) {
+  const mandatoryStart = `${fullName}, ${address1}`;
+  const mandatoryEnd = `, ${zip} ${city}, ${province}`;
+
+  if (!address2) {
+    return mandatoryStart + mandatoryEnd;
+  }
+
+  return mandatoryStart + `, ${address2}` + mandatoryEnd;
 }
 
 export default Order;

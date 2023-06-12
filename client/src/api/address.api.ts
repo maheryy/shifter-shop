@@ -1,8 +1,6 @@
 import { User } from "@/types/user";
 import api from ".";
 
-export function getUserAdresses(
-  userId: User["id"],
-): Promise<User["addresses"]> {
-  return api.get(`/users/${userId}/addresses`).json();
+export function getAdresses(): Promise<User["addresses"]> {
+  return api.get("/addresses").json();
 }
