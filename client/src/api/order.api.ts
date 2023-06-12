@@ -34,3 +34,7 @@ export const getOrderAndProduct = async (
 
   return { order: order[0], product: product[0] };
 };
+
+export function createOrder(cart: unknown) {
+  console.log("Not implemented", cart);
+}

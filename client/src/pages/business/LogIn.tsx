@@ -73,7 +73,7 @@ const LogIn = () => {
           register={register}
           type="password"
         />
-        <div className="flex justify-between">
+        <div className="flex justify-between md:justify-center md:gap-8 ">
           <div className="flex gap-2">
             <input
               className="cursor-pointer rounded-sm text-primary focus:ring-0"
@@ -89,7 +89,7 @@ const LogIn = () => {
             I Forgot my password
           </Link>
         </div>
-        <Button>Log in</Button>
+        <Button className="justify-self-center">Log in</Button>
       </Form>
     </section>
   );

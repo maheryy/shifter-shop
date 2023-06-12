@@ -1,3 +1,4 @@
+import HomeIcon from "@icons/home.svg";
 import LogoutIcon from "@icons/out.svg";
 import CartIcon from "@icons/solid/cart.svg";
 import IdentificationIcon from "@icons/solid/identification.svg";
@@ -11,7 +12,7 @@ const Account = () => {
   const { logout } = useCustomerContext();
 
   return (
-    <div className="grid gap-4 md:grid-cols-3">
+    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
       <LinkCard
         description="View your order history and details"
         icon={<ListIcon />}
@@ -35,6 +36,12 @@ const Account = () => {
         icon={<IdentificationIcon />}
         link="/account/profile"
         title="Profile information"
+      />
+      <LinkCard
+        description="Update your addresses"
+        icon={<HomeIcon />}
+        link="/account/addresses"
+        title="Saved addresses"
       />
       <LinkCard
         description="Change your password"

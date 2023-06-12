@@ -108,7 +108,7 @@ function Landing() {
             </button>
           </div>
         ) : (
-          <Button>Get started</Button>
+          <Button className="justify-self-center">Get started</Button>
         )}
       </Form>
       <small className="text-gray-600">
