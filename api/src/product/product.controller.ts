@@ -2,6 +2,7 @@ import { Controller, Body, Get, Param, Patch, Post } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { Product } from '@prisma/client';
 import { CreateProductDto } from './dtos/create-product.dto';
+import { Public } from 'src/auth/guards/allow.public.guard';
 
 @Controller()
 export class ProductController {
@@ -12,21 +13,25 @@ export class ProductController {
     return this.productService.create(product);
   }
 
+  @Public()
   @Get('products')
   async findAll() {
     return this.productService.findAll();
   }
 
+  @Public()
   @Get('products/:id')
   async findOne(@Param('id') id: string) {
     return this.productService.findOneById(id);
   }
 
+  @Public()
   @Get('products/category/:categoryId')
   async findAllByCategoryId(@Param('categoryId') categoryId: string) {
     return this.productService.findAllByCategoryId(categoryId);
   }
 
+  @Public()
   @Get('products/seller/:sellerId')
   async findAllBySellerId(@Param('sellerId') sellerId: string) {
     return this.productService.findAllBySellerId(sellerId);

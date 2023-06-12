@@ -2,6 +2,7 @@ import { Controller, Body, Get, Param, Patch, Post } from '@nestjs/common';
 import { ReviewService } from './review.service';
 import { CreateReviewDto } from './dtos/create-review.dto';
 import { UpdateReviewDto } from './dtos/update-review.dto';
+import { Public } from 'src/auth/guards/allow.public.guard';
 
 @Controller()
 export class ReviewController {
@@ -32,6 +33,7 @@ export class ReviewController {
     return this.reviewService.findAllByAuthorId(authorId);
   }
 
+  @Public()
   @Get('reviews/product/:productId')
   async findAllByProductId(@Param('productId') productId: string) {
     return this.reviewService.findAllByProductId(productId);
