@@ -4,32 +4,31 @@ import { getProduct, getProducts } from "@/api/product.api";
 import NotFound from "@/pages/errors/NotFound";
 import Product from "@/pages/Product";
 import Products, { ProductsData } from "@/pages/Products";
+import { ProductsSearchParams } from "@/types/params";
 
 const productsRoutes: RouteObject[] = [
   {
     path: "/products",
     element: <Products />,
     loader: async ({ request }): Promise<ProductsData> => {
-      const { searchParams } = new URL(request.url);
+      try {
+        const searchParams = getProductsSearchParams(request.url);
 
-      const initialParams = {
-        categories: searchParams.get("categories")?.split(",").map(Number),
-        maxPrice: Number(searchParams.get("maxPrice")) || undefined,
-        minPrice: Number(searchParams.get("minPrice")) || undefined,
-        q: searchParams.get("q") || undefined,
-        sortBy: searchParams.get("sortBy") || undefined,
-      };
+        const [categories, initialProducts] = await Promise.all([
+          getCategories(),
+          getProducts(searchParams),
+        ]);
 
-      const [categories, initialProducts] = await Promise.all([
-        getCategories(),
-        getProducts(initialParams),
-      ]);
+        return {
+          categories,
+          searchParams,
+          initialProducts,
+        };
+      } catch (error) {
+        console.error(error);
 
-      return {
-        categories,
-        initialParams,
-        initialProducts,
-      };
+        throw error;
+      }
     },
   },
   {
@@ -39,5 +38,25 @@ const productsRoutes: RouteObject[] = [
     errorElement: <NotFound />,
   },
 ];
+
+function getProductsSearchParams(url: string): ProductsSearchParams {
+  const { searchParams } = new URL(url);
+
+  const categories = searchParams.get("categories");
+  const maxPrice = searchParams.get("maxPrice");
+  const minPrice = searchParams.get("minPrice");
+  const q = searchParams.get("q");
+  const sortBy = searchParams.get("sortBy");
+
+  const productsParams = {
+    ...(categories && { categories: categories.split(",").map(Number) }),
+    ...(maxPrice && { maxPrice: Number(maxPrice) }),
+    ...(minPrice && { minPrice: Number(minPrice) }),
+    ...(q && { q }),
+    ...(sortBy && { sortBy }),
+  };
+
+  return productsParams;
+}
 
 export default productsRoutes;

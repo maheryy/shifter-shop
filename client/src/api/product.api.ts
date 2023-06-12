@@ -1,78 +1,8 @@
 import products from "@data/products.json";
-import { ProductsParams } from "@/types/params";
-import { Product, ProductWithQuantity } from "@/types/product";
-
-export const getProducts = async (params?: ProductsParams) => {
-  const shuffledProducts = getShuffledProducts();
-
-  if (!params) {
-    return shuffledProducts;
-  }
-
-  const byCategories = (product: Product) => {
-    const { categories } = params;
-
-    if (!categories || categories.length === 0) {
-      return true;
-    }
-
-    return categories.includes(product.category);
-  };
-
-  const byMinPrice = (product: Product) => {
-    const { minPrice } = params;
-
-    if (!minPrice) {
-      return true;
-    }
-
-    return product.price >= minPrice;
-  };
-
-  const byMaxPrice = (product: Product) => {
-    const { maxPrice } = params;
-
-    if (!maxPrice) {
-      return true;
-    }
-
-    return product.price <= maxPrice;
-  };
-
-  const bySearch = (product: Product) => {
-    const { q } = params;
-
-    if (!q) {
-      return true;
-    }
-
-    return new RegExp(q, "i").test(product.name);
-  };
-
-  return shuffledProducts
-    .filter(byCategories)
-    .filter(byMinPrice)
-    .filter(byMaxPrice)
-    .filter(bySearch);
-};
-
-export const getProduct = async (id: number): Promise<Product> => {
-  const product = products.find((product) => product.id == id);
-
-  if (!product) {
-    throw new Error("Product not found");
-  }
-
-  return product;
-};
-
-export const getCartProducts = async (): Promise<ProductWithQuantity[]> => {
-  return products.map((e) => ({ ...e, quantity: 1 })).slice(0, 4);
-};
-
-export const getRelatedProducts = async (id: number): Promise<Product[]> => {
-  return getShuffledProducts().slice(0, 4);
-};
+import { ProductsSearchParams } from "@/types/params";
+import { Product } from "@/types/product";
+import isEmpty from "@/utils/isEmpty";
+import api from ".";
 
 // Temporary solution to shuffle hardcoded products
 export const getShuffledProducts = (max?: number) => {
@@ -82,3 +12,33 @@ export const getShuffledProducts = (max?: number) => {
     .map((item) => item.value)
     .slice(0, max);
 };
+
+export async function getProducts(
+  searchParams?: ProductsSearchParams,
+): Promise<Product[]> {
+  if (!searchParams) {
+    return api.get("/products").json();
+  }
+
+  const { categories, ...rest } = searchParams;
+
+  if (!categories || isEmpty(categories)) {
+    return api.query(rest).get("/products").json();
+  }
+
+  return api
+    .query({
+      ...rest,
+      categories: categories.join(","),
+    })
+    .get("/products")
+    .json();
+}
+
+export function getProduct(id: Product["id"]): Promise<Product> {
+  return api.get(`/products/${id}`).json();
+}
+
+export function getRelatedProducts(id: Product["id"]): Promise<Product[]> {
+  return api.get(`/products/${id}/related`).json();
+}
