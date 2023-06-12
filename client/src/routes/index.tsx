@@ -1,56 +1,9 @@
 import { createBrowserRouter, RouteObject } from "react-router-dom";
-import PublicLayout from "@/layouts/PublicLayout";
-import Cart from "@/pages/Cart";
-import FetchFailure from "@/pages/errors/FetchFailure";
-import NotFound from "@/pages/errors/NotFound";
-import Home from "@/pages/Home";
-import Login from "@/pages/Login";
-import Order, { orderLoader } from "@/pages/Order";
-import Register from "@/pages/Register";
 import accountRoutes from "./account";
 import businessRoutes from "./business";
-import productsRoutes from "./products";
+import publicRoutes from "./public";
 
-const routes: RouteObject[] = [
-  {
-    path: "*",
-    element: <NotFound />,
-  },
-  {
-    element: <PublicLayout />,
-    errorElement: (
-      <PublicLayout>
-        <FetchFailure />
-      </PublicLayout>
-    ),
-    children: [
-      {
-        index: true,
-        element: <Home />,
-      },
-      {
-        path: "/login",
-        element: <Login />,
-      },
-      {
-        path: "/register",
-        element: <Register />,
-      },
-      {
-        path: "/order",
-        element: <Order />,
-        loader: orderLoader,
-      },
-      ...productsRoutes,
-      {
-        path: "/cart",
-        element: <Cart />,
-      },
-    ],
-  },
-  accountRoutes,
-  ...businessRoutes,
-];
+const routes: RouteObject[] = [publicRoutes, accountRoutes, businessRoutes];
 
 const router = createBrowserRouter(routes);
 

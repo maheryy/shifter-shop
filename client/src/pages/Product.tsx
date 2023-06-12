@@ -1,17 +1,22 @@
 import BagIcon from "@icons/bag.svg";
 import { useEffect, useState } from "react";
-import { useLoaderData, useParams } from "react-router-dom";
-import { getRelatedProducts } from "@/api/product.api";
+import { useParams } from "react-router-dom";
+import { getProduct, getRelatedProducts } from "@/api/product.api";
 import ProductCard from "@/components/ProductCard";
 import QuantityPicker from "@/components/QuantityPicker";
 import Rating from "@/components/Rating";
 import { useCartContext } from "@/hooks/context";
+import { useData } from "@/hooks/useData";
+import { Loader } from "@/types/loader";
 import { Product } from "@/types/product";
 import { formatPrice } from "@/utils/format";
 
+export const productLoader: Loader<Product> = ({ params }) =>
+  getProduct(Number(params.id));
+
 const Product = () => {
   const { id } = useParams();
-  const product = useLoaderData() as Product;
+  const product = useData<Product>();
   const [quantity, setQuantity] = useState(1);
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const { addToCart } = useCartContext();

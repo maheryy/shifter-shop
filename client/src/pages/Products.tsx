@@ -1,17 +1,13 @@
 import { useCallback, useEffect, useReducer, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { getCategories } from "@/api/category.api";
 import { getProducts } from "@/api/product.api";
 import ProductCard from "@/components/ProductCard";
 import { useData } from "@/hooks/useData";
 import { Category } from "@/types/category";
+import { Loader } from "@/types/loader";
 import { ProductsSearchParams, SortBy, SortTypeMapping } from "@/types/params";
 import { Product } from "@/types/product";
-
-export interface ProductsData {
-  categories: Category[];
-  searchParams: ProductsSearchParams;
-  initialProducts: Product[];
-}
 
 type Action =
   | { type: "SORT_BY"; payload: SortBy }
@@ -54,6 +50,33 @@ function reducer(state: ProductsSearchParams, { payload, type }: Action) {
     }
   }
 }
+
+export interface ProductsData {
+  categories: Category[];
+  searchParams: ProductsSearchParams;
+  initialProducts: Product[];
+}
+
+export const productsLoader: Loader<ProductsData> = async ({ request }) => {
+  try {
+    const searchParams = getProductsSearchParams(request.url);
+
+    const [categories, initialProducts] = await Promise.all([
+      getCategories(),
+      getProducts(searchParams),
+    ]);
+
+    return {
+      categories,
+      searchParams,
+      initialProducts,
+    };
+  } catch (error) {
+    console.error(error);
+
+    throw error;
+  }
+};
 
 function Products() {
   const [, setSearchParams] = useSearchParams();
@@ -269,6 +292,26 @@ function Products() {
       </div>
     </section>
   );
+}
+
+function getProductsSearchParams(url: string): ProductsSearchParams {
+  const { searchParams } = new URL(url);
+
+  const categories = searchParams.get("categories");
+  const maxPrice = searchParams.get("maxPrice");
+  const minPrice = searchParams.get("minPrice");
+  const q = searchParams.get("q");
+  const sortBy = searchParams.get("sortBy");
+
+  const productsParams = {
+    ...(categories && { categories: categories.split(",").map(Number) }),
+    ...(maxPrice && { maxPrice: Number(maxPrice) }),
+    ...(minPrice && { minPrice: Number(minPrice) }),
+    ...(q && { q }),
+    ...(sortBy && { sortBy }),
+  };
+
+  return productsParams;
 }
 
 export default Products;
