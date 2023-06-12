@@ -2,18 +2,18 @@ import { RouteObject } from "react-router-dom";
 import { getOrderAndProduct } from "@/api/order.api";
 import CustomerAccountLayout from "@/layouts/CustomerAccountLayout";
 import CustomerLayout from "@/layouts/CustomerLayout";
-import Account from "@/pages/customer/Account";
-import Addresses, { addressesLoader } from "@/pages/customer/Addresses";
-import ChangePassword from "@/pages/customer/ChangePassword";
-import NewAddress from "@/pages/customer/NewAddress";
-import Orders from "@/pages/customer/Orders";
-import Profile from "@/pages/customer/Profile";
-import ReviewForm from "@/pages/customer/ReviewForm";
-import Reviews from "@/pages/customer/Reviews";
+import Account from "@/pages/account/Account";
+import Addresses, { addressesLoader } from "@/pages/account/Addresses";
+import ChangePassword from "@/pages/account/ChangePassword";
+import NewAddress from "@/pages/account/NewAddress";
+import Orders from "@/pages/account/Orders";
+import Profile from "@/pages/account/Profile";
+import ReviewForm from "@/pages/account/ReviewForm";
+import Reviews from "@/pages/account/Reviews";
 import NotFound from "@/pages/errors/NotFound";
 import PostCheckout from "@/pages/PostCheckout";
 
-const customerRoutes: RouteObject = {
+const accountRoutes: RouteObject = {
   element: <CustomerLayout />,
   children: [
     {
@@ -77,4 +77,4 @@ const customerRoutes: RouteObject = {
   ],
 };
 
-export default customerRoutes;
+export default accountRoutes;

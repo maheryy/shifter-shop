@@ -1,5 +1,4 @@
 import { createBrowserRouter, RouteObject } from "react-router-dom";
-import { getAdresses } from "@/api/address.api";
 import PublicLayout from "@/layouts/PublicLayout";
 import Cart from "@/pages/Cart";
 import FetchFailure from "@/pages/errors/FetchFailure";
@@ -8,8 +7,8 @@ import Home from "@/pages/Home";
 import Login from "@/pages/Login";
 import Order, { orderLoader } from "@/pages/Order";
 import Register from "@/pages/Register";
+import accountRoutes from "./account";
 import businessRoutes from "./business";
-import customerRoutes from "./customer";
 import productsRoutes from "./products";
 
 const routes: RouteObject[] = [
@@ -49,7 +48,7 @@ const routes: RouteObject[] = [
       },
     ],
   },
-  customerRoutes,
+  accountRoutes,
   ...businessRoutes,
 ];
 
