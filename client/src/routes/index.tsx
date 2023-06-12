@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouteObject } from "react-router-dom";
-import { getAddresses } from "@/api/address.api";
+import { getUserAdresses } from "@/api/address.api";
 import PublicLayout from "@/layouts/PublicLayout";
 import Cart from "@/pages/Cart";
 import FetchFailure from "@/pages/errors/FetchFailure";
@@ -41,7 +41,8 @@ const routes: RouteObject[] = [
         path: "/order",
         element: <Order />,
         loader: async (): Promise<OrderData> => {
-          const addresses = getAddresses();
+          // TODO: dynamic user id
+          const addresses = await getUserAdresses(1);
 
           return {
             addresses,

@@ -1,5 +1,5 @@
 import { RouteObject } from "react-router-dom";
-import { getAddresses } from "@/api/address.api";
+import { getUserAdresses } from "@/api/address.api";
 import { getOrderAndProduct } from "@/api/order.api";
 import CustomerAccountLayout from "@/layouts/CustomerAccountLayout";
 import CustomerLayout from "@/layouts/CustomerLayout";
@@ -44,7 +44,8 @@ const customerRoutes: RouteObject = {
               path: "",
               element: <Addresses />,
               loader: async (): Promise<AddressesData> => {
-                const addresses = getAddresses();
+                // TODO: dynamic user id
+                const addresses = await getUserAdresses(1);
 
                 return {
                   addresses,
