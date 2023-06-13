@@ -4,7 +4,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { getAdresses } from "@/api/address.api";
 import Button from "@/components/Button";
 import AddressForm, {
-  AddressFormInputs,
+  AddressFieldValues,
   addressSchema,
 } from "@/components/forms/AddressForm";
 import { useData } from "@/hooks/useData";
@@ -31,10 +31,10 @@ function Order() {
     primaryAddress?.id,
   );
 
-  const form = useForm<AddressFormInputs>(getUseFormOptions(addresses));
+  const form = useForm<AddressFieldValues>(getUseFormOptions(addresses));
   const { setValue } = form;
 
-  const onSubmit: SubmitHandler<AddressFormInputs> = useCallback(
+  const onSubmit: SubmitHandler<AddressFieldValues> = useCallback(
     async (data) => {
       try {
         console.log(data);

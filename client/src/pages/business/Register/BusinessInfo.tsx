@@ -26,7 +26,7 @@ const schema = z.object({
   }),
 });
 
-type Inputs = z.infer<typeof schema>;
+type BusinessInfoFieldValues = z.infer<typeof schema>;
 
 function BusinessInfo() {
   const navigate = useNavigate();
@@ -36,9 +36,12 @@ function BusinessInfo() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>({ defaultValues: state, resolver: zodResolver(schema) });
+  } = useForm<BusinessInfoFieldValues>({
+    defaultValues: state,
+    resolver: zodResolver(schema),
+  });
 
-  const onSubmit: SubmitHandler<Inputs> = useCallback(
+  const onSubmit: SubmitHandler<BusinessInfoFieldValues> = useCallback(
     async (data) => {
       try {
         setState({ ...state, ...data });

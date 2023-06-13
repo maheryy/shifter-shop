@@ -15,7 +15,7 @@ const schema = z.object({
   password: z.string().nonempty({ message: "Required" }),
 });
 
-type Inputs = z.infer<typeof schema>;
+type LoginFieldValues = z.infer<typeof schema>;
 
 const LogIn = () => {
   const navigate = useNavigate();
@@ -28,12 +28,12 @@ const LogIn = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>({
+  } = useForm<LoginFieldValues>({
     defaultValues: { email },
     resolver: zodResolver(schema),
   });
 
-  const onSubmit: SubmitHandler<Inputs> = useCallback(
+  const onSubmit: SubmitHandler<LoginFieldValues> = useCallback(
     async ({ email, password }) => {
       try {
         const token = await getAuthToken(email, password);

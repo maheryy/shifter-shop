@@ -5,7 +5,7 @@ interface InputProps<T extends FieldValues>
   extends React.HTMLProps<HTMLInputElement> {
   errorMessage?: string;
   id: Path<T>;
-  label: string;
+  label?: string;
   register: UseFormRegister<T>;
 }
 
@@ -28,7 +28,7 @@ function Input<T extends FieldValues>({
 
   return (
     <div className="grid gap-2">
-      <label htmlFor={id}>{label}</label>
+      {label && <label htmlFor={id}>{label}</label>}
       <input
         className={inputClass}
         disabled={disabled}

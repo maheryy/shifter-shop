@@ -11,3 +11,5 @@ export interface Review {
   orderId: number;
   product: Product;
 }
+
+export type CreateReview = Pick<Review, "rating" | "title" | "details">;

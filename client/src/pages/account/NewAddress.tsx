@@ -4,16 +4,18 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import Address from "@/components/account/Address";
 import Button from "@/components/Button";
-import AddressForm, { AddressFormInputs } from "@/components/forms/AddressForm";
+import AddressForm, {
+  AddressFieldValues,
+} from "@/components/forms/AddressForm";
 
 export interface AddressesData {
   addresses: Address[];
 }
 
 function NewAddress() {
-  const form = useForm<AddressFormInputs>();
+  const form = useForm<AddressFieldValues>();
 
-  const onSubmit: SubmitHandler<AddressFormInputs> = useCallback((data) => {
+  const onSubmit: SubmitHandler<AddressFieldValues> = useCallback((data) => {
     console.log(data);
 
     toast("Not implemented");

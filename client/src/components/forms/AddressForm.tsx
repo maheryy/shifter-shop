@@ -19,12 +19,12 @@ export const addressSchema = z.object({
   }),
 });
 
-export type AddressFormInputs = z.infer<typeof addressSchema>;
+export type AddressFieldValues = z.infer<typeof addressSchema>;
 
 interface AddressProps {
   children: React.ReactNode;
-  form: UseFormReturn<AddressFormInputs>;
-  onSubmit: SubmitHandler<AddressFormInputs>;
+  form: UseFormReturn<AddressFieldValues>;
+  onSubmit: SubmitHandler<AddressFieldValues>;
 }
 
 function AddressForm({ onSubmit, form, children }: AddressProps) {

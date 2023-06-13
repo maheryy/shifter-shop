@@ -18,7 +18,7 @@ const schema = z.object({
   email: z.string().email({ message: "Please enter a valid email" }),
 });
 
-type Inputs = z.infer<typeof schema>;
+type BusinessLandingFieldValues = z.infer<typeof schema>;
 
 function Landing() {
   const navigate = useNavigate();
@@ -31,9 +31,9 @@ function Landing() {
     formState: { errors },
     resetField,
     getValues,
-  } = useForm<Inputs>({ resolver: zodResolver(schema) });
+  } = useForm<BusinessLandingFieldValues>({ resolver: zodResolver(schema) });
 
-  const onSubmit: SubmitHandler<Inputs> = useCallback(
+  const onSubmit: SubmitHandler<BusinessLandingFieldValues> = useCallback(
     async ({ email }) => {
       try {
         const mustConvert = await hasAccount(email);

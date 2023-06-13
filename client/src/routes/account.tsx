@@ -5,9 +5,9 @@ import Account from "@/pages/account/Account";
 import Addresses, { addressesLoader } from "@/pages/account/Addresses";
 import ChangePassword from "@/pages/account/ChangePassword";
 import NewAddress from "@/pages/account/NewAddress";
+import NewReview from "@/pages/account/NewReview";
 import Orders from "@/pages/account/Orders";
 import Profile from "@/pages/account/Profile";
-import ReviewForm from "@/pages/account/ReviewForm";
 import Reviews, { reviewsLoader } from "@/pages/account/Reviews";
 import NotFound from "@/pages/errors/NotFound";
 
@@ -47,7 +47,7 @@ const accountRoutes: RouteObject = {
     },
     {
       path: "orders/:orderId/review/:productId",
-      element: <ReviewForm />,
+      element: <NewReview />,
       loader: ({ params }) =>
         getOrderAndProduct(Number(params.orderId), Number(params.productId)),
       errorElement: <NotFound />,

@@ -17,7 +17,7 @@ const schema = z.object({
   phone: z.string(),
 });
 
-type Inputs = z.infer<typeof schema>;
+type ProfileFieldValues = z.infer<typeof schema>;
 
 const Profile = () => {
   const { user } = useAuthContext();
@@ -26,22 +26,25 @@ const Profile = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>({
+  } = useForm<ProfileFieldValues>({
     defaultValues: user || {},
     resolver: zodResolver(schema),
   });
 
-  const onSubmit: SubmitHandler<Inputs> = useCallback(async (data) => {
-    try {
-      await updateUser(data);
+  const onSubmit: SubmitHandler<ProfileFieldValues> = useCallback(
+    async (data) => {
+      try {
+        await updateUser(data);
 
-      toast.success("Profile updated successfully");
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message);
+        toast.success("Profile updated successfully");
+      } catch (error) {
+        if (error instanceof Error) {
+          toast.error(error.message);
+        }
       }
-    }
-  }, []);
+    },
+    [],
+  );
 
   return (
     <section className="grid gap-8">
