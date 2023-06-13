@@ -9,3 +9,5 @@ export interface Address {
   province: string;
   phone: string;
 }
+
+export type CreateAddress = Omit<Address, "id" | "user">;

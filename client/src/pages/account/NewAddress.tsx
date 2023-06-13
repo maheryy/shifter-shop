@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { createAddress } from "@/api/address.api";
 import Address from "@/components/account/Address";
 import Button from "@/components/Button";
 import AddressForm, {
@@ -15,11 +16,14 @@ export interface AddressesData {
 function NewAddress() {
   const form = useForm<AddressFieldValues>();
 
-  const onSubmit: SubmitHandler<AddressFieldValues> = useCallback((data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<AddressFieldValues> = useCallback(
+    async ({ address }) => {
+      await createAddress(address);
 
-    toast("Not implemented");
-  }, []);
+      toast("Not implemented");
+    },
+    [],
+  );
 
   return (
     <section className="grid gap-8">
