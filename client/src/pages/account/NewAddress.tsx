@@ -20,7 +20,7 @@ function NewAddress() {
     async ({ address }) => {
       await createAddress(address);
 
-      toast("Not implemented");
+      toast.success("Address added successfully");
     },
     [],
   );

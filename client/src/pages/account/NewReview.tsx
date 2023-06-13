@@ -41,7 +41,7 @@ function NewReview() {
     async ({ rating, ...rest }) => {
       await createReview({ rating: Number(rating), ...rest });
 
-      toast("Not implemented");
+      toast.success("Review submitted successfully");
     },
     [],
   );

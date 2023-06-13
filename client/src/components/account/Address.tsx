@@ -1,13 +1,15 @@
 import TrashIcon from "@icons/trash.svg";
 import { Fragment, useCallback } from "react";
 import { toast } from "react-toastify";
+import { deleteAddress, setDefaultAddress } from "@/api/address.api";
 import { Address } from "@/types/address";
 
-interface AddressProps extends Omit<Address, "user" | "id"> {
+interface AddressProps extends Omit<Address, "user"> {
   isDefault?: boolean;
 }
 
 function Address({
+  id,
   address1,
   address2,
   city,
@@ -15,17 +17,21 @@ function Address({
   zip,
   isDefault = false,
 }: AddressProps) {
-  const onDelete = useCallback(() => {
-    toast("Not implemented");
-  }, []);
+  const onDelete = useCallback(async () => {
+    await deleteAddress(id);
+
+    toast.success("Address deleted successfully");
+  }, [id]);
 
   const onEdit = useCallback(() => {
-    toast("Not implemented");
+    toast("Not implemented, should be a link to edit the address page");
   }, []);
 
-  const onSetAsDefault = useCallback(() => {
-    toast("Not implemented");
-  }, []);
+  const onSetAsDefault = useCallback(async () => {
+    await setDefaultAddress(id);
+
+    toast.success("Address set as default successfully");
+  }, [id]);
 
   return (
     <div className="grid gap-4 rounded p-4 shadow md:gap-8 md:p-8">
