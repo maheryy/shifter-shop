@@ -10,6 +10,7 @@ import {
   User,
 } from '@prisma/client';
 import { faker } from '@faker-js/faker';
+import { genSalt, hash } from 'bcrypt';
 const prisma = new PrismaClient();
 
 const array = (length: number): number[] => [...Array(length).keys()];
@@ -29,53 +30,49 @@ const clearDatabase = async () => {
   ]);
 };
 
-const loadUserData = (length: number): Prisma.UserCreateInput[] => [
-  {
-    email: 'admin@shiftershop.com',
-    firstname: 'Shifter',
-    lastname: 'Pro',
-    password: 'password',
-    role: Role.Admin,
-  },
-  {
-    email: 'seller@shiftershop.com',
-    firstname: 'Shifter',
-    lastname: 'Low',
-    password: 'password',
-    role: Role.Seller,
-    profile: {
-      create: {
-        phone: faker.phone.number(),
-        address: faker.address.streetAddress(),
-      },
-    },
-  },
-  {
-    email: 'customer@shiftershop.com',
-    firstname: 'Shifter',
-    lastname: 'High',
-    password: 'password',
-    role: Role.Customer,
-    profile: {
-      create: {
-        phone: faker.phone.number(),
-        address: faker.address.streetAddress(),
-      },
-    },
-  },
-  ...array(length).map((_, i) => {
-    const firstname = faker.name.firstName();
-    const lastname = faker.name.lastName();
+const generateHashedSeed = async (seed: string): Promise<string> => {
+  try {
+    const saltRounds = 10;
+    const salt = await genSalt(saltRounds);
+    const hashedSeed = await hash(seed, salt);
+    return hashedSeed;
+  } catch (error) {
+    console.error('Error generating hashed seed:', error);
+    throw error;
+  }
+};
 
-    return {
-      email: faker.internet.email(
-        firstname.toLowerCase(),
-        lastname.toLowerCase(),
-        'shiftershop.com',
-      ),
-      firstname: firstname,
-      lastname: lastname,
-      password: 'password',
+const loadUserData = async (
+  length: number,
+): Promise<Prisma.UserCreateInput[]> => {
+  const hashedPassword = await generateHashedSeed('password');
+
+  const users: Prisma.UserCreateInput[] = [
+    {
+      email: 'admin@shiftershop.com',
+      firstname: 'Shifter',
+      lastname: 'Pro',
+      password: hashedPassword,
+      role: Role.Admin,
+    },
+    {
+      email: 'seller@shiftershop.com',
+      firstname: 'Shifter',
+      lastname: 'Low',
+      password: hashedPassword,
+      role: Role.Seller,
+      profile: {
+        create: {
+          phone: faker.phone.number(),
+          address: faker.address.streetAddress(),
+        },
+      },
+    },
+    {
+      email: 'customer@shiftershop.com',
+      firstname: 'Shifter',
+      lastname: 'High',
+      password: hashedPassword,
       role: Role.Customer,
       profile: {
         create: {
@@ -83,10 +80,33 @@ const loadUserData = (length: number): Prisma.UserCreateInput[] => [
           address: faker.address.streetAddress(),
         },
       },
-    } as Prisma.UserCreateInput;
-  }),
-];
+    },
+    ...array(length).map((_, i) => {
+      const firstname = faker.name.firstName();
+      const lastname = faker.name.lastName();
 
+      return {
+        email: faker.internet.email(
+          firstname.toLowerCase(),
+          lastname.toLowerCase(),
+          'shiftershop.com',
+        ),
+        firstname: firstname,
+        lastname: lastname,
+        password: hashedPassword,
+        role: Role.Customer,
+        profile: {
+          create: {
+            phone: faker.phone.number(),
+            address: faker.address.streetAddress(),
+          },
+        },
+      } as Prisma.UserCreateInput;
+    }),
+  ];
+
+  return users;
+};
 const loadCategoryData = (
   length: number,
 ): Prisma.CategoryUncheckedCreateInput[] => [
@@ -233,8 +253,9 @@ const loadReviewData = (
 const main = async () => {
   await clearDatabase();
 
+  const userData = await loadUserData(8);
   const users = await Promise.all(
-    loadUserData(8).map((user) => prisma.user.create({ data: user })),
+    userData.map((user: User) => prisma.user.create({ data: user })),
   );
 
   const categories = await Promise.all(
