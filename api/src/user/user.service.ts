@@ -39,4 +39,11 @@ export class UserService {
       where: { id },
     });
   }
+
+  async getProfileByUserId(userId: string) {
+    return this.prismaService.user.findUnique({
+      where: { id: userId },
+      include: { profile: true },
+    });
+  }
 }

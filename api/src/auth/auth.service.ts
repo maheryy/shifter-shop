@@ -68,4 +68,16 @@ export class AuthService {
 
     return this.jwtService.sign(payload);
   }
+
+  async getProfile(userId: string) {
+    const user = await this.userService.findOneById(userId);
+
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+
+    const profile = await this.userService.getProfileByUserId(userId);
+
+    return profile;
+  }
 }
