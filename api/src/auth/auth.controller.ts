@@ -15,7 +15,7 @@ import { RemovePassword } from 'src/decorators/remove-password.decorator';
 import { Public } from 'src/auth/guards/allow.public.guard';
 
 @RemovePassword()
-@Controller('auth')
+@Controller()
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
@@ -25,7 +25,7 @@ export class AuthController {
   }
 
   @Public()
-  @Post('register')
+  @Post('auth/register')
   async register(@Body() registerDto: RegisterDto) {
     const user = await this.authService.register(registerDto);
     const token = this.authService.getToken(user.id);
@@ -37,7 +37,7 @@ export class AuthController {
 
   @Public()
   @HttpCode(HttpStatus.OK)
-  @Post('login')
+  @Post('auth/login')
   async login(@Body() loginDto: LoginDto) {
     const user = await this.authService.login(loginDto);
     const token = this.authService.getToken(user.id);
@@ -45,5 +45,11 @@ export class AuthController {
     return {
       token,
     };
+  }
+
+  @Get('profile')
+  async getProfile(@RequestUser() user: User) {
+    const profile = await this.authService.getProfile(user.id);
+    return profile;
   }
 }
