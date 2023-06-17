@@ -1,9 +1,8 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { LoginDto } from 'src/auth/dtos/login.dto';
 import { JwtService } from '@nestjs/jwt';
 import { RegisterDto } from 'src/auth/dtos/register.dto';
-import { EncryptionService } from 'src/encryption/encryption.service';
 import { User } from './interfaces/user.interface';
+import { hashPassword, verifyPassword } from '@shifter-shop/encryption';
 
 const USER = {
   id: '1',
@@ -15,10 +14,7 @@ const USER = {
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private readonly encryptionService: EncryptionService,
-    private readonly jwtService: JwtService,
-  ) {}
+  constructor(private readonly jwtService: JwtService) {}
 
   async getUserById(userId: string): Promise<User> {
     // TODO : fetch user from database
@@ -33,9 +29,7 @@ export class AuthService {
   async register(data: RegisterDto): Promise<User> {
     const { password, ...userData } = data;
     try {
-      const hashedPassword = await this.encryptionService.hashPassword(
-        password,
-      );
+      const hashedPassword = await hashPassword(password);
 
       const user = USER;
       return user;
@@ -52,10 +46,7 @@ export class AuthService {
       throw new UnauthorizedException();
     }
 
-    const isValidPassword = await this.encryptionService.validatePassword(
-      password,
-      user.password,
-    );
+    const isValidPassword = verifyPassword(password, user.password);
 
     // TODO : uncomment this code when the encryption service is ready
     // if (!isValidPassword) {
