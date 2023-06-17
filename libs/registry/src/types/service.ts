@@ -4,7 +4,7 @@ import { Route } from "./route";
 export enum ServiceType {
   Files = "files",
   Mailer = "mailer",
-  // Auth = "auth",
+  Auth = "auth",
   // User = "user",
   Invoice = "invoice",
   Order = "order",

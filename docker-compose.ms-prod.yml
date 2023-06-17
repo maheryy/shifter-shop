@@ -99,6 +99,20 @@ services:
       - postgres
       - rabbitmq
 
+  auth-svc:
+    container_name: auth-svc
+    build:
+      context: .
+      dockerfile: ./apps/auth/Dockerfile
+    ports:
+      - 3007:3000
+    environment:
+      - JWT_SECRET=${JWT_SECRET}
+    networks:
+      - ss_microservices
+    depends_on:
+      - rabbitmq
+
   client:
     container_name: client
     build:
