@@ -1,2 +1,2 @@
-export { AMQP } from "./lib/amqp";
-export { Queue } from "./types/queue";
+export * from "./lib/amqp";
+export * from "./types/queue";

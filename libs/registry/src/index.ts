@@ -1,5 +1,5 @@
-export { Registry } from "./lib/registry";
-export { ServiceType, ServiceConfig } from "./types/service";
-export { HttpMethod } from "./types/route";
-export { RegistryOptions } from "./types/registry";
-export { fetchService } from "./helpers/fetch";
+export * from "./lib/registry";
+export * from "./types/service";
+export * from "./types/route";
+export * from "./types/registry";
+export * from "./helpers/fetch";
