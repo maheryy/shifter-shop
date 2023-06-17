@@ -5,7 +5,7 @@ export enum ServiceType {
   Files = "files",
   Mailer = "mailer",
   Auth = "auth",
-  // User = "user",
+  User = "user",
   Invoice = "invoice",
   Order = "order",
   Payment = "payment",

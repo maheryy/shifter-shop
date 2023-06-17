@@ -113,6 +113,21 @@ services:
     depends_on:
       - rabbitmq
 
+  user-svc:
+    container_name: user-svc
+    build:
+      context: .
+      dockerfile: ./apps/user/Dockerfile
+    ports:
+      - 3008:3000
+    environment:
+      - DATABASE_URL=postgres://postgres:password@postgres:5432/users
+    networks:
+      - ss_database
+      - ss_microservices
+    depends_on:
+      - postgres
+
   client:
     container_name: client
     build:
