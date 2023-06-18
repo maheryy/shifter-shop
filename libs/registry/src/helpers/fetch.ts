@@ -1,5 +1,6 @@
 import { Registry } from "../lib/registry";
 import { Services } from "../types/service";
+import fetch, { RequestInit } from "node-fetch";
 
 interface Target {
   service: Services;
@@ -8,8 +9,6 @@ interface Target {
 
 export const fetchService = (target: Target, fetchOptions?: RequestInit) => {
   const baseUrl = Registry.get(target.service).url;
-  return fetch(
-    `${baseUrl}/${target.endpoint.replace(/^\//, "")}`,
-    fetchOptions
-  );
+  const endpoint = target.endpoint.replace(/^\//, "");
+  return fetch(`${baseUrl}/${endpoint}`, fetchOptions);
 };

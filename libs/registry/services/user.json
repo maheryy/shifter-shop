@@ -5,7 +5,7 @@
     "url": "http://user-svc:3000"
   },
   "development": {
-    "url": "http://localhost:3008"
+    "url": "http://127.0.0.1:3008"
   },
   "routes": [
     {

@@ -9,5 +9,8 @@
   },
   "devDependencies": {
     "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.11"
   }
 }
