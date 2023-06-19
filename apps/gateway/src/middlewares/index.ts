@@ -1,2 +1,2 @@
 export { auth } from "middlewares/auth";
-export { checkRoles } from "middlewares/roles";
+export { roles } from "middlewares/roles";

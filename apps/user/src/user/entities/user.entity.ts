@@ -1,3 +1,4 @@
+import { UserRole } from '@shifter-shop/types';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -17,6 +18,6 @@ export class User {
   @Column('varchar')
   password: string;
 
-  @Column('varchar', { default: 'customer' })
-  role: string;
+  @Column('enum', { enum: UserRole, default: UserRole.Customer })
+  role: UserRole;
 }

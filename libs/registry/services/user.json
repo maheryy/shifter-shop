@@ -15,7 +15,7 @@
     {
       "method": "PATCH",
       "path": "/:id",
-      "middleware": ["auth"]
+      "middlewares": ["auth"]
     },
     {
       "method": "GET",

@@ -1,3 +1,4 @@
+import { UserRole } from '@shifter-shop/types';
 import { IsEnum, IsNotEmpty, IsEmpty } from 'class-validator';
 
 export class UpdateUserDto {
@@ -13,6 +14,6 @@ export class UpdateUserDto {
   @IsEmpty()
   password?: string;
 
-  @IsEnum(['customer', 'admin', 'seller'])
-  role?: string;
+  @IsEnum(UserRole)
+  role?: UserRole;
 }

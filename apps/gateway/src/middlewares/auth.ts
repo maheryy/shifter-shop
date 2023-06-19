@@ -21,6 +21,7 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
     );
 
     req.headers["user-id"] = user.id;
+    req.headers["user-role"] = user.role;
     next();
   } catch (error) {
     if (error instanceof HttpError) {

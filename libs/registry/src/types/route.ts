@@ -5,4 +5,5 @@ export interface Route {
   method: HttpMethod;
   private?: boolean;
   middlewares?: string[];
+  roles?: string[];
 }

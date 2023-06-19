@@ -6,3 +6,4 @@ export { UnauthorizedError } from "./lib/exceptions/UnauthorizedError";
 export { InternalServerError } from "./lib/exceptions/InternalServerError";
 export { ServiceUnavailableError } from "./lib/exceptions/ServiceUnavailableError";
 export { exceptionHandler } from "./lib/express/exceptionHandler";
+export { JsonError } from "./types/error";

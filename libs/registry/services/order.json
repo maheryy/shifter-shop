@@ -30,7 +30,7 @@
     {
       "method": "PATCH",
       "path": "/:id",
-      "middlewares": ["auth", "checkRoles"]
+      "middlewares": ["auth", "roles"]
     }
   ]
 }

@@ -3,6 +3,7 @@ import { Router } from "express";
 import { createProxyMiddleware } from "http-proxy-middleware";
 import { registerMiddlewares } from "./middleware";
 import { buildPath, sanitize } from "./url";
+import { context } from "middlewares/context";
 
 const NODE_ENV =
   process.env.NODE_ENV === "production" ? "production" : "development";
@@ -47,9 +48,11 @@ export const registerRoutes = (services: ServiceConfig[]): Router => {
 
           const endpoint = "/" + buildPath(servicePath, route.path);
           const proxyEndpoint = buildPath(service[NODE_ENV].url, route.path);
+          
+          // Apply the context middleware so we can access the route object in the following middlewares
           const middlewares = Array.isArray(route.middlewares)
-            ? registerMiddlewares(route.middlewares)
-            : [];
+          ? [context(route), ...registerMiddlewares(route.middlewares)]
+          : [];
 
           router[method](endpoint, ...middlewares, serviceProxy);
 
@@ -58,7 +61,7 @@ export const registerRoutes = (services: ServiceConfig[]): Router => {
               service.name
             }] ${route.method.toUpperCase()} ${endpoint} -> ${proxyEndpoint} ${
               middlewares.length > 0
-                ? `(${middlewares.length} middlewares)`
+                ? `(${middlewares.length - 1} middlewares)`
                 : ""
             }\x1b[0m`
           );
