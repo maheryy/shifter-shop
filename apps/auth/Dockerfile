@@ -10,6 +10,8 @@ COPY nx.json .
 # Copy target app and its libs dependencies
 COPY apps/auth ./apps/auth
 COPY libs/encryption ./libs/encryption
+COPY libs/types ./libs/types
+COPY libs/registry ./libs/registry
 
 # Install packages and build the app
 RUN npm install

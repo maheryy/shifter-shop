@@ -1,19 +1,16 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Headers,
-  HttpCode,
-  HttpStatus,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, Get, Headers, HttpCode, Post } from '@nestjs/common';
 import { AuthService } from 'src/auth/auth.service';
 import { LoginDto } from 'src/auth/dtos/login.dto';
 import { RegisterDto } from 'src/auth/dtos/register.dto';
+import { JwtService } from 'src/jwt/jwt.service';
+import { TokenDto } from 'src/auth/dtos/token.dto';
 
 @Controller()
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly jwtService: JwtService,
+  ) {}
 
   @Get('/profile')
   async profile(@Headers('user-id') userId: string) {
@@ -23,18 +20,27 @@ export class AuthController {
   @Post('/register')
   async register(@Body() registerDto: RegisterDto) {
     const user = await this.authService.register(registerDto);
-    const token = await this.authService.generateToken(user.id);
+    const token = await this.jwtService.generateToken({ userId: user.id });
 
     return { token };
   }
 
-  @HttpCode(HttpStatus.OK)
+  @HttpCode(200)
   @Post('/login')
   async login(@Body() data: LoginDto) {
     const user = await this.authService.verify(data.email, data.password);
-
-    const token = await this.authService.generateToken(user.id);
+    const token = await this.jwtService.generateToken({ userId: user.id });
 
     return { token };
+  }
+
+  // Private route for microservices
+  @HttpCode(200)
+  @Post('/verify-token')
+  async verifyToken(@Body() data: TokenDto) {
+    const tokenPayload = await this.jwtService.verifyToken(data.token);
+    const user = await this.authService.getUserById(tokenPayload.userId);
+
+    return user;
   }
 }

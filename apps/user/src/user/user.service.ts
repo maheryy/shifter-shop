@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UpdateUserDto } from './dtos/update-user.dto';
+import { SearchCritieriaDto } from './dtos/search-criteria.dto';
 
 @Injectable()
 export class UserService {
@@ -27,6 +28,16 @@ export class UserService {
 
     if (!user) {
       throw new NotFoundException(`User with id: ${id} does not exist`);
+    }
+
+    return user;
+  }
+
+  async searchOne(criteria: SearchCritieriaDto) {
+    const user = await this.usersRepository.findOneBy(criteria);
+
+    if (!user) {
+      throw new NotFoundException(`User not found`);
     }
 
     return user;
