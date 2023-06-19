@@ -1,8 +1,9 @@
-import { getServiceConfig } from "../utils/parser";
+import { getAllConfig } from "../utils/parser";
 import { ServiceConfig, ServiceType, Services } from "../types/service";
 import { RegistryEnv, RegistryOptions } from "types/registry";
 
 export class Registry {
+  private static services: ServiceConfig[] = [];
   private serviceConfig: ServiceConfig;
   private envKey: RegistryEnv = "development";
 
@@ -23,17 +24,32 @@ export class Registry {
       );
     }
 
+    const config = this.getConfig(name);
+    if (!config) {
+      throw new Error(`Service ${name} not found`);
+    }
+
     if (process.env.NODE_ENV === "production" && !options?.env) {
       options = { ...options, env: "production" };
     }
 
-    return new Registry(getServiceConfig(name as ServiceType), options);
+    return new Registry(config, options);
   }
 
   public static getServices(): ServiceConfig[] {
-    return Object.values(ServiceType).map((service) =>
-      getServiceConfig(service)
-    );
+    if (!this.services.length) {
+      this.services = getAllConfig();
+    }
+
+    return this.services;
+  }
+
+  private static getConfig(name: Services) {
+    if (!this.services.length) {
+      this.services = getAllConfig();
+    }
+
+    return this.services.find((service) => service.name === name);
   }
 
   public get config(): ServiceConfig {

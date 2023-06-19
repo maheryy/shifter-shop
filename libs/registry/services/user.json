@@ -13,6 +13,11 @@
       "path": "/"
     },
     {
+      "method": "PATCH",
+      "path": "/:id",
+      "middleware": ["auth"]
+    },
+    {
       "method": "GET",
       "path": "/:id",
       "private": true
@@ -23,9 +28,9 @@
       "private": true
     },
     {
-      "method": "PATCH",
-      "path": "/:id",
-      "middleware": ["auth"]
+      "method": "POST",
+      "path": "/search",
+      "private": true
     }
   ]
 }

@@ -9,10 +9,10 @@ export enum ServiceType {
   Invoice = "invoice",
   Order = "order",
   Payment = "payment",
-  // Product = "product",
+  Product = "product",
   Cart = "cart",
-  // Category = "category",
-  // Review = "review",
+  Category = "category",
+  Review = "review",
   Analytics = "analytics",
 }
 

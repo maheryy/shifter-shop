@@ -35,30 +35,34 @@ export const registerRoutes = (services: ServiceConfig[]): Router => {
       });
 
       // Define routes for each service and register their own middlewares
-      service.routes.forEach((route) => {
-        const method = route.method.toLowerCase() as Lowercase<HttpMethod>;
-        if (!allowedMethods.includes(method)) {
-          throw new Error(
-            `Invalid method ${route.method} for route ${route.path}`
+      service.routes
+        .filter((route) => !route.private)
+        .forEach((route) => {
+          const method = route.method.toLowerCase() as Lowercase<HttpMethod>;
+          if (!allowedMethods.includes(method)) {
+            throw new Error(
+              `Invalid method ${route.method} for route ${route.path}`
+            );
+          }
+
+          const endpoint = "/" + buildPath(servicePath, route.path);
+          const proxyEndpoint = buildPath(service[NODE_ENV].url, route.path);
+          const middlewares = Array.isArray(route.middlewares)
+            ? registerMiddlewares(route.middlewares)
+            : [];
+
+          router[method](endpoint, ...middlewares, serviceProxy);
+
+          console.info(
+            `\x1b[36m[${
+              service.name
+            }] ${route.method.toUpperCase()} ${endpoint} -> ${proxyEndpoint} ${
+              middlewares.length > 0
+                ? `(${middlewares.length} middlewares)`
+                : ""
+            }\x1b[0m`
           );
-        }
-
-        const endpoint = "/" + buildPath(servicePath, route.path);
-        const proxyEndpoint = buildPath(service[NODE_ENV].url, route.path);
-        const middlewares = Array.isArray(route.middlewares)
-          ? registerMiddlewares(route.middlewares)
-          : [];
-
-        router[method](endpoint, ...middlewares, serviceProxy);
-
-        console.info(
-          `\x1b[36m[${
-            service.name
-          }] ${route.method.toUpperCase()} ${endpoint} -> ${proxyEndpoint} ${
-            middlewares.length > 0 ? `(${middlewares.length} middlewares)` : ""
-          }\x1b[0m`
-        );
-      });
+        });
 
       // TEST: register a single proxy for the entire service instead of registering the same one on each route
       // router.use(`/${service.name}`, serviceProxy);

@@ -1,4 +1,4 @@
-import { Registry } from "../lib/registry";
+import { Registry } from "../lib/Registry";
 import { Services } from "../types/service";
 import fetch, { RequestInit } from "node-fetch";
 import { HttpError } from "@shifter-shop/errors";
