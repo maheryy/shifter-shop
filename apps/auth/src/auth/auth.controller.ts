@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Headers, HttpCode, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Headers,
+  HttpCode,
+  Post,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { AuthService } from 'src/auth/auth.service';
 import { LoginDto } from 'src/auth/dtos/login.dto';
 import { RegisterDto } from 'src/auth/dtos/register.dto';
@@ -39,8 +47,11 @@ export class AuthController {
   @Post('/verify-token')
   async verifyToken(@Body() data: TokenDto) {
     const tokenPayload = await this.jwtService.verifyToken(data.token);
-    const user = await this.authService.getUserById(tokenPayload.userId);
 
-    return user;
+    try {
+      return await this.authService.getUserById(tokenPayload.userId);
+    } catch (error) {
+      throw new UnauthorizedException('Invalid token');
+    }
   }
 }

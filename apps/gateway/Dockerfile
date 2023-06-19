@@ -10,6 +10,8 @@ COPY nx.json .
 # Copy target app and its libs dependencies
 COPY apps/gateway ./apps/gateway
 COPY libs/registry ./libs/registry
+COPY libs/types ./libs/types
+COPY libs/errors ./libs/errors
 
 # Install packages and build the app
 RUN npm install

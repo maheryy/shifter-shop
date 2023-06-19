@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "@shifter-shop/registry": "*",
+    "@shifter-shop/errors": "*",
+    "@shifter-shop/types": "*",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "helmet": "^7.0.0",
