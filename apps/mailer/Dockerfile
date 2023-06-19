@@ -9,7 +9,7 @@ COPY nx.json .
 
 # Copy target app and its libs dependencies
 COPY apps/mailer ./apps/mailer
-COPY libs/amqp ./libs/amqp
+COPY libs/ ./libs
 
 # Install packages and build the app
 RUN npm install

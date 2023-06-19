@@ -9,6 +9,7 @@
   },
   "devDependencies": {
     "@shifter-shop/errors": "*",
+    "@types/node-fetch": "^2.6.4",
     "typescript": "^5.0.4"
   },
   "dependencies": {
