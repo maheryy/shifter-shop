@@ -158,6 +158,21 @@ services:
     depends_on:
       - postgres
 
+  review-svc:
+    container_name: review-svc
+    build:
+      context: .
+      dockerfile: ./apps/review/Dockerfile
+    ports:
+      - 3011:3000
+    environment:
+      - DATABASE_URL=postgres://postgres:password@postgres:5432/reviews
+    networks:
+      - ss_database
+      - ss_microservices
+    depends_on:
+      - postgres
+
   client:
     container_name: client
     build:
