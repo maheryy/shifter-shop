@@ -1,4 +1,4 @@
-const Pagination = ({ nbRecords, rowsPerPage, recordsPerPage, handleRecordsPerPageChange, currentPage, totalPages, changePage, prePage, nextPage }: PaginationProps) => {
+const TableBottom = ({ nbRecords, rowsPerPage, recordsPerPage, handleRecordsPerPageChange, currentPage, totalPages, changePage, prePage, nextPage }: TableBottomProps) => {
   const numbers = Array.from(Array(totalPages).keys()).map((number) => number + 1); // [1, 2, 3, ..., totalPages]
   const firstRecordIndex = currentPage * recordsPerPage - recordsPerPage + 1; // Index of the first record on the current page
   const lastRecordIndex = currentPage * recordsPerPage > nbRecords ? nbRecords : currentPage * recordsPerPage; // Index of the last record on the current page
@@ -80,7 +80,7 @@ const Pagination = ({ nbRecords, rowsPerPage, recordsPerPage, handleRecordsPerPa
   );
 };
 
-interface PaginationProps {
+interface TableBottomProps {
   nbRecords: number;
   rowsPerPage: number[];
   recordsPerPage: number;
@@ -92,4 +92,4 @@ interface PaginationProps {
   nextPage: () => void;
 }
 
-export default Pagination;
+export default TableBottom;

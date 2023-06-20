@@ -1,6 +1,6 @@
-import Pagination from './Pagination';
 import TableHeader from './TableHeader';
 import TableRow from './TableRow';
+import TableBottom from './TableBottom';
 import { useState } from 'react';
 
 const Table = ({ headers, data }: TableProps) => {
@@ -48,7 +48,7 @@ const Table = ({ headers, data }: TableProps) => {
             </tbody>
 
           </table>
-          <Pagination
+          <TableBottom
             nbRecords={nbRecords}
             rowsPerPage={rowsPerPage}
             recordsPerPage={recordsPerPage}
