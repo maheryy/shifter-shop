@@ -1,5 +1,6 @@
-import { Product, ProductWithQuantity } from "@/types/product";
+import type { Product } from "@/types/product";
 import { User } from "@/types/user";
+import type { OrderProduct } from "./orderProduct";
 
 export interface Order {
   id: number;
@@ -8,7 +9,7 @@ export interface Order {
   date: string;
   status: OrderStatus;
   customer: User;
-  products: ProductWithQuantity[];
+  products: OrderProduct[];
 }
 
 export enum OrderStatus {

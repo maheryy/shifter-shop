@@ -144,8 +144,6 @@ function Products() {
   );
 
   useEffect(() => {
-    console.log("params", state);
-
     getProducts(state).then(setProducts);
   }, [state]);
 

@@ -1,22 +1,15 @@
-import { AddProductToCart, Cart, UpdateProductQuantity } from "@/types/cart";
+import { Cart, LocalCart } from "@/types/cart";
+import { AddProductToCart, UpdateProductQuantity } from "@/types/cartProduct";
 import { Product } from "@/types/product";
 import api from ".";
-
-/**
- * Creates a new cart.
- * @returns A promise that resolves to the created cart.
- */
-export function createCart(): Promise<Cart> {
-  return api.post("/carts").json();
-}
 
 /**
  * Gets a cart by its id.
  * @param cartId The id of the cart to get.
  * @returns A promise that resolves to the cart.
  */
-export function getCart(cartId: Cart["id"]): Promise<Cart> {
-  return api.get(`/carts/${cartId}`).json();
+export function getCart(): Promise<Cart> {
+  return api.get("/cart").json();
 }
 
 /**
@@ -25,11 +18,8 @@ export function getCart(cartId: Cart["id"]): Promise<Cart> {
  * @param payload The product to add to the cart.
  * @returns A promise that resolves to the updated cart.
  */
-export function addProductToCart(
-  cartId: Cart["id"],
-  payload: AddProductToCart,
-): Promise<Cart> {
-  return api.post(payload, `/carts/${cartId}/products`).json();
+export function addProductToCart(payload: AddProductToCart): Promise<Cart> {
+  return api.post(payload, `/cart/products`).json();
 }
 
 /**
@@ -38,11 +28,8 @@ export function addProductToCart(
  * @param productId The id of the product to remove from the cart.
  * @returns A promise that resolves to the updated cart.
  */
-export function removeFromCart(
-  cartId: Cart["id"],
-  productId: Product["id"],
-): Promise<Cart> {
-  return api.delete(`/carts/${cartId}/products/${productId}`).json();
+export function removeProductFromCart(productId: Product["id"]): Promise<Cart> {
+  return api.delete(`/cart/products/${productId}`).json();
 }
 
 /**
@@ -52,12 +39,20 @@ export function removeFromCart(
  * @param payload The new quantity of the product.
  *  @returns A promise that resolves to the updated cart.
  */
-export function updateProductQuantity(
-  cartId: Cart["id"],
-  productId: Product["id"],
-  payload: UpdateProductQuantity,
-): Promise<Cart> {
-  return api.patch(payload, `/carts/${cartId}/products/${productId}`).json();
+export function updateProductQuantity({
+  productId,
+  ...payload
+}: UpdateProductQuantity): Promise<Cart> {
+  return api.patch(payload, `/cart/products/${productId}`).json();
+}
+
+/**
+ * Synchronizes a local cart with the server cart.
+ * @param payload The local cart to synchronize.
+ * @returns A promise that resolves to the updated cart.
+ */
+export function synchronizeCart(payload: LocalCart): Promise<Cart> {
+  return api.post(payload, `/cart/synchronize`).json();
 }
 
 /**

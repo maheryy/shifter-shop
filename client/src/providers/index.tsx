@@ -1,12 +1,7 @@
 import AuthProvider from "@/providers/AuthProvider";
-import CartProvider from "@/providers/CartProvider";
 
 const Providers = ({ children }: ProvidersProps) => {
-  return (
-    <AuthProvider>
-      <CartProvider>{children}</CartProvider>
-    </AuthProvider>
-  );
+  return <AuthProvider>{children}</AuthProvider>;
 };
 
 interface ProvidersProps {

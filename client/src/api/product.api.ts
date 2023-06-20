@@ -1,6 +1,6 @@
 import products from "@data/products.json";
 import { ProductsSearchParams } from "@/types/params";
-import { Product } from "@/types/product";
+import { DetailedProduct, Product } from "@/types/product";
 import isEmpty from "@/utils/isEmpty";
 import api from ".";
 
@@ -35,8 +35,9 @@ export async function getProducts(
     .json();
 }
 
-export function getProduct(id: Product["id"]): Promise<Product> {
-  return api.get(`/products/${id}`).json();
+export function getProduct(id: Product["id"]): Promise<DetailedProduct> {
+  // TODO: remove query params
+  return api.get(`/products/${id}?_embed=reviews`).json();
 }
 
 export function getRelatedProducts(id: Product["id"]): Promise<Product[]> {
