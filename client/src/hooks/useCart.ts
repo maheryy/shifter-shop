@@ -56,7 +56,7 @@ export function useProductQuantity() {
   );
 }
 
-export function useProducts() {
+export function useCartProducts() {
   return useCart(({ products }) => products);
 }
 

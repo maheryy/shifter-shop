@@ -1,13 +1,12 @@
-import { useCallback, useEffect, useReducer, useState } from "react";
+import { useCallback, useReducer } from "react";
 import { useSearchParams } from "react-router-dom";
-import { getCategories } from "@/api/category.api";
-import { getProducts } from "@/api/product.api";
 import ProductCard from "@/components/ProductCard";
+import useCategories from "@/hooks/useCategories";
 import { useData } from "@/hooks/useData";
+import useProducts from "@/hooks/useProducts";
 import { Category } from "@/types/category";
 import { Loader } from "@/types/loader";
 import { ProductsSearchParams, SortBy, SortTypeMapping } from "@/types/params";
-import { Product } from "@/types/product";
 
 type Action =
   | { type: "SORT_BY"; payload: SortBy }
@@ -52,37 +51,21 @@ function reducer(state: ProductsSearchParams, { payload, type }: Action) {
 }
 
 export interface ProductsData {
-  categories: Category[];
   searchParams: ProductsSearchParams;
-  initialProducts: Product[];
 }
 
 export const productsLoader: Loader<ProductsData> = async ({ request }) => {
-  try {
-    const searchParams = getProductsSearchParams(request.url);
+  const searchParams = getProductsSearchParams(request.url);
 
-    const [categories, initialProducts] = await Promise.all([
-      getCategories(),
-      getProducts(searchParams),
-    ]);
-
-    return {
-      categories,
-      searchParams,
-      initialProducts,
-    };
-  } catch (error) {
-    console.error(error);
-
-    throw error;
-  }
+  return {
+    searchParams,
+  };
 };
 
 function Products() {
   const [, setSearchParams] = useSearchParams();
-  const { categories, searchParams, initialProducts } = useData<ProductsData>();
+  const { searchParams } = useData<ProductsData>();
   const [state, dispatch] = useReducer(reducer, searchParams);
-  const [products, setProducts] = useState<Product[]>(initialProducts);
 
   const setState = useCallback(
     (action: Action) => {
@@ -143,10 +126,6 @@ function Products() {
     [setSearchParams],
   );
 
-  useEffect(() => {
-    getProducts(state).then(setProducts);
-  }, [state]);
-
   const onCategoryChange = useCallback(
     ({ target }: React.ChangeEvent<HTMLInputElement>) => {
       const { checked, value } = target;
@@ -203,6 +182,23 @@ function Products() {
     },
     [setState],
   );
+
+  const categoryQuery = useCategories();
+  const productQuery = useProducts(state);
+
+  const isLoading = categoryQuery.isLoading || productQuery.isLoading;
+  const isError = categoryQuery.isError || productQuery.isError;
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error</div>;
+  }
+
+  const { data: categories } = categoryQuery;
+  const { data: products } = productQuery;
 
   return (
     <section className="container grid gap-4 py-8 md:grid-cols-4">

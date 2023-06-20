@@ -16,13 +16,13 @@ export interface OrderData {
   addresses: Address[];
 }
 
-export async function orderLoader(): Promise<OrderData> {
+export async function checkoutLoader(): Promise<OrderData> {
   const addresses = await getAdresses();
 
   return { addresses };
 }
 
-function Order() {
+function Checkout() {
   const { addresses } = useData<OrderData>();
   const hasAddresses = !isEmpty(addresses);
   const [primaryAddress] = hasAddresses ? addresses : [undefined];
@@ -167,4 +167,4 @@ function getReadableAddress({
   return mandatoryStart + `, ${address2}` + mandatoryEnd;
 }
 
-export default Order;
+export default Checkout;

@@ -1,16 +1,18 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getOrders } from "@/api/order.api";
 import OrderCard from "@/components/account/OrderCard";
+import useOrders from "@/hooks/useOrders";
 import DownloadProvider from "@/providers/DownloadProvider";
-import { Order } from "@/types/order";
 
 const Orders = () => {
-  const [orders, setOrders] = useState<Order[]>([]);
+  const { data, isLoading, isError } = useOrders();
 
-  useEffect(() => {
-    getOrders().then(setOrders).catch(console.error);
-  }, []);
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error</div>;
+  }
 
   return (
     <DownloadProvider>
@@ -18,7 +20,7 @@ const Orders = () => {
         <Link className="md:hidden" to="/account">
           &lt; Back
         </Link>
-        {orders.map((order) => (
+        {data.map((order) => (
           <OrderCard key={order.reference} order={order} />
         ))}
       </section>

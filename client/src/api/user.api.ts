@@ -1,35 +1,38 @@
-import users from "@data/users.json";
-import { User } from "@/types/user";
+import { Token } from "@/types/token";
+import {
+  UpdatePassword,
+  UpdatePasswordWithToken,
+  UpdateUser,
+  User,
+} from "@/types/user";
+import api from ".";
 
-export const getUser = async (token: string): Promise<User> => {
-  const res = users.at(0)!;
-
-  return res;
-};
-
-export const getAuthToken = async (
-  email: string,
-  password: string,
-): Promise<string> => {
-  const token = "token";
-
-  return token;
-};
-
-type UserUpdate = Pick<User, "firstname" | "lastname" | "phone">;
-
-export function updateUser(user: UserUpdate) {
-  return Promise.reject(new Error("Not implemented"));
+export function getUser(token: string): Promise<User> {
+  return api.query({ token }).get("/user").json();
 }
 
-export function updatePassword(password: string) {
-  return Promise.reject(new Error("Not implemented"));
+export const getAuthToken = async ({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}): Promise<Token> => {
+  return api.post({ email, password }, "/auth/login").json();
+};
+
+export function updateUser(user: UpdateUser) {
+  return api.patch(user, "/user").json();
+}
+
+export function updatePassword(payload: UpdatePassword) {
+  return api.patch(payload, "/user/password").json();
+}
+
+export function updatePasswordWithToken(payload: UpdatePasswordWithToken) {
+  return api.patch(payload, "/user/password/token").json();
 }
 
 export function hasAccount(email: string): Promise<boolean> {
-  return new Promise((resolve, reject) => {
-    const user = users.find((user) => user.email === email);
-
-    return resolve(!!user);
-  });
+  return api.query({ email }).get("/auth/has-account").json();
 }

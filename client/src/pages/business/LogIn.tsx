@@ -36,7 +36,7 @@ const LogIn = () => {
   const onSubmit: SubmitHandler<LoginFieldValues> = useCallback(
     async ({ email, password }) => {
       try {
-        const token = await getAuthToken(email, password);
+        const { token } = await getAuthToken({ email, password });
         const user = await getUser(token);
 
         authenticate(user, token);

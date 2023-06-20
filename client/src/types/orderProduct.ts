@@ -1,13 +1,7 @@
 import { z } from "zod";
+import CartProduct from "./cartProduct";
 
-const OrderProduct = z.object({
-  id: z.number(),
-  name: z.string(),
-  description: z.string(),
-  price: z.number(),
-  image: z.string(),
-  quantity: z.number(),
-});
+const OrderProduct = CartProduct;
 
 export type OrderProduct = z.infer<typeof OrderProduct>;
 

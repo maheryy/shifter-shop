@@ -1,17 +1,7 @@
-import products from "@data/products.json";
 import { ProductsSearchParams } from "@/types/params";
 import { DetailedProduct, Product } from "@/types/product";
 import isEmpty from "@/utils/isEmpty";
 import api from ".";
-
-// Temporary solution to shuffle hardcoded products
-export const getShuffledProducts = (max?: number) => {
-  return products
-    .map((item) => ({ sort: Math.random(), value: item }))
-    .sort((a, b) => a.sort - b.sort)
-    .map((item) => item.value)
-    .slice(0, max);
-};
 
 export async function getProducts(
   searchParams?: ProductsSearchParams,

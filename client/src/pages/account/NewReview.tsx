@@ -1,15 +1,20 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link, useLoaderData } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { z } from "zod";
+import { getOrder } from "@/api/order.api";
+import { getProduct } from "@/api/product.api";
 import { createReview } from "@/api/review.api";
 import Button from "@/components/Button";
 import Form from "@/components/Form";
 import Input from "@/components/Input";
 import RatingPicker from "@/components/RatingPicker";
-import { OrderAndProduct } from "@/types/order";
+import { useData } from "@/hooks/useData";
+import { Loader } from "@/types/loader";
+import { Order } from "@/types/order";
+import { Product } from "@/types/product";
 
 const ratingSchema = z.object({
   title: z.string().max(255).optional(),
@@ -17,7 +22,7 @@ const ratingSchema = z.object({
   rating: z
     .string({
       required_error: "Please select a rating",
-      invalid_type_error: "Please select a rating",
+      invalid_type_error: "An error occurred, please try again",
     })
     .min(1)
     .max(5),
@@ -25,8 +30,28 @@ const ratingSchema = z.object({
 
 export type RatingFieldValues = z.infer<typeof ratingSchema>;
 
+interface NewReviewData {
+  order: Order;
+  product: Product;
+}
+
+export const newReviewLoader: Loader<NewReviewData> = async ({ params }) => {
+  const { orderId, productId } = params;
+
+  if (!orderId || !productId) {
+    throw new Error("Missing required params");
+  }
+
+  const [order, product] = await Promise.all([
+    getOrder(Number(orderId)),
+    getProduct(Number(productId)),
+  ]);
+
+  return { order, product };
+};
+
 function NewReview() {
-  const { order, product } = useLoaderData() as OrderAndProduct;
+  const { order, product } = useData<NewReviewData>();
 
   const {
     register,
@@ -46,7 +71,7 @@ function NewReview() {
     [],
   );
 
-  const rating = watch("rating");
+  const rating = Number(watch("rating"));
 
   return (
     <div className="px-12 py-6 shadow">

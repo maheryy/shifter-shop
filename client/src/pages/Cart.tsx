@@ -1,15 +1,14 @@
 import EmptyCart from "@illustrations/empty-cart.svg";
 import { Link, useNavigate } from "react-router-dom";
-import { createOrder } from "@/api/order.api";
 import CartProductCard from "@/components/cart/CartProductCard";
 import CartSummaryItem from "@/components/cart/CartSummaryItem";
-import { useProducts } from "@/hooks/useCart";
+import { useCartProducts } from "@/hooks/useCart";
 import { formatPrice } from "@/utils/format";
 import isEmpty from "@/utils/isEmpty";
 
 function Cart() {
   const navigate = useNavigate();
-  const { cartQuery } = useProducts();
+  const { cartQuery } = useCartProducts();
   const { data, isError, isLoading } = cartQuery;
 
   if (isLoading) {
@@ -53,9 +52,8 @@ function Cart() {
 
   const formattedPrice = formatPrice(price);
 
-  function onOrder() {
-    createOrder({});
-    navigate("/order");
+  function onCheckout() {
+    navigate("/checkout");
   }
 
   return (
@@ -88,9 +86,9 @@ function Cart() {
         </div>
         <button
           className="block w-full rounded-md border border-primary bg-primary px-4 py-2 text-center font-medium text-white transition hover:bg-transparent hover:text-primary"
-          onClick={onOrder}
+          onClick={onCheckout}
         >
-          Order
+          Go to checkout
         </button>
       </div>
     </section>

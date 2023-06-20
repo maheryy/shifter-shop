@@ -20,6 +20,11 @@ function Steps() {
     <ul className="container flex justify-between md:justify-around">
       {steps.map((step) => {
         const currentStep = record[pathname];
+
+        if (!currentStep) {
+          return null;
+        }
+
         const currentStepIndex = steps.indexOf(currentStep);
         const stepIndex = steps.indexOf(step);
         const isActive = currentStep === step;

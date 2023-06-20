@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 import { UseFormRegister } from "react-hook-form";
 
 interface RatingPickerFieldValues {
-  rating: number;
+  rating: string;
 }
 
 interface RatingPickerProps {

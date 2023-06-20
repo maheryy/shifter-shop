@@ -41,7 +41,7 @@ function ChangePassword() {
   const onSubmit: SubmitHandler<ChangePasswordFieldValues> = useCallback(
     async ({ newPassword }) => {
       try {
-        await updatePassword(newPassword);
+        await updatePassword({ password: newPassword });
 
         toast.success("Password updated successfully");
       } catch (error) {

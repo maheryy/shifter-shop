@@ -1,11 +1,10 @@
 import { RouteObject } from "react-router-dom";
-import { getOrderAndProduct } from "@/api/order.api";
 import AccountLayout from "@/layouts/CustomerLayout";
 import Account from "@/pages/account/Account";
 import Addresses, { addressesLoader } from "@/pages/account/Addresses";
 import ChangePassword from "@/pages/account/ChangePassword";
 import NewAddress from "@/pages/account/NewAddress";
-import NewReview from "@/pages/account/NewReview";
+import NewReview, { newReviewLoader } from "@/pages/account/NewReview";
 import Orders from "@/pages/account/Orders";
 import Profile from "@/pages/account/Profile";
 import Reviews, { reviewsLoader } from "@/pages/account/Reviews";
@@ -48,8 +47,7 @@ const accountRoutes: RouteObject = {
     {
       path: "orders/:orderId/review/:productId",
       element: <NewReview />,
-      loader: ({ params }) =>
-        getOrderAndProduct(Number(params.orderId), Number(params.productId)),
+      loader: newReviewLoader,
       errorElement: <NotFound />,
     },
     {

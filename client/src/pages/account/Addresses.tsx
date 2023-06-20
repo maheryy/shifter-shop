@@ -30,8 +30,8 @@ function Addresses() {
           Add new
         </Link>
         <div className="grid w-full gap-8 md:grid-cols-2">
-          {addresses.map(({ id, ...address }) => (
-            <Address key={id} {...address} />
+          {addresses.map((address) => (
+            <Address key={address.id} {...address} />
           ))}
         </div>
       </div>

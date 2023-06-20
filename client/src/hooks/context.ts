@@ -29,7 +29,7 @@ export const useCustomerContext = () => {
 export const useDownloadContext = () => {
   const downloadContext = useContext(DownloadContext);
 
-  if (downloadContext === undefined) {
+  if (!downloadContext) {
     throw new Error(
       "useDownloadContext must be used within a <DownloadProvider>",
     );
