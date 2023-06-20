@@ -4,9 +4,9 @@ import TableRow from './TableRow';
 import { useState } from 'react';
 
 const Table = ({ headers, data }: TableProps) => {
-
+  const rowsPerPage = [5, 10, 25, 50, 100];
   const [currentPage, setCurrentPage] = useState(1);
-  const [recordsPerPage] = useState(5);
+  const [recordsPerPage, setRecordsPerPage] = useState(rowsPerPage[0]);
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
   const currentRecords = data.slice(firstIndex, lastIndex);
@@ -28,6 +28,12 @@ const Table = ({ headers, data }: TableProps) => {
     }
   };
 
+  const handleRecordsPerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedRecordsPerPage = parseInt(event.target.value);
+    setRecordsPerPage(selectedRecordsPerPage);
+    setCurrentPage(1);
+  };
+
   return (
     <>
       <div className="w-full overflow-hidden rounded-lg shadow-xs">
@@ -42,6 +48,9 @@ const Table = ({ headers, data }: TableProps) => {
 
           </table>
           <Pagination
+            rowsPerPage={rowsPerPage}
+            recordsPerPage={recordsPerPage}
+            handleRecordsPerPageChange={handleRecordsPerPageChange}
             currentPage={currentPage}
             totalPages={totalPages}
             changePage={changePage}

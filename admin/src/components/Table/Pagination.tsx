@@ -1,8 +1,22 @@
-const Pagination = ({ currentPage, totalPages, changePage, prePage, nextPage }: PaginationProps) => {
+const Pagination = ({ rowsPerPage, recordsPerPage, handleRecordsPerPageChange, currentPage, totalPages, changePage, prePage, nextPage }: PaginationProps) => {
   const numbers = Array.from(Array(totalPages).keys()).map((number) => number + 1);
 
   return (
     <div className="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800">
+      <span className="flex col-span-4 mt-2 sm:mt-auto sm:justify-start">
+        <span className="py-1 mr-2">Rows per page:</span>
+        <select
+          className="px-2 py-1 border border-gray-300 rounded-md focus:outline-none"
+          value={recordsPerPage}
+          onChange={handleRecordsPerPageChange}
+        >
+          {rowsPerPage.map((value) => (
+            <option key={value} value={value}>
+              {value}
+            </option>
+          ))}
+        </select>
+      </span>
       <span className="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">
         <nav aria-label="Table navigation">
           <ul className="inline-flex items-center">
@@ -62,6 +76,9 @@ const Pagination = ({ currentPage, totalPages, changePage, prePage, nextPage }: 
 };
 
 interface PaginationProps {
+  rowsPerPage: number[];
+  recordsPerPage: number;
+  handleRecordsPerPageChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   currentPage: number;
   totalPages: number;
   changePage: (page: number) => void;
