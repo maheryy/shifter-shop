@@ -1,16 +1,17 @@
-import Pagination from './Pagination';
 import TableHeader from './TableHeader';
 import TableRow from './TableRow';
+import TableBottom from './TableBottom';
 import { useState } from 'react';
 
 const Table = ({ headers, data }: TableProps) => {
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [recordsPerPage] = useState(5);
-  const lastIndex = currentPage * recordsPerPage;
-  const firstIndex = lastIndex - recordsPerPage;
-  const currentRecords = data.slice(firstIndex, lastIndex);
-  const totalPages = Math.ceil(data.length / recordsPerPage);
+  const rowsPerPage = [5, 10, 25, 50, 100]; // Options for rows per page
+  const nbRecords = data.length; // Total number of records
+  const [currentPage, setCurrentPage] = useState(1);  // Current page number
+  const [recordsPerPage, setRecordsPerPage] = useState(rowsPerPage[0]); // Number of records per page
+  const lastIndex = currentPage * recordsPerPage; // Max index of the current page
+  const firstIndex = lastIndex - recordsPerPage; // Min index of the current page
+  const currentRecords = data.slice(firstIndex, lastIndex); // Records on the current page
+  const totalPages = Math.ceil(nbRecords / recordsPerPage); // Total number of pages
 
   const changePage = (page: number) => {
     setCurrentPage(page);
@@ -28,6 +29,12 @@ const Table = ({ headers, data }: TableProps) => {
     }
   };
 
+  const handleRecordsPerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedRecordsPerPage = parseInt(event.target.value);
+    setRecordsPerPage(selectedRecordsPerPage);
+    setCurrentPage(1);
+  };
+
   return (
     <>
       <div className="w-full overflow-hidden rounded-lg shadow-xs">
@@ -41,7 +48,11 @@ const Table = ({ headers, data }: TableProps) => {
             </tbody>
 
           </table>
-          <Pagination
+          <TableBottom
+            nbRecords={nbRecords}
+            rowsPerPage={rowsPerPage}
+            recordsPerPage={recordsPerPage}
+            handleRecordsPerPageChange={handleRecordsPerPageChange}
             currentPage={currentPage}
             totalPages={totalPages}
             changePage={changePage}

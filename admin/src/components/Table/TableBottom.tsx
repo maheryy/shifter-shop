@@ -1,9 +1,28 @@
-const Pagination = ({ currentPage, totalPages, changePage, prePage, nextPage }: PaginationProps) => {
-  const numbers = Array.from(Array(totalPages).keys()).map((number) => number + 1);
+const TableBottom = ({ nbRecords, rowsPerPage, recordsPerPage, handleRecordsPerPageChange, currentPage, totalPages, changePage, prePage, nextPage }: TableBottomProps) => {
+  const numbers = Array.from(Array(totalPages).keys()).map((number) => number + 1); // [1, 2, 3, ..., totalPages]
+  const firstRecordIndex = currentPage * recordsPerPage - recordsPerPage + 1; // Index of the first record on the current page
+  const lastRecordIndex = currentPage * recordsPerPage > nbRecords ? nbRecords : currentPage * recordsPerPage; // Index of the last record on the current page
 
   return (
     <div className="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800">
-      <span className="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">
+      <span className="flex col-span-3 mt-2 sm:mt-auto sm:justify-start">
+        <span className="py-1 mr-2">Rows per page:</span>
+        <select
+          className="px-2 py-1 border border-gray-300 rounded-md focus:outline-none"
+          value={recordsPerPage}
+          onChange={handleRecordsPerPageChange}
+        >
+          {rowsPerPage.map((value) => (
+            <option key={value} value={value}>
+              {value}
+            </option>
+          ))}
+        </select>
+      </span>
+      <span className="flex items-center col-span-3">
+        Showing {firstRecordIndex}-{lastRecordIndex} of {nbRecords} results
+      </span>
+      <span className="flex col-span-3 mt-2 sm:mt-auto sm:justify-end">
         <nav aria-label="Table navigation">
           <ul className="inline-flex items-center">
             <li>
@@ -61,7 +80,11 @@ const Pagination = ({ currentPage, totalPages, changePage, prePage, nextPage }: 
   );
 };
 
-interface PaginationProps {
+interface TableBottomProps {
+  nbRecords: number;
+  rowsPerPage: number[];
+  recordsPerPage: number;
+  handleRecordsPerPageChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   currentPage: number;
   totalPages: number;
   changePage: (page: number) => void;
@@ -69,4 +92,4 @@ interface PaginationProps {
   nextPage: () => void;
 }
 
-export default Pagination;
+export default TableBottom;
