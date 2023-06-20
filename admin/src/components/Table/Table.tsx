@@ -4,13 +4,14 @@ import TableRow from './TableRow';
 import { useState } from 'react';
 
 const Table = ({ headers, data }: TableProps) => {
-  const rowsPerPage = [5, 10, 25, 50, 100];
-  const [currentPage, setCurrentPage] = useState(1);
-  const [recordsPerPage, setRecordsPerPage] = useState(rowsPerPage[0]);
-  const lastIndex = currentPage * recordsPerPage;
-  const firstIndex = lastIndex - recordsPerPage;
-  const currentRecords = data.slice(firstIndex, lastIndex);
-  const totalPages = Math.ceil(data.length / recordsPerPage);
+  const rowsPerPage = [5, 10, 25, 50, 100]; // Options for rows per page
+  const nbRecords = data.length; // Total number of records
+  const [currentPage, setCurrentPage] = useState(1);  // Current page number
+  const [recordsPerPage, setRecordsPerPage] = useState(rowsPerPage[0]); // Number of records per page
+  const lastIndex = currentPage * recordsPerPage; // Max index of the current page
+  const firstIndex = lastIndex - recordsPerPage; // Min index of the current page
+  const currentRecords = data.slice(firstIndex, lastIndex); // Records on the current page
+  const totalPages = Math.ceil(nbRecords / recordsPerPage); // Total number of pages
 
   const changePage = (page: number) => {
     setCurrentPage(page);
@@ -48,6 +49,7 @@ const Table = ({ headers, data }: TableProps) => {
 
           </table>
           <Pagination
+            nbRecords={nbRecords}
             rowsPerPage={rowsPerPage}
             recordsPerPage={recordsPerPage}
             handleRecordsPerPageChange={handleRecordsPerPageChange}
