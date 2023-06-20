@@ -128,6 +128,21 @@ services:
     depends_on:
       - postgres
 
+  product-svc:
+    container_name: product-svc
+    build:
+      context: .
+      dockerfile: ./apps/product/Dockerfile
+    ports:
+      - 3009:3000
+    environment:
+      - DATABASE_URL=postgres://postgres:password@postgres:5432/products
+    networks:
+      - ss_database
+      - ss_microservices
+    depends_on:
+      - postgres
+
   client:
     container_name: client
     build:
