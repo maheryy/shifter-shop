@@ -143,6 +143,21 @@ services:
     depends_on:
       - postgres
 
+  category-svc:
+    container_name: category-svc
+    build:
+      context: .
+      dockerfile: ./apps/category/Dockerfile
+    ports:
+      - 3010:3000
+    environment:
+      - DATABASE_URL=postgres://postgres:password@postgres:5432/categories
+    networks:
+      - ss_database
+      - ss_microservices
+    depends_on:
+      - postgres
+
   client:
     container_name: client
     build:
