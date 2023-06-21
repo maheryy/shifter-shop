@@ -2,27 +2,27 @@
   cache:
     key:
       files:
-        - admin/package-lock.json
+        - apps/admin/package-lock.json
     paths:
-      - admin/.npm
+      - apps/admin/.npm
     policy: pull-push
   artifacts:
     expire_in: 1h
     paths:
-      - admin/node_modules
+      - apps/admin/node_modules
 
 build-admin:
   stage: build
   image: node:18
   script:
-    - cd admin
+    - cd apps/admin
     - npm ci --cache .npm --prefer-offline
     - npm run build
   extends: .cache-admin
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       changes:
-        - admin/**/*
+        - apps/admin/**/*
 
 test-admin:
   stage: test
@@ -33,7 +33,7 @@ test-admin:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       changes:
-        - admin/**/*
+        - apps/admin/**/*
 
 deploy-admin:
   stage: deploy
@@ -44,4 +44,4 @@ deploy-admin:
   rules:
     - if: $CI_COMMIT_BRANCH == "dev" || $CI_COMMIT_BRANCH == "main"
       changes:
-        - admin/**/*
+        - apps/admin/**/*

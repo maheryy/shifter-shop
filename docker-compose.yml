@@ -1,7 +1,7 @@
 version: "3.8"
 services:
-  database:
-    container_name: database
+  postgres:
+    container_name: postgres
     image: postgres:15
     ports:
       - 5432:5432
@@ -13,6 +13,7 @@ services:
       - POSTGRES_DB=app
 
   mongo:
+    container_name: mongo
     image: mongo:5
     ports:
       - 27017:27017
@@ -22,9 +23,16 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: password
 
-  mailer:
-    container_name: mailer
+  mailhog:
+    container_name: mailhog
     image: mailhog/mailhog:latest
     ports:
       - 1025:1025
       - 8025:8025
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.10-management-alpine
+    ports:
+      - 5672:5672
+      - 15672:15672

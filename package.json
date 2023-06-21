@@ -1,0 +1,12 @@
+{
+  "name": "shifter-shop",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "libs/*",
+    "apps/*"
+  ],
+  "devDependencies": {
+    "nx": "16.2.2"
+  }
+}

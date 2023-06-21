@@ -1,0 +1,36 @@
+{
+  "name": "user",
+  "path": "/users",
+  "production": {
+    "url": "http://user-svc:3000"
+  },
+  "development": {
+    "url": "http://127.0.0.1:3008"
+  },
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "PATCH",
+      "path": "/:id",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "GET",
+      "path": "/:id",
+      "private": true
+    },
+    {
+      "method": "POST",
+      "path": "/",
+      "private": true
+    },
+    {
+      "method": "POST",
+      "path": "/search",
+      "private": true
+    }
+  ]
+}

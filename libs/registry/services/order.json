@@ -1,0 +1,36 @@
+{
+  "name": "order",
+  "path": "/orders",
+  "production": {
+    "url": "http://order-svc:3000"
+  },
+  "development": {
+    "url": "http://127.0.0.1:3005"
+  },
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "GET",
+      "path": "/customer/:id",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "GET",
+      "path": "/:id",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "POST",
+      "path": "/"
+    },
+    {
+      "method": "PATCH",
+      "path": "/:id",
+      "middlewares": ["auth", "roles"]
+    }
+  ]
+}

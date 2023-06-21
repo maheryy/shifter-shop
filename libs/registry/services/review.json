@@ -1,0 +1,32 @@
+{
+  "name": "review",
+  "path": "/reviews",
+  "production": {
+    "url": "http://review-svc:3000"
+  },
+  "development": {
+    "url": "http://127.0.0.1:3011"
+  },
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "POST",
+      "path": "/"
+    },
+    {
+      "method": "GET",
+      "path": "/:id"
+    },
+    {
+      "method": "PATCH",
+      "path": "/:id"
+    },
+    {
+      "method": "GET",
+      "path": "/product/:id"
+    }
+  ]
+}
