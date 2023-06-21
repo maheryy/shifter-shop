@@ -11,6 +11,6 @@ stages:
   - deploy
 
 include:
-  - local: .gitlab/client.gitlab-ci.yml
-  - local: .gitlab/admin.gitlab-ci.yml
+  # - local: .gitlab/client.gitlab-ci.yml
+  # - local: .gitlab/admin.gitlab-ci.yml
   - local: .gitlab/api.gitlab-ci.yml
