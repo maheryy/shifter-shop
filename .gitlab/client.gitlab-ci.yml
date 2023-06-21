@@ -2,38 +2,38 @@
   cache:
     key:
       files:
-        - client/package-lock.json
+        - apps/client/package-lock.json
     paths:
-      - client/.npm
+      - apps/client/.npm
     policy: pull-push
   artifacts:
     expire_in: 1h
     paths:
-      - client/node_modules
+      - apps/client/node_modules
 
 build-client:
   stage: build
   image: node:18
   script:
-    - cd client
+    - cd apps/client
     - npm ci --cache .npm --prefer-offline
     - npm run build
   extends: .cache-client
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       changes:
-        - client/**/*
+        - apps/client/**/*
 
 test-client:
   stage: test
   image: node:18
   script:
-    - cd client
+    - cd apps/client
     - npm run test
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       changes:
-        - client/**/*
+        - apps/client/**/*
 
 deploy-client:
   stage: deploy
@@ -44,4 +44,4 @@ deploy-client:
   rules:
     - if: $CI_COMMIT_BRANCH == "dev" || $CI_COMMIT_BRANCH == "main"
       changes:
-        - client/**/*
+        - apps/client/**/*
