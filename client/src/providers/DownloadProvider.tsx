@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useRef, useState } from "react";
 import useComponentUpdate from "@/hooks/componentUpdate";
 
-export const DownloadContext = createContext<DownloadContextProps>(null!);
+export const DownloadContext = createContext<DownloadContextProps | null>(null);
 
 const DownloadProvider = ({ children }: DownloadProviderProps) => {
   const [data, setData] = useState<DownloadLinkData>();
@@ -46,7 +46,7 @@ const DownloadProvider = ({ children }: DownloadProviderProps) => {
 
     return {
       href: window.URL.createObjectURL(blob),
-      download: filename || (headerFilename ? headerFilename[1] : "download"),
+      download: filename || (headerFilename ? headerFilename[1]! : "download"),
     };
   };
 
@@ -95,7 +95,7 @@ interface DownloadProviderProps {
 }
 
 interface DownloadContextProps {
-  download: (enpoint: string, options: DownloadLinkProps) => Promise<void>;
+  download: (endpoint: string, options: DownloadLinkProps) => Promise<void>;
   isLoading: boolean;
 }
 

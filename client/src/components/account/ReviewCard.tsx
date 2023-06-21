@@ -3,7 +3,11 @@ import Rating from "@/components/Rating";
 import { Review } from "@/types/review";
 import { formatDisplayDate } from "@/utils/format";
 
-const ReviewCard = ({ review }: ReviewCardProps) => {
+interface ReviewCardProps {
+  review: Review;
+}
+
+function ReviewCard({ review }: ReviewCardProps) {
   const to = `/products/${review.product.id}`;
 
   return (
@@ -40,10 +44,6 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
       </div>
     </article>
   );
-};
-
-interface ReviewCardProps {
-  review: Review;
 }
 
 export default ReviewCard;

@@ -1,12 +1,11 @@
-import reviews from "@data/reviews.json";
-import { getShuffledProducts } from "@/api/product.api";
-import { Review } from "@/types/review";
+import { CreateReview, Review } from "@/types/review";
+import api from ".";
 
-export const getReviews = async (): Promise<Review[]> => {
-  const res = reviews as Review[];
+export function getReviews(): Promise<Review[]> {
+  // TODO: remove query params if not needed
+  return api.get("/reviews?_expand=product").json();
+}
 
-  return res.map((review: Review) => ({
-    ...review,
-    product: getShuffledProducts(1)[0],
-  }));
-};
+export function createReview(review: CreateReview): Promise<Review> {
+  return api.post(review, "/reviews").json();
+}

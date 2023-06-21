@@ -1,73 +1,74 @@
-import { useCallback, useEffect, useReducer, useState } from "react";
-import { useLoaderData, useSearchParams } from "react-router-dom";
-import { getProducts } from "@/api/product.api";
+import { useCallback, useReducer } from "react";
+import { useSearchParams } from "react-router-dom";
 import ProductCard from "@/components/ProductCard";
+import useCategories from "@/hooks/useCategories";
+import { useData } from "@/hooks/useData";
+import useProducts from "@/hooks/useProducts";
 import { Category } from "@/types/category";
-import { ProductListParams, SortType, SortTypeMapping } from "@/types/params";
-import { Product } from "@/types/product";
+import { Loader } from "@/types/loader";
+import { ProductsSearchParams, SortBy, SortTypeMapping } from "@/types/params";
 
-export interface ProductListData {
-  categories: Category[];
-  initialParams: ProductListParams;
-  initialProducts: Product[];
-}
-
-type ParamsAction =
-  | { type: "SORT_BY"; payload: SortType }
+type Action =
+  | { type: "SORT_BY"; payload: SortBy }
   | { type: "MIN_PRICE"; payload: number }
   | { type: "MAX_PRICE"; payload: number }
   | { type: "CATEGORIES"; payload: Category["id"][] };
 
-function paramsReducer(
-  params: ProductListParams,
-  { payload, type }: ParamsAction,
-) {
+function reducer(state: ProductsSearchParams, { payload, type }: Action) {
   switch (type) {
     case "CATEGORIES": {
       return {
-        ...params,
+        ...state,
         categories: payload,
       };
     }
 
     case "MAX_PRICE": {
       return {
-        ...params,
+        ...state,
         maxPrice: payload,
       };
     }
 
     case "MIN_PRICE": {
       return {
-        ...params,
+        ...state,
         minPrice: payload,
       };
     }
 
     case "SORT_BY": {
       return {
-        ...params,
+        ...state,
         sortBy: payload,
       };
     }
 
     default: {
-      return params;
+      return state;
     }
   }
 }
 
-const ProductList = () => {
+export interface ProductsData {
+  searchParams: ProductsSearchParams;
+}
+
+export const productsLoader: Loader<ProductsData> = async ({ request }) => {
+  const searchParams = getProductsSearchParams(request.url);
+
+  return {
+    searchParams,
+  };
+};
+
+function Products() {
   const [, setSearchParams] = useSearchParams();
+  const { searchParams } = useData<ProductsData>();
+  const [state, dispatch] = useReducer(reducer, searchParams);
 
-  const { categories, initialParams, initialProducts } =
-    useLoaderData() as ProductListData;
-
-  const [params, dispatch] = useReducer(paramsReducer, initialParams);
-  const [products, setProducts] = useState<Product[]>(initialProducts);
-
-  const setParams = useCallback(
-    (action: ParamsAction) => {
+  const setState = useCallback(
+    (action: Action) => {
       dispatch(action);
 
       const { payload, type } = action;
@@ -125,66 +126,79 @@ const ProductList = () => {
     [setSearchParams],
   );
 
-  useEffect(() => {
-    getProducts(params).then(setProducts);
-  }, [params]);
-
   const onCategoryChange = useCallback(
     ({ target }: React.ChangeEvent<HTMLInputElement>) => {
       const { checked, value } = target;
 
       if (checked) {
-        return setParams({
+        return setState({
           type: "CATEGORIES",
-          payload: [...(params.categories || []), Number(value)],
+          payload: [...(state.categories || []), Number(value)],
         });
       }
 
-      return setParams({
+      return setState({
         type: "CATEGORIES",
-        payload: (params.categories || []).filter(
+        payload: (state.categories || []).filter(
           (category) => category !== Number(value),
         ),
       });
     },
-    [params.categories, setParams],
+    [state.categories, setState],
   );
 
   const onMinPriceChange = useCallback(
     ({ target }: React.ChangeEvent<HTMLInputElement>) => {
       const { value } = target;
 
-      setParams({
+      setState({
         type: "MIN_PRICE",
         payload: Number(value),
       });
     },
-    [setParams],
+    [setState],
   );
 
   const onMaxPriceChange = useCallback(
     ({ target }: React.ChangeEvent<HTMLInputElement>) => {
       const { value } = target;
 
-      setParams({
+      setState({
         type: "MAX_PRICE",
         payload: Number(value),
       });
     },
-    [setParams],
+    [setState],
   );
 
   const onSortByChange = useCallback(
     ({ target }: React.ChangeEvent<HTMLSelectElement>) => {
       const { value } = target;
 
-      setParams({
+      setState({
         type: "SORT_BY",
-        payload: value as SortType,
+        payload: value as SortBy,
       });
     },
-    [setParams],
+    [setState],
   );
+
+  const categoryQuery = useCategories();
+  const productQuery = useProducts(state);
+
+  const isLoading = categoryQuery.isLoading || productQuery.isLoading;
+  const isError = categoryQuery.isError || productQuery.isError;
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error</div>;
+  }
+
+  const { data: categories } = categoryQuery;
+  const { data: products } = productQuery;
 
   return (
     <section className="container grid gap-4 py-8 md:grid-cols-4">
@@ -201,7 +215,7 @@ const ProductList = () => {
                   key={`cat-${category.id}`}
                 >
                   <input
-                    checked={params.categories?.includes(category.id)}
+                    checked={state.categories?.includes(category.id)}
                     className="cursor-pointer rounded-sm text-primary focus:ring-0"
                     id={`cat-${category.id}`}
                     name="categories[]"
@@ -231,7 +245,7 @@ const ProductList = () => {
                 onChange={onMinPriceChange}
                 placeholder="min"
                 type="number"
-                value={params.minPrice || ""}
+                value={state.minPrice || ""}
               />
               <span className="mx-3 text-gray-500">-</span>
               <input
@@ -241,7 +255,7 @@ const ProductList = () => {
                 onChange={onMaxPriceChange}
                 placeholder="max"
                 type="number"
-                value={params.maxPrice || ""}
+                value={state.maxPrice || ""}
               />
             </div>
           </div>
@@ -253,7 +267,7 @@ const ProductList = () => {
             className="rounded border-gray-300 px-4 py-3 text-sm text-gray-600 shadow-sm focus:border-primary focus:ring-primary"
             name="sort"
             onChange={onSortByChange}
-            value={params.sortBy}
+            value={state.sortBy}
           >
             {Object.keys(SortTypeMapping).map((key) => {
               return (
@@ -272,6 +286,26 @@ const ProductList = () => {
       </div>
     </section>
   );
-};
+}
 
-export default ProductList;
+function getProductsSearchParams(url: string): ProductsSearchParams {
+  const { searchParams } = new URL(url);
+
+  const categories = searchParams.get("categories");
+  const maxPrice = searchParams.get("maxPrice");
+  const minPrice = searchParams.get("minPrice");
+  const q = searchParams.get("q");
+  const sortBy = searchParams.get("sortBy");
+
+  const productsParams = {
+    ...(categories && { categories: categories.split(",").map(Number) }),
+    ...(maxPrice && { maxPrice: Number(maxPrice) }),
+    ...(minPrice && { minPrice: Number(minPrice) }),
+    ...(q && { q }),
+    ...(sortBy && { sortBy }),
+  };
+
+  return productsParams;
+}
+
+export default Products;

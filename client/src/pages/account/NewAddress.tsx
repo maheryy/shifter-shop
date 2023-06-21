@@ -2,22 +2,28 @@ import { useCallback } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { createAddress } from "@/api/address.api";
 import Address from "@/components/account/Address";
 import Button from "@/components/Button";
-import AddressForm, { AddressFormInputs } from "@/components/forms/AddressForm";
+import AddressForm, {
+  AddressFieldValues,
+} from "@/components/forms/AddressForm";
 
 export interface AddressesData {
   addresses: Address[];
 }
 
 function NewAddress() {
-  const form = useForm<AddressFormInputs>();
+  const form = useForm<AddressFieldValues>();
 
-  const onSubmit: SubmitHandler<AddressFormInputs> = useCallback((data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<AddressFieldValues> = useCallback(
+    async ({ address }) => {
+      await createAddress(address);
 
-    toast("Not implemented");
-  }, []);
+      toast.success("Address added successfully");
+    },
+    [],
+  );
 
   return (
     <section className="grid gap-8">

@@ -13,7 +13,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const token = await getAuthToken(email, password);
+      const { token } = await getAuthToken({ email, password });
       const user = await getUser(token);
 
       authenticate(user, token);

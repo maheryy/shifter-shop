@@ -1,20 +1,38 @@
 import { createContext, useEffect, useState } from "react";
 import { getUser } from "@/api/user.api";
 import useComponentUpdate from "@/hooks/componentUpdate";
-import { StorageKey } from "@/types/storage";
+import useCartSynchronization from "@/hooks/useCartSynchronization";
+import StorageKey from "@/types/storage";
 import { User } from "@/types/user";
-import { remove, retrieve, store } from "@/utils/storage";
+import {
+  getFromLocalStorage,
+  removeFromLocalStorage,
+  setToLocalStorage,
+} from "@/utils/storage";
 
-export const AuthContext = createContext<AuthContextProps>(null!);
+interface AuthContextProps {
+  user: User | null;
+  isAuthenticated: boolean;
+  authenticate: (user: User, token: string) => void;
+  invalidate: () => void;
+}
 
-const AuthProvider = ({ children }: AuthProviderProps) => {
+export const AuthContext = createContext<AuthContextProps | null>(null);
+
+interface AuthProviderProps {
+  children: React.ReactNode;
+}
+
+function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
+  useCartSynchronization(isAuthenticated);
+
   useEffect(() => {
-    const localToken = retrieve<string>(StorageKey.TOKEN);
+    const localToken = getFromLocalStorage<string>(StorageKey.enum.token);
 
     if (!localToken) {
       return setIsLoading(false);
@@ -31,9 +49,9 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
   useComponentUpdate(() => {
     if (token) {
-      store(StorageKey.TOKEN, token);
+      setToLocalStorage(StorageKey.enum.token, token);
     } else {
-      remove(StorageKey.TOKEN);
+      removeFromLocalStorage(StorageKey.enum.token);
     }
   }, [token]);
 
@@ -61,17 +79,6 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
       {!isLoading && children}
     </AuthContext.Provider>
   );
-};
-
-interface AuthContextProps {
-  user: User | null;
-  isAuthenticated: boolean;
-  authenticate: (user: User, token: string) => void;
-  invalidate: () => void;
-}
-
-interface AuthProviderProps {
-  children: React.ReactNode;
 }
 
 export default AuthProvider;

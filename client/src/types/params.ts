@@ -1,6 +1,6 @@
-import { Category } from "@/types/category";
+import { Category } from "./category";
 
-export interface ProductListParams {
+export interface ProductsSearchParams {
   categories?: Category["id"][];
   maxPrice?: number;
   minPrice?: number;
@@ -8,16 +8,16 @@ export interface ProductListParams {
   sortBy?: string;
 }
 
-export enum SortType {
+export enum SortBy {
   POPULAR = "popular",
   LATEST = "latest",
   PRICE_ASC = "asc",
   PRICE_DESC = "desc",
 }
 
-export const SortTypeMapping: Record<SortType, string> = {
-  [SortType.POPULAR]: "Popular",
-  [SortType.LATEST]: "Latest",
-  [SortType.PRICE_ASC]: "Price: Low to High",
-  [SortType.PRICE_DESC]: "Price: High to Low",
+export const SortTypeMapping: Record<SortBy, string> = {
+  [SortBy.POPULAR]: "Popular",
+  [SortBy.LATEST]: "Latest",
+  [SortBy.PRICE_ASC]: "Price: Low to High",
+  [SortBy.PRICE_DESC]: "Price: High to Low",
 };

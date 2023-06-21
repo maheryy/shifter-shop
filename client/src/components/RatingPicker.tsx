@@ -1,48 +1,51 @@
 import StarEmptyIcon from "@icons/star-empty.svg";
 import StarFullIcon from "@icons/star-full.svg";
-import { useMemo, useState } from "react";
+import { useCallback, useState } from "react";
+import { UseFormRegister } from "react-hook-form";
 
-const RatingPicker = ({ rating, onChange }: RatingPickerProps) => {
+interface RatingPickerFieldValues {
+  rating: string;
+}
+
+interface RatingPickerProps {
+  rating: number;
+  register: UseFormRegister<RatingPickerFieldValues>;
+}
+
+const choices: readonly [1, 2, 3, 4, 5] = [1, 2, 3, 4, 5];
+
+function RatingPicker({ rating, register }: RatingPickerProps) {
   const [ratingHover, setRatingHover] = useState<number | null>(null);
-  const uid = useMemo(() => Math.random(), []);
-  const choices = useMemo(() => [1, 2, 3, 4, 5], []);
+  const onBlurOrMouseLeave = useCallback(() => setRatingHover(null), []);
 
   return (
-    <div className="-mx-0.5 flex text-yellow-400">
-      {choices.map((value) => (
+    <div className="flex gap-2 text-yellow-400">
+      {choices.map((choice) => (
         <label
-          className="h-10 w-10 cursor-pointer px-0.5"
-          htmlFor={`rating-${value}`}
-          key={`rp-label-${uid}-${value}`}
-          onMouseLeave={() => setRatingHover(null)}
-          onMouseOver={() => setRatingHover(value)}
+          className="grid w-10 cursor-pointer gap-2"
+          htmlFor={`${choice}`}
+          key={choice}
+          onBlur={onBlurOrMouseLeave}
+          onFocus={() => setRatingHover(choice)}
+          onMouseLeave={onBlurOrMouseLeave}
+          onMouseOver={() => setRatingHover(choice)}
         >
-          {(ratingHover && ratingHover >= value) || rating >= value ? (
+          {(ratingHover && ratingHover >= choice) || rating >= choice ? (
             <StarFullIcon />
           ) : (
             <StarEmptyIcon />
           )}
+          <input
+            className="absolute opacity-0"
+            id={`${choice}`}
+            type="radio"
+            value={choice}
+            {...register("rating")}
+          />
         </label>
       ))}
-      <div className="hidden">
-        {choices.map((value) => (
-          <input
-            checked={rating === value}
-            id={`rating-${value}`}
-            key={`rp-input-${uid}-${value}`}
-            name="rating"
-            onChange={() => onChange(value)}
-            type="radio"
-          />
-        ))}
-      </div>
     </div>
   );
-};
-
-interface RatingPickerProps {
-  onChange: (rating: number) => void;
-  rating: number;
 }
 
 export default RatingPicker;

@@ -1,12 +1,23 @@
-export interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  image: string;
-  category: number;
-}
+import { z } from "zod";
+import Category from "./category";
+import Review from "./review";
 
-export interface ProductWithQuantity extends Product {
-  quantity: number;
-}
+const Product = z.object({
+  id: z.number(),
+  name: z.string(),
+  description: z.string(),
+  price: z.number(),
+  image: z.string(),
+  rating: z.number(),
+  reviewsCount: z.number(),
+});
+
+export const DetailedProduct = Product.extend({
+  categories: z.array(Category),
+  reviews: z.array(Review),
+});
+
+export type Product = z.infer<typeof Product>;
+export type DetailedProduct = z.infer<typeof DetailedProduct>;
+
+export default Product;

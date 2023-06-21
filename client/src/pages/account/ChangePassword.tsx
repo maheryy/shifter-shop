@@ -27,21 +27,21 @@ const schema = z
     },
   );
 
-type Inputs = z.infer<typeof schema>;
+type ChangePasswordFieldValues = z.infer<typeof schema>;
 
 function ChangePassword() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>({
+  } = useForm<ChangePasswordFieldValues>({
     resolver: zodResolver(schema),
   });
 
-  const onSubmit: SubmitHandler<Inputs> = useCallback(
+  const onSubmit: SubmitHandler<ChangePasswordFieldValues> = useCallback(
     async ({ newPassword }) => {
       try {
-        await updatePassword(newPassword);
+        await updatePassword({ password: newPassword });
 
         toast.success("Password updated successfully");
       } catch (error) {

@@ -21,7 +21,7 @@ const schema = z
     path: ["confirmPassword"],
   });
 
-type Inputs = z.infer<typeof schema>;
+type BusinessRegisterFieldValues = z.infer<typeof schema>;
 
 function Register() {
   const navigate = useNavigate();
@@ -31,9 +31,12 @@ function Register() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>({ defaultValues: state, resolver: zodResolver(schema) });
+  } = useForm<BusinessRegisterFieldValues>({
+    defaultValues: state,
+    resolver: zodResolver(schema),
+  });
 
-  const onSubmit: SubmitHandler<Inputs> = useCallback(
+  const onSubmit: SubmitHandler<BusinessRegisterFieldValues> = useCallback(
     async (data) => {
       try {
         setState({ ...state, ...data });

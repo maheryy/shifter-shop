@@ -1,24 +1,25 @@
-import { Product, ProductWithQuantity } from "@/types/product";
-import { User } from "@/types/user";
+import { z } from "zod";
+import User from "@/types/user";
+import OrderProduct from "./orderProduct";
 
-export interface Order {
-  id: number;
-  reference: string;
-  totalAmount: number;
-  date: string;
-  status: OrderStatus;
-  customer: User;
-  products: ProductWithQuantity[];
-}
+export const OrderStatus = z.enum([
+  "pending",
+  "confirmed",
+  "shipping",
+  "delivered",
+]);
 
-export enum OrderStatus {
-  Pending = "pending",
-  Confirmed = "confirmed",
-  Shipping = "shipping",
-  Delivered = "delivered",
-}
+const Order = z.object({
+  id: z.number(),
+  reference: z.string(),
+  totalAmount: z.number(),
+  date: z.string(),
+  status: OrderStatus,
+  customer: User,
+  products: z.array(OrderProduct),
+});
 
-export interface OrderAndProduct {
-  order: Order;
-  product: Product;
-}
+export type Order = z.infer<typeof Order>;
+export type OrderStatus = z.infer<typeof OrderStatus>;
+
+export default Order;

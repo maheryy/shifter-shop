@@ -15,6 +15,7 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "plugin:tailwindcss/recommended",
     "plugin:prettier/recommended",
+    "plugin:@tanstack/eslint-plugin-query/recommended",
   ],
   overrides: [],
   parser: "@typescript-eslint/parser",
@@ -27,7 +28,10 @@ module.exports = {
     "react/jsx-sort-props": ERROR,
     "react/jsx-newline": [ERROR, { prevent: true }],
     "no-unused-vars": OFF,
-    "@typescript-eslint/no-unused-vars": ERROR,
+    "@typescript-eslint/no-unused-vars": [
+      ERROR,
+      { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+    ],
     "@typescript-eslint/no-explicit-any": ERROR,
 
     // Require or disallow padding lines between statements

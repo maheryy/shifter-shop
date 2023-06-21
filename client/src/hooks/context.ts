@@ -1,15 +1,14 @@
 import { useContext } from "react";
 import { AuthContext } from "@/providers/AuthProvider";
 import { RegisterContext } from "@/providers/business/RegisterContext";
-import { CartContext } from "@/providers/CartProvider";
 import { CustomerContext } from "@/providers/CustomerProvider";
 import { DownloadContext } from "@/providers/DownloadProvider";
 
 export const useAuthContext = () => {
   const context = useContext(AuthContext);
 
-  if (context === undefined) {
-    throw new Error("useAuthContext must be used within a AuthProvider");
+  if (!context) {
+    throw new Error("useAuthContext must be used within a <AuthProvider>");
   }
 
   return context;
@@ -20,41 +19,33 @@ export const useCustomerContext = () => {
 
   if (context === undefined) {
     throw new Error(
-      "useCustomerContext must be used within a CustomerProvider",
+      "useCustomerContext must be used within a <CustomerProvider>",
     );
-  }
-
-  return context;
-};
-
-export const useCartContext = () => {
-  const context = useContext(CartContext);
-
-  if (context === undefined) {
-    throw new Error("useCartContext must be used within a CartProvider");
   }
 
   return context;
 };
 
 export const useDownloadContext = () => {
-  const context = useContext(DownloadContext);
+  const downloadContext = useContext(DownloadContext);
 
-  if (context === undefined) {
+  if (!downloadContext) {
     throw new Error(
-      "useDownloadContext must be used within a DownloadProvider",
+      "useDownloadContext must be used within a <DownloadProvider>",
     );
   }
 
-  return context;
+  return downloadContext;
 };
 
 export function useRegisterContext() {
-  const context = useContext(RegisterContext);
+  const registerContext = useContext(RegisterContext);
 
-  if (!context) {
-    throw new Error("useRegisterContext must be in <RegisterProvider>");
+  if (!registerContext) {
+    throw new Error(
+      "useRegisterContext must be used within a <RegisterProvider>",
+    );
   }
 
-  return context;
+  return registerContext;
 }

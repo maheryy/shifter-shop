@@ -2,12 +2,14 @@ import AccountIcon from "@icons/account.svg";
 import CartIcon from "@icons/cart.svg";
 import { NavLink } from "react-router-dom";
 import Logo from "@/components/Logo";
-import { useAuthContext, useCartContext } from "@/hooks/context";
+import { useAuthContext } from "@/hooks/context";
+import { useProductQuantity } from "@/hooks/useCart";
 import SearchBar from "./SearchBar";
 
 const Header = () => {
   const { isAuthenticated } = useAuthContext();
-  const { cartItems } = useCartContext();
+  const { cartQuery } = useProductQuantity();
+  const { data } = cartQuery;
 
   return (
     <header className="container grid grid-cols-2 grid-rows-2 items-center gap-y-4 bg-white py-4 shadow-sm md:flex md:h-20 md:justify-between md:gap-x-4">
@@ -25,9 +27,9 @@ const Header = () => {
             <CartIcon />
           </span>
           <span className="text-xs">Cart</span>
-          {!!cartItems.length && (
+          {!!data && (
             <div className="absolute -right-3 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-white">
-              {cartItems.length}
+              {data}
             </div>
           )}
         </NavLink>
