@@ -1,4 +1,4 @@
-import { GlobalStatus } from '@shifter-shop/types';
+import { EGlobalStatus } from '@shifter-shop/types';
 import {
   IsEnum,
   IsNotEmpty,
@@ -33,6 +33,6 @@ export class UpdateProductDto {
   image?: string;
 
   @IsOptional()
-  @IsEnum(GlobalStatus)
-  status?: GlobalStatus;
+  @IsEnum(EGlobalStatus)
+  status?: EGlobalStatus;
 }

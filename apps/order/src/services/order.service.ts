@@ -1,5 +1,6 @@
+import { TOrder } from "@shifter-shop/types";
 import { Order as OrderEntity } from "entities/order.entity";
-import { Order, OrderCreationData, OrderUpdateData } from "types/order";
+import { TOrderCreationData, TOrderUpdateData } from "types/order";
 
 export const findAllOrders = async () => {
   return OrderEntity.find();
@@ -10,14 +11,14 @@ export const findOrder = async (id: string) => {
 };
 
 export const findOrdersByCustomerId = async (customerId: string) => {
-  return OrderEntity.findOneBy({ customer: customerId });
+  return OrderEntity.findOneBy({ customerId });
 };
 
-export const updateOrder = async (id: string, data: OrderUpdateData) => {
+export const updateOrder = async (id: string, data: TOrderUpdateData) => {
   return OrderEntity.update({ id }, { ...data });
 };
 
-export const createOrder = async (data: OrderCreationData) => {
+export const createOrder = async (data: TOrderCreationData) => {
   return OrderEntity.create({ ...data }).save();
 };
 
@@ -30,7 +31,7 @@ export const generateOrderReference = async () => {
   };
 
   let reference: string;
-  let order: Order | null;
+  let order: TOrder | null;
 
   do {
     reference = generateReference(10);

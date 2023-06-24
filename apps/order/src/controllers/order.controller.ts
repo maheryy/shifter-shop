@@ -1,3 +1,4 @@
+import { EOrderStatus } from "@shifter-shop/types";
 import { Request, Response } from "express";
 import {
   findAllOrders,
@@ -7,27 +8,27 @@ import {
   updateOrder as update,
   generateOrderReference,
 } from "services/order.service";
-import { OrderCreationData, OrderStatus, OrderUpdateData } from "types/order";
+import { TOrderCreationData, TOrderUpdateData } from "types/order";
 
 export const createOrder = async (
-  data: Omit<OrderCreationData, "reference">
+  data: Omit<TOrderCreationData, "reference">
 ) => {
-  const orderData: OrderCreationData = {
-    customer: data.customer,
+  const orderData: TOrderCreationData = {
+    customerId: data.customerId,
     reference: await generateOrderReference(),
     amount: data.amount,
     products: data.products,
-    ...(data.status ? { status: data.status } : {}),
+    status: data.status || EOrderStatus.Pending,
   };
 
   return create(orderData);
 };
 
-export const updateOrder = async (id: string, data: OrderUpdateData) => {
+export const updateOrder = async (id: string, data: TOrderUpdateData) => {
   if (!data.status) {
     throw new Error("You must provide a status");
   }
-  if (!Object.values(OrderStatus).includes(data.status)) {
+  if (!Object.values(EOrderStatus).includes(data.status)) {
     throw new Error(
       "Invalid status : must be one of 'Pending', 'Confirmed', 'Shipping', 'Delivered', 'Cancelled'"
     );

@@ -1,4 +1,4 @@
-import { UserRole } from '@shifter-shop/types';
+import { EUserRole } from '@shifter-shop/types';
 import { IsEmail, IsNotEmpty, IsEnum, IsOptional } from 'class-validator';
 
 export class CreateUserDto {
@@ -14,7 +14,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   password!: string;
 
-  @IsEnum(UserRole)
+  @IsEnum(EUserRole)
   @IsOptional()
-  role?: UserRole;
+  role?: EUserRole;
 }

@@ -1,5 +1,5 @@
 export interface PaymentSuccessData {
-  customer: string;
+  customerId: string;
   amount: number;
   products: {
     id: string;

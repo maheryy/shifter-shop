@@ -1,4 +1,4 @@
-import { UserRole } from '@shifter-shop/types';
+import { EUserRole } from '@shifter-shop/types';
 import {
   IsEnum,
   IsNotEmpty,
@@ -26,6 +26,6 @@ export class UpdateUserDto {
   @IsString()
   password?: string;
 
-  @IsEnum(UserRole)
-  role?: UserRole;
+  @IsEnum(EUserRole)
+  role?: EUserRole;
 }

@@ -1,13 +1,13 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { RegisterDto } from 'src/auth/dtos/register.dto';
-import { User } from '@shifter-shop/types';
+import { TUser } from '@shifter-shop/types';
 import { hashPassword, verifyPassword } from '@shifter-shop/encryption';
 import { ServiceType, fetchJson } from '@shifter-shop/registry';
 
 @Injectable()
 export class AuthService {
-  async getUserById(userId: string): Promise<User> {
-    const user = await fetchJson<User>(
+  async getUserById(userId: string): Promise<TUser> {
+    const user = await fetchJson<TUser>(
       { service: ServiceType.User, endpoint: '/search' },
       { method: 'POST', data: { id: userId } },
     );
@@ -15,8 +15,8 @@ export class AuthService {
     return user;
   }
 
-  async getUserByEmail(email: string): Promise<User> {
-    const user = await fetchJson<User>(
+  async getUserByEmail(email: string): Promise<TUser> {
+    const user = await fetchJson<TUser>(
       { service: ServiceType.User, endpoint: '/search' },
       { method: 'POST', data: { email } },
     );
@@ -24,11 +24,11 @@ export class AuthService {
     return user;
   }
 
-  async register(data: RegisterDto): Promise<User> {
+  async register(data: RegisterDto): Promise<TUser> {
     const { password, ...userData } = data;
 
     const hashedPassword = await hashPassword(password);
-    const user = await fetchJson<User>(
+    const user = await fetchJson<TUser>(
       { service: ServiceType.User, endpoint: '/' },
       {
         method: 'POST',

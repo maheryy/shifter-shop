@@ -5,7 +5,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { GlobalStatus } from '@shifter-shop/types';
+import { EGlobalStatus } from '@shifter-shop/types';
 
 export class UpdateReviewDto {
   @IsOptional()
@@ -24,6 +24,6 @@ export class UpdateReviewDto {
   rating?: number;
 
   @IsOptional()
-  @IsEnum(GlobalStatus)
-  status?: GlobalStatus;
+  @IsEnum(EGlobalStatus)
+  status?: EGlobalStatus;
 }

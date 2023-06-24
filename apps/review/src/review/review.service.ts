@@ -41,10 +41,10 @@ export class ReviewService {
   }
 
   async findAllByAuthorId(authorId: string) {
-    return this.reviewRepository.findBy({ author: authorId });
+    return this.reviewRepository.findBy({ authorId });
   }
 
   async findAllByProductId(productId: string) {
-    return this.reviewRepository.findBy({ product: productId });
+    return this.reviewRepository.findBy({ productId });
   }
 }
