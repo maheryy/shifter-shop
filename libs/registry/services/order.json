@@ -5,7 +5,7 @@
     "url": "http://order-svc:3000"
   },
   "development": {
-    "url": "http://127.0.0.1:3005"
+    "url": "http://127.0.0.1:3006"
   },
   "routes": [
     {
