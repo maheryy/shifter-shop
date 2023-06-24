@@ -1,4 +1,4 @@
-import { BadRequestError } from "@shifter-shop/errors";
+import { BadRequestError, UnauthorizedError } from "@shifter-shop/errors";
 import { NextFunction, Request, Response } from "express";
 import {
   createOrUpdateItem,
@@ -6,8 +6,8 @@ import {
   getCustomerCart,
 } from "services/cart.service";
 
-// TODO: get customerId from request
-const customerId = "4f701007-d8f0-4561-9105-cc3e5c188c85";
+import { joinResources } from "@shifter-shop/helpers";
+import { TCartItem, TFullCartItem } from "@shifter-shop/types";
 
 export const getCart = async (
   req: Request,
@@ -15,8 +15,18 @@ export const getCart = async (
   next: NextFunction
 ) => {
   try {
+    const customerId = req.get("user-id");
+    if (!customerId) {
+      throw new UnauthorizedError();
+    }
+
     const items = await getCustomerCart(customerId);
-    return res.status(200).json(items);
+    const results = await joinResources<TFullCartItem, TCartItem>(items, [
+      { service: "user", key: "customerId", addKey: "customer" },
+      { service: "product", key: "productId", addKey: "product" },
+    ]);
+
+    return res.status(200).json(results);
   } catch (error) {
     next(error);
   }
@@ -28,8 +38,18 @@ export const updateCartItem = async (
   next: NextFunction
 ) => {
   try {
-    const { productId } = req.params;
-    const { quantity } = req.body as { quantity?: number };
+    const customerId = req.get("user-id");
+    if (!customerId) {
+      throw new UnauthorizedError();
+    }
+    const { quantity, productId } = req.body as {
+      quantity?: number;
+      productId?: string;
+    };
+
+    if (productId === undefined) {
+      throw new BadRequestError("Product ID is required");
+    }
 
     if (quantity === undefined) {
       throw new BadRequestError("Quantity is required");
@@ -40,10 +60,8 @@ export const updateCartItem = async (
       return res.status(204).end();
     }
 
-    const order = await createOrUpdateItem(customerId, productId, quantity);
-    console.log(order.identifiers);
-
-    return res.status(200).json(order);
+    await createOrUpdateItem(customerId, productId, quantity);
+    return res.status(204).end();
   } catch (error) {
     next(error);
   }

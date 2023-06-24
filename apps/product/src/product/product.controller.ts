@@ -7,6 +7,7 @@ import {
   Post,
   Headers,
   HttpCode,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { ProductService } from 'src/product/product.service';
 import { CreateProductDto } from 'src/product/dtos/create-product.dto';
@@ -21,9 +22,13 @@ export class ProductController {
     @Headers('user-id') userId: string,
     @Body() product: CreateProductDto,
   ) {
+    if (!userId) {
+      throw new UnauthorizedException();
+    }
     // TODO : change these values
-    product.seller = userId || '5482df68-6f5b-4a4d-b418-9b4b4bd85211';
+    product.sellerId = userId;
     product.image = product.image || 'https://picsum.photos/200';
+    product.rating = 0;
 
     return this.productService.create(product);
   }

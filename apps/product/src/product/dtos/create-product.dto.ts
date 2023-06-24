@@ -9,13 +9,16 @@ export class CreateProductDto {
 
   @IsNumber()
   price!: number;
+  
+  @IsOptional()
+  rating?: number;
 
   @IsUUID()
-  category!: string;
+  categoryId!: string;
 
   @IsOptional()
   image?: string;
 
   @IsOptional()
-  seller?: string;
+  sellerId?: string;
 }

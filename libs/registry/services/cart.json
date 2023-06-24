@@ -14,8 +14,8 @@
       "middlewares": ["auth"]
     },
     {
-      "method": "PATCH",
-      "path": "/:productId",
+      "method": "POST",
+      "path": "/",
       "middlewares": ["auth"]
     }
   ]

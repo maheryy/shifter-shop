@@ -22,10 +22,14 @@ export class UpdateProductDto {
   @IsOptional()
   @IsNumber()
   price?: number;
+  
+  @IsOptional()
+  @IsNumber()
+  rating?: number;
 
   @IsOptional()
   @IsUUID()
-  category?: string;
+  categoryId?: string;
 
   @IsOptional()
   @IsString()
