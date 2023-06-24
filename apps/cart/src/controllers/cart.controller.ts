@@ -1,4 +1,5 @@
-import { Request, Response } from "express";
+import { BadRequestError } from "@shifter-shop/errors";
+import { NextFunction, Request, Response } from "express";
 import {
   createOrUpdateItem,
   deleteProduct,
@@ -8,25 +9,30 @@ import {
 // TODO: get customerId from request
 const customerId = "4f701007-d8f0-4561-9105-cc3e5c188c85";
 
-export const getCart = async (req: Request, res: Response) => {
+export const getCart = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const items = await getCustomerCart(customerId);
     return res.status(200).json(items);
   } catch (error) {
-    console.log(error);
-    res
-      .status(500)
-      .json({ error: { message: (error as Error).message, code: 500 } });
+    next(error);
   }
 };
 
-export const updateCartItem = async (req: Request, res: Response) => {
-  const { productId } = req.params;
-  const { quantity } = req.body as { quantity?: number };
-
+export const updateCartItem = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
+    const { productId } = req.params;
+    const { quantity } = req.body as { quantity?: number };
+
     if (quantity === undefined) {
-      throw new Error("Quantity is required");
+      throw new BadRequestError("Quantity is required");
     }
 
     if (quantity < 1) {
@@ -39,9 +45,6 @@ export const updateCartItem = async (req: Request, res: Response) => {
 
     return res.status(200).json(order);
   } catch (error) {
-    console.log(error);
-    res
-      .status(400)
-      .json({ error: { message: (error as Error).message, code: 400 } });
+    next(error);
   }
 };

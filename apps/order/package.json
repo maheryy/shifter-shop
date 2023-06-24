@@ -14,6 +14,7 @@
   "dependencies": {
     "@shifter-shop/types": "*",
     "@shifter-shop/amqp": "*",
+    "@shifter-shop/errors": "*",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",

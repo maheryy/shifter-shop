@@ -1,3 +1,4 @@
+import { NotFoundError } from "@shifter-shop/errors";
 import { TOrder } from "@shifter-shop/types";
 import { Order as OrderEntity } from "entities/order.entity";
 import { TOrderCreationData, TOrderUpdateData } from "types/order";
@@ -7,15 +8,27 @@ export const findAllOrders = async () => {
 };
 
 export const findOrder = async (id: string) => {
-  return OrderEntity.findOneBy({ id });
+  const order = await OrderEntity.findOneBy({ id });
+
+  if (!order) {
+    throw new NotFoundError("Order not found");
+  }
+
+  return order;
 };
 
 export const findOrdersByCustomerId = async (customerId: string) => {
-  return OrderEntity.findOneBy({ customerId });
+  return OrderEntity.findBy({ customerId });
 };
 
 export const updateOrder = async (id: string, data: TOrderUpdateData) => {
-  return OrderEntity.update({ id }, { ...data });
+  const res = await OrderEntity.update({ id }, { ...data });
+
+  if (!res.affected) {
+    throw new NotFoundError("Order not found");
+  }
+
+  return res;
 };
 
 export const createOrder = async (data: TOrderCreationData) => {

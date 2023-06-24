@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import Stripe from "stripe";
 import {
   createCheckoutSession,
@@ -8,9 +8,17 @@ import {
 import amqp from "lib/amqp";
 import { Queue } from "@shifter-shop/amqp";
 
-export const checkoutSession = async (req: Request, res: Response) => {
-  const session = await createCheckoutSession("");
-  return res.status(200).json({ url: session.url });
+export const checkoutSession = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const session = await createCheckoutSession("");
+    res.status(200).json({ url: session.url });
+  } catch (error) {
+    next(error);
+  }
 };
 
 export const webhook = async (req: Request, res: Response) => {

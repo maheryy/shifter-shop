@@ -1,6 +1,7 @@
 import { Order } from "types/order";
 import { arraytoBuffer } from "utils/converter";
 import { ServiceType, fetchService } from "@shifter-shop/registry";
+import { InternalServerError } from "@shifter-shop/errors";
 
 export const getOrder = async (reference: string): Promise<Order> => {
   // TODO: fetch order from database
@@ -56,7 +57,7 @@ export const getInvoiceContent = async (order: Order): Promise<Buffer> => {
   );
 
   if (!response.ok) {
-    throw new Error("Unable to generate invoice : " + response.statusText);
+    throw new InternalServerError("Unable to generate invoice : " + response.statusText);
   }
 
   const arrayBuffer = await response.arrayBuffer();

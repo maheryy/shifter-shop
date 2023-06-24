@@ -1,5 +1,5 @@
 export interface StripeMetadata {
-  customer: string;
+  customerId: string;
   amount: number;
   products: {
     id: string;

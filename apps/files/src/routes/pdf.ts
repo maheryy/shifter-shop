@@ -12,7 +12,7 @@ const router = Router();
  * @body data object
  *
  */
-router.post("/pdf/:template", async (req, res) => {
+router.post("/pdf/:template", async (req, res, next) => {
   try {
     const { template } = req.params;
     const filename = req.body.filename || template;
@@ -27,16 +27,8 @@ router.post("/pdf/:template", async (req, res) => {
         `attachment; filename="${filename}.pdf"`
       )
       .send(pdf);
-  } catch (err) {
-    console.error((err as Error).message);
-    if (err instanceof ReferenceError) {
-      return res.status(404).send({
-        error: { code: 404, message: (err as Error).message },
-      });
-    }
-    return res.status(500).send({
-      error: { code: 500, message: "Unable to generate pdf" },
-    });
+  } catch (error) {
+    next(error);
   }
 });
 

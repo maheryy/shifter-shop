@@ -62,7 +62,7 @@ export const getWebhookEvent = (
 
 const generateMetadata = (customerId: string, products: any[]): string => {
   return JSON.stringify({
-    customer: customerId,
+    customerId: customerId,
     products: products.map((p) => ({ id: p.id, quantity: p.quantity })),
     amount: products.reduce((acc, p) => acc + p.price * p.quantity, 0),
   } as StripeMetadata);
