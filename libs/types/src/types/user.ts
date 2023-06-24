@@ -1,18 +1,18 @@
-import { GlobalStatus } from "./status";
+import { EGlobalStatus } from "./status";
 
-export interface User {
+export interface TUser {
   id: string;
   email: string;
   password: string;
   firstname: string;
   lastname: string;
-  role: UserRole;
-  status: GlobalStatus;
+  role: EUserRole;
+  status: EGlobalStatus;
 }
 
-export type UserWithoutPassword = Omit<User, "password">;
+export type TUserWithoutPassword = Omit<TUser, "password">;
 
-export enum UserRole {
+export enum EUserRole {
   Admin = "ADMIN",
   Customer = "CUSTOMER",
   Seller = "SELLER",

@@ -1,8 +1,8 @@
-import { GlobalStatus } from '@shifter-shop/types';
+import { EGlobalStatus, TProduct } from '@shifter-shop/types';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class Product {
+export class Product implements TProduct {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -22,14 +22,14 @@ export class Product {
   image: string;
 
   @Column('uuid')
-  category: string;
+  categoryId: string;
 
   @Column('simple-array', { array: true, default: [] })
-  reviews: string[];
+  reviewsId: string[];
 
   @Column('uuid')
-  seller: string;
+  sellerId: string;
 
-  @Column('enum', { enum: GlobalStatus, default: GlobalStatus.Default })
-  status: GlobalStatus;
+  @Column('enum', { enum: EGlobalStatus, default: EGlobalStatus.Default })
+  status: EGlobalStatus;
 }

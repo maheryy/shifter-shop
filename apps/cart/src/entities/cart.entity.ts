@@ -1,12 +1,13 @@
 import { Entity, Column, BaseEntity, PrimaryColumn } from "typeorm";
+import { TCartItem } from "@shifter-shop/types";
 
 @Entity()
-export class CartItem extends BaseEntity {
+export class CartItem extends BaseEntity implements TCartItem {
   @PrimaryColumn("uuid")
-  product: string;
+  productId: string;
 
   @PrimaryColumn("uuid")
-  customer: string;
+  customerId: string;
 
   @Column("int")
   quantity: number;

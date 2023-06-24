@@ -1,8 +1,8 @@
-import { UserRole } from '@shifter-shop/types';
+import { EGlobalStatus, EUserRole, TUser } from '@shifter-shop/types';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class User {
+export class User implements TUser {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -18,6 +18,9 @@ export class User {
   @Column('varchar')
   password: string;
 
-  @Column('enum', { enum: UserRole, default: UserRole.Customer })
-  role: UserRole;
+  @Column('enum', { enum: EUserRole, default: EUserRole.Customer })
+  role: EUserRole;
+
+  @Column('enum', { enum: EGlobalStatus, default: EGlobalStatus.Default })
+  status: EGlobalStatus;
 }
