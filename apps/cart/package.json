@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@shifter-shop/amqp": "*",
-    "@shifter-shop/registry": "*",
     "@shifter-shop/errors": "*",
     "@shifter-shop/types": "*",
     "cors": "^2.8.5",

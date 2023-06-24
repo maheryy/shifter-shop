@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@shifter-shop/types": "*",
-    "@shifter-shop/registry": "*",
+    "@shifter-shop/helpers": "*",
     "@shifter-shop/encryption": "*",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.0.0",

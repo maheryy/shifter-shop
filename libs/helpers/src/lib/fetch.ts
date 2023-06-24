@@ -1,6 +1,7 @@
 import fetch, { RequestInit } from "node-fetch";
 import { HttpError } from "@shifter-shop/errors";
-import { Services, Registry } from "@shifter-shop/registry";
+import { Registry } from "@shifter-shop/registry";
+import { UService } from "@shifter-shop/types";
 
 const APP_ID = "ss7";
 
@@ -36,7 +37,7 @@ export const fetchJson = async <T>(
 };
 
 interface Target {
-  service: Services;
+  service: UService;
   endpoint: string;
 }
 

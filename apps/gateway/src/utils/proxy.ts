@@ -1,14 +1,14 @@
-import { HttpMethod, ServiceConfig } from "@shifter-shop/registry";
 import { Router } from "express";
 import { createProxyMiddleware } from "http-proxy-middleware";
 import { registerMiddlewares } from "./middleware";
 import { buildPath, sanitize } from "./url";
 import { context } from "middlewares/context";
+import { HttpMethod, TServiceConfig } from "@shifter-shop/types";
 
 const NODE_ENV =
   process.env.NODE_ENV === "production" ? "production" : "development";
 
-export const registerRoutes = (services: ServiceConfig[]): Router => {
+export const registerRoutes = (services: TServiceConfig[]): Router => {
   const allowedMethods = ["get", "post", "put", "delete", "patch"];
   const router = Router();
 

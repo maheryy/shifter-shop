@@ -1,6 +1,6 @@
-import { ServiceType, fetchJson } from "@shifter-shop/registry";
 import { HttpError, UnauthorizedError } from "@shifter-shop/errors";
-import { TUser } from "@shifter-shop/types";
+import { fetchJson } from "@shifter-shop/helpers";
+import { EService, TUser } from "@shifter-shop/types";
 import { NextFunction, Request, Response } from "express";
 
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
@@ -16,7 +16,7 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
     }
 
     const user = await fetchJson<TUser>(
-      { service: ServiceType.Auth, endpoint: "/verify-token" },
+      { service: EService.Auth, endpoint: "/verify-token" },
       { method: "POST", data: { token } }
     );
 

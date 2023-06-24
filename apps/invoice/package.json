@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@shifter-shop/types": "*",
-    "@shifter-shop/registry": "*",
+    "@shifter-shop/helpers": "*",
     "@shifter-shop/errors": "*",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",

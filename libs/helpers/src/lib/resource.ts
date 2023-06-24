@@ -1,5 +1,6 @@
 import fetch from "node-fetch";
-import { Services, Registry } from "@shifter-shop/registry";
+import { Registry } from "@shifter-shop/registry";
+import { UService } from "@shifter-shop/types";
 
 export const joinResources = async <R extends T, T>(
   initialData: T[],
@@ -15,7 +16,7 @@ export const joinResources = async <R extends T, T>(
   return res;
 };
 
-const fetchResource = async <T>(service: Services, resourceId: string) => {
+const fetchResource = async <T>(service: UService, resourceId: string) => {
   const res = await fetch(`${Registry.get(service).url}/${resourceId}`);
   return res.ok ? ((await res.json()) as T) : null;
 };
@@ -43,7 +44,7 @@ const extendResource = async <R extends T, T>(
 };
 
 interface Resource<T, N> {
-  service: Services;
+  service: UService;
   key: keyof T;
   addKey: keyof N;
 }
