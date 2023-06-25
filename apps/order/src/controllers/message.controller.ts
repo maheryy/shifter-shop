@@ -1,17 +1,16 @@
-import { Queue } from "@shifter-shop/amqp";
-import { PaymentSuccessData } from "types/message";
+import { EExchange, TPaymentSuccessData } from "@shifter-shop/amqp";
 import { createOrder } from "./order.controller";
 import amqp from "lib/amqp";
 import { EOrderStatus } from "@shifter-shop/types";
 
-export const onPaymentSucceeded = async (data: PaymentSuccessData) => {
+export const onPaymentSucceeded = async (payment: TPaymentSuccessData) => {
+  console.log("[order] Payment succeeded", payment);
   const order = await createOrder({
-    customerId: data.customerId,
-    amount: data.amount,
-    products: data.products,
+    customerId: payment.customerId,
+    amount: payment.amount,
+    products: payment.products,
     status: EOrderStatus.Confirmed,
   });
 
-  amqp.publish(Queue.OrderCreated, { order });
-  console.log("Order created", order);
+  amqp.publishToExchange(EExchange.OrderCreated, order);
 };

@@ -1,4 +1,10 @@
-import { AMQP } from "@shifter-shop/amqp";
+import { AMQP, EExchange } from "@shifter-shop/amqp";
+import { onPaymentSucceeded } from "controllers/message.controller";
 
 const amqp = new AMQP(process.env.AMQP_URL!);
+
+export const defineAMQPListeners = () => {
+  amqp.registerExchange(EExchange.PaymentSuccess, onPaymentSucceeded);
+};
+
 export default amqp;

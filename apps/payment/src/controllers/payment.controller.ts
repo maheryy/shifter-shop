@@ -6,7 +6,7 @@ import {
   parseMetadata,
 } from "services/payment.service";
 import amqp from "lib/amqp";
-import { Queue } from "@shifter-shop/amqp";
+import { EExchange } from "@shifter-shop/amqp";
 import { UnauthorizedError } from "@shifter-shop/errors";
 
 export const checkoutSession = async (
@@ -50,7 +50,7 @@ export const webhook = async (req: Request, res: Response) => {
         const metadata = parseMetadata(eventData.metadata);
         console.log("Checkout session completed !", metadata);
 
-        amqp.publish(Queue.PaymentSuccess, { ...metadata });
+        amqp.publishToExchange(EExchange.PaymentSuccess, { ...metadata });
         break;
       }
     }
