@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { TCategory } from '@shifter-shop/types';
+import { TCategory } from '@shifter-shop/dictionary';
 
 @Entity()
 export class Category implements TCategory {

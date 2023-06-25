@@ -1,5 +1,5 @@
 import { NotFoundError } from "@shifter-shop/errors";
-import { TOrder } from "@shifter-shop/types";
+import { TOrder } from "@shifter-shop/dictionary";
 import { Order as OrderEntity } from "entities/order.entity";
 import { TOrderCreationData, TOrderUpdateData } from "types/order";
 

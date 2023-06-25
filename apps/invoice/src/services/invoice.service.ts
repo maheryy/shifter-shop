@@ -1,7 +1,7 @@
 import { Order } from "types/order";
 import { arraytoBuffer } from "utils/converter";
 import { InternalServerError } from "@shifter-shop/errors";
-import { EService } from "@shifter-shop/types";
+import { EService } from "@shifter-shop/dictionary";
 import { fetchService } from "@shifter-shop/helpers";
 
 export const getOrder = async (reference: string): Promise<Order> => {

@@ -1,4 +1,4 @@
-import { TRoute } from "@shifter-shop/types";
+import { TRoute } from "@shifter-shop/dictionary";
 import { NextFunction, Request, Response } from "express";
 
 export const context =

@@ -1,5 +1,5 @@
 import { BadRequestError } from "@shifter-shop/errors";
-import { EOrderStatus } from "@shifter-shop/types";
+import { EOrderStatus } from "@shifter-shop/dictionary";
 import { NextFunction, Request, Response } from "express";
 import {
   findAllOrders,

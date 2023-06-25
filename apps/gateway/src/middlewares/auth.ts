@@ -1,6 +1,6 @@
 import { HttpError, UnauthorizedError } from "@shifter-shop/errors";
 import { fetchJson } from "@shifter-shop/helpers";
-import { EService, TUser } from "@shifter-shop/types";
+import { EService, TUser } from "@shifter-shop/dictionary";
 import { NextFunction, Request, Response } from "express";
 
 export const auth = async (req: Request, res: Response, next: NextFunction) => {

@@ -1,7 +1,7 @@
 import { StripeMetadata } from "types/stripe";
 import stripe from "lib/stripe";
 import Stripe from "stripe";
-import { EService, TFullCartItem } from "@shifter-shop/types";
+import { EService, TFullCartItem } from "@shifter-shop/dictionary";
 import { fetchJson } from "@shifter-shop/helpers";
 import { BadRequestError } from "@shifter-shop/errors";
 

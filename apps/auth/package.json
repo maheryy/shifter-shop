@@ -21,7 +21,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@shifter-shop/types": "*",
+    "@shifter-shop/dictionary": "*",
     "@shifter-shop/helpers": "*",
     "@shifter-shop/encryption": "*",
     "@nestjs/common": "^10.0.0",

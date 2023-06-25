@@ -7,7 +7,7 @@ import {
 } from "services/cart.service";
 
 import { joinResources } from "@shifter-shop/helpers";
-import { TCartItem, TFullCartItem } from "@shifter-shop/types";
+import { TCartItem, TFullCartItem } from "@shifter-shop/dictionary";
 
 export const getCart = async (
   req: Request,

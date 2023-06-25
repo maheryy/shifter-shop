@@ -3,7 +3,7 @@ import {
   TProductReferenceWithQuantity,
   TReview,
   TUser,
-} from "@shifter-shop/types";
+} from "@shifter-shop/dictionary";
 
 export interface TPaymentSuccessData {
   customerId: string;

@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@shifter-shop/errors": "*",
-    "@shifter-shop/types": "*",
+    "@shifter-shop/dictionary": "*",
     "@types/node-fetch": "^2.6.4",
     "typescript": "^5.0.4"
   },

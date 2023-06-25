@@ -1,4 +1,4 @@
-import { EGlobalStatus, EUserRole, TUser } from '@shifter-shop/types';
+import { EGlobalStatus, EUserRole, TUser } from '@shifter-shop/dictionary';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()

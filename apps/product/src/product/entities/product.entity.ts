@@ -1,4 +1,4 @@
-import { EGlobalStatus, TProduct } from '@shifter-shop/types';
+import { EGlobalStatus, TProduct } from '@shifter-shop/dictionary';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()

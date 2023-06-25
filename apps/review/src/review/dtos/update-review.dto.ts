@@ -5,7 +5,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { EGlobalStatus } from '@shifter-shop/types';
+import { EGlobalStatus } from '@shifter-shop/dictionary';
 
 export class UpdateReviewDto {
   @IsOptional()

@@ -1,7 +1,7 @@
 import { EExchange, TPaymentSuccessData } from "@shifter-shop/amqp";
 import { createOrder } from "./order.controller";
 import amqp from "lib/amqp";
-import { EOrderStatus } from "@shifter-shop/types";
+import { EOrderStatus } from "@shifter-shop/dictionary";
 
 export const onPaymentSucceeded = async (payment: TPaymentSuccessData) => {
   console.log("[order] Payment succeeded", payment);

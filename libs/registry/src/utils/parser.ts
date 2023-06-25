@@ -1,6 +1,6 @@
 import { join } from "path";
 import { readdirSync } from "fs";
-import { TServiceConfig, UService } from "@shifter-shop/types";
+import { TServiceConfig, UService } from "@shifter-shop/dictionary";
 
 const servicesPath = join(__dirname, "../../services");
 

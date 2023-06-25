@@ -1,4 +1,4 @@
-import { EGlobalStatus } from '@shifter-shop/types';
+import { EGlobalStatus } from '@shifter-shop/dictionary';
 import {
   IsEnum,
   IsNotEmpty,

@@ -1,6 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { RegisterDto } from 'src/auth/dtos/register.dto';
-import { EService, TUser } from '@shifter-shop/types';
+import { EService, TUser } from '@shifter-shop/dictionary';
 import { hashPassword, verifyPassword } from '@shifter-shop/encryption';
 import { fetchJson } from '@shifter-shop/helpers';
 

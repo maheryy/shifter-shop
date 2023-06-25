@@ -3,7 +3,7 @@ import {
   EOrderStatus,
   TOrder,
   TProductReferenceWithQuantity,
-} from "@shifter-shop/types";
+} from "@shifter-shop/dictionary";
 
 @Entity()
 export class Order extends BaseEntity implements TOrder {

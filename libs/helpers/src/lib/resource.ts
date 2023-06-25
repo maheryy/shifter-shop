@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 import { Registry } from "@shifter-shop/registry";
-import { UService } from "@shifter-shop/types";
+import { UService } from "@shifter-shop/dictionary";
 
 export const joinResources = async <R extends T, T>(
   initialData: T[],

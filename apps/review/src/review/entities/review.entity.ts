@@ -1,6 +1,6 @@
-import { EGlobalStatus } from '@shifter-shop/types';
+import { EGlobalStatus } from '@shifter-shop/dictionary';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { TReview } from '@shifter-shop/types';
+import { TReview } from '@shifter-shop/dictionary';
 
 @Entity()
 export class Review implements TReview {

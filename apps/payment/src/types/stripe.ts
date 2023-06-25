@@ -1,4 +1,4 @@
-import { TProductReferenceWithQuantity } from "@shifter-shop/types";
+import { TProductReferenceWithQuantity } from "@shifter-shop/dictionary";
 
 export interface StripeMetadata {
   customerId: string;

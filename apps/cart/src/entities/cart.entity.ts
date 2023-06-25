@@ -1,5 +1,5 @@
 import { Entity, Column, BaseEntity, PrimaryColumn } from "typeorm";
-import { TCartItem } from "@shifter-shop/types";
+import { TCartItem } from "@shifter-shop/dictionary";
 
 @Entity()
 export class CartItem extends BaseEntity implements TCartItem {

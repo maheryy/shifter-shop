@@ -1,4 +1,4 @@
-import { EUserRole } from '@shifter-shop/types';
+import { EUserRole } from '@shifter-shop/dictionary';
 import {
   IsEnum,
   IsNotEmpty,

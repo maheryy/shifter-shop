@@ -3,7 +3,7 @@ import { createProxyMiddleware } from "http-proxy-middleware";
 import { registerMiddlewares } from "./middleware";
 import { buildPath, sanitize } from "./url";
 import { context } from "middlewares/context";
-import { HttpMethod, TServiceConfig } from "@shifter-shop/types";
+import { HttpMethod, TServiceConfig } from "@shifter-shop/dictionary";
 
 const NODE_ENV =
   process.env.NODE_ENV === "production" ? "production" : "development";

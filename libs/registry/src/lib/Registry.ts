@@ -5,7 +5,7 @@ import {
   UService,
   TRegistryEnv,
   TRegistryOptions,
-} from "@shifter-shop/types";
+} from "@shifter-shop/dictionary";
 
 export class Registry {
   private static services: TServiceConfig[] = [];

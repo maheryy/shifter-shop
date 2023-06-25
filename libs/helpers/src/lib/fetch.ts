@@ -1,7 +1,7 @@
 import fetch, { RequestInit } from "node-fetch";
 import { HttpError, ServiceUnavailableError } from "@shifter-shop/errors";
 import { Registry } from "@shifter-shop/registry";
-import { UService } from "@shifter-shop/types";
+import { UService } from "@shifter-shop/dictionary";
 
 const APP_ID = "ss7";
 
