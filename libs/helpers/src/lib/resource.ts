@@ -17,8 +17,15 @@ export const joinResources = async <R extends T, T>(
 };
 
 const fetchResource = async <T>(service: UService, resourceId: string) => {
-  const res = await fetch(`${Registry.get(service).url}/${resourceId}`);
-  return res.ok ? ((await res.json()) as T) : null;
+  try {
+    const res = await fetch(`${Registry.get(service).url}/${resourceId}`);
+    return res.ok ? ((await res.json()) as T) : null;
+  } catch (err) {
+    console.error(
+      `\x1b[31mError while fetching resource ${resourceId} from ${service}\x1b[0m`
+    );
+    return null;
+  }
 };
 
 const extendResource = async <R extends T, T>(

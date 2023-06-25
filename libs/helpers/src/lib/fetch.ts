@@ -1,5 +1,5 @@
 import fetch, { RequestInit } from "node-fetch";
-import { HttpError } from "@shifter-shop/errors";
+import { HttpError, ServiceUnavailableError } from "@shifter-shop/errors";
 import { Registry } from "@shifter-shop/registry";
 import { UService } from "@shifter-shop/types";
 
@@ -26,14 +26,24 @@ export const fetchJson = async <T>(
   target: Target,
   fetchOptions?: ExtendedRequestInit
 ): Promise<T> => {
-  const res = await fetchService(target, fetchOptions);
-  const data = await res.json();
+  try {
+    const res = await fetchService(target, fetchOptions);
+    const data = await res.json();
 
-  if (!res.ok) {
-    throw new HttpError(data.statusCode, data.message);
+    if (!res.ok) {
+      throw new HttpError(data.statusCode, data.message);
+    }
+
+    return data as T;
+  } catch (err) {
+    console.error(
+      `\x1b[31mCommunication error: Service ${target.service} is unavailable\x1b[0m`
+    );
+    if (err instanceof HttpError) throw err;
+    throw new ServiceUnavailableError(
+      `Communication error: Service ${target.service} is unavailable`
+    );
   }
-
-  return data as T;
 };
 
 interface Target {
