@@ -2,11 +2,11 @@ import { Outlet } from "react-router-dom";
 import { ReactNode } from "react";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
-import LayoutProvider from "@/providers/LayoutProvider";
+import UserProvider from "@/providers/UserProvider";
 
 const DefaultLayout = ({ children }: DefaultLayoutProps) => {
   return (
-    <LayoutProvider>
+    <UserProvider>
       <Sidebar />
       <div className="app-content">
         <Header />
@@ -15,7 +15,7 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
           {children}
         </main>
       </div>
-    </LayoutProvider>
+    </UserProvider>
   );
 };
 

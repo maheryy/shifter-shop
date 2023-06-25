@@ -8,9 +8,11 @@ import LightThemeIcon from "@icons/sun.svg";
 import DarkThemeIcon from "@icons/moon.svg";
 import Avatar from "@/assets/images/avatar.svg";
 import HeaderMenu from "@/components/Header/HeaderMenu";
+import { useAuthContext } from "@/hooks/context";
 
 const Header = () => {
   const { toggleSidebar, toggleTheme, theme } = useLayoutContext();
+  const { invalidate } = useAuthContext();
 
   return (
     <header className="h-14 z-10 py-4 bg-white shadow-md dark:bg-gray-800">
@@ -56,7 +58,7 @@ const Header = () => {
             items={[
               { icon: <ProfileIcon />, label: "Profile", href: "/profile" },
               { icon: <SettingsIcon />, label: "Settings", href: "/settings" },
-              { icon: <LogoutIcon />, label: "Log out", href: "#" },
+              { icon: <LogoutIcon />, label: "Log out", onClick: invalidate, href: "/login" },
             ]}
           />
         </ul>

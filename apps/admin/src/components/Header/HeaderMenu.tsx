@@ -54,6 +54,7 @@ interface HeaderMenuProps {
     label: string;
     icon: ReactNode;
     href: string;
+    onClick?: () => void;
   }[];
 }
 
