@@ -7,6 +7,7 @@ import {
 } from "services/payment.service";
 import amqp from "lib/amqp";
 import { Queue } from "@shifter-shop/amqp";
+import { UnauthorizedError } from "@shifter-shop/errors";
 
 export const checkoutSession = async (
   req: Request,
@@ -14,8 +15,13 @@ export const checkoutSession = async (
   next: NextFunction
 ) => {
   try {
-    const session = await createCheckoutSession("");
-    res.status(200).json({ url: session.url });
+    const userId = req.get("user-id");
+    if (!userId) {
+      throw new UnauthorizedError();
+    }
+
+    const session = await createCheckoutSession(userId);
+    return res.status(200).json({ url: session.url });
   } catch (error) {
     next(error);
   }

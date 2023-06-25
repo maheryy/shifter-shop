@@ -10,7 +10,8 @@
   "routes": [
     {
       "method": "POST",
-      "path": "/checkout"
+      "path": "/checkout",
+      "middlewares": ["auth"]
     },
     {
       "method": "POST",
