@@ -14,7 +14,8 @@
     },
     {
       "method": "POST",
-      "path": "/"
+      "path": "/",
+      "middlewares": ["auth"]
     },
     {
       "method": "GET",

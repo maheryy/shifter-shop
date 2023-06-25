@@ -9,9 +9,6 @@ export class CreateProductDto {
 
   @IsNumber()
   price!: number;
-  
-  @IsOptional()
-  rating?: number;
 
   @IsUUID()
   categoryId!: string;

@@ -28,7 +28,6 @@ export class ProductController {
     // TODO : change these values
     product.sellerId = userId;
     product.image = product.image || 'https://picsum.photos/200';
-    product.rating = 0;
 
     return this.productService.create(product);
   }

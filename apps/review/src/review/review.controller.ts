@@ -6,6 +6,7 @@ import {
   Patch,
   Post,
   Headers,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { ReviewService } from './review.service';
 import { CreateReviewDto } from './dtos/create-review.dto';
@@ -20,11 +21,10 @@ export class ReviewController {
     @Headers('user-id') userId: string,
     @Body() review: CreateReviewDto,
   ) {
-    // TODO: change these values
-    review.author = userId || '5482df68-6f5b-4a4d-b418-9b4b4bd85211';
-    review.product = '5482df68-6f5b-4a4d-b418-9b4b4bd85211';
-    review.order = '5482df68-6f5b-4a4d-b418-9b4b4bd85211';
-
+    if (!userId) {
+      throw new UnauthorizedException();
+    }
+    review.authorId = userId;
     return this.reviewService.create(review);
   }
 

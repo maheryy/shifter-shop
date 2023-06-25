@@ -3,12 +3,17 @@ import stripe from "lib/stripe";
 import Stripe from "stripe";
 import { EService, TFullCartItem } from "@shifter-shop/types";
 import { fetchJson } from "@shifter-shop/helpers";
+import { BadRequestError } from "@shifter-shop/errors";
 
 export const createCheckoutSession = async (userId: string) => {
   const items = await fetchJson<TFullCartItem[]>(
     { service: EService.Cart, endpoint: "/" },
     { headers: { "user-id": userId } }
   );
+
+  if (!items.length) {
+    throw new BadRequestError("No items in cart");
+  }
 
   return stripe.checkout.sessions.create({
     line_items: getCheckoutItems(items),

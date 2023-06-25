@@ -12,7 +12,7 @@ export class Product implements TProduct {
   @Column('varchar')
   description: string;
 
-  @Column('float')
+  @Column('float', { default: 0 })
   rating: number;
 
   @Column('float')
