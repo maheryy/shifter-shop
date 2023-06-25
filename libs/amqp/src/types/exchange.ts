@@ -1,4 +1,8 @@
-import { TOrderCreatedData, TPaymentSuccessData } from "./data";
+import {
+  TOrderCreatedData,
+  TPaymentSuccessData,
+  TReviewCreatedData,
+} from "./data";
 
 export enum EExchange {
   OrderCreated = "order:created", // empty cart + send email
@@ -9,5 +13,5 @@ export enum EExchange {
 export interface TExchangeMapping {
   [EExchange.OrderCreated]: TOrderCreatedData;
   [EExchange.PaymentSuccess]: TPaymentSuccessData;
-  [EExchange.ReviewCreated]: null;
+  [EExchange.ReviewCreated]: TReviewCreatedData;
 }

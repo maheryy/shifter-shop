@@ -1,3 +1,12 @@
+import {
+  TCheckoutRequestedData,
+  TOrderStatusChangedData,
+  TUserLoginData,
+  TUserPasswordChangedData,
+  TUserPasswordResetData,
+  TUserRegisteredData,
+} from "./data";
+
 export enum EQueue {
   OrderStatusChanged = "order:status:changed", // send email
   CheckoutRequested = "checkout:requested", // ?? register metadata somewhere ??
@@ -8,10 +17,10 @@ export enum EQueue {
 }
 
 export interface TQueueMapping {
-  [EQueue.OrderStatusChanged]: null;
-  [EQueue.CheckoutRequested]: null;
-  [EQueue.UserRegistered]: null;
-  [EQueue.UserLogin]: null;
-  [EQueue.UserPasswordReset]: null;
-  [EQueue.UserPasswordChanged]: null;
+  [EQueue.OrderStatusChanged]: TOrderStatusChangedData;
+  [EQueue.CheckoutRequested]: TCheckoutRequestedData;
+  [EQueue.UserRegistered]: TUserRegisteredData;
+  [EQueue.UserLogin]: TUserLoginData;
+  [EQueue.UserPasswordReset]: TUserPasswordResetData;
+  [EQueue.UserPasswordChanged]: TUserPasswordChangedData;
 }

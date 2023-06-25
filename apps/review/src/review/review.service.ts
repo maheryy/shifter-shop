@@ -5,6 +5,8 @@ import { Review } from './entities/review.entity';
 import { Repository } from 'typeorm';
 import { CreateReviewDto } from './dtos/create-review.dto';
 import { UpdateReviewDto } from './dtos/update-review.dto';
+import amqp from 'src/lib/amqp';
+import { EExchange } from '@shifter-shop/amqp';
 
 @Injectable()
 export class ReviewService {
@@ -14,8 +16,10 @@ export class ReviewService {
   ) {}
 
   async create(data: CreateReviewDto) {
-    const product = this.reviewRepository.create(data);
-    return this.reviewRepository.save(product);
+    const reviewInstance = this.reviewRepository.create(data);
+    const review = await this.reviewRepository.save(reviewInstance);
+    await amqp.publishToExchange(EExchange.ReviewCreated, review);
+    return review;
   }
 
   async findAll() {
@@ -23,13 +27,13 @@ export class ReviewService {
   }
 
   async findOneById(id: string) {
-    const product = await this.reviewRepository.findOneBy({ id });
+    const review = await this.reviewRepository.findOneBy({ id });
 
-    if (!product) {
+    if (!review) {
       throw new NotFoundException(`Review with id: ${id} does not exist`);
     }
 
-    return product;
+    return review;
   }
 
   async update(id: string, data: UpdateReviewDto) {

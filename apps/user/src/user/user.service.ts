@@ -6,6 +6,8 @@ import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { SearchCritieriaDto } from './dtos/search-criteria.dto';
+import amqp from 'src/lib/amqp';
+import { EQueue } from '@shifter-shop/amqp';
 
 @Injectable()
 export class UserService {
@@ -15,8 +17,10 @@ export class UserService {
   ) {}
 
   async create(data: CreateUserDto) {
-    const user = this.usersRepository.create(data);
-    return this.usersRepository.save(user);
+    const userInstance = this.usersRepository.create(data);
+    const user = await this.usersRepository.save(userInstance);
+    await amqp.publishToQueue(EQueue.UserRegistered, user);
+    return userInstance;
   }
 
   async findAll() {
