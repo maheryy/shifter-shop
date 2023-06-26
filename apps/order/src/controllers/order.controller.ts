@@ -1,8 +1,5 @@
 import { BadRequestError, UnauthorizedError } from "@shifter-shop/errors";
-import {
-  EOrderStatus,
-  EUserRole,
-} from "@shifter-shop/dictionary";
+import { EOrderStatus, EUserRole } from "@shifter-shop/dictionary";
 import { NextFunction, Request, Response } from "express";
 import {
   findAllOrders,
@@ -10,8 +7,9 @@ import {
   createOrder as create,
   updateOrder as update,
   generateOrderReference,
-  findOrderByIdAndUser,
   getFullOrders,
+  findOrderById,
+  findOrderByReference,
 } from "services/order.service";
 import { TOrderCreationData, TOrderUpdateData } from "types/order";
 
@@ -98,9 +96,26 @@ export const getOrder = async (
       );
     }
     const { id } = req.params;
-    const order = await findOrderByIdAndUser(id, userId);
+    const order = await findOrderById(id, userId);
     const [result] = await getFullOrders([order]);
-    
+
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Private route for microservice communication
+export const getOrderByReference = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { reference } = req.params;
+    const order = await findOrderByReference(reference);
+    const [result] = await getFullOrders([order]);
+
     res.status(200).json(result);
   } catch (error) {
     next(error);

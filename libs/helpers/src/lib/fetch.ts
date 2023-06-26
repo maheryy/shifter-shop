@@ -36,12 +36,10 @@ export const fetchJson = async <T>(
 
     return data as T;
   } catch (err) {
-    console.error(
-      `\x1b[31mCommunication error: Service ${target.service} is unavailable\x1b[0m`
-    );
     if (err instanceof HttpError) throw err;
+    console.error(`\x1b[31m[${target.service}] Communication error\x1b[0m`);
     throw new ServiceUnavailableError(
-      `Communication error: Service ${target.service} is unavailable`
+      `[${target.service}] Communication error`
     );
   }
 };

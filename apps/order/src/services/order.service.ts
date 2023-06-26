@@ -14,11 +14,21 @@ export const findAllOrders = async () => {
   return OrderEntity.find();
 };
 
-export const findOrderByIdAndUser = async (orderId: string, userId: string) => {
+export const findOrderById = async (orderId: string, userId: string) => {
   const order = await OrderEntity.findOneBy({
     id: orderId,
     customerId: userId,
   });
+
+  if (!order) {
+    throw new NotFoundError("Order not found");
+  }
+
+  return order;
+};
+
+export const findOrderByReference = async (reference: string) => {
+  const order = await OrderEntity.findOneBy({ reference });
 
   if (!order) {
     throw new NotFoundError("Order not found");
