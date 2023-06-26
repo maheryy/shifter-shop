@@ -2,7 +2,7 @@ import "config";
 import express from "express";
 import cors from "cors";
 import orderRoutes from "routes/order";
-import amqp, { defineAMQPListeners } from "lib/amqp";
+import amqp from "lib/amqp";
 import { exceptionHandler } from "@shifter-shop/errors";
 
 const app = express();
@@ -12,8 +12,6 @@ app.use(express.json());
 app.use(cors());
 app.use(orderRoutes);
 app.use(exceptionHandler);
-
-defineAMQPListeners();
 
 app.listen(PORT, () => {
   console.log(`Server started at http://localhost:${PORT}`);

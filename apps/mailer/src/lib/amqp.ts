@@ -11,14 +11,12 @@ import {
 
 const amqp = new AMQP(process.env.AMQP_URL!);
 
-export const defineAMQPListeners = () => {
-  amqp.registerExchange(EExchange.OrderCreated, onOrderCreated);
-  amqp.registerExchange(EExchange.PaymentSuccess, onPaymentSuccess);
-  amqp.registerExchange(EExchange.ReviewCreated, onReviewCreated);
-  amqp.registerQueue(EQueue.OrderStatusChanged, onOrderStatusChanged);
-  amqp.registerQueue(EQueue.UserPasswordChanged, onUserPasswordChanged);
-  amqp.registerQueue(EQueue.UserPasswordReset, onUserPasswordReset);
-  amqp.registerQueue(EQueue.UserRegistered, onUserRegistered);
-};
+amqp.registerExchange(EExchange.OrderCreated, onOrderCreated);
+amqp.registerExchange(EExchange.PaymentSuccess, onPaymentSuccess);
+amqp.registerExchange(EExchange.ReviewCreated, onReviewCreated);
+amqp.registerQueue(EQueue.OrderStatusChanged, onOrderStatusChanged);
+amqp.registerQueue(EQueue.UserPasswordChanged, onUserPasswordChanged);
+amqp.registerQueue(EQueue.UserPasswordReset, onUserPasswordReset);
+amqp.registerQueue(EQueue.UserRegistered, onUserRegistered);
 
 export default amqp;
