@@ -17,7 +17,7 @@ export class CreateReviewDto {
   @IsOptional()
   @IsString()
   @IsNotEmpty()
-  description?: string;
+  details?: string;
 
   @IsNumber()
   @Max(5)

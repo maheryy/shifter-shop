@@ -23,6 +23,7 @@
   "dependencies": {
     "@shifter-shop/dictionary": "*",
     "@shifter-shop/amqp": "*",
+    "@shifter-shop/helpers": "*",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.0.0",
     "@nestjs/core": "^10.0.0",

@@ -1,4 +1,5 @@
 import {
+  IsEmpty,
   IsEnum,
   IsNotEmpty,
   IsNumber,
@@ -11,9 +12,20 @@ export class UpdateReviewDto {
   @IsOptional()
   @IsString()
   @IsNotEmpty()
-  description?: string;
+  details?: string;
 
-  @IsOptional()
-  @IsEnum(EGlobalStatus)
+  @IsEmpty()
   status?: EGlobalStatus;
+
+  @IsEmpty()
+  rating?: number;
+
+  @IsEmpty()
+  productId?: string;
+
+  @IsEmpty()
+  orderId?: string;
+
+  @IsEmpty()
+  authorId?: string;
 }
