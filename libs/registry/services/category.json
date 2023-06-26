@@ -20,7 +20,8 @@
     },
     {
       "method": "GET",
-      "path": "/:id"
+      "path": "/:id",
+      "private": true
     },
     {
       "method": "PATCH",

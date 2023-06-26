@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from 'src/category/entities/category.entity';
-import { Repository } from 'typeorm';
+import { QueryFailedError, Repository, TypeORMError } from 'typeorm';
 import { CreateCategoryDto } from 'src/category/dtos/create-category.dto';
 import { UpdateCategoryDto } from 'src/category/dtos/update-category.dto';
 
@@ -14,8 +14,19 @@ export class CategoryService {
   ) {}
 
   async create(data: CreateCategoryDto) {
-    const category = this.categoryRepository.create(data);
-    return this.categoryRepository.save(category);
+    try {
+      const categoryInstance = this.categoryRepository.create(data);
+      const category = await this.categoryRepository.save(categoryInstance);
+      return category;
+    } catch (error) {
+      if (
+        error instanceof TypeORMError &&
+        error.message.includes('duplicate')
+      ) {
+        throw new ConflictException('Category already exists');
+      }
+      throw error;
+    }
   }
 
   async findAll() {
@@ -33,10 +44,20 @@ export class CategoryService {
   }
 
   async update(id: string, data: UpdateCategoryDto) {
-    const res = await this.categoryRepository.update({ id }, data);
+    try {
+      const res = await this.categoryRepository.update({ id }, data);
 
-    if (!res.affected) {
-      throw new NotFoundException(`Category with id: ${id} does not exist`);
+      if (!res.affected) {
+        throw new NotFoundException(`Category with id: ${id} does not exist`);
+      }
+    } catch (error) {
+      if (
+        error instanceof TypeORMError &&
+        error.message.includes('duplicate')
+      ) {
+        throw new ConflictException('Category already exists');
+      }
+      throw error;
     }
   }
 }
