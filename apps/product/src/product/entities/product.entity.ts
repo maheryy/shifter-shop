@@ -24,9 +24,6 @@ export class Product implements TProduct {
   @Column('uuid')
   categoryId: string;
 
-  @Column('simple-array', { array: true, default: [] })
-  reviewsId: string[];
-
   @Column('uuid')
   sellerId: string;
 

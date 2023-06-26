@@ -1,4 +1,5 @@
-import { IsNumber, IsOptional, IsString, IsUUID } from 'class-validator';
+import { EGlobalStatus } from '@shifter-shop/dictionary';
+import { IsEmpty, IsNumber, IsOptional, IsString, IsUUID } from 'class-validator';
 
 export class CreateProductDto {
   @IsString()
@@ -10,6 +11,9 @@ export class CreateProductDto {
   @IsNumber()
   price!: number;
 
+  @IsEmpty()
+  rating?: number;
+
   @IsUUID()
   categoryId!: string;
 
@@ -18,4 +22,7 @@ export class CreateProductDto {
 
   @IsOptional()
   sellerId?: string;
+
+  @IsEmpty()
+  status?: EGlobalStatus;
 }

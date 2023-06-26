@@ -1,5 +1,6 @@
 import { EGlobalStatus } from '@shifter-shop/dictionary';
 import {
+  IsEmpty,
   IsEnum,
   IsNotEmpty,
   IsNumber,
@@ -22,14 +23,16 @@ export class UpdateProductDto {
   @IsOptional()
   @IsNumber()
   price?: number;
-  
-  @IsOptional()
-  @IsNumber()
+
+  @IsEmpty()
   rating?: number;
 
   @IsOptional()
   @IsUUID()
   categoryId?: string;
+
+  @IsEmpty()
+  sellerId?: string;
 
   @IsOptional()
   @IsString()
