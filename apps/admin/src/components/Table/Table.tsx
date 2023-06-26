@@ -1,10 +1,10 @@
-import SearchBar from './SearchBar';
-import TableHeader from './TableHeader';
-import TableRow from './TableRow';
-import TableBottom from './TableBottom';
+import SearchBar from "@/components/Table/SearchBar";
+import TableHeader from "@/components/Table/TableHeader";
+import TableRow from "@/components/Table/TableRow";
+import TableBottom from "@/components/Table/TableBottom"
 import { useState, useEffect } from 'react';
 
-const Table = ({ headers, data }: TableProps) => {
+const Table = ({ headers, data, children }: TableProps) => {
   const rowsPerPageOptions = [5, 10, 25, 50, 100]; // Options for rows per page
   const [currentPage, setCurrentPage] = useState(1); // Current page number
   const [recordsPerPage, setRecordsPerPage] = useState(rowsPerPageOptions[0]); // Number of records per page
@@ -72,7 +72,7 @@ const Table = ({ headers, data }: TableProps) => {
             <TableHeader headers={headers} />
             <tbody className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
               {currentRecords.map((row: Record<string, any>) => (
-                <TableRow row={row} key={row.id} />
+                <TableRow row={row} key={row.id} children={children} />
               ))}
             </tbody>
           </table>
@@ -96,6 +96,7 @@ const Table = ({ headers, data }: TableProps) => {
 interface TableProps {
   headers: string[];
   data: any[];
+  children: React.ReactNode;
 }
 
 export default Table;

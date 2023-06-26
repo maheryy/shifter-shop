@@ -1,7 +1,4 @@
-import DeleteIcon from "./DeleteIcon";
-import UpdateIcon from "./UpdateIcon";
-
-const TableRow = ({ row }: TableRowProps) => {
+const TableRow = ({ row, children }: TableRowProps) => {
     const keys = Object.keys(row).filter((key) => key !== "id");
 
     return (
@@ -17,8 +14,7 @@ const TableRow = ({ row }: TableRowProps) => {
             ))}
             <td className="px-4 py-3">
                 <div className="flex items-center space-x-4 text-sm">
-                    <UpdateIcon />
-                    <DeleteIcon />
+                    {children}
                 </div>
             </td>
         </tr>
@@ -27,6 +23,7 @@ const TableRow = ({ row }: TableRowProps) => {
 
 interface TableRowProps {
     row: Record<string, any>;
+    children: React.ReactNode;
 }
 
 

@@ -2,7 +2,10 @@ import { RouteObject } from "react-router-dom";
 import Home from "@/pages/Home";
 import DefaultLayout from "@/layouts/DefaultLayout";
 import NotFound from "@/pages/errors/NotFound";
+import Admins from "@/pages/Admins";
 import Customers from "@/pages/Customers";
+import Sellers from "@/pages/Sellers";
+import Products from "@/pages/Products";
 
 const adminRoutes: RouteObject[] = [
   {
@@ -40,24 +43,37 @@ const adminRoutes: RouteObject[] = [
             element: <div>Settings</div>,
           },
           {
+            path: "/users",
+            children: [
+              {
+                path: "admins",
+                element: <Admins />,
+              },
+              {
+                path: "customers",
+                element: <Customers />,
+              },
+              {
+                path: "sellers",
+                element: <Sellers />,
+              },
+            ],
+          },
+          {
             path: "/products",
             children: [
               {
                 path: "",
-                element: <div>All products</div>,
+                element: <Products />,
               },
               {
                 path: "new",
                 element: <div>New product</div>,
               },
-              {
-                path: "categories",
-                element: <div>All categories</div>,
-              },
             ],
           },
           {
-            path: "/*",
+            path: "*",
             element: <NotFound />,
           },
         ],
