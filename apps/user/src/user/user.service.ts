@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
 import { NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
-import { Repository } from 'typeorm';
+import { QueryFailedError, Repository, TypeORMError } from 'typeorm';
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UpdateUserDto } from './dtos/update-user.dto';
@@ -17,10 +17,18 @@ export class UserService {
   ) {}
 
   async create(data: CreateUserDto) {
-    const userInstance = this.usersRepository.create(data);
-    const user = await this.usersRepository.save(userInstance);
-    await amqp.publishToQueue(EQueue.UserRegistered, user);
-    return userInstance;
+    try {
+      const userInstance = this.usersRepository.create(data);
+      const user = await this.usersRepository.save(userInstance);
+      await amqp.publishToQueue(EQueue.UserRegistered, user);
+      return userInstance;
+    } catch (error) {
+      if (error instanceof TypeORMError && error.message.includes('duplicate')) {
+          throw new ConflictException("Email already exists");
+      }
+
+      throw error;
+    }
   }
 
   async findAll() {
@@ -59,7 +67,7 @@ export class UserService {
 
   async update(id: string, data: UpdateUserDto) {
     const res = await this.usersRepository.update({ id }, data);
-
+    
     if (!res.affected) {
       throw new NotFoundException(`User with id: ${id} does not exist`);
     }

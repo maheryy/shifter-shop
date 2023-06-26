@@ -15,6 +15,12 @@
     {
       "method": "PATCH",
       "path": "/:id",
+      "middlewares": ["auth", "roles"],
+      "roles": ["ADMIN"]
+    },
+    {
+      "method": "PATCH",
+      "path": "/",
       "middlewares": ["auth"]
     },
     {

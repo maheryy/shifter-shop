@@ -8,9 +8,6 @@ import {
 } from 'class-validator';
 
 export class UpdateUserDto {
-  @IsEmpty()
-  email?: string;
-
   @IsOptional()
   @IsNotEmpty()
   @IsString()
@@ -21,11 +18,13 @@ export class UpdateUserDto {
   @IsString()
   lastname?: string;
 
-  @IsOptional()
-  @IsNotEmpty()
-  @IsString()
+  @IsEmpty()
+  email?: string;
+
+  @IsEmpty()
   password?: string;
 
   @IsEnum(EUserRole)
+  @IsOptional()
   role?: EUserRole;
 }
