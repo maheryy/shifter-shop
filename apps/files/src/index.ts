@@ -15,5 +15,5 @@ app.use(html);
 app.use(exceptionHandler);
 
 app.listen(PORT, () => {
-  console.log(`Server started at http://localhost:${PORT}`);
+  console.log(`[Files] Server started at http://localhost:${PORT}`);
 });

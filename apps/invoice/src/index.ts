@@ -13,5 +13,5 @@ app.use(invoiceRoutes);
 app.use(exceptionHandler);
 
 app.listen(PORT, () => {
-  console.log(`Server started at http://localhost:${PORT}`);
+  console.log(`[Invoice] Server started at http://localhost:${PORT}`);
 });

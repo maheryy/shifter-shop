@@ -14,6 +14,6 @@ app.use(paymentRoutes);
 app.use(exceptionHandler);
 
 app.listen(PORT, () => {
-  console.log(`Server started at http://localhost:${PORT}`);
+  console.log(`[Payment] Server started at http://localhost:${PORT}`);
   amqp.connect();
 });

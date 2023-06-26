@@ -14,6 +14,6 @@ app.use(mailerRoutes);
 app.use(exceptionHandler);
 
 app.listen(PORT, () => {
-  console.log(`Server started at http://localhost:${PORT}`);
+  console.log(`[Mailer] Server started at http://localhost:${PORT}`);
   amqp.connect();
 });

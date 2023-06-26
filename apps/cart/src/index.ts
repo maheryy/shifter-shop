@@ -14,6 +14,6 @@ app.use(cartRoutes);
 app.use(exceptionHandler);
 
 app.listen(PORT, () => {
-  console.log(`Server started at http://localhost:${PORT}`);
+  console.log(`[Cart] Server started at http://localhost:${PORT}`);
   amqp.connect();
 });

@@ -14,6 +14,6 @@ app.use(orderRoutes);
 app.use(exceptionHandler);
 
 app.listen(PORT, () => {
-  console.log(`Server started at http://localhost:${PORT}`);
+  console.log(`[Order] Server started at http://localhost:${PORT}`);
   amqp.connect();
 });
