@@ -16,7 +16,8 @@
     {
       "method": "GET",
       "path": "/customer/:id",
-      "middlewares": ["auth"]
+      "middlewares": ["auth", "roles"],
+      "roles": ["ADMIN"]
     },
     {
       "method": "GET",
@@ -25,12 +26,14 @@
     },
     {
       "method": "POST",
-      "path": "/"
+      "path": "/",
+      "private": true
     },
     {
       "method": "PATCH",
       "path": "/:id",
-      "middlewares": ["auth", "roles"]
+      "middlewares": ["auth", "roles"],
+      "roles": ["ADMIN"]
     }
   ]
 }

@@ -1,14 +1,24 @@
 import { NotFoundError } from "@shifter-shop/errors";
-import { TOrder } from "@shifter-shop/dictionary";
+import {
+  EService,
+  TFullOrder,
+  TOrder,
+  TProduct,
+  TUser,
+} from "@shifter-shop/dictionary";
 import { Order as OrderEntity } from "entities/order.entity";
 import { TOrderCreationData, TOrderUpdateData } from "types/order";
+import { fetchJson } from "@shifter-shop/helpers";
 
 export const findAllOrders = async () => {
   return OrderEntity.find();
 };
 
-export const findOrder = async (id: string) => {
-  const order = await OrderEntity.findOneBy({ id });
+export const findOrderByIdAndUser = async (orderId: string, userId: string) => {
+  const order = await OrderEntity.findOneBy({
+    id: orderId,
+    customerId: userId,
+  });
 
   if (!order) {
     throw new NotFoundError("Order not found");
@@ -52,4 +62,52 @@ export const generateOrderReference = async () => {
   } while (order);
 
   return reference;
+};
+
+const fetchCustomer = async (customerId: string) => {
+  try {
+    const customer = await fetchJson<TUser>({
+      service: EService.User,
+      endpoint: `/${customerId}`,
+    });
+    return customer;
+  } catch (error) {
+    console.error(`\x1b[31mError while fetching customer\x1b[0m`);
+    return null;
+  }
+};
+
+const fetchProduct = async (productId: string) => {
+  try {
+    const product = await fetchJson<TProduct>({
+      service: EService.Product,
+      endpoint: `/${productId}`,
+    });
+    return product;
+  } catch (error) {
+    console.error(`\x1b[31mError while fetching product\x1b[0m`);
+    return null;
+  }
+};
+
+export const getFullOrders = async (
+  orders: TOrder[]
+): Promise<TFullOrder[]> => {
+  return Promise.all(
+    orders.map(async (order) => {
+      const customer = await fetchCustomer(order.customerId);
+      const productPromises = order.products.map(async (product) => {
+        return {
+          ...product,
+          ...(await fetchProduct(product.id)),
+        };
+      });
+
+      return {
+        ...order,
+        customer,
+        products: await Promise.all(productPromises),
+      } as unknown as TFullOrder;
+    })
+  );
 };

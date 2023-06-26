@@ -1,13 +1,17 @@
-import { BadRequestError } from "@shifter-shop/errors";
-import { EOrderStatus } from "@shifter-shop/dictionary";
+import { BadRequestError, UnauthorizedError } from "@shifter-shop/errors";
+import {
+  EOrderStatus,
+  EUserRole,
+} from "@shifter-shop/dictionary";
 import { NextFunction, Request, Response } from "express";
 import {
   findAllOrders,
-  findOrder,
   findOrdersByCustomerId,
   createOrder as create,
   updateOrder as update,
   generateOrderReference,
+  findOrderByIdAndUser,
+  getFullOrders,
 } from "services/order.service";
 import { TOrderCreationData, TOrderUpdateData } from "types/order";
 
@@ -31,7 +35,9 @@ export const updateOrder = async (id: string, data: TOrderUpdateData) => {
   }
   if (!Object.values(EOrderStatus).includes(data.status)) {
     throw new BadRequestError(
-      "Invalid status : must be one of 'Pending', 'Confirmed', 'Shipping', 'Delivered', 'Cancelled'"
+      `Invalid status : must be one of '${Object.values(EOrderStatus).join(
+        "', '"
+      )}'`
     );
   }
 
@@ -39,6 +45,7 @@ export const updateOrder = async (id: string, data: TOrderUpdateData) => {
   return result;
 };
 
+// For testing purposes only
 export const newOrder = async (
   req: Request,
   res: Response,
@@ -58,8 +65,21 @@ export const getAllOrders = async (
   next: NextFunction
 ) => {
   try {
-    const orders = await findAllOrders();
-    res.status(200).json(orders);
+    const userId = req.get("user-id");
+    const role = req.get("user-role");
+    if (!userId || !role) {
+      throw new UnauthorizedError(
+        "You must be authenticated to access this resource"
+      );
+    }
+
+    const orders =
+      role === EUserRole.Admin
+        ? await findAllOrders()
+        : await findOrdersByCustomerId(userId);
+
+    const results = await getFullOrders(orders);
+    res.status(200).json(results);
   } catch (error) {
     next(error);
   }
@@ -71,9 +91,17 @@ export const getOrder = async (
   next: NextFunction
 ) => {
   try {
+    const userId = req.get("user-id");
+    if (!userId) {
+      throw new UnauthorizedError(
+        "You must be authenticated to access this resource"
+      );
+    }
     const { id } = req.params;
-    const order = await findOrder(id);
-    res.status(200).json(order);
+    const order = await findOrderByIdAndUser(id, userId);
+    const [result] = await getFullOrders([order]);
+    
+    res.status(200).json(result);
   } catch (error) {
     next(error);
   }
@@ -103,8 +131,8 @@ export const getCustomerOrders = async (
   try {
     const { id: customerId } = req.params;
     const orders = await findOrdersByCustomerId(customerId);
-
-    res.status(200).json(orders);
+    const results = await getFullOrders(orders);
+    res.status(200).json(results);
   } catch (error) {
     next(error);
   }
