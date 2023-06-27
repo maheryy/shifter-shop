@@ -7,8 +7,11 @@ import {
 } from "@/types/user";
 import api from ".";
 
-export function getUser(token: string): Promise<User> {
-  return api.query({ token }).get("/user").json();
+export async function getUser(token: string): Promise<User> {
+  const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/profile`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return await res.json();
 }
 
 export const getAuthToken = async ({
@@ -18,7 +21,11 @@ export const getAuthToken = async ({
   email: string;
   password: string;
 }): Promise<Token> => {
-  return api.post({ email, password }, "/auth/login").json();
+  return fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  }).then((res) => res.json());
 };
 
 export function updateUser(user: UpdateUser) {

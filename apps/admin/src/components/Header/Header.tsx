@@ -9,10 +9,18 @@ import DarkThemeIcon from "@icons/moon.svg";
 import Avatar from "@/assets/images/avatar.svg";
 import HeaderMenu from "@/components/Header/HeaderMenu";
 import { useAuthContext } from "@/hooks/context";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const { toggleSidebar, toggleTheme, theme } = useLayoutContext();
   const { invalidate } = useAuthContext();
+  const navigate = useNavigate();
+
+
+  const handleLogout = () => {
+    invalidate();
+    navigate("/login");
+  };
 
   return (
     <header className="h-14 z-10 py-4 bg-white shadow-md dark:bg-gray-800">
@@ -58,7 +66,7 @@ const Header = () => {
             items={[
               { icon: <ProfileIcon />, label: "Profile", href: "/profile" },
               { icon: <SettingsIcon />, label: "Settings", href: "/settings" },
-              { icon: <LogoutIcon />, label: "Log out", onClick: invalidate, href: "/login" },
+              { icon: <LogoutIcon />, label: "Log out", onClick: handleLogout, href: "#" },
             ]}
           />
         </ul>

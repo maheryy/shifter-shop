@@ -1,15 +1,12 @@
 import { Outlet } from "react-router-dom";
 import { ReactNode } from "react";
-import LayoutProvider from "@/providers/LayoutProvider";
 
 const AuthLayout = ({ children }: AuthLayoutProps) => {
   return (
-    <LayoutProvider>
-        <main>
-          <Outlet />
-          {children}
-        </main>
-    </LayoutProvider>
+    <main>
+      <Outlet />
+      {children}
+    </main>
   );
 };
 

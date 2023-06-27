@@ -9,74 +9,69 @@ import Products from "@/pages/Products";
 
 const adminRoutes: RouteObject[] = [
   {
-    path: "/",
+    element: <DefaultLayout />,
     children: [
       {
-        element: <DefaultLayout />,
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/analytics",
+        element: <div>Analytics</div>,
+      },
+      {
+        path: "/orders",
+        element: <div>Orders</div>,
+      },
+      {
+        path: "/customers",
+        element: <Customers />,
+      },
+      {
+        path: "/newsletter",
+        element: <div>Newsletter</div>,
+      },
+      {
+        path: "/profile",
+        element: <div>Profile</div>,
+      },
+      {
+        path: "/settings",
+        element: <div>Settings</div>,
+      },
+      {
+        path: "/users",
         children: [
           {
-            index: true,
-            element: <Home />,
+            path: "admins",
+            element: <Admins />,
           },
           {
-            path: "/analytics",
-            element: <div>Analytics</div>,
-          },
-          {
-            path: "/orders",
-            element: <div>Orders</div>,
-          },
-          {
-            path: "/customers",
+            path: "customers",
             element: <Customers />,
           },
           {
-            path: "/newsletter",
-            element: <div>Newsletter</div>,
-          },
-          {
-            path: "/profile",
-            element: <div>Profile</div>,
-          },
-          {
-            path: "/settings",
-            element: <div>Settings</div>,
-          },
-          {
-            path: "/users",
-            children: [
-              {
-                path: "admins",
-                element: <Admins />,
-              },
-              {
-                path: "customers",
-                element: <Customers />,
-              },
-              {
-                path: "sellers",
-                element: <Sellers />,
-              },
-            ],
-          },
-          {
-            path: "/products",
-            children: [
-              {
-                path: "",
-                element: <Products />,
-              },
-              {
-                path: "new",
-                element: <div>New product</div>,
-              },
-            ],
-          },
-          {
-            path: "*",
-            element: <NotFound />,
+            path: "sellers",
+            element: <Sellers />,
           },
         ],
+      },
+      {
+        path: "/products",
+        children: [
+          {
+            path: "",
+            element: <Products />,
+          },
+          {
+            path: "new",
+            element: <div>New product</div>,
+          },
+        ],
+      },
+      {
+        path: "*",
+        element: <NotFound />,
       },
     ],
   },
