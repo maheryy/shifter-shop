@@ -11,7 +11,6 @@ const authenticationMiddleware: ConfiguredMiddleware =
     }
 
     const token = localStorage.getItem("token");
-
     if (token) {
       options.headers = {
         ...options.headers,
@@ -22,7 +21,7 @@ const authenticationMiddleware: ConfiguredMiddleware =
     return next(url, options);
   };
 
-const api = wretch("http://localhost:3000")
+const api = wretch(import.meta.env.VITE_API_URL)
   .addon(queryString)
   .middlewares([authenticationMiddleware]);
 

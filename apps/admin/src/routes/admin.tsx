@@ -6,6 +6,7 @@ import Admins from "@/pages/Admins";
 import Customers from "@/pages/Customers";
 import Sellers from "@/pages/Sellers";
 import Products from "@/pages/Products";
+import Orders from "@/pages/Orders";
 
 const adminRoutes: RouteObject[] = [
   {
@@ -21,7 +22,7 @@ const adminRoutes: RouteObject[] = [
       },
       {
         path: "/orders",
-        element: <div>Orders</div>,
+        element: <Orders />,
       },
       {
         path: "/customers",
