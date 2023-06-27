@@ -1,35 +1,36 @@
 import SearchBar from "@/components/Table/SearchBar";
 import TableHeader from "@/components/Table/TableHeader";
-import TableRow from "@/components/Table/TableRow";
 import TableBottom from "@/components/Table/TableBottom"
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
+import { TableColumns } from "@/types/table";
+import React from "react";
 
-const Table = ({ headers, data, children }: TableProps) => {
+const Table = <T,>({ tableColumns, items, renderRow }: TableProps<T>) => {
   const rowsPerPageOptions = [5, 10, 25, 50, 100]; // Options for rows per page
   const [currentPage, setCurrentPage] = useState(1); // Current page number
   const [recordsPerPage, setRecordsPerPage] = useState(rowsPerPageOptions[0]); // Number of records per page
   const [query, setQuery] = useState(''); // Search query
 
   // Filtered data state
-  const [filteredData, setFilteredData] = useState<any[]>([]);
+  const [filteredData, setFilteredData] = useState<T[]>(items);
 
   useEffect(() => {
-    const getFilteredData = (query: string, data: any) => {
+    const getFilteredData = (query: string, items: T[]) => {
       if (!query) {
-        return data;
+        return items;
       }
 
-      return data.filter((row: Record<string, any>) => {
+      return items.filter((row: any) => {
         return Object.keys(row).some((key) => {
           return row[key].toString().toLowerCase().includes(query.toLowerCase());
         });
       });
     };
 
-    const updatedFilteredData = getFilteredData(query, data);
+    const updatedFilteredData = getFilteredData(query, items);
     setFilteredData(updatedFilteredData);
     setCurrentPage(1); // Reset current page to 1 when filtering
-  }, [data, query]);
+  }, [items, query]);
 
   const nbRecords = filteredData.length; // Total number of records
   const lastIndex = currentPage * recordsPerPage; // Max index of the current page
@@ -69,10 +70,12 @@ const Table = ({ headers, data, children }: TableProps) => {
         <div className="w-full overflow-x-auto">
           <SearchBar query={query} handleSearchQuery={handleSearchQuery} />
           <table className="w-full whitespace-no-wrap">
-            <TableHeader headers={headers} />
+            <TableHeader tableColumns={tableColumns} />
             <tbody className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-              {currentRecords.map((row: Record<string, any>) => (
-                <TableRow row={row} key={row.id} children={children} />
+              {currentRecords.map((item, index) => (
+                <Fragment key={index}>
+                  {renderRow(item)}
+                </Fragment>
               ))}
             </tbody>
           </table>
@@ -93,10 +96,10 @@ const Table = ({ headers, data, children }: TableProps) => {
   );
 }
 
-interface TableProps {
-  headers: string[];
-  data: any[];
-  children: React.ReactNode;
+interface TableProps<T> {
+  tableColumns: TableColumns[];
+  items: T[];
+  renderRow: (item: T) => React.ReactNode;
 }
 
 export default Table;
