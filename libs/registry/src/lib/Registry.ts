@@ -1,13 +1,18 @@
 import { getAllConfig } from "../utils/parser";
-import { ServiceConfig, ServiceType, Services } from "../types/service";
-import { RegistryEnv, RegistryOptions } from "types/registry";
+import {
+  TServiceConfig,
+  EService,
+  UService,
+  TRegistryEnv,
+  TRegistryOptions,
+} from "@shifter-shop/dictionary";
 
 export class Registry {
-  private static services: ServiceConfig[] = [];
-  private serviceConfig: ServiceConfig;
-  private envKey: RegistryEnv = "development";
+  private static services: TServiceConfig[] = [];
+  private serviceConfig: TServiceConfig;
+  private envKey: TRegistryEnv = "development";
 
-  private constructor(serviceConfig: ServiceConfig, options?: RegistryOptions) {
+  private constructor(serviceConfig: TServiceConfig, options?: TRegistryOptions) {
     this.serviceConfig = serviceConfig;
 
     if (options?.env) {
@@ -15,11 +20,11 @@ export class Registry {
     }
   }
 
-  public static get(name: Services, options?: RegistryOptions): Registry {
-    if (!Object.values(ServiceType).includes(name as ServiceType)) {
+  public static get(name: UService, options?: TRegistryOptions): Registry {
+    if (!Object.values(EService).includes(name as EService)) {
       throw new Error(
         `Unkown service ${name}: must be one of ${Object.values(
-          ServiceType
+          EService
         ).join(", ")}`
       );
     }
@@ -36,7 +41,7 @@ export class Registry {
     return new Registry(config, options);
   }
 
-  public static getServices(): ServiceConfig[] {
+  public static getServices(): TServiceConfig[] {
     if (!this.services.length) {
       this.services = getAllConfig();
     }
@@ -44,7 +49,7 @@ export class Registry {
     return this.services;
   }
 
-  private static getConfig(name: Services) {
+  private static getConfig(name: UService) {
     if (!this.services.length) {
       this.services = getAllConfig();
     }
@@ -52,7 +57,7 @@ export class Registry {
     return this.services.find((service) => service.name === name);
   }
 
-  public get config(): ServiceConfig {
+  public get config(): TServiceConfig {
     return this.serviceConfig;
   }
 

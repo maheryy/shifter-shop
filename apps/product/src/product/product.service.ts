@@ -41,10 +41,10 @@ export class ProductService {
   }
 
   async findAllByCategory(categoryId: string) {
-    return this.productRepository.findBy({ category: categoryId });
+    return this.productRepository.findBy({ categoryId });
   }
 
   async findAllBySeller(sellerId: string) {
-    return this.productRepository.findBy({ seller: sellerId });
+    return this.productRepository.findBy({ sellerId });
   }
 }

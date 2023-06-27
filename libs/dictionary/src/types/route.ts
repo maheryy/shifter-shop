@@ -1,6 +1,6 @@
 export type HttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
-export interface Route {
+export interface TRoute {
   path: string;
   method: HttpMethod;
   private?: boolean;

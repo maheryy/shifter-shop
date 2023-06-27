@@ -1,6 +1,6 @@
-import { ServiceType, fetchJson } from "@shifter-shop/registry";
 import { HttpError, UnauthorizedError } from "@shifter-shop/errors";
-import { User } from "@shifter-shop/types";
+import { fetchJson } from "@shifter-shop/helpers";
+import { EService, TUser } from "@shifter-shop/dictionary";
 import { NextFunction, Request, Response } from "express";
 
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
@@ -15,8 +15,8 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
       throw new UnauthorizedError("Bearer token required");
     }
 
-    const user = await fetchJson<User>(
-      { service: ServiceType.Auth, endpoint: "/verify-token" },
+    const user = await fetchJson<TUser>(
+      { service: EService.Auth, endpoint: "/verify-token" },
       { method: "POST", data: { token } }
     );
 

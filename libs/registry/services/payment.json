@@ -5,12 +5,13 @@
     "url": "http://payment-svc:3000"
   },
   "development": {
-    "url": "http://127.0.0.1:3003"
+    "url": "http://127.0.0.1:3007"
   },
   "routes": [
     {
       "method": "POST",
-      "path": "/checkout"
+      "path": "/checkout",
+      "middlewares": ["auth"]
     },
     {
       "method": "POST",

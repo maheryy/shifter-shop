@@ -5,7 +5,7 @@
     "url": "http://cart-svc:3000"
   },
   "development": {
-    "url": "http://127.0.0.1:3006"
+    "url": "http://127.0.0.1:3008"
   },
   "routes": [
     {
@@ -14,8 +14,8 @@
       "middlewares": ["auth"]
     },
     {
-      "method": "PATCH",
-      "path": "/:productId",
+      "method": "POST",
+      "path": "/",
       "middlewares": ["auth"]
     }
   ]

@@ -2,18 +2,19 @@ FROM node:19-alpine as build
 
 WORKDIR /app
 
+# Copy node packages and build config
 COPY package*.json .
+COPY tsconfig.base.json .
+COPY nx.json .
 
-RUN npm install --silent
+# Copy target app and its libs dependencies
+COPY apps/admin ./apps/admin
+COPY libs/ ./libs
+RUN npm install
 
-COPY . .
-
-ARG VITE_API_URL
-
+# Build the app
 ENV NODE_ENV production
-ENV VITE_API_URL ${VITE_API_URL}
-
-RUN npm run build
+RUN npx nx build admin
 
 
 FROM nginx:1.23-alpine as runner
@@ -21,9 +22,9 @@ FROM nginx:1.23-alpine as runner
 WORKDIR /usr/share/nginx/html
 
 RUN rm /etc/nginx/conf.d/default.conf
-COPY config/nginx.conf /etc/nginx/conf.d/
+COPY apps/admin/config/nginx.conf /etc/nginx/conf.d/
 
-COPY --from=build /app/dist . 
+COPY --from=build /app/apps/admin/dist . 
 
 EXPOSE 80
 

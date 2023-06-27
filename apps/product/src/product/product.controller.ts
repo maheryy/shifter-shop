@@ -7,10 +7,13 @@ import {
   Post,
   Headers,
   HttpCode,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { ProductService } from 'src/product/product.service';
 import { CreateProductDto } from 'src/product/dtos/create-product.dto';
 import { UpdateProductDto } from 'src/product/dtos/update-product.dto';
+import { joinResources } from '@shifter-shop/helpers';
+import { TFullProduct, TProduct } from '@shifter-shop/dictionary';
 
 @Controller()
 export class ProductController {
@@ -21,8 +24,11 @@ export class ProductController {
     @Headers('user-id') userId: string,
     @Body() product: CreateProductDto,
   ) {
+    if (!userId) {
+      throw new UnauthorizedException();
+    }
     // TODO : change these values
-    product.seller = userId || '5482df68-6f5b-4a4d-b418-9b4b4bd85211';
+    product.sellerId = userId;
     product.image = product.image || 'https://picsum.photos/200';
 
     return this.productService.create(product);
@@ -30,12 +36,28 @@ export class ProductController {
 
   @Get()
   async findAll() {
-    return this.productService.findAll();
+    const products = await this.productService.findAll();
+    const results = await joinResources<TFullProduct, TProduct>(products, [
+      { service: 'category', key: 'categoryId', addKey: 'category' },
+      { service: 'user', key: 'sellerId', addKey: 'seller' },
+    ]);
+
+    return results;
   }
 
   @Get('/:id')
   async findOne(@Param('id') id: string) {
-    return this.productService.findOneById(id);
+    const product = await this.productService.findOneById(id);
+
+    const [result] = await joinResources<TFullProduct, TProduct>(
+      [product],
+      [
+        { service: 'category', key: 'categoryId', addKey: 'category' },
+        { service: 'user', key: 'sellerId', addKey: 'seller' },
+      ],
+    );
+
+    return result;
   }
 
   @Patch('/:id')
@@ -44,13 +66,27 @@ export class ProductController {
     return this.productService.update(id, product);
   }
 
+  // TODO: use findAll (GET /) instead with category filter
   @Get('/category/:categoryId')
   async findAllByCategoryId(@Param('categoryId') categoryId: string) {
-    return this.productService.findAllByCategory(categoryId);
+    const products = await this.productService.findAllByCategory(categoryId);
+    const results = await joinResources<TFullProduct, TProduct>(products, [
+      { service: 'category', key: 'categoryId', addKey: 'category' },
+      { service: 'user', key: 'sellerId', addKey: 'seller' },
+    ]);
+
+    return results;
   }
 
+  // TODO: use findAll (GET /) instead with seller filter
   @Get('/seller/:sellerId')
   async findAllBySellerId(@Param('sellerId') sellerId: string) {
-    return this.productService.findAllBySeller(sellerId);
+    const products = await this.productService.findAllBySeller(sellerId);
+    const results = await joinResources<TFullProduct, TProduct>(products, [
+      { service: 'category', key: 'categoryId', addKey: 'category' },
+      { service: 'user', key: 'sellerId', addKey: 'seller' },
+    ]);
+
+    return results;
   }
 }

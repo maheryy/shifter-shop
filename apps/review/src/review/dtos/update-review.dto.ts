@@ -1,29 +1,31 @@
 import {
+  IsEmpty,
   IsEnum,
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
 } from 'class-validator';
-import { GlobalStatus } from '@shifter-shop/types';
+import { EGlobalStatus } from '@shifter-shop/dictionary';
 
 export class UpdateReviewDto {
   @IsOptional()
   @IsString()
   @IsNotEmpty()
-  title?: string;
+  details?: string;
 
-  @IsOptional()
-  @IsString()
-  @IsNotEmpty()
-  description?: string;
+  @IsEmpty()
+  status?: EGlobalStatus;
 
-  @IsOptional()
-  @IsNumber()
-  @IsNotEmpty()
+  @IsEmpty()
   rating?: number;
 
-  @IsOptional()
-  @IsEnum(GlobalStatus)
-  status?: GlobalStatus;
+  @IsEmpty()
+  productId?: string;
+
+  @IsEmpty()
+  orderId?: string;
+
+  @IsEmpty()
+  authorId?: string;
 }

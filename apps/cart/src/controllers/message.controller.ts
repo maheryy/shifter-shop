@@ -1,19 +1,7 @@
+import { TOrderCreatedData } from "@shifter-shop/amqp";
 import { clearCart } from "services/cart.service";
 
-export const onOrderCreated = async (data: OrderCreatedData) => {
-  await clearCart(data.order.customer);
+export const onOrderCreated = async (order: TOrderCreatedData) => {
+  await clearCart(order.customerId);
+  console.log("[cart] Order created", order);
 };
-
-interface Order {
-  id: string;
-  customer: string;
-  date: Date;
-  reference: string;
-  status: "Pending" | "Confirmed" | "Shipping" | "Delivered" | "Cancelled";
-  amount: number;
-  products: { id: string; quantity: number }[];
-}
-
-interface OrderCreatedData {
-  order: Order;
-}

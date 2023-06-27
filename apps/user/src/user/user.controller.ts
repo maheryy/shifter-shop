@@ -6,11 +6,14 @@ import {
   Patch,
   Post,
   HttpCode,
+  Headers,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { SearchCritieriaDto } from './dtos/search-criteria.dto';
+import { EmptyBodyPipe } from './pipes/empty-body';
 
 @Controller()
 export class UserController {
@@ -21,6 +24,7 @@ export class UserController {
     return this.userService.findAll();
   }
 
+  // Private route to be used through microservices
   @Get('/:id')
   async findOne(@Param('id') id: string) {
     return this.userService.findOneById(id);
@@ -28,10 +32,11 @@ export class UserController {
 
   // Private route to be used through microservices
   @Post('/search')
-  async searchOne(@Body() criteria: SearchCritieriaDto) {
+  async searchOne(@Body(new EmptyBodyPipe()) criteria: SearchCritieriaDto) {
     return this.userService.searchOne(criteria);
   }
 
+  // Private route to be used through microservices
   @Post()
   async create(@Body() user: CreateUserDto) {
     return this.userService.create(user);
@@ -39,7 +44,23 @@ export class UserController {
 
   @Patch('/:id')
   @HttpCode(204)
-  async update(@Body() user: UpdateUserDto, @Param('id') id: string) {
+  async update(
+    @Body(new EmptyBodyPipe()) user: UpdateUserDto,
+    @Param('id') id: string,
+  ) {
     await this.userService.update(id, user);
+  }
+
+  @Patch()
+  @HttpCode(204)
+  async updateAuthenticatedUser(
+    @Body(new EmptyBodyPipe()) user: UpdateUserDto,
+    @Headers('user-id') userId: string,
+  ) {
+    if (!userId) {
+      throw new UnauthorizedException();
+    }
+
+    await this.userService.update(userId, user);
   }
 }

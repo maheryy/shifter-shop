@@ -1,0 +1,19 @@
+{
+  "name": "@shifter-shop/helpers",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@shifter-shop/errors": "*",
+    "@shifter-shop/registry": "*",
+    "@types/node-fetch": "^2.6.4",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.11"
+  }
+}

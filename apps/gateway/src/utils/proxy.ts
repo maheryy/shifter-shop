@@ -1,14 +1,14 @@
-import { HttpMethod, ServiceConfig } from "@shifter-shop/registry";
 import { Router } from "express";
 import { createProxyMiddleware } from "http-proxy-middleware";
 import { registerMiddlewares } from "./middleware";
 import { buildPath, sanitize } from "./url";
 import { context } from "middlewares/context";
+import { HttpMethod, TServiceConfig } from "@shifter-shop/dictionary";
 
 const NODE_ENV =
   process.env.NODE_ENV === "production" ? "production" : "development";
 
-export const registerRoutes = (services: ServiceConfig[]): Router => {
+export const registerRoutes = (services: TServiceConfig[]): Router => {
   const allowedMethods = ["get", "post", "put", "delete", "patch"];
   const router = Router();
 
@@ -33,6 +33,13 @@ export const registerRoutes = (services: ServiceConfig[]): Router => {
         changeOrigin: true,
         logLevel: "silent",
         pathRewrite: { [`^/${servicePath}`]: "" },
+        onError: (err, req, res) => {
+          console.error(`\x1b[31m[${service.name}] ${err.message}\x1b[0m`);
+          res.status(503).json({
+            statusCode: 503,
+            message: `Service ${service.name} is unavailable`,
+          });
+        },
       });
 
       // Define routes for each service and register their own middlewares
@@ -48,11 +55,11 @@ export const registerRoutes = (services: ServiceConfig[]): Router => {
 
           const endpoint = "/" + buildPath(servicePath, route.path);
           const proxyEndpoint = buildPath(service[NODE_ENV].url, route.path);
-          
+
           // Apply the context middleware so we can access the route object in the following middlewares
           const middlewares = Array.isArray(route.middlewares)
-          ? [context(route), ...registerMiddlewares(route.middlewares)]
-          : [];
+            ? [context(route), ...registerMiddlewares(route.middlewares)]
+            : [];
 
           router[method](endpoint, ...middlewares, serviceProxy);
 

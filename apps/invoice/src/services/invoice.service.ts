@@ -1,50 +1,30 @@
-import { Order } from "types/order";
 import { arraytoBuffer } from "utils/converter";
-import { ServiceType, fetchService } from "@shifter-shop/registry";
+import {
+  HttpError,
+  InternalServerError,
+  NotFoundError,
+} from "@shifter-shop/errors";
+import { EService, TOrder } from "@shifter-shop/dictionary";
+import { fetchJson, fetchService } from "@shifter-shop/helpers";
 
-export const getOrder = async (reference: string): Promise<Order> => {
-  // TODO: fetch order from database
-  const order: Order = {
-    id: 1,
-    customer: {
-      id: "123",
-      firstname: "John Doe",
-      lastname: "Doe",
-      email: "j@j.com",
-      profile: {
-        address: "123, Street",
-      },
-    },
-    date: new Date("2021-01-01"),
-    reference: reference,
-    status: "paid",
-    total: 500,
-    products: [
-      {
-        product: {
-          id: "123",
-          name: "Product 1",
-          price: 100,
-        },
-        quantity: 1,
-      },
-      {
-        product: {
-          id: "456",
-          name: "Product 2",
-          price: 200,
-        },
-        quantity: 2,
-      },
-    ],
-  };
-
-  return order;
+export const getOrder = async (reference: string): Promise<TOrder> => {
+  try {
+    const order = await fetchJson<TOrder>({
+      service: EService.Order,
+      endpoint: `/reference/${reference.toUpperCase()}`,
+    });
+    return order;
+  } catch (error) {
+    if (error instanceof HttpError && error.status === 404) {
+      throw new NotFoundError("The associated order was not found");
+    }
+    throw error;
+  }
 };
 
-export const getInvoiceContent = async (order: Order): Promise<Buffer> => {
+export const getInvoiceContent = async (order: TOrder): Promise<Buffer> => {
   const response = await fetchService(
-    { service: ServiceType.Files, endpoint: "pdf/invoice" },
+    { service: EService.Files, endpoint: "pdf/invoice" },
     {
       method: "POST",
       headers: {
@@ -56,7 +36,9 @@ export const getInvoiceContent = async (order: Order): Promise<Buffer> => {
   );
 
   if (!response.ok) {
-    throw new Error("Unable to generate invoice : " + response.statusText);
+    throw new InternalServerError(
+      "Unable to generate invoice : " + response.statusText
+    );
   }
 
   const arrayBuffer = await response.arrayBuffer();

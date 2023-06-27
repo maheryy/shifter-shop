@@ -1,7 +1,7 @@
-import { RegistryEnvMap } from "./registry";
-import { Route } from "./route";
+import { TRegistryEnvMap } from "./registry";
+import { TRoute } from "./route";
 
-export enum ServiceType {
+export enum EService {
   Files = "files",
   Mailer = "mailer",
   Auth = "auth",
@@ -16,15 +16,15 @@ export enum ServiceType {
   Analytics = "analytics",
 }
 
-export type Services = `${ServiceType}`;
+export type UService = `${EService}`;
 
-export interface ServiceConfig extends RegistryEnvMap {
-  name: ServiceType;
+export interface TServiceConfig extends TRegistryEnvMap {
+  name: EService;
   path?: string;
   private?: boolean;
-  routes?: Route[];
+  routes?: TRoute[];
 }
 
-export interface ServiceEnvConfig {
+export interface TServiceEnvConfig {
   url: string;
 }
