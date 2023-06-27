@@ -46,7 +46,6 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const invalidate = () => {
-    console.log("invalidate");
     setUser(null);
     setToken(null);
     setIsAuthenticated(false);

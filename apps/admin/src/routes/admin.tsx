@@ -7,6 +7,7 @@ import Customers from "@/pages/Customers";
 import Sellers from "@/pages/Sellers";
 import Products from "@/pages/Products";
 import Orders from "@/pages/Orders";
+import Categories from "@/pages/Categories";
 
 const adminRoutes: RouteObject[] = [
   {
@@ -69,6 +70,10 @@ const adminRoutes: RouteObject[] = [
             element: <div>New product</div>,
           },
         ],
+      },
+      {
+        path: "/categories",
+        element: <Categories />,
       },
       {
         path: "*",
