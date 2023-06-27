@@ -1,0 +1,37 @@
+{
+  "name": "profile",
+  "path": "/profile",
+  "production": {
+    "url": "http://profile-svc:3000"
+  },
+  "development": {
+    "url": "http://127.0.0.1:3012"
+  },
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/business",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "GET",
+      "path": "/customer",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "PATCH",
+      "path": "/business",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "PATCH",
+      "path": "/customer",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "POST",
+      "path": "/business/register",
+      "middlewares": ["auth"]
+    }
+  ]
+}

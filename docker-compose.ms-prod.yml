@@ -185,6 +185,24 @@ services:
       - rabbitmq
       - mailhog
 
+  profile-svc:
+    container_name: profile-svc
+    build:
+      context: .
+      dockerfile: ./apps/profile/Dockerfile
+    ports:
+      - 3012:3000
+    environment:
+      - DATABASE_URL=postgres://postgres:password@postgres:5432/profiles
+      - AMQP_URL=amqp://rabbitmq:5672
+    networks:
+      - ss_database
+      - ss_microservices
+      - ss_amqp
+    depends_on:
+      - postgres
+      - rabbitmq
+
   analytics-svc:
     container_name: analytics-svc
     build:
