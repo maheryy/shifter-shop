@@ -12,7 +12,7 @@ import { UpdateReviewDto } from './dtos/update-review.dto';
 import amqp from 'src/lib/amqp';
 import { EExchange } from '@shifter-shop/amqp';
 import { fetchJson } from '@shifter-shop/helpers';
-import { EOrderStatus, EService, TOrder } from '@shifter-shop/dictionary';
+import { EService, TOrder } from '@shifter-shop/dictionary';
 
 @Injectable()
 export class ReviewService {
@@ -22,10 +22,10 @@ export class ReviewService {
   ) {}
 
   async create(data: CreateReviewDto) {
-    const order = await fetchJson<TOrder>({
-      service: EService.Order,
-      endpoint: `/${data.orderId}`,
-    });
+    const order = await fetchJson<TOrder>(
+      { service: EService.Order, endpoint: `/${data.orderId}` },
+      { headers: {"user-id": data.authorId!} },
+    );
 
     if (order.customerId !== data.authorId) {
       throw new ForbiddenException("You can't review this order");

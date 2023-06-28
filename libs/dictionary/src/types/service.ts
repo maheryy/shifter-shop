@@ -6,6 +6,7 @@ export enum EService {
   Mailer = "mailer",
   Auth = "auth",
   User = "user",
+  Profile = "profile",
   Invoice = "invoice",
   Order = "order",
   Payment = "payment",
@@ -13,6 +14,8 @@ export enum EService {
   Cart = "cart",
   Category = "category",
   Review = "review",
+  Inventory = "inventory",
+  Search = "search",
   Analytics = "analytics",
 }
 

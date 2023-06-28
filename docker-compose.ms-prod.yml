@@ -185,6 +185,52 @@ services:
       - rabbitmq
       - mailhog
 
+  profile-svc:
+    container_name: profile-svc
+    build:
+      context: .
+      dockerfile: ./apps/profile/Dockerfile
+    ports:
+      - 3012:3000
+    environment:
+      - DATABASE_URL=postgres://postgres:password@postgres:5432/profiles
+      - AMQP_URL=amqp://rabbitmq:5672
+    networks:
+      - ss_database
+      - ss_microservices
+      - ss_amqp
+    depends_on:
+      - postgres
+      - rabbitmq
+  
+  inventory-svc:
+    container_name: inventory-svc
+    build:
+      context: .
+      dockerfile: ./apps/inventory/Dockerfile
+    ports:
+      - 3013:3000
+    environment:
+      - DATABASE_URL=postgres://postgres:password@postgres:5432/inventory
+      - AMQP_URL=amqp://rabbitmq:5672
+    networks:
+      - ss_database
+      - ss_microservices
+      - ss_amqp
+    depends_on:
+      - postgres
+      - rabbitmq
+
+  search-svc:
+    container_name: search-svc
+    build:
+      context: .
+      dockerfile: ./apps/search/Dockerfile
+    ports:
+      - 3014:3000
+    networks:
+      - ss_microservices
+
   analytics-svc:
     container_name: analytics-svc
     build:
