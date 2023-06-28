@@ -221,6 +221,16 @@ services:
       - postgres
       - rabbitmq
 
+  search-svc:
+    container_name: search-svc
+    build:
+      context: .
+      dockerfile: ./apps/search/Dockerfile
+    ports:
+      - 3014:3000
+    networks:
+      - ss_microservices
+
   analytics-svc:
     container_name: analytics-svc
     build:
