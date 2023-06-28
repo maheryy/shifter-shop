@@ -202,6 +202,24 @@ services:
     depends_on:
       - postgres
       - rabbitmq
+  
+  inventory-svc:
+    container_name: inventory-svc
+    build:
+      context: .
+      dockerfile: ./apps/inventory/Dockerfile
+    ports:
+      - 3013:3000
+    environment:
+      - DATABASE_URL=postgres://postgres:password@postgres:5432/inventory
+      - AMQP_URL=amqp://rabbitmq:5672
+    networks:
+      - ss_database
+      - ss_microservices
+      - ss_amqp
+    depends_on:
+      - postgres
+      - rabbitmq
 
   analytics-svc:
     container_name: analytics-svc

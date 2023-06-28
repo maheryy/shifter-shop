@@ -10,3 +10,4 @@ export * from "./types/order";
 export * from "./types/registry";
 export * from "./types/route";
 export * from "./types/service";
+export * from "./types/inventory";
