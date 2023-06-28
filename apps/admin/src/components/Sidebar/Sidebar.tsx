@@ -7,6 +7,7 @@ import ChartIcon from "@icons/chart-bar.svg";
 import NewsletterIcon from "@icons/newspaper.svg";
 import CubeIcon from "@icons/cube.svg";
 import CustomersIcon from "@icons/users.svg";
+import StarIcon from "@icons/star.svg";
 import StackIcon from "@icons/rectangle-stack.svg";
 
 const Sidebar = () => {
@@ -52,6 +53,11 @@ const Sidebar = () => {
               label="Categories"
               href="/categories"
               icon={<CubeIcon />}
+            />
+            <SidebarItem
+              label="Reviews"
+              href="/reviews"
+              icon={<StarIcon />}
             />
             <SidebarItem
               label="Orders"
