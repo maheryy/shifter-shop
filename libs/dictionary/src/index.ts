@@ -1,4 +1,6 @@
 export * from "./types/user";
+export * from "./types/profile";
+export * from "./types/business";
 export * from "./types/status";
 export * from "./types/cart";
 export * from "./types/product";
@@ -8,3 +10,4 @@ export * from "./types/order";
 export * from "./types/registry";
 export * from "./types/route";
 export * from "./types/service";
+export * from "./types/inventory";
