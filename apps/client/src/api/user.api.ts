@@ -10,16 +10,6 @@ export function getUser(token: string): Promise<User> {
   return api.query({ token }).get("/user").json();
 }
 
-export const getAuthToken = async ({
-  email,
-  password,
-}: {
-  email: string;
-  password: string;
-}): Promise<Token> => {
-  return api.post({ email, password }, "/auth/login").json();
-};
-
 export function updateUser(user: UpdateUser) {
   return api.patch(user, "/user").json();
 }
