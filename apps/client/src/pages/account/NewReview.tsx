@@ -43,7 +43,7 @@ export const newReviewLoader: Loader<NewReviewData> = async ({ params }) => {
   }
 
   const [order, product] = await Promise.all([
-    getOrder(Number(orderId)),
+    getOrder(orderId),
     getProduct(Number(productId)),
   ]);
 

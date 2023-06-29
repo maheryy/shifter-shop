@@ -1,4 +1,3 @@
-import { Token } from "@/types/token";
 import {
   UpdatePassword,
   UpdatePasswordWithToken,

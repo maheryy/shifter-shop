@@ -1,7 +1,7 @@
 import BagIcon from "@icons/bag.svg";
 import StarIcon from "@icons/star-empty.svg";
 import { Link, useNavigate } from "react-router-dom";
-import useCart from "@/hooks/useCart";
+import useCart, { useQuantity } from "@/hooks/useCart";
 import { Order } from "@/types/order";
 import { Product } from "@/types/product";
 
@@ -12,12 +12,13 @@ interface OrderProductCardProps {
 
 function OrderProductCard({ product, orderId }: OrderProductCardProps) {
   const navigate = useNavigate();
-  const { addMutation } = useCart();
+  const { updateMutation } = useCart();
+  const { data } = useQuantity(product.id);
 
   const buyAgain = () => {
-    addMutation.mutate({
-      productToAdd: product,
-      quantity: 1,
+    updateMutation.mutate({
+      productId: product.id,
+      quantity: data ? data + 1 : 1,
     });
 
     navigate("/cart");

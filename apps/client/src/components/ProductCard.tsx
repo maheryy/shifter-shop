@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import Rating from "@/components/Rating";
-import useCart from "@/hooks/useCart";
+import useCart, { useQuantity } from "@/hooks/useCart";
 import { Product } from "@/types/product";
 import { formatPrice } from "@/utils/format";
 
@@ -10,12 +10,13 @@ interface ProductCardProps {
 
 const ProductCard = ({ product }: ProductCardProps) => {
   const to = `/products/${product.id}`;
-  const { addMutation } = useCart();
+  const { updateMutation } = useCart();
+  const { data } = useQuantity(product.id);
 
   function onAddToCart() {
-    addMutation.mutate({
-      productToAdd: product,
-      quantity: 1,
+    updateMutation.mutate({
+      productId: product.id,
+      quantity: data ? data + 1 : 1,
     });
   }
 
