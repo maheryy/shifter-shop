@@ -17,6 +17,26 @@ const TableRow = <T,>({ options, item, children }: TableRowProps<T>) => {
             </td>
           );
         }
+        if (option.key === 'date') {
+          let date = new Date(String(_get(item, option.key)));
+          return (
+            <td
+              key={index}
+              className="px-4 py-3"
+            >
+              <div className="flex items-center text-sm">
+                <div>
+                  <p className="font-semibold">
+                    {date.toLocaleDateString()}
+                  </p>
+                  <p className="text-xs text-gray-600 dark:text-gray-400">
+                    {date.toLocaleTimeString()}
+                  </p>
+                </div>
+              </div>
+            </td>
+          )
+        }
         return <td
           key={index}
           className="px-4 py-3"

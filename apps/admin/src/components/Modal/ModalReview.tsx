@@ -3,6 +3,8 @@ import {
 } from "@shifter-shop/dictionary";
 
 const ModalReview = ({ review }: ModalReviewProps) => {
+  let date = new Date(review.date);
+
   return (
     <>
       {/* Modal title */}
@@ -30,7 +32,7 @@ const ModalReview = ({ review }: ModalReviewProps) => {
         Status: {review.status}
       </p>
       <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-        Published At: {review.date.toDateString()}
+        Published on {date.toLocaleDateString()} at {date.toLocaleTimeString()}
       </p>
     </>
   );
