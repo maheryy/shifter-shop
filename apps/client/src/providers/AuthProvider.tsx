@@ -1,5 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
-import { createContext, useCallback, useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { createContext } from "react";
 import { profile } from "@/api/auth.api";
 import useCartSynchronization from "@/hooks/useCartSynchronization";
 import useStoredState from "@/hooks/useStoredState";
@@ -9,7 +9,7 @@ import StorageKey from "@/types/storage";
 import { User } from "@/types/user";
 
 interface AuthContextProps {
-  user: User | null;
+  user?: User;
   isAuthenticated: boolean;
   authenticate: (payload: Auth) => void;
   invalidate: () => void;
@@ -22,49 +22,54 @@ interface AuthProviderProps {
 }
 
 function AuthProvider({ children }: AuthProviderProps) {
-  const [user, setUser] = useState<User | null>(null);
-  const isAuthenticated = !!user;
+  const queryClient = useQueryClient();
 
   const [token, setToken] = useStoredState<string | null>(
     StorageKey.enum.token,
     null,
   );
 
-  useCartSynchronization(isAuthenticated);
+  function authenticate({ token, user }: Auth) {
+    setToken(token);
 
-  const authenticate = useCallback(
-    ({ token, user }: Auth) => {
-      setToken(token);
-      setUser(user);
-    },
-    [setToken],
-  );
+    queryClient.setQueryData([QueryKey.enum.user, token], user);
+  }
 
-  const invalidate = useCallback(() => {
-    setUser(null);
+  function invalidate() {
     setToken(null);
-  }, [setToken]);
 
-  const { isLoading } = useQuery({
+    queryClient.invalidateQueries([QueryKey.enum.user, token]);
+  }
+
+  const { data, isLoading, isError } = useQuery({
     queryFn: profile,
     queryKey: [QueryKey.enum.user, token],
-    onSuccess: (data) => {
-      setUser(data);
-    },
     onError: invalidate,
     enabled: !!token,
   });
 
+  const isAuthenticated = !!data;
+
+  useCartSynchronization(isAuthenticated);
+
+  if (token && isLoading) {
+    return null;
+  }
+
+  if (isError) {
+    invalidate();
+  }
+
   return (
     <AuthContext.Provider
       value={{
-        user,
+        user: data,
         isAuthenticated,
         authenticate,
         invalidate,
       }}
     >
-      {token && isLoading ? null : children}
+      {children}
     </AuthContext.Provider>
   );
 }

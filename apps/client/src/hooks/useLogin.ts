@@ -5,13 +5,13 @@ import { login } from "@/api/auth.api";
 import { useAuthContext } from "./context";
 
 function useLogin(redirectTo = "/") {
-  const navigate = useNavigate();
   const { authenticate } = useAuthContext();
+  const navigate = useNavigate();
 
   return useMutation({
     mutationFn: login,
-    onSuccess: (data) => {
-      authenticate(data);
+    onSuccess: (payload) => {
+      authenticate(payload);
 
       navigate(redirectTo);
     },

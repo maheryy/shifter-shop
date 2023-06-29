@@ -31,7 +31,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
           <div className="flex justify-end">
             <div className="grid items-end">
               <span className="font-medium uppercase">Total</span>
-              <span>{formatPrice(order.totalAmount)}</span>
+              <span>{formatPrice(order.amount)}</span>
             </div>
             <div className="relative left-4 flex items-center">
               <DropdownMenu>

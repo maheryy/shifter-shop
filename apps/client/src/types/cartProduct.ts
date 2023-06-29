@@ -2,7 +2,7 @@ import { z } from "zod";
 import Product from "./product";
 
 const CartProduct = z.object({
-  id: z.number(),
+  id: z.string().uuid(),
   name: z.string(),
   description: z.string(),
   price: z.number(),

@@ -2,11 +2,12 @@ import BagIcon from "@icons/bag.svg";
 import StarIcon from "@icons/star-empty.svg";
 import { Link, useNavigate } from "react-router-dom";
 import useCart from "@/hooks/useCart";
-import { OrderProduct } from "@/types/orderProduct";
+import { Order } from "@/types/order";
+import { Product } from "@/types/product";
 
 interface OrderProductCardProps {
-  product: OrderProduct;
-  orderId: number;
+  product: Product;
+  orderId: Order["id"];
 }
 
 function OrderProductCard({ product, orderId }: OrderProductCardProps) {
