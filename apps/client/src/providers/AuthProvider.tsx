@@ -1,19 +1,17 @@
-import { createContext, useEffect, useState } from "react";
-import { getUser } from "@/api/user.api";
-import useComponentUpdate from "@/hooks/componentUpdate";
+import { useQuery } from "@tanstack/react-query";
+import { createContext, useCallback, useState } from "react";
+import { profile } from "@/api/auth.api";
 import useCartSynchronization from "@/hooks/useCartSynchronization";
+import useStoredState from "@/hooks/useStoredState";
+import { Auth } from "@/types/auth";
+import QueryKey from "@/types/query";
 import StorageKey from "@/types/storage";
 import { User } from "@/types/user";
-import {
-  getFromLocalStorage,
-  removeFromLocalStorage,
-  setToLocalStorage,
-} from "@/utils/storage";
 
 interface AuthContextProps {
   user: User | null;
   isAuthenticated: boolean;
-  authenticate: (user: User, token: string) => void;
+  authenticate: (payload: Auth) => void;
   invalidate: () => void;
 }
 
@@ -25,47 +23,37 @@ interface AuthProviderProps {
 
 function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const isAuthenticated = !!user;
+
+  const [token, setToken] = useStoredState<string | null>(
+    StorageKey.enum.token,
+    null,
+  );
 
   useCartSynchronization(isAuthenticated);
 
-  useEffect(() => {
-    const localToken = getFromLocalStorage<string>(StorageKey.enum.token);
+  const authenticate = useCallback(
+    ({ token, user }: Auth) => {
+      setToken(token);
+      setUser(user);
+    },
+    [setToken],
+  );
 
-    if (!localToken) {
-      return setIsLoading(false);
-    }
-
-    getUser(localToken)
-      .then((user) => authenticate(user, localToken))
-      .catch((e: unknown) => {
-        invalidate();
-        console.error((e as Error).message);
-      })
-      .finally(() => setIsLoading(false));
-  }, []);
-
-  useComponentUpdate(() => {
-    if (token) {
-      setToLocalStorage(StorageKey.enum.token, token);
-    } else {
-      removeFromLocalStorage(StorageKey.enum.token);
-    }
-  }, [token]);
-
-  const authenticate = (user: User, token: string) => {
-    setUser(user);
-    setToken(token);
-    setIsAuthenticated(true);
-  };
-
-  const invalidate = () => {
+  const invalidate = useCallback(() => {
     setUser(null);
     setToken(null);
-    setIsAuthenticated(false);
-  };
+  }, [setToken]);
+
+  const { isLoading } = useQuery({
+    queryFn: profile,
+    queryKey: [QueryKey.enum.user, token],
+    onSuccess: (data) => {
+      setUser(data);
+    },
+    onError: invalidate,
+    enabled: !!token,
+  });
 
   return (
     <AuthContext.Provider
@@ -76,7 +64,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         invalidate,
       }}
     >
-      {!isLoading && children}
+      {token && isLoading ? null : children}
     </AuthContext.Provider>
   );
 }

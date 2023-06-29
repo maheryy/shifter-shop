@@ -1,10 +1,9 @@
 import { z } from "zod";
 
 const Category = z.object({
-  id: z.number(),
+  id: z.string().uuid(),
   name: z.string(),
   description: z.string(),
-  image: z.string(),
 });
 
 export type Category = z.infer<typeof Category>;

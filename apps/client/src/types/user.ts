@@ -1,16 +1,13 @@
 import { z } from "zod";
-import Address from "./address";
 
-export const UserRoles = z.enum(["admin", "customer, seller"]);
+export const UserRoles = z.enum(["ADMIN", "CUSTOMER", "SELLER"]);
 
 const User = z.object({
   id: z.number(),
   firstname: z.string(),
   lastname: z.string(),
   email: z.string().email(),
-  phone: z.string(),
   role: UserRoles,
-  addresses: z.array(Address),
 });
 
 const UpdateUser = User.omit({ id: true, role: true }).partial();
