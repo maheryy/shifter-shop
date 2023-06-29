@@ -7,6 +7,7 @@ import ChartIcon from "@icons/chart-bar.svg";
 import NewsletterIcon from "@icons/newspaper.svg";
 import CubeIcon from "@icons/cube.svg";
 import CustomersIcon from "@icons/users.svg";
+import StarIcon from "@icons/star.svg";
 import StackIcon from "@icons/rectangle-stack.svg";
 
 const Sidebar = () => {
@@ -29,16 +30,15 @@ const Sidebar = () => {
               href="/analytics"
               icon={<ChartIcon />}
             />
-            <SidebarItem label="Orders" href="/orders" icon={<StackIcon />} />
-            <SidebarItem
-              label="Customers"
-              href="/customers"
+            <SidebarMenu
+              label="Users"
+              baseUrl="/users"
               icon={<CustomersIcon />}
-            />
-            <SidebarItem
-              label="Newsletter"
-              href="/newsletter"
-              icon={<NewsletterIcon />}
+              items={[
+                { label: "Admins", href: "admins" },
+                { label: "Customers", href: "customers" },
+                { label: "Sellers", href: "sellers" },
+              ]}
             />
             <SidebarMenu
               baseUrl="/products"
@@ -46,16 +46,35 @@ const Sidebar = () => {
               icon={<CubeIcon />}
               items={[
                 { label: "All products", href: "" },
-                { label: "New product", href: "new" },
-                { label: "All categories", href: "categories" },
+                { label: "Add product", href: "new" },
               ]}
+            />
+            <SidebarItem
+              label="Categories"
+              href="/categories"
+              icon={<CubeIcon />}
+            />
+            <SidebarItem
+              label="Reviews"
+              href="/reviews"
+              icon={<StarIcon />}
+            />
+            <SidebarItem
+              label="Orders"
+              href="/orders"
+              icon={<StackIcon />}
+            />
+            <SidebarItem
+              label="Newsletter"
+              href="/newsletter"
+              icon={<NewsletterIcon />}
             />
           </ul>
           <div className="px-6 my-6">
             <button className="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-              New product
+              Analytics
               <span className="ml-2" aria-hidden="true">
-                +
+                --{">"}
               </span>
             </button>
           </div>

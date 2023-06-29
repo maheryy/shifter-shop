@@ -1,10 +1,15 @@
-const TableHeader = ({ headers }: TableHeaderProps) => {
+import { TableColumns } from "@/types/table";
+
+const TableHeader = ({ tableColumns }: TableHeaderProps) => {
   return (
     <thead>
       <tr className="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-        {headers.map((header, index) => (
-          <th className="px-4 py-3" key={index}>
-            {header}
+        {tableColumns.map((tableColumn, index) => (
+          <th
+            key={index}
+            className="px-4 py-3"
+          >
+            {tableColumn.label}
           </th>
         ))}
       </tr>
@@ -13,7 +18,7 @@ const TableHeader = ({ headers }: TableHeaderProps) => {
 }
 
 interface TableHeaderProps {
-  headers: string[];
+  tableColumns: TableColumns[];
 }
 
 export default TableHeader;
