@@ -1,7 +1,19 @@
+export interface TAddress {
+  id: string;
+  profile: TCustomerProfile;
+  fullName: string;
+  address1: string;
+  address2?: string;
+  city: string;
+  zip: string;
+  province: string;
+  phone: string;
+}
+
 export interface TCustomerProfile {
   id: string;
   phone?: string;
-  address?: string;
+  addresses: TAddress[];
   city?: string;
   country?: string;
   zip?: string;
