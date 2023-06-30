@@ -7,7 +7,7 @@ import NewAddress from "@/pages/account/NewAddress";
 import NewReview, { newReviewLoader } from "@/pages/account/NewReview";
 import Orders from "@/pages/account/Orders";
 import Profile from "@/pages/account/Profile";
-import Reviews, { reviewsLoader } from "@/pages/account/Reviews";
+import Reviews from "@/pages/account/Reviews";
 import NotFound from "@/pages/errors/NotFound";
 
 const accountRoutes: RouteObject = {
@@ -53,7 +53,6 @@ const accountRoutes: RouteObject = {
     {
       path: "reviews",
       element: <Reviews />,
-      loader: reviewsLoader,
     },
     {
       path: "delete-account",

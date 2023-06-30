@@ -1,17 +1,16 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useCallback } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { z } from "zod";
-import { getOrder } from "@/api/order.api";
-import { getProduct } from "@/api/product.api";
-import { createReview } from "@/api/review.api";
 import Button from "@/components/Button";
 import Form from "@/components/Form";
 import Input from "@/components/Input";
 import RatingPicker from "@/components/RatingPicker";
 import { useData } from "@/hooks/useData";
+import { useOrder } from "@/hooks/useOrder";
+import useProduct from "@/hooks/useProduct";
+import useReview from "@/hooks/useReview";
 import { Loader } from "@/types/loader";
 import { Order } from "@/types/order";
 import { Product } from "@/types/product";
@@ -31,8 +30,8 @@ const ratingSchema = z.object({
 export type RatingFieldValues = z.infer<typeof ratingSchema>;
 
 interface NewReviewData {
-  order: Order;
-  product: Product;
+  orderId: Order["id"];
+  productId: Product["id"];
 }
 
 export const newReviewLoader: Loader<NewReviewData> = async ({ params }) => {
@@ -42,16 +41,16 @@ export const newReviewLoader: Loader<NewReviewData> = async ({ params }) => {
     throw new Error("Missing required params");
   }
 
-  const [order, product] = await Promise.all([
-    getOrder(orderId),
-    getProduct(productId),
-  ]);
-
-  return { order, product };
+  return { productId, orderId };
 };
 
 function NewReview() {
-  const { order, product } = useData<NewReviewData>();
+  const { orderId, productId } = useData<NewReviewData>();
+
+  const orderQuery = useOrder(orderId);
+  const productQuery = useProduct(productId);
+
+  const { mutate } = useReview();
 
   const {
     register,
@@ -62,19 +61,38 @@ function NewReview() {
     resolver: zodResolver(ratingSchema),
   });
 
-  const onSubmit: SubmitHandler<RatingFieldValues> = useCallback(
-    async ({ rating, ...rest }) => {
-      await createReview({ rating: Number(rating), ...rest });
+  const onSubmit: SubmitHandler<RatingFieldValues> = ({
+    rating,
+    details,
+    title,
+  }) => {
+    mutate({
+      rating: Number(rating),
+      ...(details && { details }),
+      ...(title && { title }),
+      orderId,
+      productId,
+    });
+  };
 
-      toast.success("Review submitted successfully");
-    },
-    [],
-  );
+  if (orderQuery.isLoading || productQuery.isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (orderQuery.isError || productQuery.isError) {
+    return <p>Something went wrong...</p>;
+  }
+
+  const { data: order } = orderQuery;
+  const { data: product } = productQuery;
 
   const rating = Number(watch("rating"));
 
   return (
-    <div className="px-12 py-6 shadow">
+    <section className="grid gap-8">
+      <Link className="md:hidden" to="/account">
+        &lt; Back
+      </Link>
       <h1 className="mb-6 text-xl font-medium capitalize">
         Share your feedback
       </h1>
@@ -118,7 +136,7 @@ function NewReview() {
         )}
         <Button className="justify-self-center">Send review</Button>
       </Form>
-    </div>
+    </section>
   );
 }
 

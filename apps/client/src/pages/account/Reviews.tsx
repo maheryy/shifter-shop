@@ -1,23 +1,24 @@
 import { Link } from "react-router-dom";
-import { getReviews } from "@/api/review.api";
 import ReviewCard from "@/components/account/ReviewCard";
-import { useData } from "@/hooks/useData";
-import { Loader } from "@/types/loader";
-import { Review } from "@/types/review";
-
-export const reviewsLoader: Loader<Review[]> = async () => {
-  return getReviews();
-};
+import useReviews from "@/hooks/useReviews";
 
 const Reviews = () => {
-  const reviews = useData<Review[]>();
+  const { data, isError, isLoading } = useReviews();
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (isError) {
+    return <p>Something went wrong...</p>;
+  }
 
   return (
     <section className="grid gap-8 md:grid-cols-2">
       <Link className="md:hidden" to="/account">
         &lt; Back
       </Link>
-      {reviews.map((review) => (
+      {data.map((review) => (
         <ReviewCard key={review.id} review={review} />
       ))}
     </section>
