@@ -1,28 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgres
+  name: rabbitmq
   labels:
-    app: postgres
+    app: rabbitmq
 spec:
   selector:
     matchLabels:
-      app: postgres
+      app: rabbitmq
   template:
     metadata:
       labels:
-        app: postgres
+        app: rabbitmq
     spec:
       containers:
-        - name: postgres
-          image: postgres:15
+        - name: rabbitmq
+          image: rabbitmq:3.10-management
           ports:
-            - containerPort: 5432
-          env:
-            - name: POSTGRES_USER
-              value: postgres
-            - name: POSTGRES_PASSWORD
-              value: password
+            - containerPort: 5672
+            - containerPort: 15672
           resources:
             requests:
               memory: "64Mi"
@@ -35,13 +31,18 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgres
+  name: rabbitmq
 spec:
   selector:
-    app: postgres
+    app: rabbitmq
   type: NodePort
   ports:
-    - protocol: TCP
-      port: 5432
-      targetPort: 5432
-      nodePort: 30432
+    - name: management
+      protocol: TCP
+      port: 15672
+      targetPort: 15672
+      nodePort: 30672
+    - name: amqp
+      protocol: TCP
+      port: 5672
+      targetPort: 5672

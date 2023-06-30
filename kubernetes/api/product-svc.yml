@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-svc
+  labels:
+    app: product-svc
+spec:
+  selector:
+    matchLabels:
+      app: product-svc
+  template:
+    metadata:
+      labels:
+        app: product-svc
+    spec:
+      containers:
+        - name: product-svc
+          image: maherydock77/shifter-shop.product-svc
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: database
+                  key: products
+            - name: AMQP_URL
+              valueFrom:
+                secretKeyRef:
+                  name: amqp
+                  key: amqp_url
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-svc
+spec:
+  selector:
+    app: product-svc
+  ports:
+    - port: 3000
+      targetPort: 3000
