@@ -19,6 +19,31 @@
       "middlewares": ["auth"]
     },
     {
+      "method": "POST",
+      "path": "/customer",
+      "private": true
+    },
+    {
+      "method": "GET",
+      "path": "/address",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "POST",
+      "path": "/address",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "PATCH",
+      "path": "/address/:id",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "DELETE",
+      "path": "/address/:id",
+      "middlewares": ["auth"]
+    },
+    {
       "method": "PATCH",
       "path": "/business",
       "middlewares": ["auth"]

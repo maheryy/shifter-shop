@@ -1,10 +1,10 @@
 import { TAddress } from '@shifter-shop/dictionary';
-import { Entity, Column, PrimaryColumn, ManyToOne } from 'typeorm';
-import { CustomerProfile } from './customer-profile.entity';
+import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { CustomerProfile } from '../../customer/entities/customer-profile.entity';
 
 @Entity()
-export class CustomerAddress implements TAddress {
-  @PrimaryColumn('uuid')
+export class Address implements TAddress {
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @ManyToOne(() => CustomerProfile, (profile) => profile.addresses)

@@ -1,4 +1,4 @@
-import { AMQP} from '@shifter-shop/amqp';
+import { AMQP } from '@shifter-shop/amqp';
 import { MessageController } from 'src/message/message.controller';
 
 const amqp = new AMQP(process.env.AMQP_URL!);

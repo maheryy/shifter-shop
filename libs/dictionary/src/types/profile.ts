@@ -14,9 +14,6 @@ export interface TCustomerProfile {
   id: string;
   phone?: string;
   addresses: TAddress[];
-  city?: string;
-  country?: string;
-  zip?: string;
 }
 
 export interface TBusinessProfile {

@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  ConflictException,
-  Injectable,
-} from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { QueryFailedError, Repository, TypeORMError } from 'typeorm';
@@ -12,6 +8,8 @@ import { UpdateUserDto } from './dtos/update-user.dto';
 import { SearchCritieriaDto } from './dtos/search-criteria.dto';
 import amqp from 'src/lib/amqp';
 import { EQueue } from '@shifter-shop/amqp';
+import { TCustomerProfile, EService } from '@shifter-shop/dictionary';
+import { fetchJson } from '@shifter-shop/helpers';
 import { EUserRole } from '@shifter-shop/dictionary';
 
 @Injectable()
@@ -25,7 +23,15 @@ export class UserService {
     try {
       const userInstance = this.usersRepository.create(data);
       const user = await this.usersRepository.save(userInstance);
-      await amqp.publishToQueue(EQueue.UserRegistered, user);
+
+      await Promise.all([
+        amqp.publishToQueue(EQueue.UserRegistered, user),
+        fetchJson<TCustomerProfile>(
+          { service: EService.Profile, endpoint: '/customer' },
+          { method: 'POST', data: { userId: user.id } },
+        ),
+      ]);
+
       return userInstance;
     } catch (error) {
       if (
@@ -40,7 +46,10 @@ export class UserService {
   }
 
   async findAll(type?: string) {
-    if (type && !Object.values(EUserRole).includes(type.toUpperCase() as EUserRole)) {
+    if (
+      type &&
+      !Object.values(EUserRole).includes(type.toUpperCase() as EUserRole)
+    ) {
       throw new BadRequestException(`Invalid type: ${type}`);
     }
 
