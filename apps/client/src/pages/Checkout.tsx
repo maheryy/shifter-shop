@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ChangeEvent, useCallback, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Button from "@/components/Button";
 import AddressForm, {
@@ -7,8 +7,8 @@ import AddressForm, {
   addressSchema,
 } from "@/components/forms/AddressForm";
 import useAddresses from "@/hooks/useAddresses";
+import useCheckout from "@/hooks/useCheckout";
 import { Address } from "@/types/address";
-import { StripePayload } from "@/types/stripe";
 import isEmpty from "@/utils/isEmpty";
 
 export interface OrderData {
@@ -40,45 +40,11 @@ function Checkout() {
   const form = useForm<AddressFieldValues>(getUseFormOptions(data));
   const { setValue } = form;
 
-  const onSubmit: SubmitHandler<AddressFieldValues> = useCallback(
-    async (data) => {
-      try {
-        console.log(data);
+  const { mutate } = useCheckout();
 
-        checkout();
-      } catch (error) {
-        if (error instanceof Error) {
-          console.error(error.message);
-        }
-      }
-    },
-    [],
-  );
-
-  async function checkout() {
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/stripe/checkout`,
-        {
-          method: "POST",
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to create order.");
-      }
-
-      const data = (await response.json()) as StripePayload;
-
-      if (!data.url) {
-        throw new Error("No redirect url returned from server.");
-      }
-
-      window.location.assign(data.url);
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  const onSubmit: SubmitHandler<AddressFieldValues> = () => {
+    mutate();
+  };
 
   if (isLoading) {
     return <p>Loading...</p>;
