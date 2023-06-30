@@ -58,6 +58,7 @@ const Products = () => {
             >
               List of Products
             </h2>
+            {products.length > 0 ? (
             <Table
               tableColumns={tableColumns}
               items={products}
@@ -69,6 +70,13 @@ const Products = () => {
                 </TableRow>
               )}
             />
+            ) : (
+              <div className="flex items-center justify-center">
+                <span className="text-2xl font-semibold text-gray-700 dark:text-gray-200">
+                  No products found
+                </span>
+              </div>
+            )}
           </div>
         </main>
       </div >

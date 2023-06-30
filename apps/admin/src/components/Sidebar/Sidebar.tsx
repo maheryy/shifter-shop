@@ -25,11 +25,6 @@ const Sidebar = () => {
           </Link>
           <ul className="mt-6">
             <SidebarItem label="Dashboard" href="/" icon={<HomeIcon />} />
-            <SidebarItem
-              label="Analytics"
-              href="/analytics"
-              icon={<ChartIcon />}
-            />
             <SidebarMenu
               label="Users"
               baseUrl="/users"
@@ -63,11 +58,6 @@ const Sidebar = () => {
               label="Orders"
               href="/orders"
               icon={<StackIcon />}
-            />
-            <SidebarItem
-              label="Newsletter"
-              href="/newsletter"
-              icon={<NewsletterIcon />}
             />
           </ul>
           <div className="px-6 my-6">
