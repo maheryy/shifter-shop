@@ -44,6 +44,11 @@
       "middlewares": ["auth"]
     },
     {
+      "method": "POST",
+      "path": "/addresses/set-default/:id",
+      "middlewares": ["auth"]
+    },
+    {
       "method": "PATCH",
       "path": "/business",
       "middlewares": ["auth"]

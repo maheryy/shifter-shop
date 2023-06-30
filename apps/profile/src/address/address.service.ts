@@ -13,8 +13,23 @@ export class AddressService {
     private readonly addressRepository: Repository<Address>,
   ) {}
 
-  create(createAddressDto: CreateAddressDto & { profile: CustomerProfile }) {
-    const address = this.addressRepository.create(createAddressDto);
+  async create(
+    createAddressDto: CreateAddressDto & { profile: CustomerProfile },
+  ) {
+    const addresses = await this.addressRepository.find({
+      where: {
+        profile: {
+          id: createAddressDto.profile.id,
+        },
+      },
+    });
+
+    const isDefault = addresses.length === 0;
+
+    const address = this.addressRepository.create({
+      ...createAddressDto,
+      isDefault,
+    });
 
     return this.addressRepository.save(address);
   }
@@ -31,10 +46,6 @@ export class AddressService {
 
   findAll() {
     return this.addressRepository.find();
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} address`;
   }
 
   async update(
@@ -59,5 +70,25 @@ export class AddressService {
       profile: { id: profileId },
       id,
     });
+  }
+
+  async setDefault(profileId: CustomerProfile['id'], id: Address['id']) {
+    const address = await this.addressRepository.findOne({
+      where: { profile: { id: profileId }, id },
+    });
+
+    if (!address) {
+      throw new NotFoundException("This address doesn't exist");
+    }
+
+    await this.addressRepository.update(
+      { profile: { id: profileId } },
+      { isDefault: false },
+    );
+
+    return this.addressRepository.update(
+      { profile: { id: profileId }, id },
+      { isDefault: true },
+    );
   }
 }

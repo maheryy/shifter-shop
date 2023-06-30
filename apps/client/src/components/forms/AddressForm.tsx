@@ -15,7 +15,7 @@ export const addressSchema = z.object({
     phone: z
       .string()
       .refine(isMobilePhone, { message: "Invalid phone number" }),
-    isDefault: z.boolean().optional(),
+    setDefault: z.boolean().optional(),
   }),
 });
 
@@ -89,7 +89,7 @@ function AddressForm({ onSubmit, form, children }: AddressProps) {
         <input
           id="isDefault"
           type="checkbox"
-          {...register("address.isDefault")}
+          {...register("address.setDefault")}
         />
         <label htmlFor="isDefault">Set as default</label>
       </div>

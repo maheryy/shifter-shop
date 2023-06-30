@@ -1,13 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChangeEvent, useCallback, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { getAdresses } from "@/api/address.api";
 import Button from "@/components/Button";
 import AddressForm, {
   AddressFieldValues,
   addressSchema,
 } from "@/components/forms/AddressForm";
-import { useData } from "@/hooks/useData";
+import useAddresses from "@/hooks/useAddresses";
 import { Address } from "@/types/address";
 import { StripePayload } from "@/types/stripe";
 import isEmpty from "@/utils/isEmpty";
@@ -16,22 +15,29 @@ export interface OrderData {
   addresses: Address[];
 }
 
-export async function checkoutLoader(): Promise<OrderData> {
-  const addresses = await getAdresses();
-
-  return { addresses };
-}
-
 function Checkout() {
-  const { addresses } = useData<OrderData>();
-  const hasAddresses = !isEmpty(addresses);
-  const [primaryAddress] = hasAddresses ? addresses : [undefined];
+  const { data, isError, isLoading } = useAddresses({
+    onSuccess: (data) => {
+      if (isEmpty(data)) {
+        return;
+      }
 
-  const [selectedAddressId, setSelectedAddressId] = useState(
-    primaryAddress?.id,
-  );
+      const defaultAddress = data.find(({ isDefault }) => isDefault);
 
-  const form = useForm<AddressFieldValues>(getUseFormOptions(addresses));
+      if (!defaultAddress) {
+        return;
+      }
+
+      setSelectedAddressId(defaultAddress.id);
+      setValue("address", defaultAddress);
+    },
+  });
+
+  const [selectedAddressId, setSelectedAddressId] = useState<
+    string | undefined
+  >(undefined);
+
+  const form = useForm<AddressFieldValues>(getUseFormOptions(data));
   const { setValue } = form;
 
   const onSubmit: SubmitHandler<AddressFieldValues> = useCallback(
@@ -74,32 +80,31 @@ function Checkout() {
     }
   }
 
-  const onAddressChange = useCallback(
-    ({ target }: ChangeEvent<HTMLSelectElement>) => {
-      const { value } = target;
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
 
-      const selectedAddressId = Number(value);
+  if (isError) {
+    return <p>Something went wrong.</p>;
+  }
 
-      setSelectedAddressId(selectedAddressId);
+  const hasAddresses = !isEmpty(data);
 
-      if (!addresses?.length) {
-        return;
-      }
+  const onAddressChange = ({ target }: ChangeEvent<HTMLSelectElement>) => {
+    const { value } = target;
 
-      const address = addresses.find(({ id }) => id === selectedAddressId);
+    const address = data.find(({ id }) => id === value);
 
-      if (!address) {
-        return;
-      }
+    if (!address) {
+      return;
+    }
 
-      setValue("address", address);
+    setValue("address", address);
 
-      if (!address.address2) {
-        setValue("address.address2", undefined);
-      }
-    },
-    [addresses, setValue],
-  );
+    if (!address.address2) {
+      setValue("address.address2", undefined);
+    }
+  };
 
   return (
     <section className="container grid gap-8 py-16 md:justify-items-center">
@@ -113,7 +118,7 @@ function Checkout() {
             onChange={onAddressChange}
             value={selectedAddressId}
           >
-            {addresses.map(({ id, ...address }) => (
+            {data.map(({ id, ...address }) => (
               <option key={id} value={id}>
                 {getReadableAddress(address)}
               </option>
@@ -128,10 +133,14 @@ function Checkout() {
   );
 }
 
-function getUseFormOptions(addresses: Address[]) {
+function getUseFormOptions(addresses?: Address[]) {
   const options = {
     resolver: zodResolver(addressSchema),
   };
+
+  if (!addresses) {
+    return options;
+  }
 
   if (isEmpty(addresses)) {
     return options;

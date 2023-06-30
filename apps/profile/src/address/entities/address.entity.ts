@@ -30,4 +30,7 @@ export class Address implements TAddress {
 
   @Column('varchar')
   phone: string;
+
+  @Column('boolean', { default: false })
+  isDefault: boolean;
 }

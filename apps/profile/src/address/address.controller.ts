@@ -80,7 +80,30 @@ export class AddressController {
     @Headers('user-id') userId: CustomerProfile['id'],
     @Param('id') id: Address['id'],
   ) {
+    if (!userId) {
+      throw new UnauthorizedException(
+        'You must be authenticated to access this resource',
+      );
+    }
+
     await this.addressService.remove(userId, id);
+
+    return;
+  }
+
+  @HttpCode(204)
+  @Post('/set-default/:id')
+  async setDefault(
+    @Headers('user-id') userId: CustomerProfile['id'],
+    @Param('id') id: Address['id'],
+  ) {
+    if (!userId) {
+      throw new UnauthorizedException(
+        'You must be authenticated to access this resource',
+      );
+    }
+
+    await this.addressService.setDefault(userId, id);
 
     return;
   }

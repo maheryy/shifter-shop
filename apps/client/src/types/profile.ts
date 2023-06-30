@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const CustomerProfile = z.object({
+export const CustomerProfile = z.object({
   id: z.string().uuid(),
   phone: z.string().optional(),
   address: z.string().optional(),
@@ -9,7 +9,7 @@ const CustomerProfile = z.object({
   zip: z.string().optional(),
 });
 
-const BusinessProfile = z.object({
+export const BusinessProfile = z.object({
   id: z.string().uuid(),
   company: z.string(),
   website: z.string().optional(),
@@ -20,5 +20,5 @@ const BusinessProfile = z.object({
   zip: z.string(),
 });
 
-export type CustomerProfile = z.infer<typeof CustomerProfile>;
-export type BusinessProfile = z.infer<typeof BusinessProfile>;
+export type TCustomerProfile = z.infer<typeof CustomerProfile>;
+export type TBusinessProfile = z.infer<typeof BusinessProfile>;

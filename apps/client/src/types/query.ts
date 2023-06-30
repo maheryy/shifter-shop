@@ -7,6 +7,7 @@ const QueryKey = z.enum([
   "products",
   "categories",
   "reviews",
+  "addresses",
 ]);
 
 export type QueryKey = z.infer<typeof QueryKey>;

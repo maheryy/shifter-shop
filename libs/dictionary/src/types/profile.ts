@@ -8,6 +8,7 @@ export interface TAddress {
   zip: string;
   province: string;
   phone: string;
+  isDefault: boolean;
 }
 
 export interface TCustomerProfile {
