@@ -18,7 +18,7 @@ import { EUserRole } from '@shifter-shop/dictionary';
 import { CustomerProfile } from 'src/customer/entities/customer-profile.entity';
 import { Address } from './entities/address.entity';
 
-@Controller('/address')
+@Controller('/addresses')
 export class AddressController {
   constructor(
     private readonly addressService: AddressService,

@@ -25,22 +25,22 @@
     },
     {
       "method": "GET",
-      "path": "/address",
+      "path": "/addresses",
       "middlewares": ["auth"]
     },
     {
       "method": "POST",
-      "path": "/address",
+      "path": "/addresses",
       "middlewares": ["auth"]
     },
     {
       "method": "PATCH",
-      "path": "/address/:id",
+      "path": "/addresses/:id",
       "middlewares": ["auth"]
     },
     {
       "method": "DELETE",
-      "path": "/address/:id",
+      "path": "/addresses/:id",
       "middlewares": ["auth"]
     },
     {
