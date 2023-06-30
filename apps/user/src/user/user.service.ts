@@ -88,10 +88,12 @@ export class UserService {
   }
 
   async update(id: string, data: UpdateUserDto) {
-    const res = await this.usersRepository.update({ id }, data);
+    const result = await this.usersRepository.update({ id }, data);
 
-    if (!res.affected) {
+    if (!result.affected) {
       throw new NotFoundException(`User with id: ${id} does not exist`);
     }
+
+    return this.findOneById(id);
   }
 }
