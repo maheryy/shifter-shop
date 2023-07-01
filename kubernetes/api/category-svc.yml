@@ -16,12 +16,6 @@ spec:
       containers:
         - name: category-svc
           image: maherydock77/shifter-shop.category-svc
-          env:
-            - name: DATABASE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: database
-                  key: categories
           ports:
             - containerPort: 3000
           resources:
@@ -31,6 +25,12 @@ spec:
             limits:
               memory: "128Mi"
               cpu: "200m"
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: database
+                  key: url-categories
 ---
 apiVersion: v1
 kind: Service

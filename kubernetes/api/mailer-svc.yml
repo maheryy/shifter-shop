@@ -16,17 +16,6 @@ spec:
       containers:
         - name: mailer-svc
           image: maherydock77/shifter-shop.mailer-svc
-          env:
-            - name: MAILER_DSN
-              valueFrom:
-                secretKeyRef:
-                  name: mailer
-                  key: mailer_dsn
-            - name: AMQP_URL
-              valueFrom:
-                secretKeyRef:
-                  name: amqp
-                  key: amqp_url
           ports:
             - containerPort: 3000
           resources:
@@ -36,6 +25,17 @@ spec:
             limits:
               memory: "128Mi"
               cpu: "200m"
+          env:
+            - name: MAILER_DSN
+              valueFrom:
+                secretKeyRef:
+                  name: mailer
+                  key: mailer-dsn
+            - name: AMQP_URL
+              valueFrom:
+                secretKeyRef:
+                  name: amqp
+                  key: amqp-url
 ---
 apiVersion: v1
 kind: Service

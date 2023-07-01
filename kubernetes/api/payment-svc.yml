@@ -16,32 +16,6 @@ spec:
       containers:
         - name: payment-svc
           image: maherydock77/shifter-shop.payment-svc
-          env:
-            - name: CLIENT_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: app
-                  key: client_url
-            - name: STRIPE_SECRET_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: stripe
-                  key: private_key
-            - name: STRIPE_PUBLIC_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: stripe
-                  key: public_key
-            - name: STRIPE_WEBHOOK_SIGNING_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: stripe
-                  key: webhook_key
-            - name: AMQP_URL
-              valueFrom:
-                secretKeyRef:
-                  name: amqp
-                  key: amqp_url
           ports:
             - containerPort: 3000
           resources:
@@ -51,6 +25,32 @@ spec:
             limits:
               memory: "128Mi"
               cpu: "200m"
+          env:
+            - name: CLIENT_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: app
+                  key: client-url
+            - name: STRIPE_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: stripe
+                  key: private-key
+            - name: STRIPE_PUBLIC_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: stripe
+                  key: public-key
+            - name: STRIPE_WEBHOOK_SIGNING_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: stripe
+                  key: webhook-key
+            - name: AMQP_URL
+              valueFrom:
+                secretKeyRef:
+                  name: amqp
+                  key: amqp-url
 ---
 apiVersion: v1
 kind: Service
