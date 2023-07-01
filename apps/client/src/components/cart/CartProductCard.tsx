@@ -17,11 +17,11 @@ function CartProductCard({ cartProduct }: CartProductCardProps) {
   const to = `/products/${id}`;
 
   function onRemove() {
-    updateMutation.mutate({ productId: id, quantity: 0 });
+    updateMutation.mutate({ product, quantity: 0 });
   }
 
   function onUpdate(quantity: number) {
-    updateMutation.mutate({ productId: id, quantity });
+    updateMutation.mutate({ product, quantity });
   }
 
   return (

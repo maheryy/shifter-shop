@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import CartProductCard from "@/components/cart/CartProductCard";
 import CartSummaryItem from "@/components/cart/CartSummaryItem";
 import useCart from "@/hooks/useCart";
+import { TCart } from "@/types/cart";
 import { formatPrice } from "@/utils/format";
 import isEmpty from "@/utils/isEmpty";
 
@@ -71,7 +72,7 @@ function Cart() {
           Order summary
         </h4>
         <div className="">
-          {data.map((cartProduct) => (
+          {sortCart(data).map((cartProduct) => (
             <CartSummaryItem
               cartProduct={cartProduct}
               key={cartProduct.product.id}
@@ -102,3 +103,7 @@ function Cart() {
 }
 
 export default Cart;
+
+function sortCart(cart: TCart): TCart {
+  return cart.sort((a, b) => a.product.name.localeCompare(b.product.name));
+}
