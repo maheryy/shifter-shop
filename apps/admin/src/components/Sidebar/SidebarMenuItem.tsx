@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import { NavLink } from "react-router-dom";
 
 const SidebarMenuItem = ({ label, href }: SidebarMenuItemProps) => {

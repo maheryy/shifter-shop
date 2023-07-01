@@ -2,7 +2,7 @@ import { CartItem } from "entities/cart.entity";
 
 export const getCustomerCart = async (customerId: string) => {
   return CartItem.find({
-    where: { customer: customerId },
+    where: { customerId },
   });
 };
 
@@ -12,15 +12,15 @@ export const createOrUpdateItem = async (
   quantity: number
 ) => {
   return CartItem.upsert(
-    { customer: customerId, product: productId, quantity },
-    { conflictPaths: ["customer", "product"] }
+    { customerId, productId, quantity },
+    { conflictPaths: ["customerId", "productId"] }
   );
 };
 
 export const deleteProduct = async (customerId: string, productId: string) => {
-  return CartItem.delete({ customer: customerId, product: productId });
+  return CartItem.delete({ customerId, productId });
 };
 
 export const clearCart = async (customerId: string) => {
-  return CartItem.delete({ customer: customerId });
+  return CartItem.delete({ customerId });
 };

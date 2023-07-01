@@ -1,4 +1,4 @@
-import { UserRole } from '@shifter-shop/types';
+import { EUserRole } from '@shifter-shop/dictionary';
 import {
   IsEnum,
   IsNotEmpty,
@@ -8,9 +8,6 @@ import {
 } from 'class-validator';
 
 export class UpdateUserDto {
-  @IsEmpty()
-  email?: string;
-
   @IsOptional()
   @IsNotEmpty()
   @IsString()
@@ -21,11 +18,13 @@ export class UpdateUserDto {
   @IsString()
   lastname?: string;
 
-  @IsOptional()
-  @IsNotEmpty()
-  @IsString()
+  @IsEmpty()
+  email?: string;
+
+  @IsEmpty()
   password?: string;
 
-  @IsEnum(UserRole)
-  role?: UserRole;
+  @IsEnum(EUserRole)
+  @IsOptional()
+  role?: EUserRole;
 }

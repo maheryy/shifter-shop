@@ -11,7 +11,11 @@
     "test:dev": "vitest dev"
   },
   "dependencies": {
+    "@shifter-shop/dictionary": "*",
+    "chart.js": "^4.3.0",
+    "lodash.get": "^4.4.2",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.8.1",
     "vite-plugin-svgr": "^2.4.0"
@@ -20,6 +24,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
+    "@types/lodash.get": "^4.4.7",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "@vitejs/plugin-react-swc": "^3.0.0",

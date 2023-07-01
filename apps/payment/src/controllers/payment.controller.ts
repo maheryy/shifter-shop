@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import Stripe from "stripe";
 import {
   createCheckoutSession,
@@ -6,11 +6,25 @@ import {
   parseMetadata,
 } from "services/payment.service";
 import amqp from "lib/amqp";
-import { Queue } from "@shifter-shop/amqp";
+import { EExchange } from "@shifter-shop/amqp";
+import { UnauthorizedError } from "@shifter-shop/errors";
 
-export const checkoutSession = async (req: Request, res: Response) => {
-  const session = await createCheckoutSession("");
-  return res.status(200).json({ url: session.url });
+export const checkoutSession = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userId = req.get("user-id");
+    if (!userId) {
+      throw new UnauthorizedError();
+    }
+
+    const session = await createCheckoutSession(userId);
+    return res.status(200).json({ url: session.url });
+  } catch (error) {
+    next(error);
+  }
 };
 
 export const webhook = async (req: Request, res: Response) => {
@@ -36,7 +50,7 @@ export const webhook = async (req: Request, res: Response) => {
         const metadata = parseMetadata(eventData.metadata);
         console.log("Checkout session completed !", metadata);
 
-        amqp.publish(Queue.PaymentSuccess, { ...metadata });
+        amqp.publishToExchange(EExchange.PaymentSuccess, { ...metadata });
         break;
       }
     }

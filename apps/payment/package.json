@@ -13,6 +13,9 @@
   },
   "dependencies": {
     "@shifter-shop/amqp": "*",
+    "@shifter-shop/errors": "*",
+    "@shifter-shop/dictionary": "*",
+    "@shifter-shop/helpers": "*",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",

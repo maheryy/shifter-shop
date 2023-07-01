@@ -1,0 +1,29 @@
+{
+  "name": "inventory",
+  "path": "/inventory",
+  "private": true,
+  "production": {
+    "url": "http://inventory-svc:3000"
+  },
+  "development": {
+    "url": "http://127.0.0.1:3013"
+  },
+  "routes": [
+    {
+      "method": "POST",
+      "path": "/"
+    },
+    {
+      "method": "GET",
+      "path": "/:id"
+    },
+    {
+      "method": "PATCH",
+      "path": "/:id"
+    },
+    {
+      "method": "PATCH",
+      "path": "/restock/:id"
+    }
+  ]
+}

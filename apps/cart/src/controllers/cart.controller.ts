@@ -1,32 +1,58 @@
-import { Request, Response } from "express";
+import { BadRequestError, UnauthorizedError } from "@shifter-shop/errors";
+import { NextFunction, Request, Response } from "express";
 import {
   createOrUpdateItem,
   deleteProduct,
   getCustomerCart,
 } from "services/cart.service";
 
-// TODO: get customerId from request
-const customerId = "4f701007-d8f0-4561-9105-cc3e5c188c85";
+import { joinResources } from "@shifter-shop/helpers";
+import { TCartItem, TFullCartItem } from "@shifter-shop/dictionary";
 
-export const getCart = async (req: Request, res: Response) => {
+export const getCart = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
+    const customerId = req.get("user-id");
+    if (!customerId) {
+      throw new UnauthorizedError();
+    }
+
     const items = await getCustomerCart(customerId);
-    return res.status(200).json(items);
+    const results = await joinResources<TFullCartItem, TCartItem>(items, [
+      { service: "user", key: "customerId", addKey: "customer" },
+      { service: "product", key: "productId", addKey: "product" },
+    ]);
+
+    return res.status(200).json(results);
   } catch (error) {
-    console.log(error);
-    res
-      .status(500)
-      .json({ error: { message: (error as Error).message, code: 500 } });
+    next(error);
   }
 };
 
-export const updateCartItem = async (req: Request, res: Response) => {
-  const { productId } = req.params;
-  const { quantity } = req.body as { quantity?: number };
-
+export const updateCartItem = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
+    const customerId = req.get("user-id");
+    if (!customerId) {
+      throw new UnauthorizedError();
+    }
+    const { quantity, productId } = req.body as {
+      quantity?: number;
+      productId?: string;
+    };
+
+    if (productId === undefined) {
+      throw new BadRequestError("Product ID is required");
+    }
+
     if (quantity === undefined) {
-      throw new Error("Quantity is required");
+      throw new BadRequestError("Quantity is required");
     }
 
     if (quantity < 1) {
@@ -34,14 +60,9 @@ export const updateCartItem = async (req: Request, res: Response) => {
       return res.status(204).end();
     }
 
-    const order = await createOrUpdateItem(customerId, productId, quantity);
-    console.log(order.identifiers);
-
-    return res.status(200).json(order);
+    await createOrUpdateItem(customerId, productId, quantity);
+    return res.status(204).end();
   } catch (error) {
-    console.log(error);
-    res
-      .status(400)
-      .json({ error: { message: (error as Error).message, code: 400 } });
+    next(error);
   }
 };

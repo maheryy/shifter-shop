@@ -1,51 +1,40 @@
 import { StripeMetadata } from "types/stripe";
 import stripe from "lib/stripe";
 import Stripe from "stripe";
+import { EService, TFullCartItem } from "@shifter-shop/dictionary";
+import { fetchJson } from "@shifter-shop/helpers";
+import { BadRequestError } from "@shifter-shop/errors";
 
 export const createCheckoutSession = async (userId: string) => {
-  // TODO: Get user cart products here
+  const items = await fetchJson<TFullCartItem[]>(
+    { service: EService.Cart, endpoint: "/" },
+    { headers: { "user-id": userId } }
+  );
 
-  const products = [
-    {
-      id: "1",
-      name: "Product 1",
-      price: 10,
-      quantity: 1,
-    },
-    {
-      id: "2",
-      name: "Product 2",
-      price: 20,
-      quantity: 2,
-    },
-    {
-      id: "3",
-      name: "Product 3",
-      price: 30,
-      quantity: 3,
-    },
-  ];
+  if (!items.length) {
+    throw new BadRequestError("No items in cart");
+  }
 
   return stripe.checkout.sessions.create({
-    line_items: getCheckoutItems(products),
+    line_items: getCheckoutItems(items),
     currency: "eur",
     mode: "payment",
     success_url: `${process.env.CLIENT_URL}/checkout/success`,
     cancel_url: `${process.env.CLIENT_URL}/cart`,
-    metadata: { data: generateMetadata(userId, products) },
+    metadata: { data: generateMetadata(userId, items) },
   });
 };
 
 const getCheckoutItems = (
-  products: any[]
+  items: TFullCartItem[]
 ): Stripe.Checkout.SessionCreateParams.LineItem[] => {
-  return products.map((product) => ({
+  return items.map((item) => ({
     price_data: {
       currency: "eur",
-      unit_amount: product.price * 100,
-      product_data: { name: product.name },
+      unit_amount: Math.floor(item.product.price) * 100,
+      product_data: { name: item.product.name },
     },
-    quantity: product.quantity,
+    quantity: item.quantity,
   }));
 };
 
@@ -60,11 +49,20 @@ export const getWebhookEvent = (
   );
 };
 
-const generateMetadata = (customerId: string, products: any[]): string => {
+const generateMetadata = (
+  customerId: string,
+  items: TFullCartItem[]
+): string => {
   return JSON.stringify({
-    customer: customerId,
-    products: products.map((p) => ({ id: p.id, quantity: p.quantity })),
-    amount: products.reduce((acc, p) => acc + p.price * p.quantity, 0),
+    customerId: customerId,
+    products: items.map((item) => ({
+      id: item.product.id,
+      quantity: item.quantity,
+    })),
+    amount: items.reduce(
+      (acc, item) => acc + item.product.price * item.quantity,
+      0
+    ),
   } as StripeMetadata);
 };
 

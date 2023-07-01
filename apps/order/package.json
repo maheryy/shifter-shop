@@ -12,7 +12,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "@shifter-shop/dictionary": "*",
     "@shifter-shop/amqp": "*",
+    "@shifter-shop/errors": "*",
+    "@shifter-shop/helpers": "*",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",

@@ -1,8 +1,9 @@
-import { GlobalStatus } from '@shifter-shop/types';
+import { EGlobalStatus } from '@shifter-shop/dictionary';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { TReview } from '@shifter-shop/dictionary';
 
 @Entity()
-export class Review {
+export class Review implements TReview {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -16,16 +17,16 @@ export class Review {
   rating: number;
 
   @Column('uuid')
-  product: string;
+  productId: string;
 
   @Column('uuid')
-  order: string;
+  orderId: string;
 
   @Column('uuid')
-  author: string;
+  authorId: string;
 
-  @Column('enum', { enum: GlobalStatus, default: GlobalStatus.Default })
-  status: GlobalStatus;
+  @Column('enum', { enum: EGlobalStatus, default: EGlobalStatus.Default })
+  status: EGlobalStatus;
 
   @Column('timestamptz', { default: () => 'CURRENT_TIMESTAMP' })
   date: Date;

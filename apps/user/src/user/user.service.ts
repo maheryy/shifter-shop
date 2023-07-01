@@ -1,11 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+} from '@nestjs/common';
 import { NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
-import { Repository } from 'typeorm';
+import { QueryFailedError, Repository, TypeORMError } from 'typeorm';
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { SearchCritieriaDto } from './dtos/search-criteria.dto';
+import amqp from 'src/lib/amqp';
+import { EQueue } from '@shifter-shop/amqp';
+import { EUserRole } from '@shifter-shop/dictionary';
 
 @Injectable()
 export class UserService {
@@ -15,12 +22,30 @@ export class UserService {
   ) {}
 
   async create(data: CreateUserDto) {
-    const user = this.usersRepository.create(data);
-    return this.usersRepository.save(user);
+    try {
+      const userInstance = this.usersRepository.create(data);
+      const user = await this.usersRepository.save(userInstance);
+      await amqp.publishToQueue(EQueue.UserRegistered, user);
+      return userInstance;
+    } catch (error) {
+      if (
+        error instanceof TypeORMError &&
+        error.message.includes('duplicate')
+      ) {
+        throw new ConflictException('Email already exists');
+      }
+
+      throw error;
+    }
   }
 
-  async findAll() {
-    return this.usersRepository.find();
+  async findAll(type?: string) {
+    if (type && !Object.values(EUserRole).includes(type.toUpperCase() as EUserRole)) {
+      throw new BadRequestException(`Invalid type: ${type}`);
+    }
+
+    const role = type?.toUpperCase() as EUserRole;
+    return this.usersRepository.find({ where: { role: role } });
   }
 
   async findOneById(id: string) {

@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import { Registry } from "@shifter-shop/registry";
 import { registerRoutes } from "utils/proxy";
 import helmet from "helmet";
@@ -6,6 +7,7 @@ import helmet from "helmet";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(cors());
 app.use(helmet());
 app.use(registerRoutes(Registry.getServices()));
 

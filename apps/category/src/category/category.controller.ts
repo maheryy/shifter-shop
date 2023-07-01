@@ -1,7 +1,16 @@
-import { Controller, Body, Get, Param, Patch, Post, HttpCode } from '@nestjs/common';
+import {
+  Controller,
+  Body,
+  Get,
+  Param,
+  Patch,
+  Post,
+  HttpCode,
+} from '@nestjs/common';
 import { CategoryService } from 'src/category/category.service';
 import { CreateCategoryDto } from 'src/category/dtos/create-category.dto';
 import { UpdateCategoryDto } from 'src/category/dtos/update-category.dto';
+import { EmptyBodyPipe } from './pipes/empty-body';
 
 @Controller()
 export class CategoryController {
@@ -17,6 +26,7 @@ export class CategoryController {
     return this.categoryService.create(category);
   }
 
+  // Private route for microservices
   @Get('/:id')
   async findOne(@Param('id') id: string) {
     return this.categoryService.findOneById(id);
@@ -24,7 +34,10 @@ export class CategoryController {
 
   @Patch('/:id')
   @HttpCode(204)
-  async update(@Param('id') id: string, @Body() category: UpdateCategoryDto) {
+  async update(
+    @Param('id') id: string,
+    @Body(new EmptyBodyPipe()) category: UpdateCategoryDto,
+  ) {
     return this.categoryService.update(id, category);
   }
 }

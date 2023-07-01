@@ -6,10 +6,14 @@ import {
   Patch,
   Post,
   Headers,
+  UnauthorizedException,
+  HttpCode,
 } from '@nestjs/common';
 import { ReviewService } from './review.service';
 import { CreateReviewDto } from './dtos/create-review.dto';
 import { UpdateReviewDto } from './dtos/update-review.dto';
+import { joinResources } from '@shifter-shop/helpers';
+import { TFullReview, TReview } from '@shifter-shop/dictionary';
 
 @Controller()
 export class ReviewController {
@@ -20,31 +24,56 @@ export class ReviewController {
     @Headers('user-id') userId: string,
     @Body() review: CreateReviewDto,
   ) {
-    // TODO: change these values
-    review.author = userId || '5482df68-6f5b-4a4d-b418-9b4b4bd85211';
-    review.product = '5482df68-6f5b-4a4d-b418-9b4b4bd85211';
-    review.order = '5482df68-6f5b-4a4d-b418-9b4b4bd85211';
-
+    if (!userId) {
+      throw new UnauthorizedException();
+    }
+    review.authorId = userId;
     return this.reviewService.create(review);
   }
 
   @Get()
   async findAll() {
-    return this.reviewService.findAll();
+    const reviews = await this.reviewService.findAll();
+    const results = await joinResources<TFullReview, TReview>(reviews, [
+      { service: 'user', key: 'authorId', addKey: 'author' },
+      { service: 'product', key: 'productId', addKey: 'product' },
+      // { service: 'order', key: 'orderId', addKey: 'order' },
+    ]);
+
+    return results;
   }
 
   @Get('/:id')
   async findOne(@Param('id') id: string) {
-    return this.reviewService.findOneById(id);
+    const review = await this.reviewService.findOneById(id);
+    const [result] = await joinResources<TFullReview, TReview>(
+      [review],
+      [
+        { service: 'user', key: 'authorId', addKey: 'author' },
+        { service: 'product', key: 'productId', addKey: 'product' },
+        // { service: 'order', key: 'orderId', addKey: 'order' },
+      ],
+    );
+
+    return result;
   }
 
   @Patch('/:id')
+  @HttpCode(204)
   async update(@Body() review: UpdateReviewDto, @Param('id') id: string) {
     return this.reviewService.update(id, review);
   }
 
+  // TODO: use findAll (GET /) instead with seller filter
   @Get('/product/:productId')
   async findAllByProductId(@Param('productId') productId: string) {
-    return this.reviewService.findAllByProductId(productId);
+    const reviews = await this.reviewService.findAllByProductId(productId);
+    const results = await joinResources<TFullReview, TReview>(reviews, [
+      { service: 'user', key: 'authorId', addKey: 'author' },
+      { service: 'product', key: 'productId', addKey: 'product' },
+      // { service: 'order', key: 'orderId', addKey: 'order' },
+    ]);
+
+    return results;
   }
 }

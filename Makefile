@@ -1,16 +1,25 @@
+# Install project dependencies
+install:
+	@npm install
+
+# Remove all node_modules and dist folders
+clear-app:
+	@rm -rf node_modules dist
+	@rm -rf apps/**/node_modules apps/**/dist
+	@rm -rf libs/**/node_modules libs/**/dist
+
+
 # Build the app for production
 build:
-	@docker compose -f docker-compose.prod.yml build --no-cache
+	@docker compose -f docker-compose.ms-prod.yml build --no-cache
 
 # Run the app in production mode
 start:
-	@docker compose -f docker-compose.prod.yml up -d
-	@echo "Ready at http://localhost:8080/"
+	@docker compose -f docker-compose.ms-prod.yml up -d
 
 # Stop and remove all docker services
 stop: 
-	@docker compose -f docker-compose.prod.yml down
-
+	@docker compose -f docker-compose.ms-prod.yml down
 
 # Run the app in development mode
 dev:

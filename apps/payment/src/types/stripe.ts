@@ -1,8 +1,7 @@
+import { TProductReferenceWithQuantity } from "@shifter-shop/dictionary";
+
 export interface StripeMetadata {
-  customer: string;
+  customerId: string;
   amount: number;
-  products: {
-    id: string;
-    quantity: number;
-  }[];
+  products: TProductReferenceWithQuantity[];
 }

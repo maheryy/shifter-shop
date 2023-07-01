@@ -1,7 +1,7 @@
 import { z } from "zod";
 import Address from "./address";
 
-export const UserRoles = z.enum(["admin", "customer"]);
+export const UserRoles = z.enum(["admin", "customer, seller"]);
 
 const User = z.object({
   id: z.number(),

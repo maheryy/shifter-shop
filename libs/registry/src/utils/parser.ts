@@ -1,22 +1,22 @@
-import { ServiceConfig, ServiceType, Services } from "../types/service";
 import { join } from "path";
 import { readdirSync } from "fs";
+import { TServiceConfig, UService } from "@shifter-shop/dictionary";
 
 const servicesPath = join(__dirname, "../../services");
 
-export const getServiceConfig = (service: Services): ServiceConfig => {
+export const getServiceConfig = (service: UService): TServiceConfig => {
   try {
-    return require(join(servicesPath, `${service}.json`)) as ServiceConfig;
+    return require(join(servicesPath, `${service}.json`)) as TServiceConfig;
   } catch (err) {
     console.error((err as Error).message);
     throw new Error(`Service ${service} not found`);
   }
 };
 
-export const getAllConfig = (): ServiceConfig[] => {
+export const getAllConfig = (): TServiceConfig[] => {
   try {
     return readdirSync(servicesPath).map(
-      (service) => require(join(servicesPath, service)) as ServiceConfig
+      (service) => require(join(servicesPath, service)) as TServiceConfig
     );
   } catch (err) {
     console.error((err as Error).message);
