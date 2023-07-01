@@ -10,6 +10,7 @@ import { User } from "@/types/user";
 
 interface AuthContextProps {
   user?: User;
+  token: string | null;
   isAuthenticated: boolean;
   authenticate: (payload: Auth) => void;
   invalidate: () => void;
@@ -64,6 +65,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     <AuthContext.Provider
       value={{
         user: data,
+        token,
         isAuthenticated,
         authenticate,
         invalidate,

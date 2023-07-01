@@ -8,11 +8,11 @@ import AddressForm, {
 } from "@/components/forms/AddressForm";
 import useAddresses from "@/hooks/useAddresses";
 import useCheckout from "@/hooks/useCheckout";
-import { Address } from "@/types/address";
+import { TAddress } from "@/types/address";
 import isEmpty from "@/utils/isEmpty";
 
 export interface OrderData {
-  addresses: Address[];
+  addresses: TAddress[];
 }
 
 function Checkout() {
@@ -99,7 +99,7 @@ function Checkout() {
   );
 }
 
-function getUseFormOptions(addresses?: Address[]) {
+function getUseFormOptions(addresses?: TAddress[]) {
   const options = {
     resolver: zodResolver(addressSchema),
   };
@@ -131,7 +131,7 @@ function getReadableAddress({
   city,
   province,
   zip,
-}: Omit<Address, "id">) {
+}: Omit<TAddress, "id">) {
   const mandatoryStart = `${fullName}, ${address1}`;
   const mandatoryEnd = `, ${zip} ${city}, ${province}`;
 

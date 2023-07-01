@@ -1,25 +1,46 @@
 import api from "@/api";
-import { Address, CreateAddress, UpdateAddress } from "@/types/address";
+import {
+  CreateAddress,
+  TAddress,
+  TCreateAddress,
+  TUpdateAddress,
+  UpdateAddress,
+} from "@/types/address";
 
 export function getCustomerProfile() {
   return api.get("/profile/customer").json();
 }
 
-export function getAddresses(): Promise<Address[]> {
+export function getAddresses(): Promise<TAddress[]> {
   return api.get("/profile/addresses").json();
 }
 
-export function createAddresses(address: CreateAddress): Promise<Address> {
-  return api.post(address, "/profile/addresses").json();
+export function getAddress(addressId: TAddress["id"]): Promise<TAddress> {
+  return api.get(`/profile/addresses/${addressId}`).json();
 }
 
-export function updateAddresses(
-  addressId: Address["id"],
-  address: UpdateAddress,
-): Promise<Address> {
-  return api.patch(address, `/profile/addresses/${addressId}`).json();
+export function createAddress(address: TCreateAddress): Promise<TAddress> {
+  const payload = CreateAddress.parse(address);
+
+  return api.post(payload, "/profile/addresses").json();
 }
 
-export function deleteAddresses(addressId: Address["id"]) {
-  return api.delete(`/profile/addresses/${addressId}`).json();
+export function updateAddress({
+  addressId,
+  address,
+}: {
+  addressId: TAddress["id"];
+  address: TUpdateAddress;
+}): Promise<TAddress> {
+  const payload = UpdateAddress.parse(address);
+
+  return api.patch(payload, `/profile/addresses/${addressId}`).json();
+}
+
+export function deleteAddress(addressId: TAddress["id"]): Promise<TAddress> {
+  return api.delete(`/profile/addresses/${addressId}`).res();
+}
+
+export function setDefaultAddress(addressId: TAddress["id"]) {
+  return api.url(`/profile/addresses/set-default/${addressId}`).post().res();
 }

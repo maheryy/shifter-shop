@@ -3,14 +3,14 @@ import { z } from "zod";
 export const UserRoles = z.enum(["ADMIN", "CUSTOMER", "SELLER"]);
 
 const User = z.object({
-  id: z.number(),
-  firstname: z.string(),
-  lastname: z.string(),
+  id: z.string().uuid(),
+  firstname: z.string().nonempty(),
+  lastname: z.string().nonempty(),
   email: z.string().email(),
   role: UserRoles,
 });
 
-const UpdateUser = User.omit({ id: true, role: true }).partial();
+const UpdateUser = User.pick({ firstname: true, lastname: true }).partial();
 
 const UpdatePassword = z.object({
   password: z.string(),

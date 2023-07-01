@@ -10,8 +10,8 @@ export function getUser(token: string): Promise<User> {
   return api.query({ token }).get("/user").json();
 }
 
-export function updateUser(user: UpdateUser) {
-  return api.patch(user, "/user").json();
+export function updateUser({ firstname, lastname }: UpdateUser) {
+  return api.patch({ firstname, lastname }, "/users").json();
 }
 
 export function updatePassword(payload: UpdatePassword) {

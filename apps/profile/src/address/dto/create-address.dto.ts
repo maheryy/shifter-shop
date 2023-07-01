@@ -1,4 +1,5 @@
 import {
+  IsBoolean,
   IsNotEmpty,
   IsOptional,
   IsPhoneNumber,
@@ -15,7 +16,6 @@ export class CreateAddressDto {
   address1: string;
 
   @IsString()
-  @IsNotEmpty()
   @IsOptional()
   address2?: string;
 
@@ -35,4 +35,8 @@ export class CreateAddressDto {
   @IsNotEmpty()
   @IsPhoneNumber('FR')
   phone: string;
+
+  @IsBoolean()
+  @IsOptional()
+  setDefault: boolean;
 }

@@ -29,6 +29,11 @@
       "middlewares": ["auth"]
     },
     {
+      "method": "GET",
+      "path": "/addresses/:id",
+      "middlewares": ["auth"]
+    },
+    {
       "method": "POST",
       "path": "/addresses",
       "middlewares": ["auth"]

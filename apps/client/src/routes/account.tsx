@@ -1,8 +1,9 @@
 import { RouteObject } from "react-router-dom";
 import AccountLayout from "@/layouts/CustomerLayout";
 import Account from "@/pages/account/Account";
-import Addresses, { addressesLoader } from "@/pages/account/Addresses";
+import Addresses from "@/pages/account/Addresses";
 import ChangePassword from "@/pages/account/ChangePassword";
+import EditAddress, { editAddressLoader } from "@/pages/account/EditAddress";
 import NewAddress from "@/pages/account/NewAddress";
 import NewReview, { newReviewLoader } from "@/pages/account/NewReview";
 import Orders from "@/pages/account/Orders";
@@ -36,11 +37,15 @@ const accountRoutes: RouteObject = {
         {
           index: true,
           element: <Addresses />,
-          loader: addressesLoader,
         },
         {
           path: "new",
           element: <NewAddress />,
+        },
+        {
+          path: "edit/:addressId",
+          element: <EditAddress />,
+          loader: editAddressLoader,
         },
       ],
     },

@@ -14,11 +14,18 @@ const Address = z.object({
   isDefault: z.boolean(),
 });
 
-const CreateAddress = Address.omit({ id: true, profile: true });
-const UpdateAddress = CreateAddress.partial();
+export const CreateAddress = Address.omit({
+  id: true,
+  profile: true,
+  isDefault: true,
+}).extend({
+  setDefault: z.boolean().optional(),
+});
 
-export type Address = z.infer<typeof Address>;
-export type CreateAddress = z.infer<typeof CreateAddress>;
-export type UpdateAddress = z.infer<typeof UpdateAddress>;
+export const UpdateAddress = CreateAddress.partial();
+
+export type TAddress = z.infer<typeof Address>;
+export type TCreateAddress = z.infer<typeof CreateAddress>;
+export type TUpdateAddress = z.infer<typeof UpdateAddress>;
 
 export default Address;

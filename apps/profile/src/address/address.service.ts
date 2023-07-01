@@ -16,6 +16,8 @@ export class AddressService {
   async create(
     createAddressDto: CreateAddressDto & { profile: CustomerProfile },
   ) {
+    const { setDefault, ...fields } = createAddressDto;
+
     const addresses = await this.addressRepository.find({
       where: {
         profile: {
@@ -24,11 +26,18 @@ export class AddressService {
       },
     });
 
-    const isDefault = addresses.length === 0;
+    const isFirst = addresses.length === 0;
+
+    if (!isFirst && setDefault) {
+      await this.addressRepository.update(
+        { profile: { id: createAddressDto.profile.id } },
+        { isDefault: false },
+      );
+    }
 
     const address = this.addressRepository.create({
-      ...createAddressDto,
-      isDefault,
+      ...fields,
+      isDefault: isFirst || setDefault,
     });
 
     return this.addressRepository.save(address);
@@ -53,20 +62,48 @@ export class AddressService {
     id: Address['id'],
     updateAddressDto: UpdateAddressDto,
   ) {
-    const result = await this.addressRepository.update(
+    const { setDefault, ...fields } = updateAddressDto;
+
+    const { affected } = await this.addressRepository.update(
       { profile: { id: profileId }, id },
-      updateAddressDto,
+      fields,
     );
 
-    if (result.affected === 0) {
+    if (affected === 0) {
       throw new NotFoundException("This address doesn't exist");
+    }
+
+    if (setDefault) {
+      await this.addressRepository.update(
+        { profile: { id: profileId } },
+        { isDefault: false },
+      );
+
+      await this.addressRepository.update(
+        { profile: { id: profileId }, id },
+        { isDefault: true },
+      );
     }
 
     return this.addressRepository.findOneBy({ id });
   }
 
-  remove(profileId: CustomerProfile['id'], id: Address['id']) {
-    return this.addressRepository.delete({
+  findOneById(profileId: CustomerProfile['id'], id: Address['id']) {
+    return this.addressRepository.findOne({
+      where: { profile: { id: profileId }, id },
+    });
+  }
+
+  async remove(profileId: CustomerProfile['id'], id: Address['id']) {
+    const address = await this.addressRepository.findOne({
+      where: { profile: { id: profileId }, id },
+    });
+
+    if (!address) {
+      throw new NotFoundException("This address doesn't exist");
+    }
+
+    await this.addressRepository.delete({
       profile: { id: profileId },
       id,
     });
@@ -86,7 +123,7 @@ export class AddressService {
       { isDefault: false },
     );
 
-    return this.addressRepository.update(
+    await this.addressRepository.update(
       { profile: { id: profileId }, id },
       { isDefault: true },
     );

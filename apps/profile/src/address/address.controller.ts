@@ -59,6 +59,20 @@ export class AddressController {
     return this.addressService.findAll();
   }
 
+  @Get(':id')
+  findOne(
+    @Headers('user-id') userId: CustomerProfile['id'],
+    @Param('id') id: Address['id'],
+  ) {
+    if (!userId) {
+      throw new UnauthorizedException(
+        'You must be authenticated to access this resource',
+      );
+    }
+
+    return this.addressService.findOneById(userId, id);
+  }
+
   @Patch(':id')
   update(
     @Headers('user-id') userId: CustomerProfile['id'],
@@ -86,9 +100,7 @@ export class AddressController {
       );
     }
 
-    await this.addressService.remove(userId, id);
-
-    return;
+    return this.addressService.remove(userId, id);
   }
 
   @HttpCode(204)
@@ -103,8 +115,6 @@ export class AddressController {
       );
     }
 
-    await this.addressService.setDefault(userId, id);
-
-    return;
+    return this.addressService.setDefault(userId, id);
   }
 }
