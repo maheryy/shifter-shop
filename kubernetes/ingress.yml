@@ -7,16 +7,6 @@ metadata:
     networking.gke.io/managed-certificates: shiftershop
 spec:
   rules:
-    - host: api.shiftershop.pro
-      http:
-        paths:
-          - pathType: Prefix
-            path: /
-            backend:
-              service:
-                name: api
-                port:
-                  number: 3000
     - host: shiftershop.pro
       http:
         paths:
@@ -27,6 +17,27 @@ spec:
                 name: client
                 port:
                   number: 80
+    - host: admin.shiftershop.pro
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: admin
+                port:
+                  number: 80
+
+    - host: api.shiftershop.pro
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: api-gateway
+                port:
+                  number: 3000
 
 ---
 apiVersion: networking.gke.io/v1
@@ -36,4 +47,5 @@ metadata:
 spec:
   domains:
     - shiftershop.pro
+    - admin.shiftershop.pro
     - api.shiftershop.pro

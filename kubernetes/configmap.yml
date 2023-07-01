@@ -3,6 +3,6 @@ kind: ConfigMap
 metadata:
   name: app
 data:
-  client_url: https://shiftershop.pro
-  admin_url: https://admin.shiftershop.pro
-  api_url: https://api.shiftershop.pro
+  client-url: https://shiftershop.pro
+  admin-url: https://admin.shiftershop.pro
+  api-url: https://api.shiftershop.pro
