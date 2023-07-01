@@ -19,10 +19,6 @@ const adminRoutes: RouteObject[] = [
         element: <Home />,
       },
       {
-        path: "/analytics",
-        element: <div>Analytics</div>,
-      },
-      {
         path: "/orders",
         element: <Orders />,
       },

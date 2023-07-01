@@ -58,6 +58,7 @@ const Orders = () => {
             >
               List of Orders
             </h2>
+            {orders.length > 0 ? (
             <Table
               tableColumns={tableColumns}
               items={orders}
@@ -69,6 +70,13 @@ const Orders = () => {
                 </TableRow>
               )}
             />
+            ) : (
+              <div className="flex items-center justify-center">
+                <span className="text-2xl font-semibold text-gray-700 dark:text-gray-200">
+                  No orders found
+                </span>
+              </div>
+            )}
           </div>
         </main>
       </div>

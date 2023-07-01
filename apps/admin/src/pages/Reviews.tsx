@@ -62,6 +62,7 @@ const Reviews = () => {
             >
               List of Reviews
             </h2>
+            {reviews.length > 0 ? (
             <Table
               tableColumns={tableColumns}
               items={reviews}
@@ -73,6 +74,13 @@ const Reviews = () => {
                 </TableRow>
               )}
             />
+            ) : (
+              <div className="flex items-center justify-center">
+                <span className="text-2xl font-semibold text-gray-700 dark:text-gray-200">
+                  No reviews found
+                </span>
+              </div>
+            )}
           </div>
         </main>
       </div >
