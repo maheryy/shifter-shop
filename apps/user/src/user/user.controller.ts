@@ -8,6 +8,7 @@ import {
   HttpCode,
   Headers,
   UnauthorizedException,
+  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dtos/create-user.dto';
@@ -20,8 +21,8 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  async findAll() {
-    return this.userService.findAll();
+  async findAll(@Query('type') type?: string) {
+    return this.userService.findAll(type);
   }
 
   // Private route to be used through microservices
