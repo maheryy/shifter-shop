@@ -1,11 +1,11 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
-import { QueryFailedError, Repository, TypeORMError } from 'typeorm';
+import { Repository, TypeORMError } from 'typeorm';
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UpdateUserDto } from './dtos/update-user.dto';
-import { SearchCritieriaDto } from './dtos/search-criteria.dto';
+import { SearchCriteriaDto } from './dtos/search-criteria.dto';
 import amqp from 'src/lib/amqp';
 import { EQueue } from '@shifter-shop/amqp';
 import { TCustomerProfile, EService } from '@shifter-shop/dictionary';
@@ -67,7 +67,7 @@ export class UserService {
     return user;
   }
 
-  async searchOne(criteria: SearchCritieriaDto) {
+  async searchOne(criteria: SearchCriteriaDto) {
     const user = await this.usersRepository.findOneBy(criteria);
 
     if (!user) {

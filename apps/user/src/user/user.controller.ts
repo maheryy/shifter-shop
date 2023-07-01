@@ -12,7 +12,7 @@ import {
 import { UserService } from './user.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
-import { SearchCritieriaDto } from './dtos/search-criteria.dto';
+import { SearchCriteriaDto } from './dtos/search-criteria.dto';
 import { EmptyBodyPipe } from './pipes/empty-body';
 import { UpdateAuthenticatedUserDto } from './dtos/update-authenticated-user.dto';
 
@@ -33,7 +33,7 @@ export class UserController {
 
   // Private route to be used through microservices
   @Post('/search')
-  async searchOne(@Body(new EmptyBodyPipe()) criteria: SearchCritieriaDto) {
+  async searchOne(@Body(new EmptyBodyPipe()) criteria: SearchCriteriaDto) {
     return this.userService.searchOne(criteria);
   }
 
