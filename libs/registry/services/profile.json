@@ -19,6 +19,41 @@
       "middlewares": ["auth"]
     },
     {
+      "method": "POST",
+      "path": "/customer",
+      "private": true
+    },
+    {
+      "method": "GET",
+      "path": "/addresses",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "GET",
+      "path": "/addresses/:id",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "POST",
+      "path": "/addresses",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "PATCH",
+      "path": "/addresses/:id",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "DELETE",
+      "path": "/addresses/:id",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "POST",
+      "path": "/addresses/set-default/:id",
+      "middlewares": ["auth"]
+    },
+    {
       "method": "PATCH",
       "path": "/business",
       "middlewares": ["auth"]

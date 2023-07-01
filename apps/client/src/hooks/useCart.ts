@@ -1,13 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import * as cartApi from "@/api/cart.api";
 import * as cartLocal from "@/core/cart.local";
-import { LocalCart } from "@/types/cart";
+import { Cart } from "@/types/cart";
 import QueryKey from "@/types/query";
 import { useAuthContext } from "./context";
 
 export type UseCart = ReturnType<typeof useCart>;
 
-function useCart<T = LocalCart>(select?: (data: LocalCart) => T) {
+function useCart<T = Cart>(select?: (data: Cart) => T) {
   const queryClient = useQueryClient();
   const { isAuthenticated } = useAuthContext();
 
@@ -17,23 +17,9 @@ function useCart<T = LocalCart>(select?: (data: LocalCart) => T) {
     select,
   });
 
-  function onSuccess(cart: LocalCart) {
+  function onSuccess(cart: Cart) {
     queryClient.setQueryData([QueryKey.enum.cart], cart);
   }
-
-  const addMutation = useMutation({
-    mutationFn: isAuthenticated
-      ? cartApi.addProductToCart
-      : cartLocal.addProductToCart,
-    onSuccess,
-  });
-
-  const removeMutation = useMutation({
-    mutationFn: isAuthenticated
-      ? cartApi.removeProductFromCart
-      : cartLocal.removeProductFromCart,
-    onSuccess,
-  });
 
   const updateMutation = useMutation({
     mutationFn: isAuthenticated
@@ -44,20 +30,26 @@ function useCart<T = LocalCart>(select?: (data: LocalCart) => T) {
 
   return {
     cartQuery,
-    addMutation,
-    removeMutation,
     updateMutation,
   };
 }
 
 export function useProductQuantity() {
-  return useCart(({ products }) =>
-    products.reduce((acc, { quantity }) => acc + quantity, 0),
-  );
+  return useCart((cartProduct) => {
+    return cartProduct.reduce((acc, { quantity }) => acc + quantity, 0);
+  });
 }
 
-export function useCartProducts() {
-  return useCart(({ products }) => products);
+export function useQuantity(productId: string) {
+  const { cartQuery } = useCart((cart) => {
+    const cartProduct = cart.find(
+      (cartProduct) => cartProduct.product.id === productId,
+    );
+
+    return cartProduct?.quantity ?? 0;
+  });
+
+  return cartQuery;
 }
 
 export default useCart;

@@ -4,7 +4,7 @@ import { getProduct } from "@/api/product.api";
 import ProductCard from "@/components/ProductCard";
 import QuantityPicker from "@/components/QuantityPicker";
 import Rating from "@/components/Rating";
-import useCart from "@/hooks/useCart";
+import useCart, { useQuantity } from "@/hooks/useCart";
 import { useData } from "@/hooks/useData";
 import { Loader } from "@/types/loader";
 import type { Product } from "@/types/product";
@@ -16,8 +16,12 @@ interface ProductData {
 }
 
 export const productLoader: Loader<ProductData> = async ({ params }) => {
+  if (!params.id) {
+    throw new Error("Product id is required");
+  }
+
   const [product, relatedProducts] = await Promise.all([
-    getProduct(Number(params.id)),
+    getProduct(params.id),
 
     // TODO : implement related products
     // getRelatedProducts(Number(params.id)),
@@ -33,12 +37,13 @@ export const productLoader: Loader<ProductData> = async ({ params }) => {
 function Product() {
   const { product, relatedProducts } = useData<ProductData>();
   const [quantity, setQuantity] = useState(1);
-  const { addMutation } = useCart();
+  const { updateMutation } = useCart();
+  const { data } = useQuantity(product.id);
 
   function onAddToCart() {
-    addMutation.mutate({
-      productToAdd: product,
-      quantity,
+    updateMutation.mutate({
+      productId: product.id,
+      quantity: data ? data + 1 : 1,
     });
   }
 

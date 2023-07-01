@@ -1,120 +1,101 @@
-import { FormEvent, useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import isStrongPassword from "validator/es/lib/isStrongPassword";
+import { z } from "zod";
+import Button from "@/components/Button";
+import Form from "@/components/Form";
+import Input from "@/components/Input";
+import useRegister from "@/hooks/useRegister";
 
-const Register = () => {
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
+const registerSchema = z
+  .object({
+    email: z.string().email(),
+    firstname: z.string(),
+    lastname: z.string(),
+    password: z.string().refine(isStrongPassword, {
+      message:
+        "Password must be at least 8 characters long and contain at least one lowercase letter, one uppercase letter, one number and one symbol",
+    }),
+    passwordConfirmation: z.string(),
+  })
+  .refine(
+    ({ password, passwordConfirmation }) => password === passwordConfirmation,
+    {
+      message: "Passwords do not match",
+      path: ["passwordConfirmation"],
+    },
+  );
 
-  const onSubmit = (e: FormEvent) => {
-    e.preventDefault();
+type RegisterFieldValues = z.infer<typeof registerSchema>;
 
-    if (password !== passwordConfirm) {
-      return alert("Passwords do not match");
-    }
-  };
+function Register() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterFieldValues>({
+    resolver: zodResolver(registerSchema),
+  });
+
+  const { mutate } = useRegister();
+
+  const onSubmit = mutate as SubmitHandler<RegisterFieldValues>;
 
   return (
-    <div className="contain py-16">
-      <div className="mx-auto max-w-lg overflow-hidden rounded px-6 py-7 shadow">
-        <h1 className="mb-8 text-2xl font-medium uppercase">
-          Create an account
-        </h1>
-        <form autoComplete="off" onSubmit={onSubmit}>
-          <div className="space-y-2">
-            <div className="flex gap-5">
-              <div className="flex-1">
-                <label className="mb-2 block text-gray-600" htmlFor="firstname">
-                  First name
-                </label>
-                <input
-                  className="block w-full rounded border border-gray-300 px-4 py-3 text-sm text-gray-600 placeholder:text-gray-400 focus:border-primary focus:ring-0"
-                  id="firstname"
-                  name="firstname"
-                  onChange={(e) => setFirstname(e.target.value)}
-                  placeholder="Bobby"
-                  type="text"
-                  value={firstname}
-                />
-              </div>
-              <div className="flex-1">
-                <label className="mb-2 block text-gray-600" htmlFor="lastname">
-                  Last name
-                </label>
-                <input
-                  className="block w-full rounded border border-gray-300 px-4 py-3 text-sm text-gray-600 placeholder:text-gray-400 focus:border-primary focus:ring-0"
-                  id="lastname"
-                  name="lastname"
-                  onChange={(e) => setLastname(e.target.value)}
-                  placeholder="Johnson"
-                  type="text"
-                  value={lastname}
-                />
-              </div>
-            </div>
-            <div>
-              <label className="mb-2 block text-gray-600" htmlFor="email">
-                Email address
-              </label>
-              <input
-                className="block w-full rounded border border-gray-300 px-4 py-3 text-sm text-gray-600 placeholder:text-gray-400 focus:border-primary focus:ring-0"
-                id="email"
-                name="email"
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="email@example.com"
-                type="email"
-                value={email}
-              />
-            </div>
-            <div>
-              <label className="mb-2 block text-gray-600" htmlFor="password">
-                Password
-              </label>
-              <input
-                className="block w-full rounded border border-gray-300 px-4 py-3 text-sm text-gray-600 placeholder:text-gray-400 focus:border-primary focus:ring-0"
-                id="password"
-                name="password"
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="*********"
-                type="password"
-                value={password}
-              />
-            </div>
-            <div>
-              <label className="mb-2 block text-gray-600" htmlFor="confirm">
-                Confirm password
-              </label>
-              <input
-                className="block w-full rounded border border-gray-300 px-4 py-3 text-sm text-gray-600 placeholder:text-gray-400 focus:border-primary focus:ring-0"
-                id="confirm"
-                name="confirm"
-                onChange={(e) => setPasswordConfirm(e.target.value)}
-                placeholder="*********"
-                type="password"
-                value={passwordConfirm}
-              />
-            </div>
-          </div>
-          <div className="mt-8">
-            <button
-              className="block w-full rounded border border-primary bg-primary py-2 text-center font-roboto font-medium uppercase text-white transition hover:bg-transparent hover:text-primary"
-              type="submit"
-            >
-              create account
-            </button>
-          </div>
-        </form>
-        <p className="mt-4 text-center text-gray-600">
-          Already have account?&nbsp;
-          <Link className="text-primary" to="/login">
-            Login now
-          </Link>
-        </p>
-      </div>
-    </div>
+    <section className="container grid gap-8 py-16">
+      <h1 className="mb-8 text-2xl font-medium uppercase">Create an account</h1>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <div className="grid gap-8 lg:grid-cols-2">
+          <Input
+            errorMessage={errors.firstname?.message}
+            id="firstname"
+            label="First name"
+            placeholder="Leone"
+            register={register}
+          />
+          <Input
+            errorMessage={errors.lastname?.message}
+            id="lastname"
+            label="Last name"
+            placeholder="Abbacchio"
+            register={register}
+          />
+        </div>
+        <Input
+          errorMessage={errors.email?.message}
+          id="email"
+          label="Email"
+          placeholder="leone@abbacch.io"
+          register={register}
+          type="email"
+        />
+        <Input
+          errorMessage={errors.password?.message}
+          id="password"
+          label="Password"
+          placeholder="*********"
+          register={register}
+          type="password"
+        />
+        <Input
+          errorMessage={errors.password?.message}
+          id="passwordConfirmation"
+          label="Confirm Password"
+          placeholder="*********"
+          register={register}
+          type="password"
+        />
+        <Button className="justify-self-center">create account</Button>
+      </Form>
+      <p className="mt-4 text-center text-gray-600">
+        Already have account?&nbsp;
+        <Link className="text-primary" to="/login">
+          Login now
+        </Link>
+      </p>
+    </section>
   );
-};
+}
 
 export default Register;

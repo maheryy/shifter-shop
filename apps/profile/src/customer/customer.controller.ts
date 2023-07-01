@@ -6,6 +6,7 @@ import {
   Headers,
   UnauthorizedException,
   HttpCode,
+  Post,
 } from '@nestjs/common';
 import { UpdateProfileDto } from 'src/customer/dtos/update-profile.dto';
 import { CustomerService } from './customer.service';
@@ -13,6 +14,11 @@ import { CustomerService } from './customer.service';
 @Controller()
 export class CustomerController {
   constructor(private readonly customerService: CustomerService) {}
+
+  @Post('/customer')
+  async create(@Body() { userId }: { userId: string }) {
+    return this.customerService.create(userId);
+  }
 
   @Get('/customer')
   async findCustomerProfile(@Headers('user-id') userId: string) {

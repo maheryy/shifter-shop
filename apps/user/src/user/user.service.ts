@@ -1,17 +1,19 @@
 import {
-  BadRequestException,
   ConflictException,
   Injectable,
+  BadRequestException,
 } from '@nestjs/common';
 import { NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
-import { QueryFailedError, Repository, TypeORMError } from 'typeorm';
+import { Repository, TypeORMError } from 'typeorm';
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UpdateUserDto } from './dtos/update-user.dto';
-import { SearchCritieriaDto } from './dtos/search-criteria.dto';
+import { SearchCriteriaDto } from './dtos/search-criteria.dto';
 import amqp from 'src/lib/amqp';
 import { EQueue } from '@shifter-shop/amqp';
+import { TCustomerProfile, EService } from '@shifter-shop/dictionary';
+import { fetchJson } from '@shifter-shop/helpers';
 import { EUserRole } from '@shifter-shop/dictionary';
 
 @Injectable()
@@ -25,7 +27,15 @@ export class UserService {
     try {
       const userInstance = this.usersRepository.create(data);
       const user = await this.usersRepository.save(userInstance);
-      await amqp.publishToQueue(EQueue.UserRegistered, user);
+
+      await Promise.all([
+        amqp.publishToQueue(EQueue.UserRegistered, user),
+        fetchJson<TCustomerProfile>(
+          { service: EService.Profile, endpoint: '/customer' },
+          { method: 'POST', data: { userId: user.id } },
+        ),
+      ]);
+
       return userInstance;
     } catch (error) {
       if (
@@ -40,7 +50,10 @@ export class UserService {
   }
 
   async findAll(type?: string) {
-    if (type && !Object.values(EUserRole).includes(type.toUpperCase() as EUserRole)) {
+    if (
+      type &&
+      !Object.values(EUserRole).includes(type.toUpperCase() as EUserRole)
+    ) {
       throw new BadRequestException(`Invalid type: ${type}`);
     }
 
@@ -58,7 +71,7 @@ export class UserService {
     return user;
   }
 
-  async searchOne(criteria: SearchCritieriaDto) {
+  async searchOne(criteria: SearchCriteriaDto) {
     const user = await this.usersRepository.findOneBy(criteria);
 
     if (!user) {
@@ -79,10 +92,12 @@ export class UserService {
   }
 
   async update(id: string, data: UpdateUserDto) {
-    const res = await this.usersRepository.update({ id }, data);
+    const result = await this.usersRepository.update({ id }, data);
 
-    if (!res.affected) {
+    if (!result.affected) {
       throw new NotFoundException(`User with id: ${id} does not exist`);
     }
+
+    return this.findOneById(id);
   }
 }

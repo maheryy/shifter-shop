@@ -15,7 +15,7 @@ export const addressSchema = z.object({
     phone: z
       .string()
       .refine(isMobilePhone, { message: "Invalid phone number" }),
-    isDefault: z.boolean().optional(),
+    setDefault: z.boolean().optional(),
   }),
 });
 
@@ -45,13 +45,13 @@ function AddressForm({ onSubmit, form, children }: AddressProps) {
       <Input
         errorMessage={errors.address?.address1?.message}
         id="address.address1"
-        label="Address"
+        label="Address line 1"
         register={register}
       />
       <Input
         errorMessage={errors.address?.address2?.message}
         id="address.address2"
-        label="Address"
+        label="Address line 2"
         placeholder="(Optional) Apt, suite, building, unit, floor, etc"
         register={register}
       />
@@ -87,11 +87,11 @@ function AddressForm({ onSubmit, form, children }: AddressProps) {
       </div>
       <div className="flex gap-2">
         <input
-          id="isDefault"
+          id="setDefault"
           type="checkbox"
-          {...register("address.isDefault")}
+          {...register("address.setDefault")}
         />
-        <label htmlFor="isDefault">Set as default</label>
+        <label htmlFor="setDefault">Set as default</label>
       </div>
       {children}
     </Form>

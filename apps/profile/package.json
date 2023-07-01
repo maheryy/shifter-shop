@@ -25,6 +25,7 @@
     "@shifter-shop/amqp": "*",
     "@shifter-shop/helpers": "*",
     "@nestjs/common": "^10.0.0",
+    "@nestjs/mapped-types": "*",
     "@nestjs/config": "^3.0.0",
     "@nestjs/core": "^10.0.0",
     "@nestjs/jwt": "^10.1.0",

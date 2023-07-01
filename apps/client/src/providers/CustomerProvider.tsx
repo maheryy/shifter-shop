@@ -14,6 +14,8 @@ const CustomerProvider = ({ children }: CustomerProviderProps) => {
   };
 
   if (!isAuthenticated) {
+    console.log("Redirection");
+
     return <Navigate replace={true} to="/login" />;
   }
 

@@ -5,7 +5,6 @@ import {
   Param,
   Patch,
   Post,
-  HttpCode,
   Headers,
   UnauthorizedException,
   Query,
@@ -13,8 +12,9 @@ import {
 import { UserService } from './user.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
-import { SearchCritieriaDto } from './dtos/search-criteria.dto';
+import { SearchCriteriaDto } from './dtos/search-criteria.dto';
 import { EmptyBodyPipe } from './pipes/empty-body';
+import { UpdateAuthenticatedUserDto } from './dtos/update-authenticated-user.dto';
 
 @Controller()
 export class UserController {
@@ -33,7 +33,7 @@ export class UserController {
 
   // Private route to be used through microservices
   @Post('/search')
-  async searchOne(@Body(new EmptyBodyPipe()) criteria: SearchCritieriaDto) {
+  async searchOne(@Body(new EmptyBodyPipe()) criteria: SearchCriteriaDto) {
     return this.userService.searchOne(criteria);
   }
 
@@ -43,25 +43,24 @@ export class UserController {
     return this.userService.create(user);
   }
 
+  // Admin route to be used through microservices
   @Patch('/:id')
-  @HttpCode(204)
   async update(
     @Body(new EmptyBodyPipe()) user: UpdateUserDto,
     @Param('id') id: string,
   ) {
-    await this.userService.update(id, user);
+    return this.userService.update(id, user);
   }
 
   @Patch()
-  @HttpCode(204)
   async updateAuthenticatedUser(
-    @Body(new EmptyBodyPipe()) user: UpdateUserDto,
+    @Body(new EmptyBodyPipe()) user: UpdateAuthenticatedUserDto,
     @Headers('user-id') userId: string,
   ) {
     if (!userId) {
       throw new UnauthorizedException();
     }
 
-    await this.userService.update(userId, user);
+    return this.userService.update(userId, user);
   }
 }

@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import databaseConfig from 'src/config/database.config';
 import { CustomerModule } from './customer/customer.module';
 import { BusinessModule } from './business/business.module';
+import { AddressModule } from './address/address.module';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { BusinessModule } from './business/business.module';
       }),
     }),
     CustomerModule,
-    BusinessModule
+    BusinessModule,
+    AddressModule,
   ],
 })
 export class AppModule {}

@@ -3,7 +3,7 @@ import Category from "./category";
 import Review from "./review";
 
 const Product = z.object({
-  id: z.number(),
+  id: z.string().uuid(),
   name: z.string(),
   description: z.string(),
   price: z.number(),

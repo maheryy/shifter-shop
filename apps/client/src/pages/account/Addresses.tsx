@@ -1,20 +1,18 @@
 import { Link } from "react-router-dom";
-import { getAdresses } from "@/api/address.api";
 import Address from "@/components/account/Address";
-import { useData } from "@/hooks/useData";
-
-export interface AddressesData {
-  addresses: Address[];
-}
-
-export async function addressesLoader(): Promise<AddressesData> {
-  const addresses = await getAdresses();
-
-  return { addresses };
-}
+import useAddresses from "@/hooks/useAddresses";
+import { TAddress } from "@/types/address";
 
 function Addresses() {
-  const { addresses } = useData<AddressesData>();
+  const { data, isError, isLoading } = useAddresses();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Something went wrong...</div>;
+  }
 
   return (
     <section className="grid gap-8">
@@ -30,7 +28,7 @@ function Addresses() {
           Add new
         </Link>
         <div className="grid w-full gap-8 md:grid-cols-2">
-          {addresses.map((address) => (
+          {sortAddresses(data).map((address) => (
             <Address key={address.id} {...address} />
           ))}
         </div>
@@ -40,3 +38,17 @@ function Addresses() {
 }
 
 export default Addresses;
+
+function sortAddresses(addresses: TAddress[]): TAddress[] {
+  return [...addresses].sort((a, b) => {
+    if (a.isDefault) {
+      return -1;
+    }
+
+    if (b.isDefault) {
+      return 1;
+    }
+
+    return 0;
+  });
+}

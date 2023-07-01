@@ -30,7 +30,7 @@ export class AuthController {
     const user = await this.authService.register(registerDto);
     const token = await this.jwtService.generateToken({ userId: user.id });
 
-    return { token };
+    return { token, user };
   }
 
   @HttpCode(200)
@@ -39,7 +39,7 @@ export class AuthController {
     const user = await this.authService.verify(data.email, data.password);
     const token = await this.jwtService.generateToken({ userId: user.id });
 
-    return { token };
+    return { token, user };
   }
 
   // Private route for microservices
