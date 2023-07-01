@@ -3,6 +3,8 @@ import Home from "@/pages/Home";
 import DefaultLayout from "@/layouts/DefaultLayout";
 import NotFound from "@/pages/errors/NotFound";
 import Customers from "@/pages/Customers";
+import AddProduct from "@/pages/Products/AddProduct"
+import AddCategory from "@/pages/Categories/AddCategory";
 
 const routes: RouteObject[] = [
   {
@@ -40,12 +42,16 @@ const routes: RouteObject[] = [
         path: "/products",
         children: [
           {
+            path: "add-product",
+            element: <AddProduct/>,
+          },
+          {
             path: "",
             element: <div>All products</div>,
           },
           {
-            path: "new",
-            element: <div>New product</div>,
+            path: "add-category",
+            element: <AddCategory/>,
           },
           {
             path: "categories",

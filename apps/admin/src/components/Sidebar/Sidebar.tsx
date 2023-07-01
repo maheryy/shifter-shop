@@ -45,8 +45,9 @@ const Sidebar = () => {
               label="Products"
               icon={<CubeIcon />}
               items={[
+                { label: "Add product", href: "add-product" },
                 { label: "All products", href: "" },
-                { label: "New product", href: "new" },
+                { label: "Add category", href: "add-category" },
                 { label: "All categories", href: "categories" },
               ]}
             />
