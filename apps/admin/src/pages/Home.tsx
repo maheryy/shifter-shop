@@ -11,6 +11,8 @@ import {
   LinearScale, // y axis
   PointElement
 } from "chart.js";
+import { useEffect, useState } from "react";
+import { getCountCustomers } from "@/api/user.api";
 
 ChartJS.register(
   BarElement,
@@ -21,6 +23,22 @@ ChartJS.register(
 );
 
 const Home = () => {
+  
+  const [nbClients, setNbClients] = useState(0);
+  const [nbProducts, setNbProducts] = useState(0);
+  const [nbOrders, setNbOrders] = useState(0);
+  const [totalEarned, setTotalEarned] = useState(0);
+  
+  useEffect(() => {
+    getCountCustomers()
+      .then((count) => {
+        setNbClients(count);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth();
@@ -44,19 +62,19 @@ const Home = () => {
           <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
             <Card
               title="Total clients"
-              value="638"
+              value={nbClients.toString()}
               icon={<ClientIcon />} />
             <Card
               title={`Total earned amount (${currentMonthName}. ${currentYear})`}
-              value="$ 10,760.89"
+              value={`$ ${totalEarned.toFixed(2).toString().toLocaleString()}`}
               icon={<CashIcon />} />
             <Card
               title={`Sold products (${currentMonthName}. ${currentYear})`}
-              value="37"
+              value={nbProducts.toString()}
               icon={<ProductIcon />} />
             <Card
               title={`Orders placed (${currentMonthName}. ${currentYear})`}
-              value="35"
+              value={nbOrders.toString()}
               icon={<CartIcon />} />
           </div>
           {/* <!-- Charts --> */}

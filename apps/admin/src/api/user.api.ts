@@ -14,6 +14,10 @@ export const getAllAdmins = async (): Promise<TUser[]> => {
   return api.get("/users?type=admin").json();
 };
 
+export const getCountCustomers = async (): Promise<number> => {
+  return api.get("/users/count?type=customer").json();
+};
+
 export const getUser = async (token: string): Promise<TUser> => {
   return api.auth(`Bearer ${token}`).get("/auth/profile").json();
 };

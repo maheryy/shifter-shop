@@ -33,6 +33,11 @@ export class UserController {
     return this.userService.findOneById(id);
   }
 
+  @Get('/count')
+  async count(@Query('type') type?: string) {
+    return this.userService.count(type);
+  }
+
   // Private route to be used through microservices
   // Do not remove password, it's used for authentication
   @NotEmptyBody()
