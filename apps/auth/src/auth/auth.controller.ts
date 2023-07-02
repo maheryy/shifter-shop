@@ -7,12 +7,14 @@ import {
   Post,
   UnauthorizedException,
 } from '@nestjs/common';
+import { RemovePassword } from '@shifter-shop/nest';
 import { AuthService } from 'src/auth/auth.service';
 import { LoginDto } from 'src/auth/dtos/login.dto';
 import { RegisterDto } from 'src/auth/dtos/register.dto';
 import { JwtService } from 'src/jwt/jwt.service';
 import { TokenDto } from 'src/auth/dtos/token.dto';
 
+@RemovePassword()
 @Controller()
 export class AuthController {
   constructor(
