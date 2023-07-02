@@ -37,6 +37,12 @@
       "method": "POST",
       "path": "/search",
       "private": true
+    },
+    {
+      "method": "GET",
+      "path": "/count",
+      "middlewares": ["auth", "roles"],
+      "roles": ["ADMIN"]
     }
   ]
 }
