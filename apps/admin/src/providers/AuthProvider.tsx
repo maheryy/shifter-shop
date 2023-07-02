@@ -1,19 +1,17 @@
 import { useState, createContext, useEffect } from "react";
-import { User } from "@/types/user";
+import { TUser } from "@shifter-shop/dictionary";
 import { remove, retrieve, store } from "@/utils/storage";
 import { StorageKey } from "@/types/storage";
 import { getUser } from "@/api/user.api";
 import useComponentUpdate from "@/hooks/componentUpdate";
 
-
 export const AuthContext = createContext<AuthContextProps>(null!);
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<TUser | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-
 
   useEffect(() => {
     const localToken = retrieve<string>(StorageKey.TOKEN);
@@ -39,7 +37,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   }, [token]);
 
-  const authenticate = (user: User, token: string) => {
+  const authenticate = (user: TUser, token: string) => {
     setUser(user);
     setToken(token);
     setIsAuthenticated(true);
@@ -66,9 +64,9 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 };
 
 interface AuthContextProps {
-  user: User | null;
+  user: TUser | null;
   isAuthenticated: boolean;
-  authenticate: (user: User, token: string) => void;
+  authenticate: (user: TUser, token: string) => void;
   invalidate: () => void;
 }
 
