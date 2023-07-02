@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: files-svc
+  labels:
+    app: files-svc
+spec:
+  selector:
+    matchLabels:
+      app: files-svc
+  template:
+    metadata:
+      labels:
+        app: files-svc
+    spec:
+      containers:
+        - name: files-svc
+          image: maherydock77/shifter-shop.files-svc
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: files-svc
+spec:
+  selector:
+    app: files-svc
+  ports:
+    - port: 3000
+      targetPort: 3000

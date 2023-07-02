@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventory-svc
+  labels:
+    app: inventory-svc
+spec:
+  selector:
+    matchLabels:
+      app: inventory-svc
+  template:
+    metadata:
+      labels:
+        app: inventory-svc
+    spec:
+      containers:
+        - name: inventory-svc
+          image: maherydock77/shifter-shop.inventory-svc
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: database
+                  key: url-inventory
+            - name: AMQP_URL
+              valueFrom:
+                secretKeyRef:
+                  name: amqp
+                  key: amqp-url
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: inventory-svc
+spec:
+  selector:
+    app: inventory-svc
+  ports:
+    - port: 3000
+      targetPort: 3000

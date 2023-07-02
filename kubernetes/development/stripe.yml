@@ -15,12 +15,12 @@ spec:
     spec:
       containers:
         - name: stripe
-          image: stripe/stripe-cli:v1.13.12
+          image: stripe/stripe-cli:v1.14.6
           command:
             - "stripe"
             - "listen"
             - "--forward-to"
-            - "http://api:3000/stripe/webhook"
+            - "http://payment-svc:3000/webhook"
           env:
             - name: STRIPE_DEVICE_NAME
               value: shifter_shop_docker
@@ -29,3 +29,10 @@ spec:
                 secretKeyRef:
                   name: stripe
                   key: private_key
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: "64Mi"
+              cpu: "100m"
