@@ -1,252 +1,6 @@
 version: "3.8"
 
 services:
-  api-gateway:
-    container_name: api-gateway
-    build:
-      context: .
-      dockerfile: ./apps/gateway/Dockerfile
-    ports:
-      - 3000:3000
-    networks:
-      - ss_microservices
-
-  auth-svc:
-    container_name: auth-svc
-    build:
-      context: .
-      dockerfile: ./apps/auth/Dockerfile
-    ports:
-      - 3001:3000
-    environment:
-      - JWT_SECRET=${JWT_SECRET}
-    networks:
-      - ss_microservices
-
-  user-svc:
-    container_name: user-svc
-    build:
-      context: .
-      dockerfile: ./apps/user/Dockerfile
-    ports:
-      - 3002:3000
-    environment:
-      - DATABASE_URL=postgres://postgres:password@postgres:5432/users
-      - AMQP_URL=amqp://rabbitmq:5672
-    networks:
-      - ss_database
-      - ss_microservices
-      - ss_amqp
-    depends_on:
-      - postgres
-      - rabbitmq
-
-  product-svc:
-    container_name: product-svc
-    build:
-      context: .
-      dockerfile: ./apps/product/Dockerfile
-    ports:
-      - 3003:3000
-    environment:
-      - DATABASE_URL=postgres://postgres:password@postgres:5432/products
-      - AMQP_URL=amqp://rabbitmq:5672
-    networks:
-      - ss_database
-      - ss_microservices
-      - ss_amqp
-    depends_on:
-      - postgres
-      - rabbitmq
-
-  category-svc:
-    container_name: category-svc
-    build:
-      context: .
-      dockerfile: ./apps/category/Dockerfile
-    ports:
-      - 3004:3000
-    environment:
-      - DATABASE_URL=postgres://postgres:password@postgres:5432/categories
-    networks:
-      - ss_database
-      - ss_microservices
-    depends_on:
-      - postgres
-
-  review-svc:
-    container_name: review-svc
-    build:
-      context: .
-      dockerfile: ./apps/review/Dockerfile
-    ports:
-      - 3005:3000
-    environment:
-      - DATABASE_URL=postgres://postgres:password@postgres:5432/reviews
-      - AMQP_URL=amqp://rabbitmq:5672
-    networks:
-      - ss_database
-      - ss_microservices
-      - ss_amqp
-    depends_on:
-      - postgres
-      - rabbitmq
-
-  order-svc:
-    container_name: order-svc
-    build:
-      context: .
-      dockerfile: ./apps/order/Dockerfile
-    ports:
-      - 3006:3000
-    environment:
-      - DATABASE_URL=postgres://postgres:password@postgres:5432/orders
-      - AMQP_URL=amqp://rabbitmq:5672
-    networks:
-      - ss_microservices
-      - ss_database
-      - ss_amqp
-    depends_on:
-      - postgres
-      - rabbitmq
-
-  payment-svc:
-    container_name: payment-svc
-    build:
-      context: .
-      dockerfile: ./apps/payment/Dockerfile
-    ports:
-      - 3007:3000
-    environment:
-      - CLIENT_URL=http://localhost:8080
-      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
-      - STRIPE_PUBLIC_KEY=${STRIPE_PUBLIC_KEY}
-      - STRIPE_WEBHOOK_SIGNING_SECRET=${STRIPE_WEBHOOK_SIGNING_SECRET}
-      - AMQP_URL=amqp://rabbitmq:5672
-    networks:
-      - ss_microservices
-      - ss_amqp
-    depends_on:
-      - stripe
-      - rabbitmq
-
-  cart-svc:
-    container_name: cart-svc
-    build:
-      context: .
-      dockerfile: ./apps/cart/Dockerfile
-    ports:
-      - 3008:3000
-    environment:
-      - DATABASE_URL=postgres://postgres:password@postgres:5432/cart
-      - AMQP_URL=amqp://rabbitmq:5672
-    networks:
-      - ss_microservices
-      - ss_database
-      - ss_amqp
-    depends_on:
-      - postgres
-      - rabbitmq
-
-  invoice-svc:
-    container_name: invoice-svc
-    build:
-      context: .
-      dockerfile: ./apps/invoice/Dockerfile
-    ports:
-      - 3009:3000
-    networks:
-      - ss_microservices
-
-  files-svc:
-    container_name: files-svc
-    build:
-      context: .
-      dockerfile: ./apps/files/Dockerfile
-    ports:
-      - 3010:3000
-    networks:
-      - ss_microservices
-
-  mailer-svc:
-    container_name: mailer-svc
-    build:
-      context: .
-      dockerfile: ./apps/mailer/Dockerfile
-    ports:
-      - 3011:3000
-    environment:
-      - MAILER_DSN=${MAILER_DSN}
-      - AMQP_URL=amqp://rabbitmq:5672
-    networks:
-      - ss_microservices
-      - ss_amqp
-    depends_on:
-      - rabbitmq
-      - mailhog
-
-  profile-svc:
-    container_name: profile-svc
-    build:
-      context: .
-      dockerfile: ./apps/profile/Dockerfile
-    ports:
-      - 3012:3000
-    environment:
-      - DATABASE_URL=postgres://postgres:password@postgres:5432/profiles
-      - AMQP_URL=amqp://rabbitmq:5672
-    networks:
-      - ss_database
-      - ss_microservices
-      - ss_amqp
-    depends_on:
-      - postgres
-      - rabbitmq
-  
-  inventory-svc:
-    container_name: inventory-svc
-    build:
-      context: .
-      dockerfile: ./apps/inventory/Dockerfile
-    ports:
-      - 3013:3000
-    environment:
-      - DATABASE_URL=postgres://postgres:password@postgres:5432/inventory
-      - AMQP_URL=amqp://rabbitmq:5672
-    networks:
-      - ss_database
-      - ss_microservices
-      - ss_amqp
-    depends_on:
-      - postgres
-      - rabbitmq
-
-  search-svc:
-    container_name: search-svc
-    build:
-      context: .
-      dockerfile: ./apps/search/Dockerfile
-    ports:
-      - 3014:3000
-    networks:
-      - ss_microservices
-
-  analytics-svc:
-    container_name: analytics-svc
-    build:
-      context: .
-      dockerfile: ./apps/analytics/Dockerfile
-    ports:
-      - 3099:3000
-    environment:
-      - DATABASE_URL=mongodb://root:password@mongo:27017/
-      - DATABASE_NAME=analytics
-    networks:
-      - ss_microservices
-      - ss_mongo
-    depends_on:
-      - mongo
-
   client:
     container_name: client
     build:
@@ -269,17 +23,233 @@ services:
     networks:
       - ss_app
 
+  api-gateway:
+    container_name: api-gateway
+    build:
+      context: .
+      dockerfile: ./apps/gateway/Dockerfile
+    ports:
+      - 3000:3000
+    networks:
+      - ss_microservices
+
+  auth-svc:
+    container_name: auth-svc
+    build:
+      context: .
+      dockerfile: ./apps/auth/Dockerfile
+    environment:
+      - JWT_SECRET=${JWT_SECRET}
+    networks:
+      - ss_microservices
+
+  user-svc:
+    container_name: user-svc
+    build:
+      context: .
+      dockerfile: ./apps/user/Dockerfile
+    environment:
+      - DATABASE_URL=postgres://postgres:password@postgres:5432/users
+      - AMQP_URL=amqp://rabbitmq:5672
+    networks:
+      - ss_database
+      - ss_microservices
+      - ss_amqp
+    depends_on:
+      - postgres
+      - rabbitmq
+
+  product-svc:
+    container_name: product-svc
+    build:
+      context: .
+      dockerfile: ./apps/product/Dockerfile
+    environment:
+      - DATABASE_URL=postgres://postgres:password@postgres:5432/products
+      - AMQP_URL=amqp://rabbitmq:5672
+    networks:
+      - ss_database
+      - ss_microservices
+      - ss_amqp
+    depends_on:
+      - postgres
+      - rabbitmq
+
+  category-svc:
+    container_name: category-svc
+    build:
+      context: .
+      dockerfile: ./apps/category/Dockerfile
+    environment:
+      - DATABASE_URL=postgres://postgres:password@postgres:5432/categories
+    networks:
+      - ss_database
+      - ss_microservices
+    depends_on:
+      - postgres
+
+  review-svc:
+    container_name: review-svc
+    build:
+      context: .
+      dockerfile: ./apps/review/Dockerfile
+    environment:
+      - DATABASE_URL=postgres://postgres:password@postgres:5432/reviews
+      - AMQP_URL=amqp://rabbitmq:5672
+    networks:
+      - ss_database
+      - ss_microservices
+      - ss_amqp
+    depends_on:
+      - postgres
+      - rabbitmq
+
+  order-svc:
+    container_name: order-svc
+    build:
+      context: .
+      dockerfile: ./apps/order/Dockerfile
+    environment:
+      - DATABASE_URL=postgres://postgres:password@postgres:5432/orders
+      - AMQP_URL=amqp://rabbitmq:5672
+    networks:
+      - ss_microservices
+      - ss_database
+      - ss_amqp
+    depends_on:
+      - postgres
+      - rabbitmq
+
+  payment-svc:
+    container_name: payment-svc
+    build:
+      context: .
+      dockerfile: ./apps/payment/Dockerfile
+    environment:
+      - CLIENT_URL=http://localhost:8080
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - STRIPE_PUBLIC_KEY=${STRIPE_PUBLIC_KEY}
+      - STRIPE_WEBHOOK_SIGNING_SECRET=${STRIPE_WEBHOOK_SIGNING_SECRET}
+      - AMQP_URL=amqp://rabbitmq:5672
+    networks:
+      - ss_microservices
+      - ss_amqp
+    depends_on:
+      - stripe
+      - rabbitmq
+
+  cart-svc:
+    container_name: cart-svc
+    build:
+      context: .
+      dockerfile: ./apps/cart/Dockerfile
+    environment:
+      - DATABASE_URL=postgres://postgres:password@postgres:5432/cart
+      - AMQP_URL=amqp://rabbitmq:5672
+    networks:
+      - ss_microservices
+      - ss_database
+      - ss_amqp
+    depends_on:
+      - postgres
+      - rabbitmq
+
+  invoice-svc:
+    container_name: invoice-svc
+    build:
+      context: .
+      dockerfile: ./apps/invoice/Dockerfile
+    networks:
+      - ss_microservices
+
+  files-svc:
+    container_name: files-svc
+    build:
+      context: .
+      dockerfile: ./apps/files/Dockerfile
+    networks:
+      - ss_microservices
+
+  mailer-svc:
+    container_name: mailer-svc
+    build:
+      context: .
+      dockerfile: ./apps/mailer/Dockerfile
+    environment:
+      - MAILER_DSN=${MAILER_DSN}
+      - AMQP_URL=amqp://rabbitmq:5672
+    networks:
+      - ss_microservices
+      - ss_amqp
+    depends_on:
+      - rabbitmq
+      - mailhog
+
+  profile-svc:
+    container_name: profile-svc
+    build:
+      context: .
+      dockerfile: ./apps/profile/Dockerfile
+    environment:
+      - DATABASE_URL=postgres://postgres:password@postgres:5432/profiles
+      - AMQP_URL=amqp://rabbitmq:5672
+    networks:
+      - ss_database
+      - ss_microservices
+      - ss_amqp
+    depends_on:
+      - postgres
+      - rabbitmq
+
+  inventory-svc:
+    container_name: inventory-svc
+    build:
+      context: .
+      dockerfile: ./apps/inventory/Dockerfile
+    environment:
+      - DATABASE_URL=postgres://postgres:password@postgres:5432/inventory
+      - AMQP_URL=amqp://rabbitmq:5672
+    networks:
+      - ss_database
+      - ss_microservices
+      - ss_amqp
+    depends_on:
+      - postgres
+      - rabbitmq
+
+  search-svc:
+    container_name: search-svc
+    build:
+      context: .
+      dockerfile: ./apps/search/Dockerfile
+    networks:
+      - ss_microservices
+
+  analytics-svc:
+    container_name: analytics-svc
+    build:
+      context: .
+      dockerfile: ./apps/analytics/Dockerfile
+    environment:
+      - DATABASE_URL=mongodb://root:password@mongo:27017/
+      - DATABASE_NAME=analytics
+    networks:
+      - ss_microservices
+      - ss_mongo
+    depends_on:
+      - mongo
+
   postgres:
     container_name: postgres
     image: postgres:15
     volumes:
-      - ss_data:/var/lib/postgresql/data/
+      - .db_data:/var/lib/postgresql/data/
+      - ./scripts/sql/shifter-shop-cluster.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - 5432:5432
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=app
     networks:
       - ss_database
 
@@ -300,7 +270,6 @@ services:
     container_name: mailhog
     image: mailhog/mailhog:latest
     ports:
-      - 1025:1025
       - 8025:8025
     networks:
       - ss_microservices
@@ -317,10 +286,7 @@ services:
 
   rabbitmq:
     container_name: rabbitmq
-    image: rabbitmq:3.10-management
-    ports:
-      - 5672:5672
-      - 15672:15672
+    image: rabbitmq:3.10
     networks:
       - ss_amqp
 
@@ -330,6 +296,3 @@ networks:
   ss_database:
   ss_mongo:
   ss_amqp:
-
-volumes:
-  ss_data:
