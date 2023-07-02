@@ -40,14 +40,18 @@ const Sidebar = () => {
               label="Products"
               icon={<CubeIcon />}
               items={[
-                { label: "All products", href: "" },
                 { label: "Add product", href: "new" },
+                { label: "All products", href: "" },
               ]}
             />
-            <SidebarItem
+            <SidebarMenu
               label="Categories"
-              href="/categories"
+              baseUrl="/categories"
               icon={<CubeIcon />}
+              items={[
+                { label: "Add category", href: "new" },
+                { label: "All categories", href: "" },
+              ]}
             />
             <SidebarItem
               label="Reviews"
