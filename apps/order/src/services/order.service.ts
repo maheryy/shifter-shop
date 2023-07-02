@@ -1,6 +1,7 @@
 import { NotFoundError } from "@shifter-shop/errors";
 import {
   EService,
+  EOrderStatus,
   TFullOrder,
   TOrder,
   TProduct,
@@ -120,4 +121,47 @@ export const getFullOrders = async (
       } as unknown as TFullOrder;
     })
   );
+};
+
+export const countOrders = async (status?: string) => {
+  if (
+    status &&
+    !Object.values(EOrderStatus).includes(
+      (status.charAt(0).toUpperCase() +
+        status.slice(1).toLowerCase()) as EOrderStatus
+    )
+  ) {
+    throw new Error("Invalid status");
+  }
+
+  const _status = status
+    ? ((status?.charAt(0).toUpperCase() +
+        status?.slice(1).toLowerCase()) as EOrderStatus)
+    : undefined;
+
+  return OrderEntity.count({
+    where: {
+      status: _status,
+    },
+  });
+};
+
+export const countTotalAmount = async () => {
+  const orders = await OrderEntity.findBy({
+    status: EOrderStatus.Confirmed || EOrderStatus.Delivered,
+  });
+
+  orders.reduce((acc, order) => {
+    return acc + order.amount;
+  }, 0);
+};
+
+export const countTotalSoldProducts = async () => {
+  const orders = await OrderEntity.findBy({
+    status: EOrderStatus.Confirmed || EOrderStatus.Delivered,
+  });
+
+  orders.reduce((acc, order) => {
+    return acc + order.products.length;
+  }, 0);
 };

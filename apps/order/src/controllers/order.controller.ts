@@ -10,6 +10,7 @@ import {
   getFullOrders,
   findOrderById,
   findOrderByReference,
+  countOrders,
 } from "services/order.service";
 import { TOrderCreationData, TOrderUpdateData } from "types/order";
 
@@ -148,6 +149,92 @@ export const getCustomerOrders = async (
     const orders = await findOrdersByCustomerId(customerId);
     const results = await getFullOrders(orders);
     res.status(200).json(results);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getOrdersCount = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userId = req.get("user-id");
+    const role = req.get("user-role");
+
+    if (!userId || !role) {
+      throw new UnauthorizedError(
+        "You must be authenticated to access this resource"
+      );
+    }
+
+    if (role !== EUserRole.Admin) {
+      throw new UnauthorizedError(
+        "You must be an admin to access this resource"
+      );
+    }
+
+    const { status }: { status?: string } = req.query;
+
+    const nbOrders = await countOrders(status);
+    res.status(200).json(nbOrders);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getTotalAmount = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userId = req.get("user-id");
+    const role = req.get("user-role");
+
+    if (!userId || !role) {
+      throw new UnauthorizedError(
+        "You must be authenticated to access this resource"
+      );
+    }
+
+    if (role !== EUserRole.Admin) {
+      throw new UnauthorizedError(
+        "You must be an admin to access this resource"
+      );
+    }
+
+    const totalAmount = await countOrders();
+    res.status(200).json(totalAmount);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getTotalSoldProducts = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userId = req.get("user-id");
+    const role = req.get("user-role");
+
+    if (!userId || !role) {
+      throw new UnauthorizedError(
+        "You must be authenticated to access this resource"
+      );
+    }
+
+    if (role !== EUserRole.Admin) {
+      throw new UnauthorizedError(
+        "You must be an admin to access this resource"
+      );
+    }
+
+    const totalSoldProducts = await countOrders();
+    res.status(200).json(totalSoldProducts);
   } catch (error) {
     next(error);
   }
