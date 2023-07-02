@@ -14,6 +14,8 @@ import { UpdateReviewDto } from './dtos/update-review.dto';
 import { joinResources } from '@shifter-shop/helpers';
 import { TFullReview, TReview } from '@shifter-shop/dictionary';
 import { Auth } from '@shifter-shop/nest';
+import { FindAllyByProductIdParamsDto } from './dtos/find-all-by-product-id.dto';
+import { ParamsDto } from './dtos/params.dto';
 
 @Controller()
 export class ReviewController {
@@ -43,7 +45,7 @@ export class ReviewController {
   }
 
   @Get('/:id')
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param() { id }: ParamsDto) {
     const review = await this.reviewService.findOneById(id);
     const [result] = await joinResources<TFullReview, TReview>(
       [review],
@@ -59,13 +61,15 @@ export class ReviewController {
 
   @Patch('/:id')
   @HttpCode(204)
-  async update(@Body() review: UpdateReviewDto, @Param('id') id: string) {
+  async update(@Body() review: UpdateReviewDto, @Param() { id }: ParamsDto) {
     return this.reviewService.update(id, review);
   }
 
   // TODO: use findAll (GET /) instead with seller filter
   @Get('/product/:productId')
-  async findAllByProductId(@Param('productId') productId: string) {
+  async findAllByProductId(
+    @Param() { productId }: FindAllyByProductIdParamsDto,
+  ) {
     const reviews = await this.reviewService.findAllByProductId(productId);
     const results = await joinResources<TFullReview, TReview>(reviews, [
       { service: 'user', key: 'authorId', addKey: 'author' },

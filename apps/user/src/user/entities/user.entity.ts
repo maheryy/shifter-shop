@@ -6,16 +6,16 @@ export class User implements TUser {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column('varchar', { unique: true })
+  @Column('varchar', { unique: true, length: 254 })
   email: string;
 
-  @Column('varchar')
+  @Column('varchar', { length: 128 })
   firstname: string;
 
-  @Column('varchar')
+  @Column('varchar', { length: 128 })
   lastname: string;
 
-  @Column('varchar')
+  @Column('varchar', { length: 128 })
   password: string;
 
   @Column('enum', { enum: EUserRole, default: EUserRole.Customer })

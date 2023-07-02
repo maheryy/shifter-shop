@@ -10,25 +10,25 @@ export class Address implements TAddress {
   @ManyToOne(() => CustomerProfile, (profile) => profile.addresses)
   profile: CustomerProfile;
 
-  @Column('varchar')
+  @Column('varchar', { length: 256 })
   fullName: string;
 
-  @Column('varchar')
+  @Column('varchar', { length: 256 })
   address1: string;
 
-  @Column('varchar', { nullable: true })
+  @Column('varchar', { nullable: true, length: 256 })
   address2?: string;
 
-  @Column('varchar')
+  @Column('varchar', { length: 256 })
   city: string;
 
-  @Column('varchar')
+  @Column('varchar', { length: 16 })
   zip: string;
 
-  @Column('varchar')
+  @Column('varchar', { length: 256 })
   province: string;
 
-  @Column('varchar')
+  @Column('varchar', { length: 32 })
   phone: string;
 
   @Column('boolean', { default: false })

@@ -7,13 +7,13 @@ export class Review implements TReview {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column('varchar', { nullable: true })
+  @Column('varchar', { nullable: true, length: 256 })
   title?: string;
 
-  @Column('varchar', { nullable: true })
+  @Column('varchar', { nullable: true, length: 2048 })
   details?: string;
 
-  @Column('float')
+  @Column('float', { default: 0 })
   rating: number;
 
   @Column('uuid')

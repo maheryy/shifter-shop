@@ -11,6 +11,8 @@ import { NotEmptyBody } from '@shifter-shop/nest';
 import { CategoryService } from 'src/category/category.service';
 import { CreateCategoryDto } from 'src/category/dtos/create-category.dto';
 import { UpdateCategoryDto } from 'src/category/dtos/update-category.dto';
+import { FindOneParamsDto } from './dtos/find-one-params.dto';
+import { UpdateParamsDto } from './dtos/update-params.dto';
 
 @Controller()
 export class CategoryController {
@@ -28,14 +30,17 @@ export class CategoryController {
 
   // Private route for microservices
   @Get('/:id')
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param() { id }: FindOneParamsDto) {
     return this.categoryService.findOneById(id);
   }
 
   @Patch('/:id')
   @HttpCode(204)
   @NotEmptyBody()
-  async update(@Param('id') id: string, @Body() category: UpdateCategoryDto) {
+  async update(
+    @Param() { id }: UpdateParamsDto,
+    @Body() category: UpdateCategoryDto,
+  ) {
     return this.categoryService.update(id, category);
   }
 }

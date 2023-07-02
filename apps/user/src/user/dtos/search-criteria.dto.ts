@@ -1,3 +1,4 @@
+import { Transform, TransformFnParams } from 'class-transformer';
 import { IsEmail, IsNotEmpty, IsOptional, IsUUID } from 'class-validator';
 
 export class SearchCriteriaDto {
@@ -11,9 +12,11 @@ export class SearchCriteriaDto {
 
   @IsOptional()
   @IsNotEmpty()
+  @Transform(({ value }: TransformFnParams) => value?.trim())
   firstname?: string;
 
   @IsNotEmpty()
   @IsOptional()
+  @Transform(({ value }: TransformFnParams) => value?.trim())
   lastname?: string;
 }

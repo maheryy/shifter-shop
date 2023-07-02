@@ -13,7 +13,12 @@ async function bootstrap() {
     new FastifyAdapter(),
   );
 
-  app.useGlobalPipes(new ValidationPipe());
+  const validationPipe = new ValidationPipe({
+    whitelist: true,
+    forbidNonWhitelisted: true,
+  });
+
+  app.useGlobalPipes(validationPipe);
 
   await app.listen(process.env.PORT || 3000, '0.0.0.0');
   await amqp.connect();

@@ -1,3 +1,4 @@
+import { Transform, TransformFnParams } from 'class-transformer';
 import {
   IsNotEmpty,
   IsOptional,
@@ -10,5 +11,6 @@ export class UpdateProfileDto {
   @IsNotEmpty()
   @IsOptional()
   @IsPhoneNumber('FR')
+  @Transform(({ value }: TransformFnParams) => value?.trim())
   phone?: string;
 }

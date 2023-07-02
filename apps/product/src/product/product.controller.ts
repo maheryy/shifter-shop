@@ -14,6 +14,10 @@ import { CreateProductDto } from 'src/product/dtos/create-product.dto';
 import { UpdateProductDto } from 'src/product/dtos/update-product.dto';
 import { joinResources } from '@shifter-shop/helpers';
 import { TFullProduct, TProduct } from '@shifter-shop/dictionary';
+import { FindOneParamsDto } from './dtos/find-one-params.dto';
+import { FindAllBySellerIdParamsDto } from './dtos/find-all-by-seller-id-params.dto';
+import { FindAllByCategoryIdParams } from './dtos/find-all-by-category-id-params.dto';
+import { UpdateParamsDto } from './dtos/update-params.dto';
 
 @Controller()
 export class ProductController {
@@ -44,7 +48,7 @@ export class ProductController {
   }
 
   @Get('/:id')
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param() { id }: FindOneParamsDto) {
     const product = await this.productService.findOneById(id);
 
     const [result] = await joinResources<TFullProduct, TProduct>(
@@ -60,13 +64,18 @@ export class ProductController {
 
   @Patch('/:id')
   @HttpCode(204)
-  async update(@Body() product: UpdateProductDto, @Param('id') id: string) {
+  async update(
+    @Body() product: UpdateProductDto,
+    @Param() { id }: UpdateParamsDto,
+  ) {
     return this.productService.update(id, product);
   }
 
   // TODO: use findAll (GET /) instead with category filter
   @Get('/category/:categoryId')
-  async findAllByCategoryId(@Param('categoryId') categoryId: string) {
+  async findAllByCategoryId(
+    @Param() { categoryId }: FindAllByCategoryIdParams,
+  ) {
     const products = await this.productService.findAllByCategory(categoryId);
     const results = await joinResources<TFullProduct, TProduct>(products, [
       { service: 'category', key: 'categoryId', addKey: 'category' },
@@ -78,7 +87,7 @@ export class ProductController {
 
   // TODO: use findAll (GET /) instead with seller filter
   @Get('/seller/:sellerId')
-  async findAllBySellerId(@Param('sellerId') sellerId: string) {
+  async findAllBySellerId(@Param() { sellerId }: FindAllBySellerIdParamsDto) {
     const products = await this.productService.findAllBySeller(sellerId);
     const results = await joinResources<TFullProduct, TProduct>(products, [
       { service: 'category', key: 'categoryId', addKey: 'category' },

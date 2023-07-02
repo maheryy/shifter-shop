@@ -7,7 +7,7 @@ export class CustomerProfile implements TCustomerProfile {
   @PrimaryColumn('uuid')
   id: string;
 
-  @Column('varchar', { nullable: true })
+  @Column('varchar', { nullable: true, length: 32 })
   phone?: string;
 
   @OneToMany(() => Address, (address) => address.profile)

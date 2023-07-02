@@ -6,7 +6,6 @@ import {
   Patch,
   Post,
   Headers,
-  UnauthorizedException,
   Query,
 } from '@nestjs/common';
 import { Auth, NotEmptyBody, RemovePassword } from '@shifter-shop/nest';
@@ -15,6 +14,8 @@ import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { SearchCriteriaDto } from './dtos/search-criteria.dto';
 import { UpdateAuthenticatedUserDto } from './dtos/update-authenticated-user.dto';
+import { FindOneParamsDto } from './dtos/find-one-params.dto';
+import { UpdateUserParamsDto } from './dtos/update-user-params.dto';
 
 @Controller()
 export class UserController {
@@ -29,7 +30,7 @@ export class UserController {
   // Private route to be used through microservices
   @RemovePassword()
   @Get('/:id')
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param() { id }: FindOneParamsDto) {
     return this.userService.findOneById(id);
   }
 
@@ -52,7 +53,10 @@ export class UserController {
   @RemovePassword()
   @NotEmptyBody()
   @Patch('/:id')
-  async update(@Body() user: UpdateUserDto, @Param('id') id: string) {
+  async update(
+    @Body() user: UpdateUserDto,
+    @Param() { id }: UpdateUserParamsDto,
+  ) {
     return this.userService.update(id, user);
   }
 
