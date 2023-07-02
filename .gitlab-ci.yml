@@ -10,7 +10,6 @@ stages:
   - test
   - deploy
 
-include:
+# include:
   # - local: .gitlab/client.gitlab-ci.yml
   # - local: .gitlab/admin.gitlab-ci.yml
-  - local: .gitlab/api.gitlab-ci.yml

@@ -109,6 +109,6 @@ $ npx nx run-many --target=test // Test all apps
 
 ## License
 
-[![license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/3kezoh/blackjack/blob/master/LICENSE)
+[![license](https://img.shields.io/badge/license-MIT-green.svg)](https://gitlab.com/shifter-shop/shifter-shop/-/blob/dev/LICENSE)
 
 This project is licensed under the terms of the [MIT License](https://choosealicense.com/licenses/mit/).
