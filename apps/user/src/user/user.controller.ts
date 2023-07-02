@@ -9,7 +9,7 @@ import {
   UnauthorizedException,
   Query,
 } from '@nestjs/common';
-import { NotEmptyBody, RemovePassword } from '@shifter-shop/nest';
+import { Auth, NotEmptyBody, RemovePassword } from '@shifter-shop/nest';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
@@ -58,6 +58,7 @@ export class UserController {
     return this.userService.update(id, user);
   }
 
+  @Auth()
   @RemovePassword()
   @NotEmptyBody()
   @Patch()
@@ -65,10 +66,6 @@ export class UserController {
     @Body() user: UpdateAuthenticatedUserDto,
     @Headers('user-id') userId: string,
   ) {
-    if (!userId) {
-      throw new UnauthorizedException();
-    }
-
     return this.userService.update(userId, user);
   }
 }

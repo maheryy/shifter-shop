@@ -7,9 +7,9 @@ import {
   Param,
   Delete,
   Headers,
-  UnauthorizedException,
   HttpCode,
 } from '@nestjs/common';
+import { Auth } from '@shifter-shop/nest';
 import { AddressService } from './address.service';
 import { CreateAddressDto } from './dto/create-address.dto';
 import { UpdateAddressDto } from './dto/update-address.dto';
@@ -18,6 +18,7 @@ import { EUserRole } from '@shifter-shop/dictionary';
 import { CustomerProfile } from 'src/customer/entities/customer-profile.entity';
 import { Address } from './entities/address.entity';
 
+@Auth()
 @Controller('/addresses')
 export class AddressController {
   constructor(
@@ -30,12 +31,6 @@ export class AddressController {
     @Headers('user-id') userId: string,
     @Body() createAddressDto: CreateAddressDto,
   ) {
-    if (!userId) {
-      throw new UnauthorizedException(
-        'You must be authenticated to access this resource',
-      );
-    }
-
     const profile = await this.customerService.findById(userId);
 
     return this.addressService.create({ ...createAddressDto, profile });
@@ -46,12 +41,6 @@ export class AddressController {
     @Headers('user-id') userId: string,
     @Headers('user-role') userRole: EUserRole,
   ) {
-    if (!userId) {
-      throw new UnauthorizedException(
-        'You must be authenticated to access this resource',
-      );
-    }
-
     if (userRole !== EUserRole.Admin) {
       return this.addressService.findByProfile(userId);
     }
@@ -64,12 +53,6 @@ export class AddressController {
     @Headers('user-id') userId: CustomerProfile['id'],
     @Param('id') id: Address['id'],
   ) {
-    if (!userId) {
-      throw new UnauthorizedException(
-        'You must be authenticated to access this resource',
-      );
-    }
-
     return this.addressService.findOneById(userId, id);
   }
 
@@ -79,12 +62,6 @@ export class AddressController {
     @Param('id') id: Address['id'],
     @Body() updateAddressDto: UpdateAddressDto,
   ) {
-    if (!userId) {
-      throw new UnauthorizedException(
-        'You must be authenticated to access this resource',
-      );
-    }
-
     return this.addressService.update(userId, id, updateAddressDto);
   }
 
@@ -94,12 +71,6 @@ export class AddressController {
     @Headers('user-id') userId: CustomerProfile['id'],
     @Param('id') id: Address['id'],
   ) {
-    if (!userId) {
-      throw new UnauthorizedException(
-        'You must be authenticated to access this resource',
-      );
-    }
-
     return this.addressService.remove(userId, id);
   }
 
@@ -109,12 +80,6 @@ export class AddressController {
     @Headers('user-id') userId: CustomerProfile['id'],
     @Param('id') id: Address['id'],
   ) {
-    if (!userId) {
-      throw new UnauthorizedException(
-        'You must be authenticated to access this resource',
-      );
-    }
-
     return this.addressService.setDefault(userId, id);
   }
 }

@@ -7,7 +7,7 @@ import {
   Post,
   UnauthorizedException,
 } from '@nestjs/common';
-import { RemovePassword } from '@shifter-shop/nest';
+import { RemovePassword, Auth } from '@shifter-shop/nest';
 import { AuthService } from 'src/auth/auth.service';
 import { LoginDto } from 'src/auth/dtos/login.dto';
 import { RegisterDto } from 'src/auth/dtos/register.dto';
@@ -22,6 +22,7 @@ export class AuthController {
     private readonly jwtService: JwtService,
   ) {}
 
+  @Auth()
   @Get('/profile')
   async profile(@Headers('user-id') userId: string) {
     return this.authService.getUserById(userId);
