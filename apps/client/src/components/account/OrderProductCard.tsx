@@ -17,7 +17,7 @@ function OrderProductCard({ product, orderId }: OrderProductCardProps) {
 
   const buyAgain = () => {
     updateMutation.mutate({
-      productId: product.id,
+      product,
       quantity: data ? data + 1 : 1,
     });
 

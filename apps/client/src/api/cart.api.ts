@@ -1,5 +1,5 @@
-import { Cart } from "@/types/cart";
-import { UpdateProductQuantity } from "@/types/cartProduct";
+import { TCart } from "@/types/cart";
+import { UpdateLocalProductQuantity } from "@/types/cartProduct";
 import api from ".";
 
 /**
@@ -7,7 +7,7 @@ import api from ".";
  * @param cartId The id of the cart to get.
  * @returns A promise that resolves to the cart.
  */
-export function getCart(): Promise<Cart> {
+export function getCart(): Promise<TCart> {
   return api.get("/cart").json();
 }
 
@@ -19,9 +19,12 @@ export function getCart(): Promise<Cart> {
  *  @returns A promise that resolves to the updated cart.
  */
 export function updateProductQuantity(
-  payload: UpdateProductQuantity,
-): Promise<Cart> {
-  return api.post(payload, `/cart`).json();
+  payload: UpdateLocalProductQuantity,
+): Promise<TCart> {
+  const { product, quantity } = payload;
+  const { id: productId } = product;
+
+  return api.post({ productId, quantity }, `/cart`).json();
 }
 
 /**
@@ -30,6 +33,6 @@ export function updateProductQuantity(
  * @param payload The local cart to synchronize.
  * @returns A promise that resolves to the updated cart.
  */
-export function synchronizeCart(payload: Cart): Promise<Cart> {
+export function synchronizeCart(payload: TCart): Promise<TCart> {
   return api.post(payload, `/cart/synchronize`).json();
 }

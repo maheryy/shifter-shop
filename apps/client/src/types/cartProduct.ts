@@ -6,6 +6,11 @@ const CartProduct = z.object({
   quantity: z.number(),
 });
 
+const UpdateLocalProductQuantity = z.object({
+  product: Product,
+  quantity: z.number(),
+});
+
 const UpdateProductQuantity = z.object({
   productId: Product.shape.id,
   quantity: z.number(),
@@ -13,5 +18,9 @@ const UpdateProductQuantity = z.object({
 
 export type CartProduct = z.infer<typeof CartProduct>;
 export type UpdateProductQuantity = z.infer<typeof UpdateProductQuantity>;
+
+export type UpdateLocalProductQuantity = z.infer<
+  typeof UpdateLocalProductQuantity
+>;
 
 export default CartProduct;

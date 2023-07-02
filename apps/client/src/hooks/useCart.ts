@@ -1,13 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import * as cartApi from "@/api/cart.api";
 import * as cartLocal from "@/core/cart.local";
-import { Cart } from "@/types/cart";
+import { TCart } from "@/types/cart";
 import QueryKey from "@/types/query";
 import { useAuthContext } from "./context";
 
 export type UseCart = ReturnType<typeof useCart>;
 
-function useCart<T = Cart>(select?: (data: Cart) => T) {
+function useCart<T = TCart>(select?: (data: TCart) => T) {
   const queryClient = useQueryClient();
   const { isAuthenticated } = useAuthContext();
 
@@ -17,7 +17,7 @@ function useCart<T = Cart>(select?: (data: Cart) => T) {
     select,
   });
 
-  function onSuccess(cart: Cart) {
+  function onSuccess(cart: TCart) {
     queryClient.setQueryData([QueryKey.enum.cart], cart);
   }
 
