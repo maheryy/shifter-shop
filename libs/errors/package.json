@@ -7,6 +7,9 @@
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "dependencies": {
+    "@shifter-shop/logger": "*"
+  },
   "devDependencies": {
     "@types/express": "^4.17.17",
     "typescript": "^5.0.4"

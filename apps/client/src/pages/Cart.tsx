@@ -2,13 +2,14 @@ import EmptyCart from "@illustrations/empty-cart.svg";
 import { Link, useNavigate } from "react-router-dom";
 import CartProductCard from "@/components/cart/CartProductCard";
 import CartSummaryItem from "@/components/cart/CartSummaryItem";
-import { useCartProducts } from "@/hooks/useCart";
+import useCart from "@/hooks/useCart";
+import { TCart } from "@/types/cart";
 import { formatPrice } from "@/utils/format";
 import isEmpty from "@/utils/isEmpty";
 
 function Cart() {
   const navigate = useNavigate();
-  const { cartQuery } = useCartProducts();
+  const { cartQuery } = useCart();
   const { data, isError, isLoading } = cartQuery;
 
   if (isLoading) {
@@ -46,7 +47,7 @@ function Cart() {
   }
 
   const price = data.reduce(
-    (acc, { price, quantity }) => acc + price * quantity,
+    (acc, { product, quantity }) => acc + product.price * quantity,
     0,
   );
 
@@ -59,8 +60,11 @@ function Cart() {
   return (
     <section className="container grid items-start gap-4 py-8 lg:grid-cols-12">
       <div className="grid gap-2 lg:col-span-8">
-        {data.map((product) => (
-          <CartProductCard cartProduct={product} key={product.id} />
+        {data.map((cartProduct) => (
+          <CartProductCard
+            cartProduct={cartProduct}
+            key={cartProduct.product.id}
+          />
         ))}
       </div>
       <div className="grid gap-4 rounded border border-gray-200 p-4 lg:col-span-4">
@@ -68,8 +72,11 @@ function Cart() {
           Order summary
         </h4>
         <div className="">
-          {data.map((product) => (
-            <CartSummaryItem key={product.id} product={product} />
+          {sortCart(data).map((cartProduct) => (
+            <CartSummaryItem
+              cartProduct={cartProduct}
+              key={cartProduct.product.id}
+            />
           ))}
         </div>
         <div className="flex justify-between border-b border-gray-200 py-2 text-sm font-medium uppercase text-gray-800">
@@ -96,3 +103,7 @@ function Cart() {
 }
 
 export default Cart;
+
+function sortCart(cart: TCart): TCart {
+  return cart.sort((a, b) => a.product.name.localeCompare(b.product.name));
+}

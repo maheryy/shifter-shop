@@ -1,22 +1,23 @@
 import { z } from "zod";
 import User from "@/types/user";
-import OrderProduct from "./orderProduct";
+import Product from "./product";
 
 export const OrderStatus = z.enum([
-  "pending",
-  "confirmed",
-  "shipping",
-  "delivered",
+  "Pending",
+  "Confirmed",
+  "Shipping",
+  "Delivered",
+  "Canceled",
 ]);
 
 const Order = z.object({
-  id: z.number(),
+  id: z.string().uuid(),
   reference: z.string(),
-  totalAmount: z.number(),
+  amount: z.number(),
   date: z.string(),
   status: OrderStatus,
   customer: User,
-  products: z.array(OrderProduct),
+  products: z.array(Product),
 });
 
 export type Order = z.infer<typeof Order>;

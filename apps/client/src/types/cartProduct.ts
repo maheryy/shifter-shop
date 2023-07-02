@@ -2,18 +2,12 @@ import { z } from "zod";
 import Product from "./product";
 
 const CartProduct = z.object({
-  id: z.number(),
-  name: z.string(),
-  description: z.string(),
-  price: z.number(),
-  image: z.string(),
+  product: Product,
   quantity: z.number(),
-  rating: z.number(),
-  reviewsCount: z.number(),
 });
 
-const AddProductToCart = z.object({
-  productToAdd: Product,
+const UpdateLocalProductQuantity = z.object({
+  product: Product,
   quantity: z.number(),
 });
 
@@ -23,7 +17,10 @@ const UpdateProductQuantity = z.object({
 });
 
 export type CartProduct = z.infer<typeof CartProduct>;
-export type AddProductToCart = z.infer<typeof AddProductToCart>;
 export type UpdateProductQuantity = z.infer<typeof UpdateProductQuantity>;
+
+export type UpdateLocalProductQuantity = z.infer<
+  typeof UpdateLocalProductQuantity
+>;
 
 export default CartProduct;

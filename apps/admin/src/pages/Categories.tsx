@@ -31,7 +31,7 @@ const Categories = () => {
         console.log(error);
       });
   }, []);
-
+  
   return (
     <div>
       <div className="flex flex-col flex-1 w-full">

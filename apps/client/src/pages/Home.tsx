@@ -1,25 +1,15 @@
 import RefundIcon from "@icons/refund.svg";
 import SupportIcon from "@icons/support-247.svg";
 import VanIcon from "@icons/van.svg";
-import { useEffect, useState } from "react";
-import { getCategories } from "@/api/category.api";
-import { getProducts } from "@/api/product.api";
 import Ad from "@/components/home/Ad";
-import CategoryCard from "@/components/home/CategoryCard";
+import Categories from "@/components/home/Categories";
 import Feature from "@/components/home/Feature";
 import Hero from "@/components/home/Hero";
 import ProductCard from "@/components/ProductCard";
-import { Category } from "@/types/category";
-import { Product } from "@/types/product";
+import useProducts from "@/hooks/useProducts";
 
 const Home = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
-
-  useEffect(() => {
-    getProducts().then(setProducts).catch(console.error);
-    getCategories().then(setCategories).catch(console.error);
-  }, []);
+  const { data } = useProducts();
 
   return (
     <>
@@ -47,22 +37,13 @@ const Home = () => {
           title="24/7 Support"
         />
       </section>
-      <section className="container py-8">
-        <h2 className="mb-6 text-2xl font-medium uppercase text-gray-800">
-          Categories
-        </h2>
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-          {categories.map((category) => (
-            <CategoryCard category={category} key={`c-${category.id}`} />
-          ))}
-        </div>
-      </section>
+      <Categories />
       <section className="container py-8">
         <h2 className="mb-6 text-2xl font-medium uppercase text-gray-800">
           Top new arrivals
         </h2>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-          {products.slice(0, 4).map((product) => (
+          {data?.slice(0, 4).map((product) => (
             <ProductCard key={`tna-${product.id}`} product={product} />
           ))}
         </div>
@@ -79,7 +60,7 @@ const Home = () => {
           Recommended for you
         </h2>
         <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
-          {products.slice(4, 12).map((product) => (
+          {data?.slice(4, 12).map((product) => (
             <ProductCard key={`rfy-${product.id}`} product={product} />
           ))}
         </div>

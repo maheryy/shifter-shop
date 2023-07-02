@@ -7,8 +7,8 @@ import {
   Post,
   Headers,
   HttpCode,
-  UnauthorizedException,
 } from '@nestjs/common';
+import { Auth } from '@shifter-shop/nest';
 import { ProductService } from 'src/product/product.service';
 import { CreateProductDto } from 'src/product/dtos/create-product.dto';
 import { UpdateProductDto } from 'src/product/dtos/update-product.dto';
@@ -19,14 +19,12 @@ import { TFullProduct, TProduct } from '@shifter-shop/dictionary';
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
+  @Auth()
   @Post()
   async create(
     @Headers('user-id') userId: string,
     @Body() product: CreateProductDto,
   ) {
-    if (!userId) {
-      throw new UnauthorizedException();
-    }
     // TODO : change these values
     product.sellerId = userId;
     product.image = product.image || 'https://picsum.photos/200';

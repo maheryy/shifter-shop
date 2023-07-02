@@ -1,13 +1,14 @@
 import { RouteObject } from "react-router-dom";
 import AccountLayout from "@/layouts/CustomerLayout";
 import Account from "@/pages/account/Account";
-import Addresses, { addressesLoader } from "@/pages/account/Addresses";
+import Addresses from "@/pages/account/Addresses";
 import ChangePassword from "@/pages/account/ChangePassword";
+import EditAddress, { editAddressLoader } from "@/pages/account/EditAddress";
 import NewAddress from "@/pages/account/NewAddress";
 import NewReview, { newReviewLoader } from "@/pages/account/NewReview";
 import Orders from "@/pages/account/Orders";
 import Profile from "@/pages/account/Profile";
-import Reviews, { reviewsLoader } from "@/pages/account/Reviews";
+import Reviews from "@/pages/account/Reviews";
 import NotFound from "@/pages/errors/NotFound";
 
 const accountRoutes: RouteObject = {
@@ -36,11 +37,15 @@ const accountRoutes: RouteObject = {
         {
           index: true,
           element: <Addresses />,
-          loader: addressesLoader,
         },
         {
           path: "new",
           element: <NewAddress />,
+        },
+        {
+          path: "edit/:addressId",
+          element: <EditAddress />,
+          loader: editAddressLoader,
         },
       ],
     },
@@ -53,7 +58,6 @@ const accountRoutes: RouteObject = {
     {
       path: "reviews",
       element: <Reviews />,
-      loader: reviewsLoader,
     },
     {
       path: "delete-account",

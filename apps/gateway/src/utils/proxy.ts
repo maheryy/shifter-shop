@@ -1,9 +1,11 @@
-import { Router } from "express";
+import { Request, Response, Router } from "express";
 import { createProxyMiddleware } from "http-proxy-middleware";
 import { registerMiddlewares } from "./middleware";
 import { buildPath, sanitize } from "./url";
 import { context } from "middlewares/context";
 import { HttpMethod, TServiceConfig } from "@shifter-shop/dictionary";
+import { IncomingMessage } from "http";
+import { logger } from "@shifter-shop/logger";
 
 const NODE_ENV =
   process.env.NODE_ENV === "production" ? "production" : "development";
@@ -20,27 +22,12 @@ export const registerRoutes = (services: TServiceConfig[]): Router => {
         !Array.isArray(service.routes) ||
         service.routes.length === 0
       ) {
-        console.error(
-          `\x1b[33m[${service.name}] No available routes found\x1b[0m`
-        );
+        logger.warn(`[${service.name}] No available routes found`);
         return;
       }
 
       const servicePath = sanitize(service.path || service.name);
-      const serviceProxy = createProxyMiddleware({
-        target: service[NODE_ENV].url,
-        headers: { "powered-by": "shifter-shop" },
-        changeOrigin: true,
-        logLevel: "silent",
-        pathRewrite: { [`^/${servicePath}`]: "" },
-        onError: (err, req, res) => {
-          console.error(`\x1b[31m[${service.name}] ${err.message}\x1b[0m`);
-          res.status(503).json({
-            statusCode: 503,
-            message: `Service ${service.name} is unavailable`,
-          });
-        },
-      });
+      const serviceProxy = proxify(service);
 
       // Define routes for each service and register their own middlewares
       service.routes
@@ -63,20 +50,49 @@ export const registerRoutes = (services: TServiceConfig[]): Router => {
 
           router[method](endpoint, ...middlewares, serviceProxy);
 
-          console.info(
-            `\x1b[36m[${
+          logger.info(
+            `[${
               service.name
             }] ${route.method.toUpperCase()} ${endpoint} -> ${proxyEndpoint} ${
               middlewares.length > 0
                 ? `(${middlewares.length - 1} middlewares)`
                 : ""
-            }\x1b[0m`
+            }`
           );
         });
-
-      // TEST: register a single proxy for the entire service instead of registering the same one on each route
-      // router.use(`/${service.name}`, serviceProxy);
     });
 
   return router;
 };
+
+export const proxify = (service: TServiceConfig) => {
+  const servicePath = sanitize(service.path || service.name);
+  return createProxyMiddleware({
+    target: service[NODE_ENV].url,
+    pathRewrite: { [`^/${servicePath}`]: "" },
+    changeOrigin: true,
+    headers: { "powered-by": "shifter-shop" },
+    logLevel: "silent",
+    onError: onProxyError(service),
+    // onProxyRes: onProxyResponse(service),
+  });
+};
+
+const onProxyError =
+  (service: TServiceConfig) => (err: Error, req: Request, res: Response) => {
+    res.status(503).json({
+      statusCode: 503,
+      message: `Service ${service.name} is unavailable`,
+    });
+    logger.error(`Service ${service.name} is unavailable: ${err.message}`);
+  };
+
+const onProxyResponse =
+  (service: TServiceConfig) =>
+  (proxyRes: IncomingMessage, req: Request, res: Response) => {
+    logger.info(
+      `[${service.name}] ${req.method.toUpperCase()} ${req.originalUrl} -> ${
+        proxyRes.statusCode
+      }`
+    );
+  };

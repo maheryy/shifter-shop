@@ -1,13 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useCallback } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { z } from "zod";
-import { getAuthToken, getUser } from "@/api/user.api";
 import Button from "@/components/Button";
 import Form from "@/components/Form";
 import Input from "@/components/Input";
-import { useAuthContext } from "@/hooks/context";
+import useLogin from "@/hooks/useLogin";
 import { ToLogInNavigationState } from "./Register/Landing";
 
 const schema = z.object({
@@ -18,9 +16,8 @@ const schema = z.object({
 type LoginFieldValues = z.infer<typeof schema>;
 
 const LogIn = () => {
-  const navigate = useNavigate();
   const location = useLocation();
-  const { authenticate } = useAuthContext();
+
   const { email, redirectTo } =
     (location.state as ToLogInNavigationState) || {};
 
@@ -33,27 +30,9 @@ const LogIn = () => {
     resolver: zodResolver(schema),
   });
 
-  const onSubmit: SubmitHandler<LoginFieldValues> = useCallback(
-    async ({ email, password }) => {
-      try {
-        const { token } = await getAuthToken({ email, password });
-        const user = await getUser(token);
+  const { mutate } = useLogin(redirectTo ?? "/business");
 
-        authenticate(user, token);
-
-        if (!redirectTo) {
-          return navigate("/business");
-        }
-
-        return navigate(redirectTo);
-      } catch (error) {
-        if (error instanceof Error) {
-          console.error(error.message);
-        }
-      }
-    },
-    [authenticate, navigate, redirectTo],
-  );
+  const onSubmit = mutate as SubmitHandler<LoginFieldValues>;
 
   return (
     <section className="container grid gap-8 py-16 md:justify-items-center">

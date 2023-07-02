@@ -7,10 +7,10 @@ import {
   Post,
   HttpCode,
 } from '@nestjs/common';
+import { NotEmptyBody } from '@shifter-shop/nest';
 import { CategoryService } from 'src/category/category.service';
 import { CreateCategoryDto } from 'src/category/dtos/create-category.dto';
 import { UpdateCategoryDto } from 'src/category/dtos/update-category.dto';
-import { EmptyBodyPipe } from './pipes/empty-body';
 
 @Controller()
 export class CategoryController {
@@ -34,10 +34,8 @@ export class CategoryController {
 
   @Patch('/:id')
   @HttpCode(204)
-  async update(
-    @Param('id') id: string,
-    @Body(new EmptyBodyPipe()) category: UpdateCategoryDto,
-  ) {
+  @NotEmptyBody()
+  async update(@Param('id') id: string, @Body() category: UpdateCategoryDto) {
     return this.categoryService.update(id, category);
   }
 }

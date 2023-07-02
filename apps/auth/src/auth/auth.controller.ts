@@ -7,12 +7,14 @@ import {
   Post,
   UnauthorizedException,
 } from '@nestjs/common';
+import { RemovePassword, Auth } from '@shifter-shop/nest';
 import { AuthService } from 'src/auth/auth.service';
 import { LoginDto } from 'src/auth/dtos/login.dto';
 import { RegisterDto } from 'src/auth/dtos/register.dto';
 import { JwtService } from 'src/jwt/jwt.service';
 import { TokenDto } from 'src/auth/dtos/token.dto';
 
+@RemovePassword()
 @Controller()
 export class AuthController {
   constructor(
@@ -20,6 +22,7 @@ export class AuthController {
     private readonly jwtService: JwtService,
   ) {}
 
+  @Auth()
   @Get('/profile')
   async profile(@Headers('user-id') userId: string) {
     return this.authService.getUserById(userId);
@@ -30,7 +33,7 @@ export class AuthController {
     const user = await this.authService.register(registerDto);
     const token = await this.jwtService.generateToken({ userId: user.id });
 
-    return { token };
+    return { token, user };
   }
 
   @HttpCode(200)
@@ -39,7 +42,7 @@ export class AuthController {
     const user = await this.authService.verify(data.email, data.password);
     const token = await this.jwtService.generateToken({ userId: user.id });
 
-    return { token };
+    return { token, user };
   }
 
   // Private route for microservices

@@ -1,15 +1,15 @@
 import TrashIcon from "@icons/trash.svg";
-import { Fragment, useCallback } from "react";
-import { toast } from "react-toastify";
-import { deleteAddress, setDefaultAddress } from "@/api/address.api";
-import { Address } from "@/types/address";
+import { Fragment } from "react";
+import { Link } from "react-router-dom";
+import useAddress from "@/hooks/useAddress";
+import { TAddress } from "@/types/address";
 
-interface AddressProps extends Omit<Address, "user"> {
-  isDefault?: boolean;
-}
+type AddressProps = Omit<TAddress, "profile">;
 
 function Address({
   id,
+  fullName,
+  phone,
   address1,
   address2,
   city,
@@ -17,26 +17,24 @@ function Address({
   zip,
   isDefault = false,
 }: AddressProps) {
-  const onDelete = useCallback(async () => {
-    await deleteAddress(id);
+  const { deleteAddressMutation, setDefaultAddressMutation } = useAddress();
 
-    toast.success("Address deleted successfully");
-  }, [id]);
+  function onDelete() {
+    deleteAddressMutation.mutate(id);
+  }
 
-  const onEdit = useCallback(() => {
-    toast("Not implemented, should be a link to edit the address page");
-  }, []);
-
-  const onSetAsDefault = useCallback(async () => {
-    await setDefaultAddress(id);
-
-    toast.success("Address set as default successfully");
-  }, [id]);
+  function onSetDefault() {
+    setDefaultAddressMutation.mutate(id);
+  }
 
   return (
     <div className="grid gap-4 rounded p-4 shadow md:gap-8 md:p-8">
       <div className="grid grid-flow-col">
         <p className="overflow-hidden text-ellipsis">
+          {fullName}
+          <br />
+          {phone}
+          <br />
           {address1}
           <br />
           {address2 && (
@@ -49,12 +47,12 @@ function Address({
           <br />
           {province}
         </p>
-        <button
+        <Link
           className="self-start justify-self-end hover:text-primary"
-          onClick={onEdit}
+          to={`/account/addresses/edit/${id}`}
         >
           Edit
-        </button>
+        </Link>
       </div>
       <div className="grid grid-flow-col">
         {isDefault ? (
@@ -62,7 +60,7 @@ function Address({
         ) : (
           <button
             className="w-fit border border-primary px-4 py-1 text-primary hover:bg-primary hover:text-white"
-            onClick={onSetAsDefault}
+            onClick={onSetDefault}
           >
             Set as default
           </button>

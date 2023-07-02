@@ -8,6 +8,7 @@ import {
 import amqp from "lib/amqp";
 import { EExchange } from "@shifter-shop/amqp";
 import { UnauthorizedError } from "@shifter-shop/errors";
+import { logger } from "@shifter-shop/logger";
 
 export const checkoutSession = async (
   req: Request,
@@ -48,14 +49,13 @@ export const webhook = async (req: Request, res: Response) => {
       case "checkout.session.completed": {
         const eventData = event.data.object as Stripe.Checkout.Session;
         const metadata = parseMetadata(eventData.metadata);
-        console.log("Checkout session completed !", metadata);
 
         amqp.publishToExchange(EExchange.PaymentSuccess, { ...metadata });
         break;
       }
     }
   } catch (err) {
-    console.log((err as Error).message);
+    logger.error((err as Error).message);
   }
 
   return res.status(200).json({ received: true });

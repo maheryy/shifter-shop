@@ -21,6 +21,7 @@ export const getCart = async (
     }
 
     const items = await getCustomerCart(customerId);
+
     const results = await joinResources<TFullCartItem, TCartItem>(items, [
       { service: "user", key: "customerId", addKey: "customer" },
       { service: "product", key: "productId", addKey: "product" },
@@ -57,11 +58,27 @@ export const updateCartItem = async (
 
     if (quantity < 1) {
       await deleteProduct(customerId, productId);
-      return res.status(204).end();
+
+      const items = await getCustomerCart(customerId);
+
+      const results = await joinResources<TFullCartItem, TCartItem>(items, [
+        { service: "user", key: "customerId", addKey: "customer" },
+        { service: "product", key: "productId", addKey: "product" },
+      ]);
+
+      return res.status(200).json(results);
     }
 
     await createOrUpdateItem(customerId, productId, quantity);
-    return res.status(204).end();
+
+    const items = await getCustomerCart(customerId);
+
+    const results = await joinResources<TFullCartItem, TCartItem>(items, [
+      { service: "user", key: "customerId", addKey: "customer" },
+      { service: "product", key: "productId", addKey: "product" },
+    ]);
+
+    return res.status(200).json(results);
   } catch (error) {
     next(error);
   }

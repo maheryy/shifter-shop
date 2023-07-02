@@ -1,29 +1,26 @@
-import { useCallback } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
-import { createAddress } from "@/api/address.api";
-import Address from "@/components/account/Address";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "@/components/Button";
 import AddressForm, {
   AddressFieldValues,
+  addressSchema,
 } from "@/components/forms/AddressForm";
-
-export interface AddressesData {
-  addresses: Address[];
-}
+import useAddress from "@/hooks/useAddress";
 
 function NewAddress() {
-  const form = useForm<AddressFieldValues>();
+  const { createAddressMutation } = useAddress();
+  const form = useForm<AddressFieldValues>({
+    resolver: zodResolver(addressSchema),
+  });
 
-  const onSubmit: SubmitHandler<AddressFieldValues> = useCallback(
-    async ({ address }) => {
-      await createAddress(address);
+  const navigate = useNavigate();
 
-      toast.success("Address added successfully");
-    },
-    [],
-  );
+  const onSubmit: SubmitHandler<AddressFieldValues> = ({ address }) => {
+    createAddressMutation.mutate(address);
+
+    navigate("/account/addresses");
+  };
 
   return (
     <section className="grid gap-8">

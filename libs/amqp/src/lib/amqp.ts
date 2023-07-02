@@ -3,6 +3,7 @@ import { EQueue, TQueueMapping } from "../types/queue";
 import { EExchange, TExchangeMapping } from "../types/exchange";
 import { RECONNECTION_ATTEMPTS, RECONNECTION_DELAY } from "./constants";
 import Storage, { ExchangeStorage, QueueStorage } from "./storage";
+import { logger } from "@shifter-shop/logger";
 
 export class AMQP {
   private connection: Connection;
@@ -25,9 +26,7 @@ export class AMQP {
     try {
       await this.initConnection();
     } catch (error) {
-      console.error(
-        `[rabbitmq] Connection failed: ${(error as Error).message}`
-      );
+      logger.error(`[rabbitmq] Connection failed: ${(error as Error).message}`);
       await this.retryConnection(
         this.options.retryAttempts,
         this.options.retryDelay
@@ -57,7 +56,7 @@ export class AMQP {
       await this.channel.assertQueue(queue);
       return this.channel.sendToQueue(queue, this.bufferize(data));
     } catch (error) {
-      console.error(
+      logger.error(
         `[rabbitmq] Unable to publish to queue ${queue}: ${
           (error as Error).message
         }`
@@ -74,7 +73,7 @@ export class AMQP {
       await this.channel.assertExchange(exchange, "fanout", { durable: false });
       return this.channel.publish(exchange, "", this.bufferize(data));
     } catch (error) {
-      console.error(
+      logger.error(
         `[rabbitmq] Unable to publish to exchange ${exchange}: ${
           (error as Error).message
         }`
@@ -99,7 +98,7 @@ export class AMQP {
     this.connection = await amqplib.connect(this.connectionString);
     this.channel = await this.connection.createChannel();
     this.channel.on("close", () => {
-      console.warn("[AMQP] Channel closed, retrying in 10s...");
+      logger.warn("[AMQP] Channel closed, retrying in 10s...");
       setTimeout(
         () => this.retryConnection(RECONNECTION_ATTEMPTS, RECONNECTION_DELAY),
         10000
@@ -110,7 +109,7 @@ export class AMQP {
       await this.listen();
     }
 
-    console.log("[rabbitmq] Connected successfully");
+    logger.info("[rabbitmq] Connected successfully");
   }
 
   private async retryConnection(attempts: number, delay: number) {
@@ -120,7 +119,7 @@ export class AMQP {
         return await this.initConnection();
       } catch (error) {
         attempt++;
-        console.error(`[rabbitmq] Retry failed: ${(error as Error).message}`);
+        logger.error(`[rabbitmq] Retry failed: ${(error as Error).message}`);
         await new Promise((resolve) => setTimeout(resolve, delay));
       }
     }
@@ -138,7 +137,7 @@ export class AMQP {
       await this.channel.assertQueue(queue);
       await this.channel.consume(queue, (message) => {
         if (!message) {
-          return console.error(
+          return logger.warn(
             `[rabbitmq] Error : No message content on ${queue}`
           );
         }
@@ -147,9 +146,9 @@ export class AMQP {
         this.channel.ack(message);
       });
 
-      console.log(`[rabbitmq] queue ${queue} is ready to receive messages`);
+      logger.info(`[rabbitmq] queue ${queue} is ready to receive messages`);
     } catch (error) {
-      console.error(
+      logger.error(
         `[rabbitmq] Unable to subscribe to queue ${queue}: ${
           (error as Error).message
         }`
@@ -167,7 +166,7 @@ export class AMQP {
       await this.channel.bindQueue(queue.queue, exchange, "");
       await this.channel.consume(queue.queue, (message) => {
         if (!message) {
-          return console.error(
+          return logger.warn(
             `[rabbitmq] Error: No message content on exchange ${exchange}`
           );
         }
@@ -175,9 +174,9 @@ export class AMQP {
         callback(data).then(() => this.channel.ack(message));
       });
 
-      console.log(`[rabbitmq] Subscribed to exchange ${exchange}`);
+      logger.info(`[rabbitmq] Subscribed to exchange ${exchange}`);
     } catch (error) {
-      console.error(
+      logger.error(
         `[rabbitmq] Unable to subscribe to exchange ${exchange}: ${
           (error as Error).message
         }`

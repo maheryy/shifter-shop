@@ -11,15 +11,15 @@ clear-app:
 
 # Build the app for production
 build:
-	@docker compose -f docker-compose.ms-prod.yml build --no-cache
+	@docker compose -f docker-compose.demo.yml build --no-cache
 
 # Run the app in production mode
 start:
-	@docker compose -f docker-compose.ms-prod.yml up -d
+	@docker compose -f docker-compose.demo.yml up -d
 
 # Stop and remove all docker services
 stop: 
-	@docker compose -f docker-compose.ms-prod.yml down
+	@docker compose -f docker-compose.demo.yml down
 
 # Run the app in development mode
 dev:

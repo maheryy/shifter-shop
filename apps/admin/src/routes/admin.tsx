@@ -9,6 +9,8 @@ import Products from "@/pages/Products";
 import Orders from "@/pages/Orders";
 import Reviews from "@/pages/Reviews";
 import Categories from "@/pages/Categories";
+import AddProduct from "@/pages/Products/AddProduct";
+import AddCategory from "@/pages/Categories/AddCategory";
 
 const adminRoutes: RouteObject[] = [
   {
@@ -64,7 +66,7 @@ const adminRoutes: RouteObject[] = [
           },
           {
             path: "new",
-            element: <div>New product</div>,
+            element: <AddProduct/>,
           },
         ],
       },
@@ -74,7 +76,16 @@ const adminRoutes: RouteObject[] = [
       },
       {
         path: "/categories",
-        element: <Categories />,
+        children: [
+          {
+            path: "",
+            element: <Categories />,
+          },
+          {
+            path: "new",
+            element: <AddCategory/>,
+          },
+        ],        
       },
       {
         path: "*",
