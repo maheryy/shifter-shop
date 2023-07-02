@@ -1,5 +1,5 @@
 {
-  "name": "@shifter-shop/registry",
+  "name": "@shifter-shop/logger",
   "version": "1.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -8,13 +8,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "@types/node-fetch": "^2.6.4",
+    "@types/winston": "^2.4.4",
     "typescript": "^5.0.4"
   },
   "dependencies": {
-    "@shifter-shop/errors": "*",
-    "@shifter-shop/dictionary": "*",
-    "@shifter-shop/logger": "*",
-    "node-fetch": "^2.6.11"
+    "winston": "^3.9.0"
   }
 }

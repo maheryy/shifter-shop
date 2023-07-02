@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { HttpError } from "../exceptions/HttpError";
+import { logger } from "@shifter-shop/logger";
 
 export const exceptionHandler = (
   error: Error,
@@ -11,7 +12,7 @@ export const exceptionHandler = (
     return res.status(error.status).json(error.toJson());
   }
 
-  console.error(`\x1b[31m[Service Internal Error] ${error.message}\x1b[0m`);
+  logger.error(`[Service Internal Error] ${error.message}`);
   return res.status(500).json({
     statusCode: 500,
     message: error.message || "An unexpected error occurred",

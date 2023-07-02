@@ -5,7 +5,7 @@ export class HttpError extends Error {
 
   constructor(statusCode: number, message?: string) {
     super(message || `HttpError: ${statusCode}`);
-    this.name = "Shifter Shop - HttpError";
+    this.name = "Shifter Shop Error";
     this.statusCode = statusCode;
   }
 

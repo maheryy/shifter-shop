@@ -9,6 +9,7 @@ import {
 import { Order as OrderEntity } from "entities/order.entity";
 import { TOrderCreationData, TOrderUpdateData } from "types/order";
 import { fetchJson } from "@shifter-shop/helpers";
+import { logger } from "@shifter-shop/logger";
 
 export const findAllOrders = async () => {
   return OrderEntity.find();
@@ -82,7 +83,7 @@ const fetchCustomer = async (customerId: string) => {
     });
     return customer;
   } catch (error) {
-    console.error(`\x1b[31mError while fetching customer\x1b[0m`);
+    logger.warn(`Error while fetching customer`);
     return null;
   }
 };
@@ -95,7 +96,7 @@ const fetchProduct = async (productId: string) => {
     });
     return product;
   } catch (error) {
-    console.error(`\x1b[31mError while fetching product\x1b[0m`);
+    logger.warn(`Error while fetching product`);
     return null;
   }
 };

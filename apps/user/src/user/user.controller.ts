@@ -38,8 +38,6 @@ export class UserController {
   @NotEmptyBody()
   @Post('/search')
   async searchOne(@Body() criteria: SearchCriteriaDto) {
-    console.log('criteria', criteria);
-
     return this.userService.searchOne(criteria);
   }
 
