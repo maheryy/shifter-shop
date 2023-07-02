@@ -25,6 +25,7 @@ services:
 
   api-gateway:
     container_name: api-gateway
+    restart: on-failure
     build:
       context: .
       dockerfile: ./apps/gateway/Dockerfile
@@ -35,6 +36,7 @@ services:
 
   auth-svc:
     container_name: auth-svc
+    restart: on-failure
     build:
       context: .
       dockerfile: ./apps/auth/Dockerfile
@@ -45,6 +47,7 @@ services:
 
   user-svc:
     container_name: user-svc
+    restart: on-failure
     build:
       context: .
       dockerfile: ./apps/user/Dockerfile
@@ -61,6 +64,7 @@ services:
 
   product-svc:
     container_name: product-svc
+    restart: on-failure
     build:
       context: .
       dockerfile: ./apps/product/Dockerfile
@@ -77,6 +81,7 @@ services:
 
   category-svc:
     container_name: category-svc
+    restart: on-failure
     build:
       context: .
       dockerfile: ./apps/category/Dockerfile
@@ -90,6 +95,7 @@ services:
 
   review-svc:
     container_name: review-svc
+    restart: on-failure
     build:
       context: .
       dockerfile: ./apps/review/Dockerfile
@@ -106,6 +112,7 @@ services:
 
   order-svc:
     container_name: order-svc
+    restart: on-failure
     build:
       context: .
       dockerfile: ./apps/order/Dockerfile
@@ -122,6 +129,7 @@ services:
 
   payment-svc:
     container_name: payment-svc
+    restart: on-failure
     build:
       context: .
       dockerfile: ./apps/payment/Dockerfile
@@ -140,6 +148,7 @@ services:
 
   cart-svc:
     container_name: cart-svc
+    restart: on-failure
     build:
       context: .
       dockerfile: ./apps/cart/Dockerfile
@@ -156,6 +165,7 @@ services:
 
   invoice-svc:
     container_name: invoice-svc
+    restart: on-failure
     build:
       context: .
       dockerfile: ./apps/invoice/Dockerfile
@@ -164,6 +174,7 @@ services:
 
   files-svc:
     container_name: files-svc
+    restart: on-failure
     build:
       context: .
       dockerfile: ./apps/files/Dockerfile
@@ -172,6 +183,7 @@ services:
 
   mailer-svc:
     container_name: mailer-svc
+    restart: on-failure
     build:
       context: .
       dockerfile: ./apps/mailer/Dockerfile
@@ -187,6 +199,7 @@ services:
 
   profile-svc:
     container_name: profile-svc
+    restart: on-failure
     build:
       context: .
       dockerfile: ./apps/profile/Dockerfile
@@ -203,6 +216,7 @@ services:
 
   inventory-svc:
     container_name: inventory-svc
+    restart: on-failure
     build:
       context: .
       dockerfile: ./apps/inventory/Dockerfile
@@ -219,6 +233,7 @@ services:
 
   search-svc:
     container_name: search-svc
+    restart: on-failure
     build:
       context: .
       dockerfile: ./apps/search/Dockerfile
@@ -227,6 +242,7 @@ services:
 
   analytics-svc:
     container_name: analytics-svc
+    restart: on-failure
     build:
       context: .
       dockerfile: ./apps/analytics/Dockerfile
@@ -242,6 +258,7 @@ services:
   postgres:
     container_name: postgres
     image: postgres:15
+    restart: on-failure
     volumes:
       - .db_data:/var/lib/postgresql/data/
       - ./scripts/sql/shifter-shop-cluster.sql:/docker-entrypoint-initdb.d/init.sql
@@ -255,6 +272,7 @@ services:
 
   mongo:
     container_name: mongo
+    restart: on-failure
     image: mongo:5
     ports:
       - 27017:27017
@@ -286,6 +304,7 @@ services:
 
   rabbitmq:
     container_name: rabbitmq
+    restart: on-failure
     image: rabbitmq:3.10
     networks:
       - ss_amqp
