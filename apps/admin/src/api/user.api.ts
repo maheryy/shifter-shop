@@ -27,3 +27,17 @@ export const getAuthToken = async ({
 }): Promise<Token> => {
   return api.post({ email, password }, "/auth/login").json();
 };
+
+export const checkUserRole = async (): Promise<string | null> => {
+  try {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const user: TUser = await getUser(token);
+      return user.role; // Assuming the user's role is stored in the 'role' property
+    }
+    return null;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};

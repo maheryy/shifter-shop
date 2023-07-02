@@ -66,7 +66,7 @@ const adminRoutes: RouteObject[] = [
           },
           {
             path: "new",
-            element: <AddProduct />,
+            element: <AddProduct/>,
           },
         ],
       },
@@ -83,9 +83,9 @@ const adminRoutes: RouteObject[] = [
           },
           {
             path: "new",
-            element: <AddCategory />,
+            element: <AddCategory/>,
           },
-        ],
+        ],        
       },
       {
         path: "*",

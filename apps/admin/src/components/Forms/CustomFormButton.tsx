@@ -3,7 +3,7 @@ import React from 'react';
 interface CustomFormButton {
   size: 'large' | 'regular' | 'small';
   label: string;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 const CustomButton: React.FC<CustomFormButton> = ({ size, label, onClick }) => {

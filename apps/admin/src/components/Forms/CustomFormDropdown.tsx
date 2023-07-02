@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
+import { TCategory } from '@shifter-shop/dictionary';
 
 interface CustomFormDropdownProps {
   label: string;
-  options: string[];
+  options: TCategory[];
+  onChange: (category: string) => void;
 }
 
-const CustomFormDropdown: React.FC<CustomFormDropdownProps> = ({ label, options }) => {
+const CustomFormDropdown: React.FC<CustomFormDropdownProps> = ({ label, options, onChange }) => {
   const [selectedOption, setSelectedOption] = useState('');
 
   const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
     setSelectedOption(selectedValue);
+    onChange(selectedValue); // Appelez la fonction onChange avec la valeur sélectionnée (chaîne de caractères)
   };
+  
 
   const dropdownWrapperClassName = 'relative mb-4';
 
@@ -24,9 +28,9 @@ const CustomFormDropdown: React.FC<CustomFormDropdownProps> = ({ label, options 
     <div className={dropdownWrapperClassName}>
       <label className={labelClassName}>{label}</label>
       <select className={selectClassName} value={selectedOption} onChange={handleOptionChange}>
-        {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
+        {options.map((category) => (
+          <option key={category.id} value={category.id}>
+            {category.name}
           </option>
         ))}
       </select>
