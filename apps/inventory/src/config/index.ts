@@ -1,10 +1,11 @@
 import { config } from "dotenv";
 config();
 import db from "database";
+import { logger } from "@shifter-shop/logger";
 
 db.initialize()
-  .then(() => console.log("[database] Database initialized"))
+  .then(() => logger.info("[inventory][database] Database initialized"))
   .catch((err) => {
-    console.error("[database] Error during initialization :", err);
+    logger.error("[inventory][database] Error during initialization :", err);
     process.exit(1);
   });

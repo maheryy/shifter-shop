@@ -15,7 +15,6 @@ export const getHandlebarsHTML = async (
 
     return Handlebars.compile(template)(context);
   } catch (err) {
-    console.error((err as Error).message);
     throw new NotFoundError("Template not found");
   }
 };

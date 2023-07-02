@@ -2,6 +2,7 @@ import fetch, { RequestInit } from "node-fetch";
 import { HttpError, ServiceUnavailableError } from "@shifter-shop/errors";
 import { Registry } from "@shifter-shop/registry";
 import { UService } from "@shifter-shop/dictionary";
+import { logger } from "@shifter-shop/logger";
 
 const APP_ID = "ss7";
 
@@ -37,7 +38,7 @@ export const fetchJson = async <T>(
     return data as T;
   } catch (err) {
     if (err instanceof HttpError) throw err;
-    console.error(`\x1b[31m[${target.service}] Communication error\x1b[0m`);
+    logger.error(`[${target.service}] Communication error`);
     throw new ServiceUnavailableError(
       `[${target.service}] Communication error`
     );

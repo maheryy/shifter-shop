@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import { logger } from "@shifter-shop/logger";
 
 const mailer = nodemailer.createTransport(process.env.MAILER_DSN, {
   from: {
@@ -11,7 +12,7 @@ const mailer = nodemailer.createTransport(process.env.MAILER_DSN, {
 export const initMailer = () => {
   mailer.verify((err) => {
     if (err) {
-      console.error(err);
+      logger.error(err);
       process.exit(1);
     }
 

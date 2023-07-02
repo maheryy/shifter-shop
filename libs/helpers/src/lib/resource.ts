@@ -1,6 +1,7 @@
 import fetch from "node-fetch";
 import { Registry } from "@shifter-shop/registry";
 import { UService } from "@shifter-shop/dictionary";
+import { logger } from "@shifter-shop/logger";
 
 export const joinResources = async <R extends T, T>(
   initialData: T[],
@@ -21,9 +22,7 @@ const fetchResource = async <T>(service: UService, resourceId: string) => {
     const res = await fetch(`${Registry.get(service).url}/${resourceId}`);
     return res.ok ? ((await res.json()) as T) : null;
   } catch (err) {
-    console.error(
-      `\x1b[31mError while fetching resource ${resourceId} from ${service}\x1b[0m`
-    );
+    logger.warn(`Error while fetching resource ${resourceId} from ${service}`);
     return null;
   }
 };
