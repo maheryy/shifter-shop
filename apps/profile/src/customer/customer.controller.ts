@@ -4,12 +4,12 @@ import {
   Get,
   Patch,
   Headers,
-  UnauthorizedException,
   HttpCode,
   Post,
 } from '@nestjs/common';
 import { UpdateProfileDto } from 'src/customer/dtos/update-profile.dto';
 import { CustomerService } from './customer.service';
+import { Auth } from '@shifter-shop/nest';
 
 @Controller()
 export class CustomerController {
@@ -20,28 +20,19 @@ export class CustomerController {
     return this.customerService.create(userId);
   }
 
+  @Auth()
   @Get('/customer')
   async findCustomerProfile(@Headers('user-id') userId: string) {
-    if (!userId) {
-      throw new UnauthorizedException(
-        'You must be authenticated to access this resource',
-      );
-    }
-
     return this.customerService.findById(userId);
   }
 
+  @Auth()
   @Patch('/customer')
   @HttpCode(204)
   async updateCustomerProfile(
     @Headers('user-id') userId: string,
     @Body() data: UpdateProfileDto,
   ) {
-    if (!userId) {
-      throw new UnauthorizedException(
-        'You must be authenticated to access this resource',
-      );
-    }
     return this.customerService.update(userId, data);
   }
 }

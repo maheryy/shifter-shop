@@ -6,7 +6,6 @@ import {
   Patch,
   Post,
   Headers,
-  UnauthorizedException,
   HttpCode,
 } from '@nestjs/common';
 import { ReviewService } from './review.service';
@@ -14,20 +13,20 @@ import { CreateReviewDto } from './dtos/create-review.dto';
 import { UpdateReviewDto } from './dtos/update-review.dto';
 import { joinResources } from '@shifter-shop/helpers';
 import { TFullReview, TReview } from '@shifter-shop/dictionary';
+import { Auth } from '@shifter-shop/nest';
 
 @Controller()
 export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
 
+  @Auth()
   @Post()
   async create(
     @Headers('user-id') userId: string,
     @Body() review: CreateReviewDto,
   ) {
-    if (!userId) {
-      throw new UnauthorizedException();
-    }
     review.authorId = userId;
+
     return this.reviewService.create(review);
   }
 
