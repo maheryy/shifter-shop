@@ -5,63 +5,67 @@ import {
   Param,
   Patch,
   Post,
-  HttpCode,
   Headers,
   UnauthorizedException,
   Query,
 } from '@nestjs/common';
+import { Auth, NotEmptyBody, RemovePassword } from '@shifter-shop/nest';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
-import { SearchCritieriaDto } from './dtos/search-criteria.dto';
-import { EmptyBodyPipe } from './pipes/empty-body';
+import { SearchCriteriaDto } from './dtos/search-criteria.dto';
+import { UpdateAuthenticatedUserDto } from './dtos/update-authenticated-user.dto';
 
 @Controller()
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @RemovePassword()
   @Get()
   async findAll(@Query('type') type?: string) {
     return this.userService.findAll(type);
   }
 
   // Private route to be used through microservices
+  @RemovePassword()
   @Get('/:id')
   async findOne(@Param('id') id: string) {
     return this.userService.findOneById(id);
   }
 
   // Private route to be used through microservices
+  // Do not remove password, it's used for authentication
+  @NotEmptyBody()
   @Post('/search')
-  async searchOne(@Body(new EmptyBodyPipe()) criteria: SearchCritieriaDto) {
+  async searchOne(@Body() criteria: SearchCriteriaDto) {
+    console.log('criteria', criteria);
+
     return this.userService.searchOne(criteria);
   }
 
   // Private route to be used through microservices
+  @RemovePassword()
   @Post()
   async create(@Body() user: CreateUserDto) {
     return this.userService.create(user);
   }
 
+  // Admin route to be used through microservices
+  @RemovePassword()
+  @NotEmptyBody()
   @Patch('/:id')
-  @HttpCode(204)
-  async update(
-    @Body(new EmptyBodyPipe()) user: UpdateUserDto,
-    @Param('id') id: string,
-  ) {
-    await this.userService.update(id, user);
+  async update(@Body() user: UpdateUserDto, @Param('id') id: string) {
+    return this.userService.update(id, user);
   }
 
+  @Auth()
+  @RemovePassword()
+  @NotEmptyBody()
   @Patch()
-  @HttpCode(204)
   async updateAuthenticatedUser(
-    @Body(new EmptyBodyPipe()) user: UpdateUserDto,
+    @Body() user: UpdateAuthenticatedUserDto,
     @Headers('user-id') userId: string,
   ) {
-    if (!userId) {
-      throw new UnauthorizedException();
-    }
-
-    await this.userService.update(userId, user);
+    return this.userService.update(userId, user);
   }
 }

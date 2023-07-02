@@ -12,6 +12,13 @@ export class CustomerService {
     private readonly customerProfileRepository: Repository<CustomerProfile>,
   ) {}
 
+  async create(userId: string) {
+    const profile = this.customerProfileRepository.create({ id: userId });
+    await this.customerProfileRepository.save(profile);
+
+    return profile;
+  }
+
   async findById(id: string) {
     const profile = await this.customerProfileRepository.findOneBy({ id });
 

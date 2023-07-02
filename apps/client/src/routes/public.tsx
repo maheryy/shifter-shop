@@ -1,7 +1,7 @@
 import { RouteObject } from "react-router-dom";
 import PublicLayout from "@/layouts/PublicLayout";
 import Cart from "@/pages/Cart";
-import Checkout, { checkoutLoader } from "@/pages/Checkout";
+import Checkout from "@/pages/Checkout";
 import FetchFailure from "@/pages/errors/FetchFailure";
 import NotFound from "@/pages/errors/NotFound";
 import Home from "@/pages/Home";
@@ -34,7 +34,6 @@ const publicRoutes: RouteObject = {
     {
       path: "checkout",
       element: <Checkout />,
-      loader: checkoutLoader,
     },
     {
       path: "products",

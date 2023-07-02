@@ -1,5 +1,6 @@
-import categories from "@data/categories.json";
+import api from "@/api";
+import { Category } from "@/types/category";
 
-export const getCategories = async () => {
-  return categories;
-};
+export function getCategories(): Promise<Category[]> {
+  return api.get("/categories").json();
+}

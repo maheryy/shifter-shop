@@ -1,5 +1,6 @@
 import { TCustomerProfile } from '@shifter-shop/dictionary';
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn, OneToMany } from 'typeorm';
+import { Address } from '../../address/entities/address.entity';
 
 @Entity()
 export class CustomerProfile implements TCustomerProfile {
@@ -9,15 +10,6 @@ export class CustomerProfile implements TCustomerProfile {
   @Column('varchar', { nullable: true })
   phone?: string;
 
-  @Column('varchar', { nullable: true })
-  address?: string;
-
-  @Column('varchar', { nullable: true })
-  city?: string;
-
-  @Column('varchar', { nullable: true })
-  country?: string;
-
-  @Column('varchar', { nullable: true })
-  zip?: string;
+  @OneToMany(() => Address, (address) => address.profile)
+  addresses: Address[];
 }

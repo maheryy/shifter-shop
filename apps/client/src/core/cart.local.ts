@@ -1,100 +1,66 @@
-import { LocalCart } from "@/types/cart";
-import {
-  AddProductToCart,
-  CartProduct,
-  UpdateProductQuantity,
-} from "@/types/cartProduct";
+import { TCart } from "@/types/cart";
+import { UpdateLocalProductQuantity } from "@/types/cartProduct";
 import StorageKey from "@/types/storage";
 import { getFromLocalStorage, setToLocalStorage } from "@/utils/storage";
 
-export function getCart() {
-  const cart = getFromLocalStorage<LocalCart>(StorageKey.enum.cart);
+export function getCart(): Promise<TCart> {
+  const cart = getFromLocalStorage<TCart>(StorageKey.enum.cart);
 
   if (!cart) {
-    const newCart: LocalCart = {
-      products: [],
-    };
-
-    setToLocalStorage(StorageKey.enum.cart, newCart);
-
-    return newCart;
-  }
-
-  return cart;
-}
-
-export function addProductToCart({ productToAdd, quantity }: AddProductToCart) {
-  const cart = getCart();
-
-  if (!cart) {
-    throw new Error("Cart not found");
-  }
-
-  const isProductInCart = cart.products.some(
-    ({ id }) => id === productToAdd.id,
-  );
-
-  if (isProductInCart) {
-    const products = cart.products.map((product) => {
-      if (product.id === productToAdd.id) {
-        return {
-          ...product,
-          quantity: product.quantity + quantity,
-        };
-      }
-
-      return product;
-    });
-
-    const newCart: LocalCart = {
-      products: [...products],
-    };
+    const newCart: TCart = [];
 
     setToLocalStorage(StorageKey.enum.cart, newCart);
 
     return Promise.resolve(newCart);
   }
 
-  const newCart: LocalCart = {
-    products: [...cart.products, { ...productToAdd, quantity }],
-  };
-
-  setToLocalStorage(StorageKey.enum.cart, newCart);
-
-  return Promise.resolve(newCart);
+  return Promise.resolve(cart);
 }
 
-export function removeProductFromCart(id: CartProduct["id"]) {
-  const cart = getCart();
+export async function updateProductQuantity({
+  product,
+  quantity,
+}: UpdateLocalProductQuantity): Promise<TCart> {
+  const cart = await getCart();
 
-  if (!cart) {
-    throw new Error("Cart not found");
+  if (quantity <= 0) {
+    const newCart = cart.filter(
+      (cartProduct) => cartProduct.product.id !== product.id,
+    );
+
+    setToLocalStorage(StorageKey.enum.cart, newCart);
+
+    return Promise.resolve(newCart);
   }
 
-  const products = cart.products.filter((product) => product.id !== id);
+  const isProductInCart = cart.some(
+    (cartProduct) => cartProduct.product.id === product.id,
+  );
 
-  const newCart = {
-    products: [...products],
-  };
+  if (!isProductInCart) {
+    const newCart = [
+      ...cart,
+      {
+        product,
+        quantity,
+      },
+    ];
 
-  setToLocalStorage(StorageKey.enum.cart, newCart);
+    setToLocalStorage(StorageKey.enum.cart, newCart);
 
-  return Promise.resolve(newCart);
-}
-
-export function updateProductQuantity({ quantity }: UpdateProductQuantity) {
-  const cart = getCart();
-
-  if (!cart) {
-    throw new Error("Cart not found");
+    return Promise.resolve(newCart);
   }
 
-  const newCart = {
-    products: cart.products.map((product) => ({
-      ...product,
-      quantity,
-    })),
-  };
+  const newCart = cart.map((cartProduct) => {
+    if (cartProduct.product.id === product.id) {
+      return {
+        ...cartProduct,
+        quantity,
+      };
+    }
+
+    return cartProduct;
+  });
 
   setToLocalStorage(StorageKey.enum.cart, newCart);
 

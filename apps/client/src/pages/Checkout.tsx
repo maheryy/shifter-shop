@@ -1,105 +1,76 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ChangeEvent, useCallback, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { getAdresses } from "@/api/address.api";
 import Button from "@/components/Button";
 import AddressForm, {
   AddressFieldValues,
   addressSchema,
 } from "@/components/forms/AddressForm";
-import { useData } from "@/hooks/useData";
-import { Address } from "@/types/address";
-import { StripePayload } from "@/types/stripe";
+import useAddresses from "@/hooks/useAddresses";
+import useCheckout from "@/hooks/useCheckout";
+import { TAddress } from "@/types/address";
 import isEmpty from "@/utils/isEmpty";
 
 export interface OrderData {
-  addresses: Address[];
-}
-
-export async function checkoutLoader(): Promise<OrderData> {
-  const addresses = await getAdresses();
-
-  return { addresses };
+  addresses: TAddress[];
 }
 
 function Checkout() {
-  const { addresses } = useData<OrderData>();
-  const hasAddresses = !isEmpty(addresses);
-  const [primaryAddress] = hasAddresses ? addresses : [undefined];
+  const { data, isError, isLoading } = useAddresses({
+    onSuccess: (data) => {
+      if (isEmpty(data)) {
+        return;
+      }
 
-  const [selectedAddressId, setSelectedAddressId] = useState(
-    primaryAddress?.id,
-  );
+      const defaultAddress = data.find(({ isDefault }) => isDefault);
 
-  const form = useForm<AddressFieldValues>(getUseFormOptions(addresses));
+      if (!defaultAddress) {
+        return;
+      }
+
+      setSelectedAddressId(defaultAddress.id);
+      setValue("address", defaultAddress);
+    },
+  });
+
+  const [selectedAddressId, setSelectedAddressId] = useState<
+    string | undefined
+  >(undefined);
+
+  const form = useForm<AddressFieldValues>(getUseFormOptions(data));
   const { setValue } = form;
 
-  const onSubmit: SubmitHandler<AddressFieldValues> = useCallback(
-    async (data) => {
-      try {
-        console.log(data);
+  const { mutate } = useCheckout();
 
-        checkout();
-      } catch (error) {
-        if (error instanceof Error) {
-          console.error(error.message);
-        }
-      }
-    },
-    [],
-  );
+  const onSubmit: SubmitHandler<AddressFieldValues> = () => {
+    mutate();
+  };
 
-  async function checkout() {
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/stripe/checkout`,
-        {
-          method: "POST",
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to create order.");
-      }
-
-      const data = (await response.json()) as StripePayload;
-
-      if (!data.url) {
-        throw new Error("No redirect url returned from server.");
-      }
-
-      window.location.assign(data.url);
-    } catch (error) {
-      console.error(error);
-    }
+  if (isLoading) {
+    return <p>Loading...</p>;
   }
 
-  const onAddressChange = useCallback(
-    ({ target }: ChangeEvent<HTMLSelectElement>) => {
-      const { value } = target;
+  if (isError) {
+    return <p>Something went wrong.</p>;
+  }
 
-      const selectedAddressId = Number(value);
+  const hasAddresses = !isEmpty(data);
 
-      setSelectedAddressId(selectedAddressId);
+  const onAddressChange = ({ target }: ChangeEvent<HTMLSelectElement>) => {
+    const { value } = target;
 
-      if (!addresses?.length) {
-        return;
-      }
+    const address = data.find(({ id }) => id === value);
 
-      const address = addresses.find(({ id }) => id === selectedAddressId);
+    if (!address) {
+      return;
+    }
 
-      if (!address) {
-        return;
-      }
+    setValue("address", address);
 
-      setValue("address", address);
-
-      if (!address.address2) {
-        setValue("address.address2", undefined);
-      }
-    },
-    [addresses, setValue],
-  );
+    if (!address.address2) {
+      setValue("address.address2", undefined);
+    }
+  };
 
   return (
     <section className="container grid gap-8 py-16 md:justify-items-center">
@@ -113,7 +84,7 @@ function Checkout() {
             onChange={onAddressChange}
             value={selectedAddressId}
           >
-            {addresses.map(({ id, ...address }) => (
+            {data.map(({ id, ...address }) => (
               <option key={id} value={id}>
                 {getReadableAddress(address)}
               </option>
@@ -128,10 +99,14 @@ function Checkout() {
   );
 }
 
-function getUseFormOptions(addresses: Address[]) {
+function getUseFormOptions(addresses?: TAddress[]) {
   const options = {
     resolver: zodResolver(addressSchema),
   };
+
+  if (!addresses) {
+    return options;
+  }
 
   if (isEmpty(addresses)) {
     return options;
@@ -156,7 +131,7 @@ function getReadableAddress({
   city,
   province,
   zip,
-}: Omit<Address, "id">) {
+}: Omit<TAddress, "id">) {
   const mandatoryStart = `${fullName}, ${address1}`;
   const mandatoryEnd = `, ${zip} ${city}, ${province}`;
 

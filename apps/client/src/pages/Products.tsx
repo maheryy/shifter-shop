@@ -73,55 +73,58 @@ function Products() {
 
       const { payload, type } = action;
 
-      setSearchParams((searchParams) => {
-        switch (type) {
-          case "CATEGORIES": {
-            if (payload.length === 0) {
-              searchParams.delete("categories");
+      setSearchParams(
+        (searchParams) => {
+          switch (type) {
+            case "CATEGORIES": {
+              if (payload.length === 0) {
+                searchParams.delete("categories");
+
+                return searchParams;
+              }
+
+              searchParams.set("categories", payload.join(","));
 
               return searchParams;
             }
 
-            searchParams.set("categories", payload.join(","));
+            case "MAX_PRICE": {
+              if (payload === 0) {
+                searchParams.delete("maxPrice");
 
-            return searchParams;
-          }
+                return searchParams;
+              }
 
-          case "MAX_PRICE": {
-            if (payload === 0) {
-              searchParams.delete("maxPrice");
-
-              return searchParams;
-            }
-
-            searchParams.set("maxPrice", payload.toString());
-
-            return searchParams;
-          }
-
-          case "MIN_PRICE": {
-            if (payload === 0) {
-              searchParams.delete("minPrice");
+              searchParams.set("maxPrice", payload.toString());
 
               return searchParams;
             }
 
-            searchParams.set("minPrice", payload.toString());
+            case "MIN_PRICE": {
+              if (payload === 0) {
+                searchParams.delete("minPrice");
 
-            return searchParams;
+                return searchParams;
+              }
+
+              searchParams.set("minPrice", payload.toString());
+
+              return searchParams;
+            }
+
+            case "SORT_BY": {
+              searchParams.set("sortBy", payload);
+
+              return searchParams;
+            }
+
+            default: {
+              return searchParams;
+            }
           }
-
-          case "SORT_BY": {
-            searchParams.set("sortBy", payload);
-
-            return searchParams;
-          }
-
-          default: {
-            return searchParams;
-          }
-        }
-      });
+        },
+        { replace: true },
+      );
     },
     [setSearchParams],
   );
@@ -133,14 +136,14 @@ function Products() {
       if (checked) {
         return setState({
           type: "CATEGORIES",
-          payload: [...(state.categories || []), Number(value)],
+          payload: [...(state.categories || []), value],
         });
       }
 
       return setState({
         type: "CATEGORIES",
         payload: (state.categories || []).filter(
-          (category) => category !== Number(value),
+          (category) => category !== value,
         ),
       });
     },
@@ -210,14 +213,11 @@ function Products() {
             </h3>
             <div className="grid grid-cols-2 gap-2 md:grid-cols-1">
               {categories.map((category) => (
-                <div
-                  className="flex justify-start gap-2"
-                  key={`cat-${category.id}`}
-                >
+                <div className="flex justify-start gap-2" key={category.id}>
                   <input
                     checked={state.categories?.includes(category.id)}
                     className="cursor-pointer rounded-sm text-primary focus:ring-0"
-                    id={`cat-${category.id}`}
+                    id={category.id}
                     name="categories[]"
                     onChange={onCategoryChange}
                     type="checkbox"
@@ -225,7 +225,7 @@ function Products() {
                   />
                   <label
                     className="cursor-pointer text-gray-600"
-                    htmlFor={`cat-${category.id}`}
+                    htmlFor={category.id}
                   >
                     {category.name}
                   </label>
@@ -298,7 +298,7 @@ function getProductsSearchParams(url: string): ProductsSearchParams {
   const sortBy = searchParams.get("sortBy");
 
   const productsParams = {
-    ...(categories && { categories: categories.split(",").map(Number) }),
+    ...(categories && { categories: categories.split(",") }),
     ...(maxPrice && { maxPrice: Number(maxPrice) }),
     ...(minPrice && { minPrice: Number(minPrice) }),
     ...(q && { q }),

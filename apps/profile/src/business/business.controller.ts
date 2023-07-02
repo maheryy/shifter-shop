@@ -4,26 +4,21 @@ import {
   Get,
   Patch,
   Headers,
-  UnauthorizedException,
   HttpCode,
   Post,
 } from '@nestjs/common';
 import { UpdateProfileDto } from 'src/business/dtos/update-profile.dto';
 import { BusinessService } from './business.service';
 import { CreateBusinessRequestDto } from './dtos/create-business-request.dto';
+import { Auth } from '@shifter-shop/nest';
 
+@Auth()
 @Controller()
 export class BusinessController {
   constructor(private readonly businessService: BusinessService) {}
 
   @Get('/business')
   async findBusinessProfile(@Headers('user-id') userId: string) {
-    if (!userId) {
-      throw new UnauthorizedException(
-        'You must be authenticated to access this resource',
-      );
-    }
-
     return this.businessService.findById(userId);
   }
 
@@ -33,11 +28,6 @@ export class BusinessController {
     @Headers('user-id') userId: string,
     @Body() data: UpdateProfileDto,
   ) {
-    if (!userId) {
-      throw new UnauthorizedException(
-        'You must be authenticated to access this resource',
-      );
-    }
     return this.businessService.update(userId, data);
   }
 
@@ -46,12 +36,6 @@ export class BusinessController {
     @Headers('user-id') userId: string,
     @Body() data: CreateBusinessRequestDto,
   ) {
-    if (!userId) {
-      throw new UnauthorizedException(
-        'You must be authenticated to access this resource',
-      );
-    }
-
     return this.businessService.createBusinessRequest(userId, data);
   }
 }

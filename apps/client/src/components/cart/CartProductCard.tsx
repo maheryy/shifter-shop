@@ -10,17 +10,18 @@ interface CartProductCardProps {
   cartProduct: CartProduct;
 }
 
-function CartProductCard({ cartProduct: product }: CartProductCardProps) {
-  const { removeMutation, updateMutation } = useCart();
-  const { id, name, image, price, quantity, reviewsCount, rating } = product;
+function CartProductCard({ cartProduct }: CartProductCardProps) {
+  const { updateMutation } = useCart();
+  const { product, quantity } = cartProduct;
+  const { id, name, image, price, reviewsCount, rating } = product;
   const to = `/products/${id}`;
 
   function onRemove() {
-    removeMutation.mutate(id);
+    updateMutation.mutate({ product, quantity: 0 });
   }
 
   function onUpdate(quantity: number) {
-    updateMutation.mutate({ productId: id, quantity });
+    updateMutation.mutate({ product, quantity });
   }
 
   return (

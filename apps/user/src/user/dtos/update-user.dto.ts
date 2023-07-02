@@ -18,12 +18,6 @@ export class UpdateUserDto {
   @IsString()
   lastname?: string;
 
-  @IsEmpty()
-  email?: string;
-
-  @IsEmpty()
-  password?: string;
-
   @IsEnum(EUserRole)
   @IsOptional()
   role?: EUserRole;
