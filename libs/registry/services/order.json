@@ -39,6 +39,24 @@
       "path": "/:id",
       "middlewares": ["auth", "roles"],
       "roles": ["ADMIN"]
+    },
+    {
+      "method": "GET",
+      "path": "/count",
+      "middlewares": ["auth", "roles"],
+      "roles": ["ADMIN"]
+    },
+    {
+      "method": "GET",
+      "path": "/amount/total",
+      "middlewares": ["auth", "roles"],
+      "roles": ["ADMIN"]
+    },
+    {
+      "method": "GET",
+      "path": "/products/total",
+      "middlewares": ["auth", "roles"],
+      "roles": ["ADMIN"]
     }
   ]
 }

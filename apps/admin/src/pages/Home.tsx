@@ -2,6 +2,7 @@ import Card from "@/components/Card";
 import ChartCard from "@/components/Chart/ChartCard";
 import LineChart from "@/components/Chart/LineChart";
 import BarChart from "@/components/Chart/BarChart";
+import { EOrderStatus } from "@shifter-shop/dictionary";
 import { CartIcon, ClientIcon, ProductIcon, CashIcon } from "@/components/Card/CardIcons";
 import {
   Chart as ChartJS,
@@ -11,8 +12,11 @@ import {
   LinearScale, // y axis
   PointElement
 } from "chart.js";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getCountCustomers } from "@/api/user.api";
+import { getCountOrders } from "@/api/order.api";
+import { getTotalAmount } from "@/api/order.api";
+import { getTotalSoldProducts } from "@/api/order.api";
 
 ChartJS.register(
   BarElement,
@@ -23,13 +27,12 @@ ChartJS.register(
 );
 
 const Home = () => {
-  
   const [nbClients, setNbClients] = useState(0);
   const [nbProducts, setNbProducts] = useState(0);
   const [nbOrders, setNbOrders] = useState(0);
   const [totalEarned, setTotalEarned] = useState(0);
-  
-  useEffect(() => {
+
+  const fetchCountCustomers = useCallback(() => {
     getCountCustomers()
       .then((count) => {
         setNbClients(count);
@@ -38,6 +41,43 @@ const Home = () => {
         console.log(error);
       });
   }, []);
+
+  const fetchCountOrders = useCallback(() => {
+    getCountOrders(EOrderStatus.Confirmed || EOrderStatus.Delivered)
+      .then((count) => {
+        setNbOrders(count);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  const fetchTotalAmount = useCallback(() => {
+    getTotalAmount()
+      .then((total) => {
+        setTotalEarned(total);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  const fetchTotalSoldProducts = useCallback(() => {
+    getTotalSoldProducts()
+      .then((count) => {
+        setNbProducts(count);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  useEffect(() => {
+    fetchCountCustomers();
+    fetchCountOrders();
+    fetchTotalAmount();
+    fetchTotalSoldProducts();
+  }, [fetchCountCustomers, fetchCountOrders, fetchTotalAmount, fetchTotalSoldProducts]);
 
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
