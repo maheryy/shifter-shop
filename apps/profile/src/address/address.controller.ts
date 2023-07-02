@@ -16,7 +16,7 @@ import { UpdateAddressDto } from './dto/update-address.dto';
 import { CustomerService } from 'src/customer/customer.service';
 import { EUserRole } from '@shifter-shop/dictionary';
 import { CustomerProfile } from 'src/customer/entities/customer-profile.entity';
-import { Address } from './entities/address.entity';
+import { ParamsDto } from './dto/params.dto';
 
 @Auth()
 @Controller('/addresses')
@@ -51,7 +51,7 @@ export class AddressController {
   @Get(':id')
   findOne(
     @Headers('user-id') userId: CustomerProfile['id'],
-    @Param('id') id: Address['id'],
+    @Param() { id }: ParamsDto,
   ) {
     return this.addressService.findOneById(userId, id);
   }
@@ -59,7 +59,7 @@ export class AddressController {
   @Patch(':id')
   update(
     @Headers('user-id') userId: CustomerProfile['id'],
-    @Param('id') id: Address['id'],
+    @Param() { id }: ParamsDto,
     @Body() updateAddressDto: UpdateAddressDto,
   ) {
     return this.addressService.update(userId, id, updateAddressDto);
@@ -69,7 +69,7 @@ export class AddressController {
   @Delete(':id')
   async remove(
     @Headers('user-id') userId: CustomerProfile['id'],
-    @Param('id') id: Address['id'],
+    @Param() { id }: ParamsDto,
   ) {
     return this.addressService.remove(userId, id);
   }
@@ -78,7 +78,7 @@ export class AddressController {
   @Post('/set-default/:id')
   async setDefault(
     @Headers('user-id') userId: CustomerProfile['id'],
-    @Param('id') id: Address['id'],
+    @Param() { id }: ParamsDto,
   ) {
     return this.addressService.setDefault(userId, id);
   }
