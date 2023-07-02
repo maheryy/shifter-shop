@@ -6,9 +6,9 @@ export class Category implements TCategory {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column('varchar', { unique: true, length: 256 })
+  @Column('varchar', { unique: true })
   name: string;
 
-  @Column('varchar', { nullable: true, length: 2048 })
+  @Column('varchar', { nullable: true })
   description?: string;
 }

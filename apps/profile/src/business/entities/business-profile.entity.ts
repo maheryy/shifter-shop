@@ -6,13 +6,13 @@ export class BusinessProfile implements TBusinessProfile {
   @PrimaryColumn('uuid')
   id: string;
 
-  @Column('varchar', { length: 256 })
+  @Column('varchar')
   company: string;
 
-  @Column('varchar', { nullable: true, length: 256 })
+  @Column('varchar', { nullable: true })
   website?: string;
 
-  @Column('varchar', { nullable: true, length: 32 })
+  @Column('varchar', { nullable: true })
   phone?: string;
 
   @Column('varchar')

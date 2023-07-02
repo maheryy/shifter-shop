@@ -6,10 +6,10 @@ export class Product implements TProduct {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column('varchar', { length: 256 })
+  @Column('varchar')
   name: string;
 
-  @Column('varchar', { length: 2048 })
+  @Column('varchar')
   description: string;
 
   @Column('float', { default: 0 })
