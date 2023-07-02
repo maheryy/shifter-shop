@@ -1,4 +1,4 @@
-# Shifer Shop
+# Shifter Shop
 Experience the future of e-commerce with Shifter Shop. Join our platform today and unlock a world of convenience, innovation, and success. 
 Embrace the shift and elevate your online business to new heights.
 
