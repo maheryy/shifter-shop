@@ -1,0 +1,17 @@
+{
+  "name": "@shifter-shop/logger",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@types/winston": "^2.4.4",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "winston": "^3.9.0"
+  }
+}
