@@ -20,7 +20,7 @@ function ReviewCard({ review }: ReviewCardProps) {
             src={review.product.image}
           />
         </Link>
-        <div className="grid overflow-hidden p-2">
+        <h2 className="grid overflow-hidden p-2">
           <Link
             className="truncate font-roboto font-medium text-gray-600"
             to={to}
@@ -30,9 +30,12 @@ function ReviewCard({ review }: ReviewCardProps) {
           <span className="text-xs text-gray-500">
             Reviewed on {formatDisplayDate(review.date)}
           </span>
-        </div>
+        </h2>
       </div>
       <div className="grid gap-2 p-4">
+        {review.title && (
+          <h3 className="font-roboto text-lg font-medium">{review.title}</h3>
+        )}
         {review.details ? (
           <div className="text-sm leading-8">{review.details}</div>
         ) : (
