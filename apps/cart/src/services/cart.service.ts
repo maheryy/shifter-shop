@@ -1,6 +1,8 @@
+import { fetchJson } from "@shifter-shop/helpers";
 import db from "../database";
 import { CartItem } from "entities/cart.entity";
 import { TSyncCart } from "validation/SyncCart";
+import { TProduct } from "@shifter-shop/dictionary";
 
 export const getCustomerCart = async (customerId: string) => {
   return CartItem.find({
@@ -32,6 +34,12 @@ export async function syncCart(
 
     return getCustomerCart(customerId);
   }
+
+  await Promise.all(
+    cart.map(({ productId }) =>
+      fetchJson<TProduct>({ service: "product", endpoint: `/${productId}` })
+    )
+  );
 
   const cartItemsMap = [...cartItems, ...cart].reduce<{ [k: string]: number }>(
     (accumulator, { productId, quantity }) => {

@@ -1,8 +1,17 @@
-import { BadRequestError, UnauthorizedError } from "@shifter-shop/errors";
+import {
+  BadRequestError,
+  NotFoundError,
+  UnauthorizedError,
+} from "@shifter-shop/errors";
 import { NextFunction, Request, Response } from "express";
 import * as cartService from "services/cart.service";
-import { joinResources } from "@shifter-shop/helpers";
-import { TCartItem, TFullCartItem } from "@shifter-shop/dictionary";
+import { fetchJson, joinResources } from "@shifter-shop/helpers";
+import {
+  EService,
+  TCartItem,
+  TFullCartItem,
+  TProduct,
+} from "@shifter-shop/dictionary";
 import { SyncCart, TSyncCart } from "../validation/SyncCart";
 import { ZodError } from "zod";
 import { fromZodError } from "zod-validation-error";
@@ -38,9 +47,11 @@ export const updateCartItem = async (
 ) => {
   try {
     const customerId = req.get("user-id");
+
     if (!customerId) {
       throw new UnauthorizedError();
     }
+
     const { quantity, productId } = req.body as {
       quantity?: number;
       productId?: string;
@@ -53,6 +64,11 @@ export const updateCartItem = async (
     if (quantity === undefined) {
       throw new BadRequestError("Quantity is required");
     }
+
+    await fetchJson<TProduct>({
+      service: EService.Product,
+      endpoint: `/${productId}`,
+    });
 
     if (quantity < 1) {
       await cartService.deleteProduct(customerId, productId);
