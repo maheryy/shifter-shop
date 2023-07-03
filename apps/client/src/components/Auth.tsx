@@ -1,21 +1,21 @@
-import { Navigate, useLocation } from "react-router-dom";
+import { Fragment } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthContext } from "@/hooks/context";
 
-interface Auth {
-  children?: React.ReactNode;
+interface AuthProps {
+  children: React.ReactNode;
 }
 
-function Auth({ children }: Auth) {
+function Auth({ children }: AuthProps) {
   const { isAuthenticated } = useAuthContext();
   const location = useLocation();
+  const navigate = useNavigate();
 
   if (!isAuthenticated) {
-    return (
-      <Navigate replace state={{ redirectTo: location.pathname }} to="/login" />
-    );
+    navigate("/login", { state: { redirectTo: location.pathname } });
   }
 
-  return children;
+  return <Fragment>{children}</Fragment>;
 }
 
 export default Auth;
