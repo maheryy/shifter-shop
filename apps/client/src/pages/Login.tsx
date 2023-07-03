@@ -72,7 +72,7 @@ const Login = () => {
       </Form>
       <p className="mt-4 text-center text-gray-600">
         Don’t have account?&nbsp;
-        <Link className="text-primary" to="/register">
+        <Link className="text-primary" state={{ redirectTo }} to="/register">
           Register now
         </Link>
       </p>

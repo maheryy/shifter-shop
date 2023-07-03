@@ -17,6 +17,11 @@
       "method": "POST",
       "path": "/",
       "middlewares": ["auth"]
+    },
+    {
+      "method": "POST",
+      "path": "/sync",
+      "middlewares": ["auth"]
     }
   ]
 }

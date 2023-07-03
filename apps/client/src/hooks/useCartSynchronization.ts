@@ -4,6 +4,7 @@ import { synchronizeCart } from "@/api/cart.api";
 import { TCart } from "@/types/cart";
 import QueryKey from "@/types/query";
 import StorageKey from "@/types/storage";
+import isEmpty from "@/utils/isEmpty";
 import { getFromLocalStorage, removeFromLocalStorage } from "@/utils/storage";
 
 function useCartSynchronization(isAuthenticated: boolean) {
@@ -18,8 +19,13 @@ function useCartSynchronization(isAuthenticated: boolean) {
   useEffect(() => {
     const cart = getFromLocalStorage<TCart>(StorageKey.enum.cart);
 
-    if (cart && isAuthenticated) {
-      synchronizeMutation.mutate(cart);
+    if (cart && !isEmpty(cart) && isAuthenticated) {
+      synchronizeMutation.mutate({
+        cart: cart.map(({ product, quantity }) => ({
+          productId: product.id,
+          quantity,
+        })),
+      });
 
       removeFromLocalStorage(StorageKey.enum.cart);
     }

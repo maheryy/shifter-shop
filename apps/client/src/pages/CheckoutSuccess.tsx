@@ -1,7 +1,7 @@
 import BagIcon from "@icons/bag.svg";
 import { Link } from "react-router-dom";
 
-const PostCheckout = () => {
+function CheckoutSuccess() {
   return (
     <div className="container py-16">
       <div className="m-auto flex w-fit flex-col items-center gap-7">
@@ -32,6 +32,6 @@ const PostCheckout = () => {
       </div>
     </div>
   );
-};
+}
 
-export default PostCheckout;
+export default CheckoutSuccess;
