@@ -1,6 +1,6 @@
 import { EGlobalStatus } from '@shifter-shop/dictionary';
+import { Transform, TransformFnParams } from 'class-transformer';
 import {
-  IsEmpty,
   IsEnum,
   IsNotEmpty,
   IsNumber,
@@ -13,30 +13,27 @@ export class UpdateProductDto {
   @IsOptional()
   @IsString()
   @IsNotEmpty()
+  @Transform(({ value }: TransformFnParams) => value?.trim())
   name?: string;
 
   @IsOptional()
   @IsString()
   @IsNotEmpty()
+  @Transform(({ value }: TransformFnParams) => value?.trim())
   description?: string;
 
   @IsOptional()
   @IsNumber()
   price?: number;
 
-  @IsEmpty()
-  rating?: number;
-
   @IsOptional()
   @IsUUID()
   categoryId?: string;
 
-  @IsEmpty()
-  sellerId?: string;
-
   @IsOptional()
   @IsString()
   @IsNotEmpty()
+  @Transform(({ value }: TransformFnParams) => value?.trim())
   image?: string;
 
   @IsOptional()

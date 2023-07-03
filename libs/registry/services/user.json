@@ -10,7 +10,9 @@
   "routes": [
     {
       "method": "GET",
-      "path": "/"
+      "path": "/",
+      "middlewares": ["auth", "roles"],
+      "roles": ["ADMIN"]
     },
     {
       "method": "PATCH",

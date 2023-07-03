@@ -10,7 +10,8 @@
   "routes": [
     {
       "method": "GET",
-      "path": "/"
+      "path": "/",
+      "middlewares": ["auth"]
     },
     {
       "method": "POST",

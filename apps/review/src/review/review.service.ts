@@ -24,7 +24,7 @@ export class ReviewService {
   async create(data: CreateReviewDto) {
     const order = await fetchJson<TOrder>(
       { service: EService.Order, endpoint: `/${data.orderId}` },
-      { headers: {"user-id": data.authorId!} },
+      { headers: { 'user-id': data.authorId! } },
     );
 
     if (order.customerId !== data.authorId) {
@@ -75,8 +75,8 @@ export class ReviewService {
     return review;
   }
 
-  async update(id: string, data: UpdateReviewDto) {
-    const res = await this.reviewRepository.update({ id }, data);
+  async update(authorId: string, id: string, data: UpdateReviewDto) {
+    const res = await this.reviewRepository.update({ id, authorId }, data);
 
     if (!res.affected) {
       throw new NotFoundException(`Review with id: ${id} does not exist`);

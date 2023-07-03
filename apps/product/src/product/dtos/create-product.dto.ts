@@ -1,18 +1,28 @@
-import { EGlobalStatus } from '@shifter-shop/dictionary';
-import { IsEmpty, IsNumber, IsOptional, IsString, IsUUID } from 'class-validator';
+import { Transform, TransformFnParams } from 'class-transformer';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  IsUUID,
+  MaxLength,
+} from 'class-validator';
 
 export class CreateProductDto {
+  @IsNotEmpty()
   @IsString()
+  @MaxLength(256)
+  @Transform(({ value }: TransformFnParams) => value?.trim())
   name!: string;
 
   @IsString()
+  @IsNotEmpty()
+  @MaxLength(2048)
+  @Transform(({ value }: TransformFnParams) => value?.trim())
   description!: string;
 
   @IsNumber()
   price!: number;
-
-  @IsEmpty()
-  rating?: number;
 
   @IsUUID()
   categoryId!: string;
@@ -21,8 +31,6 @@ export class CreateProductDto {
   image?: string;
 
   @IsOptional()
+  @IsUUID()
   sellerId?: string;
-
-  @IsEmpty()
-  status?: EGlobalStatus;
 }
