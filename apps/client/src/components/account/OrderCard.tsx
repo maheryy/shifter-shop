@@ -10,7 +10,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
   const { download, isLoading: isDownloading } = useDownloadContext();
 
   const downloadInvoice = () =>
-    download(`${import.meta.env.VITE_API_URL}/invoice/${order.reference}`, {
+    download(`${import.meta.env.VITE_API_URL}/invoices/${order.reference}`, {
       filename: generateInvoiceFilename(order),
     });
 

@@ -76,10 +76,10 @@
             <tbody>
               {{#each order.products as |item|}}
                 <tr>
-                  <td>{{item.product.name}}</td>
+                  <td>{{item.name}}</td>
                   <td>{{item.quantity}}</td>
-                  <td>{{formatPrice item.product.price}}</td>
-                  <td>{{formatPrice item.product.price}}</td>
+                  <td>{{formatPrice item.price}}</td>
+                  <td>{{formatPrice item.price}}</td>
                 </tr>
               {{/each}}
             </tbody>
@@ -91,7 +91,7 @@
             <div class="footer-rows">
               <div class="footer-row">
                 <span>Subtotal</span>
-                <span>{{formatPrice order.total}}</span>
+                <span>{{formatPrice order.amount}}</span>
               </div>
               <div class="footer-row">
                 <span>Tax</span>
@@ -99,7 +99,7 @@
               </div>
               <div class="footer-row total">
                 <span>Total</span>
-                <span>{{formatPrice order.total}}</span>
+                <span>{{formatPrice order.amount}}</span>
               </div>
             </div>
           </div>

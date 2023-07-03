@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useRef, useState } from "react";
 import useComponentUpdate from "@/hooks/componentUpdate";
+import { useAuthContext } from "@/hooks/context";
 
 export const DownloadContext = createContext<DownloadContextProps | null>(null);
 
@@ -7,6 +8,7 @@ const DownloadProvider = ({ children }: DownloadProviderProps) => {
   const [data, setData] = useState<DownloadLinkData>();
   const [isLoading, setIsLoading] = useState(false);
   const ref = useRef<HTMLAnchorElement>(null);
+  const { token } = useAuthContext();
 
   useComponentUpdate(() => {
     if (data) {
@@ -18,11 +20,21 @@ const DownloadProvider = ({ children }: DownloadProviderProps) => {
     endpoint: string,
     { data, filename, method = "GET" }: DownloadLinkProps,
   ): Promise<DownloadLinkData> => {
+    const headers = new Headers();
+
+    if (token) {
+      headers.append("Authorization", `Bearer ${token}`);
+    }
+
+    if (method === "POST") {
+      headers.append("Accept", "application/json");
+    }
+
     const response = await fetch(endpoint, {
       method,
+      headers,
       ...(method === "POST"
         ? {
-            headers: { "Content-Type": "application/json" },
             body: data ? JSON.stringify(data) : null,
           }
         : {}),
@@ -39,9 +51,7 @@ const DownloadProvider = ({ children }: DownloadProviderProps) => {
     const blob = await response.blob();
 
     if (blob.size === 0) {
-      throw new Error(
-        "Erreur lors de la récupération des données à télécharger",
-      );
+      throw new Error("Error retrieving data for download");
     }
 
     return {
@@ -56,6 +66,7 @@ const DownloadProvider = ({ children }: DownloadProviderProps) => {
   ) => {
     try {
       setIsLoading(true);
+
       const linkData = await getDownloadLink(endpoint, {
         data,
         filename,
