@@ -2,7 +2,7 @@ import isStrongPassword from "validator/es/lib/isStrongPassword";
 import { z } from "zod";
 import User from "./user";
 
-const Register = z.object({
+export const Register = z.object({
   email: z.string().email(),
   firstname: z.string(),
   lastname: z.string(),
@@ -12,7 +12,7 @@ const Register = z.object({
   }),
 });
 
-const Login = z.object({
+export const Login = z.object({
   email: z.string().email(),
   password: z.string(),
 });
@@ -22,6 +22,6 @@ const Auth = z.object({
   user: User,
 });
 
-export type Register = z.infer<typeof Register>;
-export type Login = z.infer<typeof Login>;
+export type TRegister = z.infer<typeof Register>;
+export type TLogin = z.infer<typeof Login>;
 export type Auth = z.infer<typeof Auth>;
