@@ -62,7 +62,10 @@ export class UserService {
   }
 
   async count(type?: string) {
-    if (type && !Object.values(EUserRole).includes(type.toUpperCase() as EUserRole)) {
+    if (
+      type &&
+      !Object.values(EUserRole).includes(type.toUpperCase() as EUserRole)
+    ) {
       throw new BadRequestException(`Invalid type: ${type}`);
     }
 

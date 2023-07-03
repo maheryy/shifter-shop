@@ -29,7 +29,7 @@ export const getAuthToken = async ({
   email: string;
   password: string;
 }): Promise<Token> => {
-  return api.post({ email, password }, "/auth/login").json();
+  return api.post({ email, password }, "/auth/login-admin").json();
 };
 
 export const checkUserRole = async (): Promise<string | null> => {

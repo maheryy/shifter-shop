@@ -45,6 +45,15 @@ export class AuthController {
     return { token, user };
   }
 
+  @HttpCode(200)
+  @Post('/login-admin')
+  async loginAdmin(@Body() data: LoginDto) {
+    const user = await this.authService.verifyAdmin(data.email, data.password);
+    const token = await this.jwtService.generateToken({ userId: user.id });
+
+    return { token, user };
+  }
+
   // Private route for microservices
   @HttpCode(200)
   @Post('/verify-token')
