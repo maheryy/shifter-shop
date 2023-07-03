@@ -1,4 +1,5 @@
 import { RouteObject } from "react-router-dom";
+import Auth from "@/components/Auth";
 import AccountLayout from "@/layouts/CustomerLayout";
 import Account from "@/pages/account/Account";
 import Addresses from "@/pages/account/Addresses";
@@ -13,7 +14,11 @@ import NotFound from "@/pages/errors/NotFound";
 
 const accountRoutes: RouteObject = {
   path: "account",
-  element: <AccountLayout />,
+  element: (
+    <Auth>
+      <AccountLayout />
+    </Auth>
+  ),
   children: [
     {
       index: true,

@@ -5,11 +5,19 @@ import IdentificationIcon from "@icons/solid/identification.svg";
 import ListIcon from "@icons/solid/queue-list.svg";
 import ReviewIcon from "@icons/solid/review.svg";
 import ShieldIcon from "@icons/solid/shield-check.svg";
+import { useNavigate } from "react-router-dom";
 import LinkCard from "@/components/account/LinkCard";
-import { useCustomerContext } from "@/hooks/context";
+import { useAuthContext } from "@/hooks/context";
 
-const Account = () => {
-  const { logout } = useCustomerContext();
+function Account() {
+  const { invalidate } = useAuthContext();
+  const navigate = useNavigate();
+
+  function logOut() {
+    invalidate();
+
+    return navigate("/");
+  }
 
   return (
     <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -53,11 +61,11 @@ const Account = () => {
         description="Log out from your account"
         icon={<LogoutIcon />}
         link="#"
-        onClick={logout}
+        onClick={logOut}
         title="Logout"
       />
     </div>
   );
-};
+}
 
 export default Account;
