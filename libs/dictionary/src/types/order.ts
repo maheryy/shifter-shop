@@ -1,4 +1,5 @@
 import { TProductReferenceWithQuantity, TProductWithQuantity } from "./product";
+import { TAddress } from "./profile";
 import { TUser } from "./user";
 
 export interface TOrder {
@@ -9,17 +10,12 @@ export interface TOrder {
   products: TProductReferenceWithQuantity[];
   status: EOrderStatus;
   date: Date;
+  address: Omit<TAddress, "id" | "profile" | "isDefault">;
 }
 
-export interface TFullOrder {
-  id: string;
-  reference: string;
-  amount: number;
-  customerId: string;
+export interface TFullOrder extends TOrder {
   customer: TUser;
   products: TProductWithQuantity[];
-  status: EOrderStatus;
-  date: Date;
 }
 
 export enum EOrderStatus {

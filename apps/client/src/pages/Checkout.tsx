@@ -42,8 +42,8 @@ function Checkout() {
 
   const { mutate } = useCheckout();
 
-  const onSubmit: SubmitHandler<AddressFieldValues> = () => {
-    mutate();
+  const onSubmit: SubmitHandler<AddressFieldValues> = ({ address }) => {
+    mutate(address);
   };
 
   if (isLoading) {
@@ -67,8 +67,8 @@ function Checkout() {
 
     setValue("address", address);
 
-    if (!address.address2) {
-      setValue("address.address2", undefined);
+    if (!address.line2) {
+      setValue("address.line2", undefined);
     }
   };
 
@@ -126,20 +126,20 @@ function getUseFormOptions(addresses?: TAddress[]) {
 
 function getReadableAddress({
   fullName,
-  address1,
-  address2,
+  line1,
+  line2,
   city,
   province,
   zip,
 }: Omit<TAddress, "id">) {
-  const mandatoryStart = `${fullName}, ${address1}`;
+  const mandatoryStart = `${fullName}, ${line1}`;
   const mandatoryEnd = `, ${zip} ${city}, ${province}`;
 
-  if (!address2) {
+  if (!line2) {
     return mandatoryStart + mandatoryEnd;
   }
 
-  return mandatoryStart + `, ${address2}` + mandatoryEnd;
+  return mandatoryStart + `, ${line2}` + mandatoryEnd;
 }
 
 export default Checkout;

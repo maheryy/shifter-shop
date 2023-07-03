@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, BaseEntity } from "typeorm";
 import {
   EOrderStatus,
+  TAddress,
   TOrder,
   TProductReferenceWithQuantity,
 } from "@shifter-shop/dictionary";
@@ -27,4 +28,7 @@ export class Order extends BaseEntity implements TOrder {
 
   @Column("timestamptz", { default: () => "CURRENT_TIMESTAMP" })
   date: Date;
+
+  @Column("jsonb")
+  address: Omit<TAddress, "id" | "profile" | "isDefault">;
 }
