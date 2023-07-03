@@ -1,18 +1,13 @@
-import { ReactNode } from "react";
+import { Fragment } from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "@/components/account/Sidebar";
 import Copyright from "@/components/Copyright";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import CustomerProvider from "@/providers/CustomerProvider";
 
-interface AccountLayoutProps {
-  children?: ReactNode;
-}
-
-const AccountLayout = ({ children }: AccountLayoutProps) => {
+function AccountLayout() {
   return (
-    <CustomerProvider>
+    <Fragment>
       <Header />
       <main>
         <div className="container grid gap-4 py-12 lg:grid-cols-12">
@@ -21,15 +16,13 @@ const AccountLayout = ({ children }: AccountLayoutProps) => {
           </div>
           <div className="lg:col-span-9">
             <Outlet />
-            {children}
           </div>
         </div>
-        {children}
       </main>
       <Footer />
       <Copyright />
-    </CustomerProvider>
+    </Fragment>
   );
-};
+}
 
 export default AccountLayout;

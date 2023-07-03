@@ -3,12 +3,24 @@ import IdentificationIcon from "@icons/identification.svg";
 import LogoutIcon from "@icons/out.svg";
 import ListIcon from "@icons/queue-list.svg";
 import UserIcon from "@icons/user-circle.svg";
-import { NavLink } from "react-router-dom";
-import { useAuthContext, useCustomerContext } from "@/hooks/context";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useAuthContext } from "@/hooks/context";
 
-const Sidebar = () => {
-  const { user } = useAuthContext();
-  const { logout } = useCustomerContext();
+function Sidebar() {
+  const { user, invalidate } = useAuthContext();
+  const navigate = useNavigate();
+
+  if (!user) {
+    navigate("/login");
+
+    return null;
+  }
+
+  function logOut() {
+    invalidate();
+
+    return navigate("/login");
+  }
 
   return (
     <aside className="hidden gap-4 md:grid">
@@ -19,7 +31,7 @@ const Sidebar = () => {
         <div className="grow">
           <p className="text-gray-600">Hello,</p>
           <span className="font-medium text-gray-800">
-            {user!.firstname} {user!.lastname}
+            {user.firstname} {user.lastname}
           </span>
         </div>
       </div>
@@ -114,7 +126,7 @@ const Sidebar = () => {
         <div className="space-y-1 pl-8 pt-4">
           <button
             className="relative block font-medium capitalize transition hover:text-primary"
-            onClick={logout}
+            onClick={logOut}
           >
             <span className="absolute -left-7 top-1 h-4 w-4">
               <LogoutIcon />
@@ -125,6 +137,6 @@ const Sidebar = () => {
       </div>
     </aside>
   );
-};
+}
 
 export default Sidebar;

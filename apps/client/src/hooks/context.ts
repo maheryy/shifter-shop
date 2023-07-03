@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { AuthContext } from "@/providers/AuthProvider";
 import { RegisterContext } from "@/providers/business/RegisterContext";
-import { CustomerContext } from "@/providers/CustomerProvider";
 import { DownloadContext } from "@/providers/DownloadProvider";
 
 export const useAuthContext = () => {
@@ -9,18 +8,6 @@ export const useAuthContext = () => {
 
   if (!context) {
     throw new Error("useAuthContext must be used within a <AuthProvider>");
-  }
-
-  return context;
-};
-
-export const useCustomerContext = () => {
-  const context = useContext(CustomerContext);
-
-  if (context === undefined) {
-    throw new Error(
-      "useCustomerContext must be used within a <CustomerProvider>",
-    );
   }
 
   return context;
