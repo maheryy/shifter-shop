@@ -1,4 +1,4 @@
-import { TCart } from "@/types/cart";
+import { TCart, TSyncCart } from "@/types/cart";
 import { UpdateLocalProductQuantity } from "@/types/cartProduct";
 import api from ".";
 
@@ -33,6 +33,6 @@ export function updateProductQuantity(
  * @param payload The local cart to synchronize.
  * @returns A promise that resolves to the updated cart.
  */
-export function synchronizeCart(payload: TCart): Promise<TCart> {
-  return api.post(payload, `/cart/synchronize`).json();
+export function synchronizeCart(payload: TSyncCart): Promise<TCart> {
+  return api.post(payload, `/cart/sync`).json();
 }
