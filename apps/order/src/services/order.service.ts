@@ -152,9 +152,10 @@ export const countTotalAmount = async () => {
     status: EOrderStatus.Confirmed || EOrderStatus.Delivered,
   });
 
-  orders.reduce((acc, order) => {
+  return orders.reduce((acc, order) => {
     return acc + order.amount;
-  }, 0);
+  }
+  , 0);
 };
 
 export const countTotalSoldProducts = async () => {
@@ -162,7 +163,8 @@ export const countTotalSoldProducts = async () => {
     status: EOrderStatus.Confirmed || EOrderStatus.Delivered,
   });
 
-  orders.reduce((acc, order) => {
+  return orders.reduce((acc, order) => {
     return acc + order.products.length;
-  }, 0);
+  }
+  , 0);
 };
