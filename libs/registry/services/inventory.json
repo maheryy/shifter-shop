@@ -11,19 +11,24 @@
   "routes": [
     {
       "method": "POST",
-      "path": "/"
+      "path": "/",
+      "private": true
     },
     {
       "method": "GET",
-      "path": "/:id"
+      "path": "/:id",
+      "private": true
     },
     {
       "method": "PATCH",
-      "path": "/:id"
+      "path": "/:id",
+      "private": true
     },
     {
       "method": "PATCH",
-      "path": "/restock/:id"
+      "path": "/restock/:id",
+      "middlewares": ["auth", "roles"],
+      "roles": ["ADMIN"]
     }
   ]
 }
