@@ -1,5 +1,5 @@
 import EmptyCart from "@illustrations/empty-cart.svg";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import CartProductCard from "@/components/cart/CartProductCard";
 import CartSummaryItem from "@/components/cart/CartSummaryItem";
 import useCart from "@/hooks/useCart";
@@ -8,7 +8,6 @@ import { formatPrice } from "@/utils/format";
 import isEmpty from "@/utils/isEmpty";
 
 function Cart() {
-  const navigate = useNavigate();
   const { cartQuery } = useCart();
   const { data, isError, isLoading } = cartQuery;
 
@@ -53,10 +52,6 @@ function Cart() {
 
   const formattedPrice = formatPrice(price);
 
-  function onCheckout() {
-    navigate("/checkout");
-  }
-
   return (
     <section className="container grid items-start gap-4 py-8 lg:grid-cols-12">
       <div className="grid gap-2 lg:col-span-8">
@@ -91,12 +86,12 @@ function Cart() {
           <span className="font-semibold">Total</span>
           <span>{formattedPrice}</span>
         </div>
-        <button
+        <Link
           className="block w-full rounded-md border border-primary bg-primary px-4 py-2 text-center font-medium text-white transition hover:bg-transparent hover:text-primary"
-          onClick={onCheckout}
+          to={"/checkout"}
         >
           Go to checkout
-        </button>
+        </Link>
       </div>
     </section>
   );

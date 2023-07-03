@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import isStrongPassword from "validator/es/lib/isStrongPassword";
 import { z } from "zod";
 import Button from "@/components/Button";
@@ -30,6 +30,9 @@ const registerSchema = z
 type RegisterFieldValues = z.infer<typeof registerSchema>;
 
 function Register() {
+  const location = useLocation();
+  const { redirectTo } = location.state || {};
+
   const {
     register,
     handleSubmit,
@@ -38,7 +41,7 @@ function Register() {
     resolver: zodResolver(registerSchema),
   });
 
-  const { mutate } = useRegister();
+  const { mutate } = useRegister(redirectTo);
 
   const onSubmit = mutate as SubmitHandler<RegisterFieldValues>;
 
