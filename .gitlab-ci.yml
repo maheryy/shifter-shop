@@ -11,7 +11,7 @@ stages:
   - deploy
 
 test:
-  stage: test-job
+  stage: test
   script:
     - echo "This is an empty job"
 
