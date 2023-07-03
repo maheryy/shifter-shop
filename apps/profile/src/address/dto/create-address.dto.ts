@@ -19,13 +19,13 @@ export class CreateAddressDto {
   @IsNotEmpty()
   @MaxLength(256)
   @Transform(({ value }: TransformFnParams) => value?.trim())
-  address1: string;
+  line1: string;
 
   @IsString()
   @IsOptional()
   @MaxLength(256)
   @Transform(({ value }: TransformFnParams) => value?.trim())
-  address2?: string;
+  line2?: string;
 
   @IsString()
   @IsNotEmpty()

@@ -1,4 +1,5 @@
 import {
+  TAddress,
   TOrder,
   TProductReferenceWithQuantity,
   TReview,
@@ -6,6 +7,7 @@ import {
 } from "@shifter-shop/dictionary";
 
 export interface TPaymentSuccessData {
+  address: Omit<TAddress, "id" | "profile" | "isDefault">;
   customerId: string;
   amount: number;
   products: TProductReferenceWithQuantity[];

@@ -7,8 +7,8 @@ interface State {
   business: {
     name: string;
     address: {
-      address1: string;
-      address2?: string;
+      line1: string;
+      line2?: string;
       zip: string;
       city: string;
       state: string;
@@ -23,8 +23,8 @@ const initialState = {
   business: {
     name: "",
     address: {
-      address1: "",
-      address2: "",
+      line1: "",
+      line2: "",
       zip: "",
       city: "",
       state: "",

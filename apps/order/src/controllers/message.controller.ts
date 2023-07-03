@@ -6,6 +6,7 @@ import { EOrderStatus } from "@shifter-shop/dictionary";
 export const onPaymentSucceeded = async (payment: TPaymentSuccessData) => {
   console.log("[order] Payment succeeded", payment);
   const order = await createOrder({
+    address: payment.address,
     customerId: payment.customerId,
     amount: payment.amount,
     products: payment.products,

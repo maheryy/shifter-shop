@@ -6,15 +6,15 @@ import Input from "@/components/Input";
 
 export const addressSchema = z.object({
   address: z.object({
-    fullName: z.string().nonempty({ message: "Required" }),
-    address1: z.string().nonempty({ message: "Required" }),
-    address2: z.string().optional(),
-    city: z.string().nonempty({ message: "Required" }),
-    zip: z.string().nonempty({ message: "Required" }),
-    province: z.string().nonempty({ message: "Required" }),
-    phone: z
-      .string()
-      .refine(isMobilePhone, { message: "Invalid phone number" }),
+    fullName: z.string().trim().min(1, { message: "Required" }),
+    line1: z.string().trim().min(1, { message: "Required" }),
+    line2: z.string().optional(),
+    city: z.string().trim().min(1, { message: "Required" }),
+    zip: z.string().trim().min(1, { message: "Required" }),
+    province: z.string().trim().min(1, { message: "Required" }),
+    phone: z.string().refine((phone) => isMobilePhone(phone, "fr-FR"), {
+      message: "Invalid phone number",
+    }),
     setDefault: z.boolean().optional(),
   }),
 });
@@ -43,14 +43,14 @@ function AddressForm({ onSubmit, form, children }: AddressProps) {
         register={register}
       />
       <Input
-        errorMessage={errors.address?.address1?.message}
-        id="address.address1"
+        errorMessage={errors.address?.line1?.message}
+        id="address.line1"
         label="Address line 1"
         register={register}
       />
       <Input
-        errorMessage={errors.address?.address2?.message}
-        id="address.address2"
+        errorMessage={errors.address?.line2?.message}
+        id="address.line2"
         label="Address line 2"
         placeholder="(Optional) Apt, suite, building, unit, floor, etc"
         register={register}

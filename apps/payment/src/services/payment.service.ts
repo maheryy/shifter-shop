@@ -4,8 +4,12 @@ import Stripe from "stripe";
 import { EService, TFullCartItem } from "@shifter-shop/dictionary";
 import { fetchJson } from "@shifter-shop/helpers";
 import { BadRequestError } from "@shifter-shop/errors";
+import { TAddress } from "validation/Address";
 
-export const createCheckoutSession = async (userId: string) => {
+export const createCheckoutSession = async (
+  userId: string,
+  address: TAddress
+) => {
   const items = await fetchJson<TFullCartItem[]>(
     { service: EService.Cart, endpoint: "/" },
     { headers: { "user-id": userId } }
@@ -21,7 +25,7 @@ export const createCheckoutSession = async (userId: string) => {
     mode: "payment",
     success_url: `${process.env.CLIENT_URL}/checkout/success`,
     cancel_url: `${process.env.CLIENT_URL}/cart`,
-    metadata: { data: generateMetadata(userId, items) },
+    metadata: { data: generateMetadata(userId, items, address) },
   });
 };
 
@@ -51,9 +55,11 @@ export const getWebhookEvent = (
 
 const generateMetadata = (
   customerId: string,
-  items: TFullCartItem[]
+  items: TFullCartItem[],
+  address: TAddress
 ): string => {
   return JSON.stringify({
+    address,
     customerId: customerId,
     products: items.map((item) => ({
       id: item.product.id,

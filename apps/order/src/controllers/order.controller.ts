@@ -18,6 +18,7 @@ export const createOrder = async (
   data: Omit<TOrderCreationData, "reference">
 ) => {
   const orderData: TOrderCreationData = {
+    address: data.address,
     customerId: data.customerId,
     reference: await generateOrderReference(),
     amount: data.amount,

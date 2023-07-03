@@ -14,10 +14,10 @@ export class Address implements TAddress {
   fullName: string;
 
   @Column('varchar')
-  address1: string;
+  line1: string;
 
   @Column('varchar', { nullable: true })
-  address2?: string;
+  line2?: string;
 
   @Column('varchar')
   city: string;

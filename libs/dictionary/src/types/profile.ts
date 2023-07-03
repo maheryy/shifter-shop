@@ -2,8 +2,8 @@ export interface TAddress {
   id: string;
   profile: TCustomerProfile;
   fullName: string;
-  address1: string;
-  address2?: string;
+  line1: string;
+  line2?: string;
   city: string;
   zip: string;
   province: string;

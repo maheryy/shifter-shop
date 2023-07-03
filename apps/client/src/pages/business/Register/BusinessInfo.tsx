@@ -17,8 +17,8 @@ const schema = z.object({
     name: z.string().nonempty({ message: "Required" }),
     category: z.string().nonempty({ message: "Required" }),
     address: z.object({
-      address1: z.string().nonempty({ message: "Required" }),
-      address2: z.string().optional(),
+      line1: z.string().nonempty({ message: "Required" }),
+      line2: z.string().optional(),
       zip: z.string().nonempty({ message: "Required" }),
       city: z.string().nonempty({ message: "Required" }),
       state: z.string().nonempty({ message: "Required" }),
@@ -87,14 +87,14 @@ function BusinessInfo() {
         <div className="grid gap-4">
           <h2 className="text-lg font-medium">Business address</h2>
           <Input
-            errorMessage={errors.business?.address?.address1?.message}
-            id="business.address.address1"
+            errorMessage={errors.business?.address?.line1?.message}
+            id="business.address.line1"
             label="Street address"
             register={register}
           />
           <Input
-            errorMessage={errors.business?.address?.address2?.message}
-            id="business.address.address2"
+            errorMessage={errors.business?.address?.line2?.message}
+            id="business.address.line2"
             label="Suite, unit, floor (optional)"
             register={register}
           />

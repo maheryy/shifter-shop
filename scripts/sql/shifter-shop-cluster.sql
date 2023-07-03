@@ -411,6 +411,7 @@ CREATE TABLE public."order" (
     reference character(10) NOT NULL,
     amount double precision NOT NULL,
     products jsonb NOT NULL,
+    address jsonb NOT NULL,
     status public.order_status_enum DEFAULT 'Pending'::public.order_status_enum NOT NULL,
     date timestamp with time zone DEFAULT now() NOT NULL
 );
@@ -422,13 +423,13 @@ ALTER TABLE public."order" OWNER TO postgres;
 -- Data for Name: order; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public."order" (id, "customerId", reference, amount, products, status, date) VALUES ('680fddc4-30af-402b-9c86-aebdde984ab1', '9bf43ed2-5fa5-4036-a450-56725361cdea', 'AX0HD4M6Z1', 2565.4, '[{"id": "da76bb4a-1897-448b-85fb-27877a7f1c84", "quantity": 4}, {"id": "4dee711f-fee4-473f-a951-48f41dfea399", "quantity": 4}]', 'Confirmed', '2023-07-01 00:00:00.718+00');
-INSERT INTO public."order" (id, "customerId", reference, amount, products, status, date) VALUES ('85d2e0e4-7f14-4e27-b512-c42419d1dfb3', '9bf43ed2-5fa5-4036-a450-56725361cdea', 'BX0HD4M6Z2', 2565.4, '[{"id": "da76bb4a-1897-448b-85fb-27877a7f1c84", "quantity": 4}, {"id": "4dee711f-fee4-473f-a951-48f41dfea399", "quantity": 4}]', 'Delivered', '2023-05-02 00:00:00.718+00');
-INSERT INTO public."order" (id, "customerId", reference, amount, products, status, date) VALUES ('eeec9372-36ee-4294-ad1e-6f6dccc080a0', '9bf43ed2-5fa5-4036-a450-56725361cdea', 'CX0HD4M6Z3', 2565.4, '[{"id": "da76bb4a-1897-448b-85fb-27877a7f1c84", "quantity": 4}, {"id": "4dee711f-fee4-473f-a951-48f41dfea399", "quantity": 4}]', 'Confirmed', '2023-06-04 00:00:00.718+00');
-INSERT INTO public."order" (id, "customerId", reference, amount, products, status, date) VALUES ('9e35818b-d3db-4a71-8806-3556a82b36bd', '9bf43ed2-5fa5-4036-a450-56725361cdea', 'DX0HD4M6Z4', 2565.4, '[{"id": "da76bb4a-1897-448b-85fb-27877a7f1c84", "quantity": 4}, {"id": "4dee711f-fee4-473f-a951-48f41dfea399", "quantity": 4}]', 'Delivered', '2023-05-04 00:00:00.718+00');
-INSERT INTO public."order" (id, "customerId", reference, amount, products, status, date) VALUES ('23295b0a-b64f-4e03-a261-097c0702a212', '9bf43ed2-5fa5-4036-a450-56725361cdea', 'EX0HD4M6Z5', 2565.4, '[{"id": "da76bb4a-1897-448b-85fb-27877a7f1c84", "quantity": 4}, {"id": "4dee711f-fee4-473f-a951-48f41dfea399", "quantity": 4}]', 'Shipping', '2023-06-02 00:00:00.718+00');
-INSERT INTO public."order" (id, "customerId", reference, amount, products, status, date) VALUES ('4d5e2e70-56aa-4304-a3c3-cd562a3a5c11', '9bf43ed2-5fa5-4036-a450-56725361cdea', 'FX0HD4M6Z6', 2565.4, '[{"id": "da76bb4a-1897-448b-85fb-27877a7f1c84", "quantity": 4}, {"id": "4dee711f-fee4-473f-a951-48f41dfea399", "quantity": 4}]', 'Shipping', '2023-06-06 00:00:00.718+00');
-INSERT INTO public."order" (id, "customerId", reference, amount, products, status, date) VALUES ('a3fb8c95-a351-4efa-88b3-d241f7af6e88', '9bf43ed2-5fa5-4036-a450-56725361cdea', 'GX0HD4M6Z7', 2565.4, '[{"id": "da76bb4a-1897-448b-85fb-27877a7f1c84", "quantity": 4}, {"id": "4dee711f-fee4-473f-a951-48f41dfea399", "quantity": 4}]', 'Delivered', '2023-06-04 00:00:00.718+00');
+INSERT INTO public."order" (id, "customerId", reference, amount, products, address ,status, date) VALUES ('680fddc4-30af-402b-9c86-aebdde984ab1', '9bf43ed2-5fa5-4036-a450-56725361cdea', 'AX0HD4M6Z1', 2565.4, '[{"id": "da76bb4a-1897-448b-85fb-27877a7f1c84", "quantity": 4}, {"id": "4dee711f-fee4-473f-a951-48f41dfea399", "quantity": 4}]', '{"fullName": "Julia Suza", "line1": "67 rue de la Couronne", "line2": "Appartement 2", "city": "Paris", "zip": "75002", "province": "Ile de France", "phone": "06 12 34 56 78"}', 'Confirmed', '2023-07-01 00:00:00.718+00');
+INSERT INTO public."order" (id, "customerId", reference, amount, products, address ,status, date) VALUES ('85d2e0e4-7f14-4e27-b512-c42419d1dfb3', '9bf43ed2-5fa5-4036-a450-56725361cdea', 'BX0HD4M6Z2', 2565.4, '[{"id": "da76bb4a-1897-448b-85fb-27877a7f1c84", "quantity": 4}, {"id": "4dee711f-fee4-473f-a951-48f41dfea399", "quantity": 4}]', '{"fullName": "Julia Suza", "line1": "67 rue de la Couronne", "line2": "Appartement 2", "city": "Paris", "zip": "75002", "province": "Ile de France", "phone": "06 12 34 56 78"}', 'Delivered', '2023-05-02 00:00:00.718+00');
+INSERT INTO public."order" (id, "customerId", reference, amount, products, address ,status, date) VALUES ('eeec9372-36ee-4294-ad1e-6f6dccc080a0', '9bf43ed2-5fa5-4036-a450-56725361cdea', 'CX0HD4M6Z3', 2565.4, '[{"id": "da76bb4a-1897-448b-85fb-27877a7f1c84", "quantity": 4}, {"id": "4dee711f-fee4-473f-a951-48f41dfea399", "quantity": 4}]', '{"fullName": "Julia Suza", "line1": "67 rue de la Couronne", "line2": "Appartement 2", "city": "Paris", "zip": "75002", "province": "Ile de France", "phone": "06 12 34 56 78"}', 'Confirmed', '2023-06-04 00:00:00.718+00');
+INSERT INTO public."order" (id, "customerId", reference, amount, products, address ,status, date) VALUES ('9e35818b-d3db-4a71-8806-3556a82b36bd', '9bf43ed2-5fa5-4036-a450-56725361cdea', 'DX0HD4M6Z4', 2565.4, '[{"id": "da76bb4a-1897-448b-85fb-27877a7f1c84", "quantity": 4}, {"id": "4dee711f-fee4-473f-a951-48f41dfea399", "quantity": 4}]', '{"fullName": "Julia Suza", "line1": "67 rue de la Couronne", "line2": "Appartement 2", "city": "Paris", "zip": "75002", "province": "Ile de France", "phone": "06 12 34 56 78"}', 'Delivered', '2023-05-04 00:00:00.718+00');
+INSERT INTO public."order" (id, "customerId", reference, amount, products, address ,status, date) VALUES ('23295b0a-b64f-4e03-a261-097c0702a212', '9bf43ed2-5fa5-4036-a450-56725361cdea', 'EX0HD4M6Z5', 2565.4, '[{"id": "da76bb4a-1897-448b-85fb-27877a7f1c84", "quantity": 4}, {"id": "4dee711f-fee4-473f-a951-48f41dfea399", "quantity": 4}]', '{"fullName": "Julia Suza", "line1": "67 rue de la Couronne", "line2": "Appartement 2", "city": "Paris", "zip": "75002", "province": "Ile de France", "phone": "06 12 34 56 78"}', 'Shipping', '2023-06-02 00:00:00.718+00');
+INSERT INTO public."order" (id, "customerId", reference, amount, products, address ,status, date) VALUES ('4d5e2e70-56aa-4304-a3c3-cd562a3a5c11', '9bf43ed2-5fa5-4036-a450-56725361cdea', 'FX0HD4M6Z6', 2565.4, '[{"id": "da76bb4a-1897-448b-85fb-27877a7f1c84", "quantity": 4}, {"id": "4dee711f-fee4-473f-a951-48f41dfea399", "quantity": 4}]', '{"fullName": "Julia Suza", "line1": "67 rue de la Couronne", "line2": "Appartement 2", "city": "Paris", "zip": "75002", "province": "Ile de France", "phone": "06 12 34 56 78"}', 'Shipping', '2023-06-06 00:00:00.718+00');
+INSERT INTO public."order" (id, "customerId", reference, amount, products, address ,status, date) VALUES ('a3fb8c95-a351-4efa-88b3-d241f7af6e88', '9bf43ed2-5fa5-4036-a450-56725361cdea', 'GX0HD4M6Z7', 2565.4, '[{"id": "da76bb4a-1897-448b-85fb-27877a7f1c84", "quantity": 4}, {"id": "4dee711f-fee4-473f-a951-48f41dfea399", "quantity": 4}]', '{"fullName": "Julia Suza", "line1": "67 rue de la Couronne", "line2": "Appartement 2", "city": "Paris", "zip": "75002", "province": "Ile de France", "phone": "06 12 34 56 78"}', 'Delivered', '2023-06-04 00:00:00.718+00');
 
 
 --
@@ -693,8 +694,8 @@ SET default_table_access_method = heap;
 CREATE TABLE public.address (
     id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
     "fullName" character varying NOT NULL,
-    address1 character varying NOT NULL,
-    address2 character varying,
+    line1 character varying NOT NULL,
+    line2 character varying,
     city character varying NOT NULL,
     zip character varying NOT NULL,
     province character varying NOT NULL,

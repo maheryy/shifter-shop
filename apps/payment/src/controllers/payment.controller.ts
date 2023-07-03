@@ -7,8 +7,10 @@ import {
 } from "services/payment.service";
 import amqp from "lib/amqp";
 import { EExchange } from "@shifter-shop/amqp";
-import { UnauthorizedError } from "@shifter-shop/errors";
+import { BadRequestError, UnauthorizedError } from "@shifter-shop/errors";
 import { logger } from "@shifter-shop/logger";
+import { Address } from "validation/Address";
+import { ZodError } from "zod";
 
 export const checkoutSession = async (
   req: Request,
@@ -17,13 +19,25 @@ export const checkoutSession = async (
 ) => {
   try {
     const userId = req.get("user-id");
+
     if (!userId) {
       throw new UnauthorizedError();
     }
 
-    const session = await createCheckoutSession(userId);
+    Address.strict().parse(req.body.address);
+
+    const { address } = req.body;
+
+    const session = await createCheckoutSession(userId, address);
+
     return res.status(200).json({ url: session.url });
   } catch (error) {
+    if (error instanceof ZodError) {
+      const error = new BadRequestError("Invalid address");
+
+      return next(error);
+    }
+
     next(error);
   }
 };

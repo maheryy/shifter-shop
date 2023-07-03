@@ -10,8 +10,8 @@ function Address({
   id,
   fullName,
   phone,
-  address1,
-  address2,
+  line1,
+  line2,
   city,
   province,
   zip,
@@ -35,11 +35,11 @@ function Address({
           <br />
           {phone}
           <br />
-          {address1}
+          {line1}
           <br />
-          {address2 && (
+          {line2 && (
             <Fragment>
-              {address2}
+              {line2}
               <br />
             </Fragment>
           )}
