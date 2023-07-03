@@ -61,6 +61,18 @@ export class UserService {
     return this.usersRepository.find({ where: { role: role } });
   }
 
+  async count(type?: string) {
+    if (
+      type &&
+      !Object.values(EUserRole).includes(type.toUpperCase() as EUserRole)
+    ) {
+      throw new BadRequestException(`Invalid type: ${type}`);
+    }
+
+    const role = type?.toUpperCase() as EUserRole;
+    return this.usersRepository.count({ where: { role: role } });
+  }
+
   async findOneById(id: string) {
     const user = await this.usersRepository.findOneBy({ id });
 

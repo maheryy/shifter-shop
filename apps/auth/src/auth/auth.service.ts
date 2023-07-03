@@ -1,6 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { RegisterDto } from 'src/auth/dtos/register.dto';
-import { EService, TUser } from '@shifter-shop/dictionary';
+import { EService, TUser, EUserRole } from '@shifter-shop/dictionary';
 import { hashPassword, verifyPassword } from '@shifter-shop/encryption';
 import { fetchJson } from '@shifter-shop/helpers';
 
@@ -52,6 +52,16 @@ export class AuthService {
     const isValidPassword = await verifyPassword(password, user.password);
 
     if (!isValidPassword) {
+      throw new UnauthorizedException();
+    }
+
+    return user;
+  }
+
+  async verifyAdmin(email: string, password: string) {
+    const user = await this.verify(email, password);
+
+    if (user.role !== EUserRole.Admin) {
       throw new UnauthorizedException();
     }
 

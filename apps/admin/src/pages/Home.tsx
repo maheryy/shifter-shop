@@ -2,6 +2,7 @@ import Card from "@/components/Card";
 import ChartCard from "@/components/Chart/ChartCard";
 import LineChart from "@/components/Chart/LineChart";
 import BarChart from "@/components/Chart/BarChart";
+import { EOrderStatus } from "@shifter-shop/dictionary";
 import { CartIcon, ClientIcon, ProductIcon, CashIcon } from "@/components/Card/CardIcons";
 import {
   Chart as ChartJS,
@@ -11,6 +12,11 @@ import {
   LinearScale, // y axis
   PointElement
 } from "chart.js";
+import { useCallback, useEffect, useState } from "react";
+import { getCountCustomers } from "@/api/user.api";
+import { getCountOrders } from "@/api/order.api";
+import { getTotalAmount } from "@/api/order.api";
+import { getTotalSoldProducts } from "@/api/order.api";
 
 ChartJS.register(
   BarElement,
@@ -21,6 +27,58 @@ ChartJS.register(
 );
 
 const Home = () => {
+  const [nbClients, setNbClients] = useState(0);
+  const [nbProducts, setNbProducts] = useState(0);
+  const [nbOrders, setNbOrders] = useState(0);
+  const [totalEarned, setTotalEarned] = useState(0);
+
+  const fetchCountCustomers = useCallback(() => {
+    getCountCustomers()
+      .then((count) => {
+        setNbClients(count);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  const fetchCountOrders = useCallback(() => {
+    getCountOrders(EOrderStatus.Confirmed || EOrderStatus.Delivered)
+      .then((count) => {
+        setNbOrders(count);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  const fetchTotalAmount = useCallback(() => {
+    getTotalAmount()
+      .then((total) => {
+        setTotalEarned(total);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  const fetchTotalSoldProducts = useCallback(() => {
+    getTotalSoldProducts()
+      .then((count) => {
+        setNbProducts(count);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  useEffect(() => {
+    fetchCountCustomers();
+    fetchCountOrders();
+    fetchTotalAmount();
+    fetchTotalSoldProducts();
+  }, [fetchCountCustomers, fetchCountOrders, fetchTotalAmount, fetchTotalSoldProducts]);
+
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth();
@@ -44,19 +102,19 @@ const Home = () => {
           <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
             <Card
               title="Total clients"
-              value="638"
+              value={nbClients.toString()}
               icon={<ClientIcon />} />
             <Card
               title={`Total earned amount (${currentMonthName}. ${currentYear})`}
-              value="$ 10,760.89"
+              value={`$ ${totalEarned.toFixed(2).toString().toLocaleString()}`}
               icon={<CashIcon />} />
             <Card
               title={`Sold products (${currentMonthName}. ${currentYear})`}
-              value="37"
+              value={nbProducts.toString()}
               icon={<ProductIcon />} />
             <Card
               title={`Orders placed (${currentMonthName}. ${currentYear})`}
-              value="35"
+              value={nbOrders.toString()}
               icon={<CartIcon />} />
           </div>
           {/* <!-- Charts --> */}

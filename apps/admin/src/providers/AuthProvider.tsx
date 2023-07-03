@@ -3,7 +3,6 @@ import { TUser } from "@shifter-shop/dictionary";
 import { remove, retrieve, store } from "@/utils/storage";
 import { StorageKey } from "@/types/storage";
 import { getUser } from "@/api/user.api";
-import useComponentUpdate from "@/hooks/componentUpdate";
 
 export const AuthContext = createContext<AuthContextProps>(null!);
 
@@ -29,21 +28,15 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
       .finally(() => setIsLoading(false));
   }, []);
 
-  useComponentUpdate(() => {
-    if (token) {
-      store(StorageKey.TOKEN, token);
-    } else {
-      remove(StorageKey.TOKEN);
-    }
-  }, [token]);
-
   const authenticate = (user: TUser, token: string) => {
+    store(StorageKey.TOKEN, token);
     setUser(user);
     setToken(token);
     setIsAuthenticated(true);
   };
 
   const invalidate = () => {
+    remove(StorageKey.TOKEN);
     setUser(null);
     setToken(null);
     setIsAuthenticated(false);

@@ -14,6 +14,10 @@ export const getAllAdmins = async (): Promise<TUser[]> => {
   return api.get("/users?type=admin").json();
 };
 
+export const getCountCustomers = async (): Promise<number> => {
+  return api.get("/users/count?type=customer").json();
+};
+
 export const getUser = async (token: string): Promise<TUser> => {
   return api.auth(`Bearer ${token}`).get("/auth/profile").json();
 };
@@ -25,7 +29,7 @@ export const getAuthToken = async ({
   email: string;
   password: string;
 }): Promise<Token> => {
-  return api.post({ email, password }, "/auth/login").json();
+  return api.post({ email, password }, "/auth/login-admin").json();
 };
 
 export const checkUserRole = async (): Promise<string | null> => {

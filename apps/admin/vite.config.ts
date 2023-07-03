@@ -10,6 +10,7 @@ export default defineConfig({
     port: 8001,
   },
   resolve: {
+    preserveSymlinks: true,
     alias: {
       "@": path.resolve(__dirname, "src"),
       "@icons": path.resolve(__dirname, "src/assets/icons"),
