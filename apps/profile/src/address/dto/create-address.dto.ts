@@ -23,7 +23,6 @@ export class CreateAddressDto {
 
   @IsString()
   @IsOptional()
-  @IsNotEmpty()
   @MaxLength(256)
   @Transform(({ value }: TransformFnParams) => value?.trim())
   address2?: string;
