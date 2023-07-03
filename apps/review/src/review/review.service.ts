@@ -62,7 +62,7 @@ export class ReviewService {
   }
 
   async findAll() {
-    return this.reviewRepository.find();
+    return this.reviewRepository.find({ order: { date: 'DESC' } });
   }
 
   async findOneById(id: string) {
@@ -84,10 +84,16 @@ export class ReviewService {
   }
 
   async findAllByAuthorId(authorId: string) {
-    return this.reviewRepository.findBy({ authorId });
+    return this.reviewRepository.find({
+      where: { authorId },
+      order: { date: 'DESC' },
+    });
   }
 
   async findAllByProductId(productId: string) {
-    return this.reviewRepository.findBy({ productId });
+    return this.reviewRepository.find({
+      where: { productId },
+      order: { date: 'DESC' },
+    });
   }
 }
