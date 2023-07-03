@@ -1,13 +1,11 @@
 import { BadRequestError, UnauthorizedError } from "@shifter-shop/errors";
 import { NextFunction, Request, Response } from "express";
-import {
-  createOrUpdateItem,
-  deleteProduct,
-  getCustomerCart,
-} from "services/cart.service";
-
+import * as cartService from "services/cart.service";
 import { joinResources } from "@shifter-shop/helpers";
 import { TCartItem, TFullCartItem } from "@shifter-shop/dictionary";
+import { SyncCart, TSyncCart } from "../validation/SyncCart";
+import { ZodError } from "zod";
+import { fromZodError } from "zod-validation-error";
 
 export const getCart = async (
   req: Request,
@@ -20,7 +18,7 @@ export const getCart = async (
       throw new UnauthorizedError();
     }
 
-    const items = await getCustomerCart(customerId);
+    const items = await cartService.getCustomerCart(customerId);
 
     const results = await joinResources<TFullCartItem, TCartItem>(items, [
       { service: "user", key: "customerId", addKey: "customer" },
@@ -57,9 +55,9 @@ export const updateCartItem = async (
     }
 
     if (quantity < 1) {
-      await deleteProduct(customerId, productId);
+      await cartService.deleteProduct(customerId, productId);
 
-      const items = await getCustomerCart(customerId);
+      const items = await cartService.getCustomerCart(customerId);
 
       const results = await joinResources<TFullCartItem, TCartItem>(items, [
         { service: "user", key: "customerId", addKey: "customer" },
@@ -69,9 +67,9 @@ export const updateCartItem = async (
       return res.status(200).json(results);
     }
 
-    await createOrUpdateItem(customerId, productId, quantity);
+    await cartService.createOrUpdateItem(customerId, productId, quantity);
 
-    const items = await getCustomerCart(customerId);
+    const items = await cartService.getCustomerCart(customerId);
 
     const results = await joinResources<TFullCartItem, TCartItem>(items, [
       { service: "user", key: "customerId", addKey: "customer" },
@@ -83,3 +81,29 @@ export const updateCartItem = async (
     next(error);
   }
 };
+
+export async function syncCart(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const customerId = req.get("user-id");
+
+    if (!customerId) {
+      throw new UnauthorizedError();
+    }
+
+    await SyncCart.strict().parse(req.body);
+
+    const cart = await cartService.syncCart(customerId, req.body);
+
+    return res.status(200).json(cart);
+  } catch (error) {
+    if (error instanceof ZodError) {
+      return next(new BadRequestError("Your cart is malformed"));
+    }
+
+    next(error);
+  }
+}
