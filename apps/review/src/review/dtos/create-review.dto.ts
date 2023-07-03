@@ -29,7 +29,6 @@ export class CreateReviewDto {
   @Max(5)
   @Min(0)
   @IsNotEmpty()
-  @Transform(({ value }: TransformFnParams) => value?.trim())
   rating: number;
 
   @IsUUID()
