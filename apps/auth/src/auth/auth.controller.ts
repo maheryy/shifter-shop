@@ -5,6 +5,7 @@ import {
   Headers,
   HttpCode,
   Post,
+  Query,
   UnauthorizedException,
 } from '@nestjs/common';
 import { RemovePassword, Auth } from '@shifter-shop/nest';
@@ -13,6 +14,7 @@ import { LoginDto } from 'src/auth/dtos/login.dto';
 import { RegisterDto } from 'src/auth/dtos/register.dto';
 import { JwtService } from 'src/jwt/jwt.service';
 import { TokenDto } from 'src/auth/dtos/token.dto';
+import { HasAccountQueryDto } from './dtos/has-account-query.dto';
 
 @RemovePassword()
 @Controller()
@@ -26,6 +28,11 @@ export class AuthController {
   @Get('/profile')
   async profile(@Headers('user-id') userId: string) {
     return this.authService.getUserById(userId);
+  }
+
+  @Get('/has-account')
+  async hasAccount(@Query() { email }: HasAccountQueryDto) {
+    return this.authService.hasAccount(email);
   }
 
   @Post('/register')

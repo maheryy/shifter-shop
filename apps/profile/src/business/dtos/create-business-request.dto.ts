@@ -12,15 +12,17 @@ export class CreateBusinessRequestDto {
   @IsNotEmpty()
   @MaxLength(256)
   @Transform(({ value }: TransformFnParams) => value?.trim())
-  title: string;
+  company: string;
 
   @IsString()
   @IsNotEmpty()
   @MaxLength(2048)
   @Transform(({ value }: TransformFnParams) => value?.trim())
-  description: string;
+  intent: string;
 
-  @IsOptional()
-  @IsUUID()
-  customerId?: string;
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(256)
+  @Transform(({ value }: TransformFnParams) => value?.trim())
+  phone: string;
 }

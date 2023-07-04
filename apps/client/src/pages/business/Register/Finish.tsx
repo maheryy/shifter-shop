@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function Finish() {
   return (
     <section className="container grid gap-8 py-16 md:justify-items-center">
@@ -11,8 +13,24 @@ function Finish() {
         representatives will personally reach out to you shortly.
       </p>
       <p>
-        They will contact you to verify the information you have provided and
-        guide you through the next steps in the process.
+        They will contact you to and guide you through the next steps in the
+        process.
+      </p>
+      <p>
+        If you have any questions in the meantime, please feel free to contact
+        us at{" "}
+        <a
+          className="hover:text-primary"
+          href="mailto:support@shifter-shop.pro"
+        >
+          support@shifter-shop.pro
+        </a>
+      </p>
+      <p>
+        In the meantime, you can{" "}
+        <Link className="underline hover:text-primary" to="/business/profile">
+          complete your profile
+        </Link>
       </p>
     </section>
   );
