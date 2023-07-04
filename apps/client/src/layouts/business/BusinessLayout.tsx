@@ -10,7 +10,7 @@ function BusinessLayout() {
       <main>
         <Outlet />
       </main>
-      <footer>
+      <footer className="h-10">
         <Copyright />
       </footer>
     </Fragment>

@@ -1,8 +1,8 @@
 import { RouteObject } from "react-router-dom";
 import BusinessLayout from "@/layouts/business/BusinessLayout";
+import DashboardLayout from "@/layouts/business/DashboardLayout";
 import RegisterLayout from "@/layouts/business/RegisterLayout";
 import LogIn from "@/pages/business/LogIn";
-import BusinessProfile from "@/pages/business/Profile";
 import Register from "@/pages/business/Register";
 import BecomeSeller from "@/pages/business/Register/BecomeSeller";
 import BusinessRequest from "@/pages/business/Register/BusinessRequest";
@@ -48,8 +48,8 @@ const businessRoutes: RouteObject = {
       element: <BecomeSeller />,
     },
     {
-      path: "profile",
-      element: <BusinessProfile />,
+      path: "dashboard",
+      element: <DashboardLayout />,
     },
   ],
 };
