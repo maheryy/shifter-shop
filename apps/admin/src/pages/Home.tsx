@@ -31,6 +31,8 @@ const Home = () => {
   const [nbProducts, setNbProducts] = useState(0);
   const [nbOrders, setNbOrders] = useState(0);
   const [totalEarned, setTotalEarned] = useState(0);
+  const monthsLineChart = 6;
+  const nbProductsBarChart = 2;
 
   const fetchCountCustomers = useCallback(() => {
     getCountCustomers()
@@ -125,11 +127,11 @@ const Home = () => {
             Charts
           </h2>
           <div className="grid gap-6 mb-8 md:grid-cols-1 xl:grid-cols-2">
-            <ChartCard title="Confirmed Orders (last 6 months)">
-              <LineChart />
+            <ChartCard title={`Confirmed Orders (last ${monthsLineChart} months)`}>
+              <LineChart months={monthsLineChart}/>
             </ChartCard>
-            <ChartCard title={`Top sales (${currentMonthName}. ${currentYear})`}>
-              <BarChart />
+            <ChartCard title={`Top ${nbProductsBarChart} sales (${currentMonthName}. ${currentYear})`}>
+              <BarChart products={nbProductsBarChart}/>
             </ChartCard>
           </div>
         </div>

@@ -5,6 +5,10 @@ export const getAllOrders = async (): Promise<TFullOrder[]> => {
   return api.get("/orders").json();
 };
 
+export const getTopSalesProducts = async (top?: number): Promise<{ name: string; sales: number }[]> => {
+  return api.get(`/orders?top=${top}`).json();
+};
+
 export const getCountOrders = async (status: EOrderStatus): Promise<number> => {
   return api.get(`/orders/count?status=${status}`).json();
 };

@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { Line, ChartProps } from 'react-chartjs-2';
 import { getConfirmedOrdersByMonths } from '@/api/order.api';
 
-const LineChart = () => {
+const LineChart = ({ months }: { months: number }) => {
   const [dataset, setDataset] = useState<{ month: string; number: number }[]>([]);
 
   useEffect(() => {
-    getConfirmedOrdersByMonths(7)
+    getConfirmedOrdersByMonths(months + 1)
       .then((orders) => {
         setDataset(orders);
       })

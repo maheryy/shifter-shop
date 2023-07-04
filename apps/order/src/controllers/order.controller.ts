@@ -12,6 +12,7 @@ import {
   findOrderByReference,
   countOrders,
   countConfirmedOrdersByMonths,
+  getTopSellingProductsByLimit,
 } from "services/order.service";
 import { TOrderCreationData, TOrderUpdateData } from "types/order";
 
@@ -78,6 +79,15 @@ export const getAllOrders = async (
       role === EUserRole.Admin
         ? await findAllOrders()
         : await findOrdersByCustomerId(userId);
+
+    const { top }: { top?: number } = req.query
+    
+    if (top && isNaN(top)) {
+      throw new BadRequestError("Top must be a number");
+    } else if (top) {
+      const topSellingProducts = await getTopSellingProductsByLimit(top);
+      return res.status(200).json(topSellingProducts);
+    }
 
     const results = await getFullOrders(orders);
     res.status(200).json(results);
