@@ -9,7 +9,7 @@ export function BecomeSeller() {
   const { isAuthenticated } = useAuthContext();
 
   const to = isAuthenticated
-    ? "/business/register/business-info"
+    ? "/business/register/business-request"
     : "/business/register/landing";
 
   return (
@@ -27,12 +27,19 @@ export function BecomeSeller() {
               <div className="grid gap-8">
                 <div className="grid gap-4">
                   <h2 className="text-lg font-bold md:text-2xl md:font-medium">
-                    Share key details about you and your business
+                    Create or sign in to your account.
                   </h2>
                   <p>
-                    In order to ensure a secure and reliable environment, we
-                    kindly request the collection of necessary information for
-                    identification and verification purposes.
+                    Having your e-mail and account set up is a great starting
+                    point.
+                  </p>
+                </div>
+                <div className="grid gap-4">
+                  <h2 className="text-lg font-bold md:text-2xl md:font-medium">
+                    Make us dream
+                  </h2>
+                  <p>
+                    Tell us about your business and how can we work together.
                   </p>
                 </div>
                 <div className="grid gap-4">
@@ -40,8 +47,8 @@ export function BecomeSeller() {
                     We’ll validate your submission
                   </h2>
                   <p>
-                    You can anticipate us getting in touch to establish trust
-                    between our businesses.
+                    In order to ensure a secure and reliable environment we’ll
+                    get back to you to establish trust between us.
                   </p>
                 </div>
                 <div className="grid gap-4">

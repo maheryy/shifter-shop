@@ -6,6 +6,7 @@ import {
   TUpdateAddress,
   UpdateAddress,
 } from "@/types/address";
+import { TCreateBusinessRequest } from "@/types/business-request";
 
 export function getCustomerProfile() {
   return api.get("/profile/customer").json();
@@ -43,4 +44,8 @@ export function deleteAddress(addressId: TAddress["id"]): Promise<TAddress> {
 
 export function setDefaultAddress(addressId: TAddress["id"]) {
   return api.url(`/profile/addresses/set-default/${addressId}`).post().res();
+}
+
+export function createBusinessRequest(payload: TCreateBusinessRequest) {
+  return api.post(payload, "/profile/business/register").json();
 }

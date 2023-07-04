@@ -31,7 +31,7 @@ function Landing() {
   } = useForm<BusinessLandingFieldValues>({ resolver: zodResolver(schema) });
 
   if (isAuthenticated) {
-    return <Navigate replace to="/business/register/business-info" />;
+    return <Navigate replace to="/business/register/business-request" />;
   }
 
   const onSubmit: SubmitHandler<BusinessLandingFieldValues> = async ({
