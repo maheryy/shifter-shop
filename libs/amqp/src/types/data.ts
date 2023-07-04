@@ -15,7 +15,11 @@ export interface TPaymentSuccessData {
 
 export type TOrderCreatedData = TOrder;
 
-export type TReviewCreatedData = TReview;
+export interface TReviewCreatedData {
+  productId: string;
+  rating: number;
+  reviewCount: number;
+}
 
 export type TOrderStatusChangedData = TOrder;
 

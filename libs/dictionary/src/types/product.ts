@@ -7,6 +7,7 @@ export interface TProduct {
   name: string;
   description: string;
   rating: number;
+  reviewCount: number;
   price: number;
   image: string;
   categoryId: string;
@@ -14,18 +15,9 @@ export interface TProduct {
   status: EGlobalStatus;
 }
 
-export interface TFullProduct {
-  id: string;
-  name: string;
-  description: string;
-  rating: number;
-  price: number;
-  image: string;
-  categoryId: string;
-  sellerId: string;
+export interface TFullProduct extends TProduct {
   category: TCategory;
   seller: TUserWithoutPassword;
-  status: EGlobalStatus;
 }
 
 export interface TProductReferenceWithQuantity {

@@ -20,7 +20,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
     });
   }
 
-  const { name, image, price } = product;
+  const { name, image, price, rating, reviewCount } = product;
 
   return (
     <div className="group flex flex-col rounded bg-white shadow">
@@ -40,8 +40,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
             </p>
           </div>
           <div className="flex items-center">
-            <Rating size="sm" value={5} />
-            <span className="ml-2 text-xs text-gray-500">(150)</span>
+            <Rating size="sm" value={rating} />
+            <span className="ml-2 text-xs text-gray-500">({reviewCount})</span>
           </div>
         </div>
       </div>
