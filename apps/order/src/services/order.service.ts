@@ -11,6 +11,8 @@ import { Order as OrderEntity } from "entities/order.entity";
 import { TOrderCreationData, TOrderUpdateData } from "types/order";
 import { fetchJson } from "@shifter-shop/helpers";
 import { logger } from "@shifter-shop/logger";
+import { Between } from "typeorm/find-options/operator/Between";
+import { In } from "typeorm/find-options/operator/In";
 
 export const findAllOrders = async () => {
   return OrderEntity.find();
@@ -144,6 +146,33 @@ export const countOrders = async (status?: string) => {
     where: {
       status: _status,
     },
+  });
+};
+
+export const countConfirmedOrdersByMonths = async (nbMonths: number) => {
+  const endDate = new Date();
+  endDate.setMonth(endDate.getMonth() );
+  const startDate = new Date();
+  startDate.setMonth(endDate.getMonth() - nbMonths);
+
+  const where = {
+    status: In([EOrderStatus.Confirmed, EOrderStatus.Delivered]),
+    date: Between(startDate, endDate),
+  };
+
+  const result = await OrderEntity.createQueryBuilder()
+    .select('DATE_TRUNC(\'month\', "date")', 'month')
+    .addSelect('COUNT(*)', 'number')
+    .where(where)
+    .groupBy('month')
+    .orderBy('month', 'DESC')
+    .getRawMany();
+
+  return result.map((item): { month: string; number: number } => {
+    return {
+      month: item.month,
+      number: Number(item.number),
+    };
   });
 };
 

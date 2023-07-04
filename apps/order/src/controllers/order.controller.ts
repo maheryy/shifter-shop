@@ -11,6 +11,7 @@ import {
   findOrderById,
   findOrderByReference,
   countOrders,
+  countConfirmedOrdersByMonths,
 } from "services/order.service";
 import { TOrderCreationData, TOrderUpdateData } from "types/order";
 
@@ -177,8 +178,19 @@ export const getOrdersCount = async (
     }
 
     const { status }: { status?: string } = req.query;
+    const { months }: { months?: number } = req.query;
 
-    const nbOrders = await countOrders(status);
+    if (status) {
+      const nbOrders = await countOrders(status);
+      return res.status(200).json(nbOrders);
+    }
+
+    if (months) {
+      const nbOrdersPerMonth = await countConfirmedOrdersByMonths(months);
+      return res.status(200).json(nbOrdersPerMonth);
+    }
+
+    const nbOrders = await countOrders();
     res.status(200).json(nbOrders);
   } catch (error) {
     next(error);

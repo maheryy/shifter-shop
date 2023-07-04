@@ -14,7 +14,7 @@ import {
 } from "chart.js";
 import { useCallback, useEffect, useState } from "react";
 import { getCountCustomers } from "@/api/user.api";
-import { getCountOrders } from "@/api/order.api";
+import { getConfirmedOrdersByMonths } from "@/api/order.api";
 import { getTotalAmount } from "@/api/order.api";
 import { getTotalSoldProducts } from "@/api/order.api";
 
@@ -41,10 +41,11 @@ const Home = () => {
         console.log(error);
       });
   }, []);
-
-  const fetchCountOrders = useCallback(() => {
-    getCountOrders(EOrderStatus.Confirmed || EOrderStatus.Delivered)
-      .then((count) => {
+  
+  const fetchCountOrdersActualMonth = useCallback(() => {
+    getConfirmedOrdersByMonths(1)
+      .then((orders) => {
+        const count = orders[0].number;
         setNbOrders(count);
       })
       .catch((error) => {
@@ -74,10 +75,10 @@ const Home = () => {
 
   useEffect(() => {
     fetchCountCustomers();
-    fetchCountOrders();
+    fetchCountOrdersActualMonth();
     fetchTotalAmount();
     fetchTotalSoldProducts();
-  }, [fetchCountCustomers, fetchCountOrders, fetchTotalAmount, fetchTotalSoldProducts]);
+  }, [fetchCountCustomers, fetchCountOrdersActualMonth, fetchTotalAmount, fetchTotalSoldProducts]);
 
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
@@ -123,7 +124,7 @@ const Home = () => {
           >
             Charts
           </h2>
-          <div className="grid gap-6 mb-8 md:grid-cols-2">
+          <div className="grid gap-6 mb-8 md:grid-cols-1 xl:grid-cols-2">
             <ChartCard title="Confirmed Orders (last 6 months)">
               <LineChart />
             </ChartCard>
