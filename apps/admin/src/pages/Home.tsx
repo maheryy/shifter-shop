@@ -67,7 +67,7 @@ const Home = () => {
   }, []);
 
   const fetchTotalSoldProducts = useCallback(() => {
-    getTotalSoldProducts()
+    getTotalSoldProducts(1)
       .then((count) => {
         setNbProducts(count);
       })

@@ -14,6 +14,7 @@ import {
   countConfirmedOrdersByMonths,
   getTopSellingProductsByLimit,
   countTotalAmount,
+  countTotalSoldProducts,
 } from "services/order.service";
 import { TOrderCreationData, TOrderUpdateData } from "types/order";
 
@@ -266,7 +267,13 @@ export const getTotalSoldProducts = async (
       );
     }
 
-    const totalSoldProducts = await countOrders();
+    const { month = 0 }: { month?: number } = req.query;
+
+    if (month && isNaN(month)) {
+      throw new BadRequestError("Month must be a number");
+    }
+
+    const totalSoldProducts = await countTotalSoldProducts(month);
     res.status(200).json(totalSoldProducts);
   } catch (error) {
     next(error);
