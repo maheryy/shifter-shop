@@ -1,5 +1,5 @@
 import { RouteObject } from "react-router-dom";
-import BusinessLayout from "@/layouts/business/BusinessLayour";
+import BusinessLayout from "@/layouts/business/BusinessLayout";
 import RegisterLayout from "@/layouts/business/RegisterLayout";
 import LogIn from "@/pages/business/LogIn";
 import BusinessProfile from "@/pages/business/Profile";
