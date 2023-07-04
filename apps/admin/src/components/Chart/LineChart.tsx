@@ -1,24 +1,38 @@
-import { Line } from 'react-chartjs-2';
+import { useCallback, useEffect, useState } from 'react';
+import { Line, ChartProps } from 'react-chartjs-2';
+import { getConfirmedOrdersByMonths } from '@/api/order.api';
 
-const LineChart = () => {
-  const currentDate = new Date();
-  const currentYear = currentDate.getFullYear();
-  const currentMonth = currentDate.getMonth();
+const LineChart = ({ month }: LineChartProps) => {
+  const [dataset, setDataset] = useState<{ month: string; number: number }[]>([]);
 
-  const labels = [];
-  for (let i = 6; i >= 0; i--) {
-    const month = currentMonth - i;
-    const year = currentYear - (month < 0 ? 1 : 0);
-    const monthLabel = month < 0 ? month + 12 : month;
-    labels.push(`${monthLabel + 1}/${year}`);
-  }
+  const fetchConfirmedOrdersByMonths = useCallback(() => {
+    getConfirmedOrdersByMonths(month + 1)
+      .then((orders) => {
+        setDataset(orders);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  useEffect(() => {
+    fetchConfirmedOrdersByMonths();
+  }, []);
+
+  const labels = dataset.map((order) => {
+    const month = new Date(order.month).getMonth();
+    const year = new Date(order.month).getFullYear();
+    const monthLabel = month + 1;
+    return `${monthLabel}/${year}`;
+  });
+
+  const dataValues = dataset.map((order) => order.number);
 
   const data = {
     labels: labels,
     datasets: [
       {
-        label: "Revenue",
-        data: [150, 230, 190, 201, 165, 280, 250],
+        data: dataValues,
         fill: false,
         borderColor: "rgb(147, 51, 234)",
         tension: 0.3
@@ -26,26 +40,40 @@ const LineChart = () => {
     ]
   };
 
-  const options = {
+  const options: ChartProps<"line">['options'] = {
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: {
+          stepSize: 1,
+        }
+      },
+      x: {
+        reverse: true,
+        ticks: {
+          align: 'inner',
+        },
+      }
+    },
     plugins: {
       title: {
         display: true,
-        text: "Revenue between 2016-2020"
       },
       legend: {
         display: false
       }
     }
-  }
+  };
 
   return (
     <div className="chart-container">
-      <Line
-        data={data}
-        options={options}
-      ></Line>
+      <Line data={data} options={options} />
     </div>
-  )
+  );
+};
+
+interface LineChartProps {
+  month: number;
 }
 
 export default LineChart;

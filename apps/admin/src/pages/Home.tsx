@@ -14,7 +14,7 @@ import {
 } from "chart.js";
 import { useCallback, useEffect, useState } from "react";
 import { getCountCustomers } from "@/api/user.api";
-import { getCountOrders } from "@/api/order.api";
+import { getConfirmedOrdersByMonths } from "@/api/order.api";
 import { getTotalAmount } from "@/api/order.api";
 import { getTotalSoldProducts } from "@/api/order.api";
 
@@ -31,6 +31,9 @@ const Home = () => {
   const [nbProducts, setNbProducts] = useState(0);
   const [nbOrders, setNbOrders] = useState(0);
   const [totalEarned, setTotalEarned] = useState(0);
+  const monthsLineChart = 6;
+  const monthsBarChart = 3;
+  const nbProductsBarChart = 3;
 
   const fetchCountCustomers = useCallback(() => {
     getCountCustomers()
@@ -42,9 +45,10 @@ const Home = () => {
       });
   }, []);
 
-  const fetchCountOrders = useCallback(() => {
-    getCountOrders(EOrderStatus.Confirmed || EOrderStatus.Delivered)
-      .then((count) => {
+  const fetchCountOrdersActualMonth = useCallback(() => {
+    getConfirmedOrdersByMonths(1)
+      .then((orders) => {
+        const count = orders[0].number;
         setNbOrders(count);
       })
       .catch((error) => {
@@ -53,7 +57,7 @@ const Home = () => {
   }, []);
 
   const fetchTotalAmount = useCallback(() => {
-    getTotalAmount()
+    getTotalAmount(1)
       .then((total) => {
         setTotalEarned(total);
       })
@@ -63,7 +67,7 @@ const Home = () => {
   }, []);
 
   const fetchTotalSoldProducts = useCallback(() => {
-    getTotalSoldProducts()
+    getTotalSoldProducts(1)
       .then((count) => {
         setNbProducts(count);
       })
@@ -74,10 +78,10 @@ const Home = () => {
 
   useEffect(() => {
     fetchCountCustomers();
-    fetchCountOrders();
+    fetchCountOrdersActualMonth();
     fetchTotalAmount();
     fetchTotalSoldProducts();
-  }, [fetchCountCustomers, fetchCountOrders, fetchTotalAmount, fetchTotalSoldProducts]);
+  }, [fetchCountCustomers, fetchCountOrdersActualMonth, fetchTotalAmount, fetchTotalSoldProducts]);
 
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
@@ -106,7 +110,7 @@ const Home = () => {
               icon={<ClientIcon />} />
             <Card
               title={`Total earned amount (${currentMonthName}. ${currentYear})`}
-              value={`$ ${totalEarned.toFixed(2).toString().toLocaleString()}`}
+              value={`$ ${totalEarned.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}`}
               icon={<CashIcon />} />
             <Card
               title={`Sold products (${currentMonthName}. ${currentYear})`}
@@ -123,12 +127,12 @@ const Home = () => {
           >
             Charts
           </h2>
-          <div className="grid gap-6 mb-8 md:grid-cols-2">
-            <ChartCard title="Confirmed Orders (last 6 months)">
-              <LineChart />
+          <div className="grid gap-6 mb-8 md:grid-cols-1 xl:grid-cols-2">
+            <ChartCard title={`Confirmed Orders (last ${monthsLineChart} months)`}>
+              <LineChart month={monthsLineChart} />
             </ChartCard>
-            <ChartCard title={`Top sales (${currentMonthName}. ${currentYear})`}>
-              <BarChart />
+            <ChartCard title={`Top ${nbProductsBarChart} sales (from last ${monthsBarChart} months - ${currentMonthName}. ${currentYear} included)`}>
+              <BarChart products={nbProductsBarChart} month={monthsBarChart} />
             </ChartCard>
           </div>
         </div>
