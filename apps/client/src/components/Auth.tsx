@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuthContext } from "@/hooks/context";
 
@@ -17,7 +18,7 @@ function Auth({ children }: AuthProps) {
     return null;
   }
 
-  return children;
+  return <Fragment>{children}</Fragment>;
 }
 
 export default Auth;
