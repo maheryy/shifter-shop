@@ -6,7 +6,6 @@ import Button from "@/components/Button";
 import Form from "@/components/Form";
 import Input from "@/components/Input";
 import useLogin from "@/hooks/useLogin";
-import { ToLogInNavigationState } from "./Register/Landing";
 
 const schema = z.object({
   email: z.string().email(),
@@ -18,8 +17,7 @@ type LoginFieldValues = z.infer<typeof schema>;
 const LogIn = () => {
   const location = useLocation();
 
-  const { email, redirectTo } =
-    (location.state as ToLogInNavigationState) || {};
+  const { email, redirectTo } = location.state || {};
 
   const {
     register,
