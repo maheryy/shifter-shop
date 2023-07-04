@@ -1,18 +1,22 @@
 import { getTopSalesProducts } from '@/api/order.api';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Bar, ChartProps } from 'react-chartjs-2';
 
-const BarChart = ({ products }: { products: number }) => {
+const BarChart = ({ products, months }: BarChartProps) => {
   const [dataset, setDataset] = useState<{ name: string, sales: number }[]>([]);
 
-  useEffect(() => {
-    getTopSalesProducts(products)
-      .then((product) => {
-        setDataset(product);
+  const fetchTopSalesProducts = useCallback(() => {
+    getTopSalesProducts(products, months)
+      .then((orders) => {
+        setDataset(orders);
       })
       .catch((error) => {
         console.log(error);
       });
+  }, []);
+
+  useEffect(() => {
+    fetchTopSalesProducts();
   }, []);
 
   const labels = dataset.map((order) => {
@@ -26,7 +30,6 @@ const BarChart = ({ products }: { products: number }) => {
     labels: labels,
     datasets: [
       {
-        label: "Users",
         data: dataValues,
         backgroundColor: "rgb(147, 51, 234, 0.4)",
         borderColor: "rgb(147, 51, 234)",
@@ -37,10 +40,6 @@ const BarChart = ({ products }: { products: number }) => {
 
   const options: ChartProps<"bar">['options'] = {
     plugins: {
-      title: {
-        display: true,
-        text: "Users between 2016-2020"
-      },
       legend: {
         display: false
       }
@@ -52,6 +51,11 @@ const BarChart = ({ products }: { products: number }) => {
       <Bar data={data} options={options} />
     </div>
   )
+}
+
+interface BarChartProps {
+  products: number;
+  months: number;
 }
 
 export default BarChart;

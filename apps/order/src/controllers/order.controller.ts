@@ -80,12 +80,15 @@ export const getAllOrders = async (
         ? await findAllOrders()
         : await findOrdersByCustomerId(userId);
 
-    const { top }: { top?: number } = req.query
-    
-    if (top && isNaN(top)) {
+    const { month = 0 }: { month?: number } = req.query;
+    const { top }: { top?: number } = req.query;
+
+    if (month && isNaN(month)) {
+      throw new BadRequestError("Month must be a number");
+    } else if (top && isNaN(top)) {
       throw new BadRequestError("Top must be a number");
     } else if (top) {
-      const topSellingProducts = await getTopSellingProductsByLimit(top);
+      const topSellingProducts = await getTopSellingProductsByLimit(top, month);
       return res.status(200).json(topSellingProducts);
     }
 

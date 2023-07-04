@@ -32,7 +32,8 @@ const Home = () => {
   const [nbOrders, setNbOrders] = useState(0);
   const [totalEarned, setTotalEarned] = useState(0);
   const monthsLineChart = 6;
-  const nbProductsBarChart = 2;
+  const monthsBarChart = 3;
+  const nbProductsBarChart = 3;
 
   const fetchCountCustomers = useCallback(() => {
     getCountCustomers()
@@ -43,7 +44,7 @@ const Home = () => {
         console.log(error);
       });
   }, []);
-  
+
   const fetchCountOrdersActualMonth = useCallback(() => {
     getConfirmedOrdersByMonths(1)
       .then((orders) => {
@@ -128,10 +129,10 @@ const Home = () => {
           </h2>
           <div className="grid gap-6 mb-8 md:grid-cols-1 xl:grid-cols-2">
             <ChartCard title={`Confirmed Orders (last ${monthsLineChart} months)`}>
-              <LineChart months={monthsLineChart}/>
+              <LineChart months={monthsLineChart} />
             </ChartCard>
-            <ChartCard title={`Top ${nbProductsBarChart} sales (${currentMonthName}. ${currentYear})`}>
-              <BarChart products={nbProductsBarChart}/>
+            <ChartCard title={`Top ${nbProductsBarChart} sales (from last ${monthsBarChart} months - ${currentMonthName}. ${currentYear} included)`}>
+              <BarChart products={nbProductsBarChart} months={monthsBarChart} />
             </ChartCard>
           </div>
         </div>

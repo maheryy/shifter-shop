@@ -6,7 +6,6 @@ import {
   TOrder,
   TProduct,
   TUser,
-  TFullProduct,
 } from "@shifter-shop/dictionary";
 import { Order as OrderEntity } from "entities/order.entity";
 import { TOrderCreationData, TOrderUpdateData } from "types/order";
@@ -14,7 +13,7 @@ import { fetchJson } from "@shifter-shop/helpers";
 import { logger } from "@shifter-shop/logger";
 import { Between } from "typeorm/find-options/operator/Between";
 import { In } from "typeorm/find-options/operator/In";
-import { resourceLimits } from "worker_threads";
+import { FindOperator } from "typeorm/find-options/FindOperator";
 
 export const findAllOrders = async () => {
   return OrderEntity.find();
@@ -153,21 +152,31 @@ export const countOrders = async (status?: string) => {
 
 export const countConfirmedOrdersByMonths = async (nbMonths: number) => {
   const endDate = new Date();
-  endDate.setMonth(endDate.getMonth() );
+  endDate.setUTCHours(0, 0, 0, 0);
+  endDate.setUTCDate(1);
+  endDate.setUTCMonth(endDate.getUTCMonth() + 1);
+  endDate.setMonth(endDate.getMonth());
+
   const startDate = new Date();
-  startDate.setMonth(endDate.getMonth() - nbMonths);
+  startDate.setUTCHours(0, 0, 0, 0);
+  startDate.setUTCDate(1);
+  startDate.setUTCMonth(endDate.getUTCMonth() - nbMonths);
 
   const where = {
-    status: In([EOrderStatus.Confirmed, EOrderStatus.Delivered]),
+    status: In([
+      EOrderStatus.Confirmed,
+      EOrderStatus.Shipping,
+      EOrderStatus.Delivered,
+    ]),
     date: Between(startDate, endDate),
   };
 
   const result = await OrderEntity.createQueryBuilder()
-    .select('DATE_TRUNC(\'month\', "date")', 'month')
-    .addSelect('COUNT(*)', 'number')
+    .select("DATE_TRUNC('month', \"date\")", "month")
+    .addSelect("COUNT(*)", "number")
     .where(where)
-    .groupBy('month')
-    .orderBy('month', 'DESC')
+    .groupBy("month")
+    .orderBy("month", "DESC")
     .getRawMany();
 
   return result.map((item): { month: string; number: number } => {
@@ -180,28 +189,63 @@ export const countConfirmedOrdersByMonths = async (nbMonths: number) => {
 
 export const countTotalAmount = async () => {
   const orders = await OrderEntity.findBy({
-    status: EOrderStatus.Confirmed || EOrderStatus.Delivered,
+    status: In([
+      EOrderStatus.Confirmed,
+      EOrderStatus.Shipping,
+      EOrderStatus.Delivered,
+    ]),
   });
 
   return orders.reduce((acc, order) => {
     return acc + order.amount;
-  }
-  , 0);
+  }, 0);
 };
 
 export const countTotalSoldProducts = async () => {
   const orders = await OrderEntity.findBy({
-    status: EOrderStatus.Confirmed || EOrderStatus.Delivered,
+    status: In([
+      EOrderStatus.Confirmed,
+      EOrderStatus.Shipping,
+      EOrderStatus.Delivered,
+    ]),
   });
 
   return orders.reduce((acc, order) => {
     return acc + order.products.length;
-  }
-  , 0);
+  }, 0);
 };
 
-export const getTopSellingProductsByLimit = async (limit: number) => {
-  const orders = await OrderEntity.find();
+export const getTopSellingProductsByLimit = async (
+  limit: number,
+  nbMonths?: number
+) => {
+  const where: {
+    status: FindOperator<EOrderStatus>;
+    date?: FindOperator<Date>;
+  } = {
+    status: In([
+      EOrderStatus.Confirmed,
+      EOrderStatus.Shipping,
+      EOrderStatus.Delivered,
+    ]),
+  };
+
+  if (nbMonths) {
+    const endDate = new Date();
+    endDate.setUTCHours(0, 0, 0, 0);
+    endDate.setUTCDate(1);
+    endDate.setUTCMonth(endDate.getUTCMonth() + 1);
+    endDate.setMonth(endDate.getMonth());
+
+    const startDate = new Date();
+    startDate.setUTCHours(0, 0, 0, 0);
+    startDate.setUTCDate(1);
+    startDate.setUTCMonth(endDate.getUTCMonth() - nbMonths);
+
+    where.date = Between(startDate, endDate);
+  }
+
+  const orders = await OrderEntity.find({ where });
   const fullOrders = await getFullOrders(orders);
 
   // Create a map to store the total sales for each product
@@ -217,7 +261,10 @@ export const getTopSellingProductsByLimit = async (limit: number) => {
 
       if (productSalesMap.has(productId)) {
         const productMap = productSalesMap.get(productId)!;
-        productMap.set(productName, quantity + (productMap.get(productName) || 0));
+        productMap.set(
+          productName,
+          quantity + (productMap.get(productName) || 0)
+        );
       } else {
         const productMap = new Map<string, number>();
         productMap.set(productName, quantity);

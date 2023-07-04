@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Line, ChartProps } from 'react-chartjs-2';
 import { getConfirmedOrdersByMonths } from '@/api/order.api';
 
-const LineChart = ({ months }: { months: number }) => {
+const LineChart = ({ months }: LineChartProps) => {
   const [dataset, setDataset] = useState<{ month: string; number: number }[]>([]);
 
-  useEffect(() => {
+  const fetchConfirmedOrdersByMonths = useCallback(() => {
     getConfirmedOrdersByMonths(months + 1)
       .then((orders) => {
         setDataset(orders);
@@ -13,6 +13,10 @@ const LineChart = ({ months }: { months: number }) => {
       .catch((error) => {
         console.log(error);
       });
+  }, []);
+
+  useEffect(() => {
+    fetchConfirmedOrdersByMonths();
   }, []);
 
   const labels = dataset.map((order) => {
@@ -67,5 +71,9 @@ const LineChart = ({ months }: { months: number }) => {
     </div>
   );
 };
+
+interface LineChartProps {
+  months: number;
+}
 
 export default LineChart;
