@@ -8,3 +8,8 @@ export const getAllCategories = async (): Promise<TCategory[]> => {
 export const createCategory = async (categoryData: Partial<TCategory>): Promise<TCategory> => {
   return api.post( categoryData ,"/categories").json();
 };
+
+export const categoryExists = async (categoryName: string): Promise<boolean> => {
+  const categories = await getAllCategories();
+  return categories.some((category) => category.name === categoryName);
+};
