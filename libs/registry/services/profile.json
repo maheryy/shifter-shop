@@ -65,6 +65,11 @@
     },
     {
       "method": "POST",
+      "path": "/business",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "POST",
       "path": "/business/register",
       "middlewares": ["auth"]
     }

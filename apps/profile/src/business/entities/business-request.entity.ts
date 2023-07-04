@@ -9,14 +9,17 @@ export class BusinessRequest implements TBusinessRequest {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column('uuid', { unique: true })
-  customerId: string;
+  @Column('uuid')
+  userId: string;
 
   @Column('varchar')
-  title: string;
+  company: string;
 
   @Column('varchar')
-  description: string;
+  intent: string;
+
+  @Column('varchar')
+  phone: string;
 
   @Column('timestamptz', { default: () => 'CURRENT_TIMESTAMP' })
   date: Date;

@@ -5,7 +5,7 @@ import { Address } from '../../address/entities/address.entity';
 @Entity()
 export class CustomerProfile implements TCustomerProfile {
   @PrimaryColumn('uuid')
-  id: string;
+  userId: string;
 
   @Column('varchar', { nullable: true })
   phone?: string;

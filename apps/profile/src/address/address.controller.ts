@@ -50,7 +50,7 @@ export class AddressController {
 
   @Get(':id')
   findOne(
-    @Headers('user-id') userId: CustomerProfile['id'],
+    @Headers('user-id') userId: CustomerProfile['userId'],
     @Param() { id }: ParamsDto,
   ) {
     return this.addressService.findOneById(userId, id);
@@ -58,7 +58,7 @@ export class AddressController {
 
   @Patch(':id')
   update(
-    @Headers('user-id') userId: CustomerProfile['id'],
+    @Headers('user-id') userId: CustomerProfile['userId'],
     @Param() { id }: ParamsDto,
     @Body() updateAddressDto: UpdateAddressDto,
   ) {
@@ -68,7 +68,7 @@ export class AddressController {
   @HttpCode(204)
   @Delete(':id')
   async remove(
-    @Headers('user-id') userId: CustomerProfile['id'],
+    @Headers('user-id') userId: CustomerProfile['userId'],
     @Param() { id }: ParamsDto,
   ) {
     return this.addressService.remove(userId, id);
@@ -77,7 +77,7 @@ export class AddressController {
   @HttpCode(204)
   @Post('/set-default/:id')
   async setDefault(
-    @Headers('user-id') userId: CustomerProfile['id'],
+    @Headers('user-id') userId: CustomerProfile['userId'],
     @Param() { id }: ParamsDto,
   ) {
     return this.addressService.setDefault(userId, id);
