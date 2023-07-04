@@ -3,8 +3,15 @@ import { Fragment } from "react";
 import { Link } from "react-router-dom";
 import Header from "@/components/business/register/Header";
 import Copyright from "@/components/Copyright";
+import { useAuthContext } from "@/hooks/context";
 
 export function BecomeSeller() {
+  const { isAuthenticated } = useAuthContext();
+
+  const to = isAuthenticated
+    ? "/business/register/business-info"
+    : "/business/register/landing";
+
   return (
     <Fragment>
       <Header />
@@ -50,7 +57,7 @@ export function BecomeSeller() {
             </div>
             <Link
               className="w-full justify-self-center rounded-md border border-primary bg-primary px-4 py-3 text-center text-sm font-medium uppercase text-white transition hover:bg-transparent hover:text-primary md:max-w-md"
-              to="/business/register/landing"
+              to={to}
             >
               Begin
             </Link>

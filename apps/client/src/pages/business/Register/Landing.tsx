@@ -1,18 +1,14 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { z } from "zod";
 import { hasAccount } from "@/api/user.api";
 import Button from "@/components/Button";
 import Form from "@/components/Form";
 import Input from "@/components/Input";
-import { useRegisterContext } from "@/hooks/context";
-
-export interface ToLogInNavigationState {
-  email?: string;
-  redirectTo?: string;
-}
+import { useAuthContext, useRegisterContext } from "@/hooks/context";
 
 const schema = z.object({
   email: z.string().email({ message: "Please enter a valid email" }),
@@ -24,6 +20,7 @@ function Landing() {
   const navigate = useNavigate();
   const [state, setState] = useRegisterContext();
   const [mustConvert, setMustConvert] = useState(false);
+  const { isAuthenticated } = useAuthContext();
 
   const {
     register,
@@ -33,46 +30,36 @@ function Landing() {
     getValues,
   } = useForm<BusinessLandingFieldValues>({ resolver: zodResolver(schema) });
 
-  const onSubmit: SubmitHandler<BusinessLandingFieldValues> = useCallback(
-    async ({ email }) => {
-      try {
-        const mustConvert = await hasAccount(email);
+  if (isAuthenticated) {
+    return <Navigate replace to="/business/register/business-info" />;
+  }
 
-        if (!mustConvert) {
-          setState({ ...state, email });
+  const onSubmit: SubmitHandler<BusinessLandingFieldValues> = async ({
+    email,
+  }) => {
+    try {
+      const mustConvert = await hasAccount(email);
 
-          return navigate("/business/register");
-        }
+      if (!mustConvert) {
+        setState({ ...state, email });
 
-        return setMustConvert(mustConvert);
-      } catch (error) {
-        if (error instanceof Error) {
-          console.error(error.message);
-        }
+        return navigate("/business/register");
       }
-    },
-    [navigate, setState, state],
-  );
 
-  const onContinueWithThisEmailClick = useCallback(() => {
-    if (!mustConvert) {
-      return;
+      return setMustConvert(mustConvert);
+    } catch (error) {
+      if (error instanceof Error) {
+        return toast.error(error.message);
+      }
+
+      return toast.error("Something went wrong");
     }
+  };
 
-    const state: ToLogInNavigationState = {
-      email: getValues("email"),
-      redirectTo: "/business/register/business-info",
-    };
-
-    navigate("/business/login", {
-      state,
-    });
-  }, [getValues, mustConvert, navigate]);
-
-  const onUseDifferentEmailClick = useCallback(() => {
+  const onUseDifferentEmailClick = () => {
     resetField("email");
     setMustConvert(false);
-  }, [resetField]);
+  };
 
   return (
     <section className="container grid gap-8 py-16 md:justify-items-center">
@@ -97,9 +84,16 @@ function Landing() {
               If you continue, the existing account will become a Shifter Shop
               Business account.
             </p>
-            <Button onClick={onContinueWithThisEmailClick}>
+            <Link
+              className="w-full rounded-md border border-primary bg-primary px-4 py-3 text-center text-sm font-medium uppercase text-white transition hover:bg-transparent hover:text-primary md:max-w-md"
+              state={{
+                email: getValues("email"),
+                redirectTo: "/business/register/business-info",
+              }}
+              to="/business/login"
+            >
               Continue with this email
-            </Button>
+            </Link>
             <button
               className="cursor-pointer underline underline-offset-4"
               onClick={onUseDifferentEmailClick}
