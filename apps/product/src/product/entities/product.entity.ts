@@ -1,8 +1,8 @@
 import { EGlobalStatus, TProduct } from '@shifter-shop/dictionary';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
 
 @Entity()
-export class Product implements TProduct {
+export class Product extends BaseEntity implements TProduct {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -14,6 +14,9 @@ export class Product implements TProduct {
 
   @Column('float', { default: 0 })
   rating: number;
+
+  @Column('int', { default: 0 })
+  reviewCount: number;
 
   @Column('float')
   price: number;

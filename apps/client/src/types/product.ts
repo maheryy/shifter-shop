@@ -9,7 +9,7 @@ const Product = z.object({
   price: z.number(),
   image: z.string(),
   rating: z.number(),
-  reviewsCount: z.number(),
+  reviewCount: z.number(),
 });
 
 export const DetailedProduct = Product.extend({
