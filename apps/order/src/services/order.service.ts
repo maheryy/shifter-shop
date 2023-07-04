@@ -187,14 +187,34 @@ export const countConfirmedOrdersByMonths = async (nbMonths: number) => {
   });
 };
 
-export const countTotalAmount = async () => {
-  const orders = await OrderEntity.findBy({
+export const countTotalAmount = async (month?: number) => {
+  const where: {
+    status: FindOperator<EOrderStatus>;
+    date?: FindOperator<Date>;
+  } = {
     status: In([
       EOrderStatus.Confirmed,
       EOrderStatus.Shipping,
       EOrderStatus.Delivered,
     ]),
-  });
+  };
+
+  if (month) {
+    const endDate = new Date();
+    endDate.setUTCHours(0, 0, 0, 0);
+    endDate.setUTCDate(1);
+    endDate.setUTCMonth(endDate.getUTCMonth() + 1);
+    endDate.setMonth(endDate.getMonth());
+
+    const startDate = new Date();
+    startDate.setUTCHours(0, 0, 0, 0);
+    startDate.setUTCDate(1);
+    startDate.setUTCMonth(endDate.getUTCMonth() - month);
+
+    where.date = Between(startDate, endDate);
+  }
+
+  const orders = await OrderEntity.find({ where });
 
   return orders.reduce((acc, order) => {
     return acc + order.amount;

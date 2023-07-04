@@ -57,7 +57,7 @@ const Home = () => {
   }, []);
 
   const fetchTotalAmount = useCallback(() => {
-    getTotalAmount()
+    getTotalAmount(1)
       .then((total) => {
         setTotalEarned(total);
       })
@@ -110,7 +110,7 @@ const Home = () => {
               icon={<ClientIcon />} />
             <Card
               title={`Total earned amount (${currentMonthName}. ${currentYear})`}
-              value={`$ ${totalEarned.toFixed(2).toString().toLocaleString()}`}
+              value={`$ ${totalEarned.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}`}
               icon={<CashIcon />} />
             <Card
               title={`Sold products (${currentMonthName}. ${currentYear})`}
