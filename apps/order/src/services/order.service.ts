@@ -150,7 +150,7 @@ export const countOrders = async (status?: string) => {
   });
 };
 
-export const countConfirmedOrdersByMonths = async (nbMonths: number) => {
+export const countConfirmedOrdersByMonths = async (month: number) => {
   const endDate = new Date();
   endDate.setUTCHours(0, 0, 0, 0);
   endDate.setUTCDate(1);
@@ -160,7 +160,7 @@ export const countConfirmedOrdersByMonths = async (nbMonths: number) => {
   const startDate = new Date();
   startDate.setUTCHours(0, 0, 0, 0);
   startDate.setUTCDate(1);
-  startDate.setUTCMonth(endDate.getUTCMonth() - nbMonths);
+  startDate.setUTCMonth(endDate.getUTCMonth() - month);
 
   const where = {
     status: In([
@@ -257,7 +257,7 @@ export const countTotalSoldProducts = async (month?: number) => {
 
 export const getTopSellingProductsByLimit = async (
   limit: number,
-  nbMonths?: number
+  month?: number
 ) => {
   const where: {
     status: FindOperator<EOrderStatus>;
@@ -270,7 +270,7 @@ export const getTopSellingProductsByLimit = async (
     ]),
   };
 
-  if (nbMonths) {
+  if (month) {
     const endDate = new Date();
     endDate.setUTCHours(0, 0, 0, 0);
     endDate.setUTCDate(1);
@@ -280,7 +280,7 @@ export const getTopSellingProductsByLimit = async (
     const startDate = new Date();
     startDate.setUTCHours(0, 0, 0, 0);
     startDate.setUTCDate(1);
-    startDate.setUTCMonth(endDate.getUTCMonth() - nbMonths);
+    startDate.setUTCMonth(endDate.getUTCMonth() - month);
 
     where.date = Between(startDate, endDate);
   }

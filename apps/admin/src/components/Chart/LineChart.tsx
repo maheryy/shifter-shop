@@ -2,11 +2,11 @@ import { useCallback, useEffect, useState } from 'react';
 import { Line, ChartProps } from 'react-chartjs-2';
 import { getConfirmedOrdersByMonths } from '@/api/order.api';
 
-const LineChart = ({ months }: LineChartProps) => {
+const LineChart = ({ month }: LineChartProps) => {
   const [dataset, setDataset] = useState<{ month: string; number: number }[]>([]);
 
   const fetchConfirmedOrdersByMonths = useCallback(() => {
-    getConfirmedOrdersByMonths(months + 1)
+    getConfirmedOrdersByMonths(month + 1)
       .then((orders) => {
         setDataset(orders);
       })
@@ -73,7 +73,7 @@ const LineChart = ({ months }: LineChartProps) => {
 };
 
 interface LineChartProps {
-  months: number;
+  month: number;
 }
 
 export default LineChart;

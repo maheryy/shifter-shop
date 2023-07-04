@@ -193,15 +193,15 @@ export const getOrdersCount = async (
     }
 
     const { status }: { status?: string } = req.query;
-    const { months }: { months?: number } = req.query;
+    const { month }: { month?: number } = req.query;
 
     if (status) {
       const nbOrders = await countOrders(status);
       return res.status(200).json(nbOrders);
     }
 
-    if (months) {
-      const nbOrdersPerMonth = await countConfirmedOrdersByMonths(months);
+    if (month) {
+      const nbOrdersPerMonth = await countConfirmedOrdersByMonths(month);
       return res.status(200).json(nbOrdersPerMonth);
     }
 

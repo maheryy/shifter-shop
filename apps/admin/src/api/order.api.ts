@@ -17,9 +17,9 @@ export const getCountOrders = async (status: EOrderStatus): Promise<number> => {
 };
 
 export const getConfirmedOrdersByMonths = async (
-  months: number
+  month: number
 ): Promise<{ month: string; number: number }[]> => {
-  return api.get(`/orders/count?months=${months}`).json();
+  return api.get(`/orders/count?month=${month}`).json();
 };
 
 export const getTotalAmount = async (month?: number): Promise<number> => {

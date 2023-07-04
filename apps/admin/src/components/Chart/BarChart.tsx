@@ -2,11 +2,11 @@ import { getTopSalesProducts } from '@/api/order.api';
 import { useCallback, useEffect, useState } from 'react';
 import { Bar, ChartProps } from 'react-chartjs-2';
 
-const BarChart = ({ products, months }: BarChartProps) => {
+const BarChart = ({ products, month }: BarChartProps) => {
   const [dataset, setDataset] = useState<{ name: string, sales: number }[]>([]);
 
   const fetchTopSalesProducts = useCallback(() => {
-    getTopSalesProducts(products, months)
+    getTopSalesProducts(products, month)
       .then((orders) => {
         setDataset(orders);
       })
@@ -55,7 +55,7 @@ const BarChart = ({ products, months }: BarChartProps) => {
 
 interface BarChartProps {
   products: number;
-  months: number;
+  month: number;
 }
 
 export default BarChart;

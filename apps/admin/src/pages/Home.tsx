@@ -129,10 +129,10 @@ const Home = () => {
           </h2>
           <div className="grid gap-6 mb-8 md:grid-cols-1 xl:grid-cols-2">
             <ChartCard title={`Confirmed Orders (last ${monthsLineChart} months)`}>
-              <LineChart months={monthsLineChart} />
+              <LineChart month={monthsLineChart} />
             </ChartCard>
             <ChartCard title={`Top ${nbProductsBarChart} sales (from last ${monthsBarChart} months - ${currentMonthName}. ${currentYear} included)`}>
-              <BarChart products={nbProductsBarChart} months={monthsBarChart} />
+              <BarChart products={nbProductsBarChart} month={monthsBarChart} />
             </ChartCard>
           </div>
         </div>
