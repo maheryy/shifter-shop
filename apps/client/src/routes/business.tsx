@@ -1,6 +1,8 @@
 import { RouteObject } from "react-router-dom";
+import BusinessLayout from "@/layouts/business/BusinessLayour";
 import RegisterLayout from "@/layouts/business/RegisterLayout";
 import LogIn from "@/pages/business/LogIn";
+import BusinessProfile from "@/pages/business/Profile";
 import Register from "@/pages/business/Register";
 import BecomeSeller from "@/pages/business/Register/BecomeSeller";
 import BusinessRequest from "@/pages/business/Register/BusinessRequest";
@@ -9,6 +11,7 @@ import Landing from "@/pages/business/Register/Landing";
 
 const businessRoutes: RouteObject = {
   path: "business",
+  element: <BusinessLayout />,
   children: [
     {
       element: <RegisterLayout />,
@@ -43,6 +46,10 @@ const businessRoutes: RouteObject = {
     {
       path: "become-seller",
       element: <BecomeSeller />,
+    },
+    {
+      path: "profile",
+      element: <BusinessProfile />,
     },
   ],
 };
