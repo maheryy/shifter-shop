@@ -3,8 +3,6 @@ import { useLayoutContext } from "@/hooks/context";
 import SidebarItem from "@/components/Sidebar/SidebarItem";
 import SidebarMenu from "@/components/Sidebar/SidebarMenu";
 import HomeIcon from "@icons/home.svg";
-import ChartIcon from "@icons/chart-bar.svg";
-import NewsletterIcon from "@icons/newspaper.svg";
 import CubeIcon from "@icons/cube.svg";
 import CustomersIcon from "@icons/users.svg";
 import StarIcon from "@icons/star.svg";
@@ -92,31 +90,43 @@ const Sidebar = () => {
           </Link>
           <ul className="mt-6">
             <SidebarItem label="Dashboard" href="/" icon={<HomeIcon />} />
-            <SidebarItem
-              label="Analytics"
-              href="/analytics"
-              icon={<ChartIcon />}
-            />
-            <SidebarItem label="Orders" href="/orders" icon={<StackIcon />} />
-            <SidebarItem
-              label="Customers"
-              href="/customers"
+            <SidebarMenu
+              label="Users"
+              baseUrl="/users"
               icon={<CustomersIcon />}
+              items={[
+                { label: "Admins", href: "admins" },
+                { label: "Customers", href: "customers" },
+                { label: "Sellers", href: "sellers" },
+              ]}
             />
             <SidebarItem
-              label="Newsletter"
-              href="/newsletter"
-              icon={<NewsletterIcon />}
+              label="Reviews"
+              href="/reviews"
+              icon={<StarIcon />}
             />
             <SidebarMenu
               baseUrl="/products"
               label="Products"
               icon={<CubeIcon />}
               items={[
+                { label: "Add product", href: "new" },
                 { label: "All products", href: "" },
-                { label: "New product", href: "new" },
-                { label: "All categories", href: "categories" },
               ]}
+            />
+            <SidebarMenu
+              label="Categories"
+              baseUrl="/categories"
+              icon={<CubeIcon />}
+              items={[
+                { label: "Add category", href: "new" },
+                { label: "All categories", href: "" },
+              ]}
+            />
+            <SidebarItem
+              label="Orders"
+              href="/orders"
+              icon={<StackIcon />}
             />
           </ul>
           <div className="px-6 my-6">
