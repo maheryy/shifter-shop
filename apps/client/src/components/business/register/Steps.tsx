@@ -10,7 +10,7 @@ function Steps() {
     "/business/register/landing": "Account setup",
     "/business/register": "Account setup",
     "/business/login": "Account setup",
-    "/business/register/business-info": "Business details",
+    "/business/register/business-request": "Business details",
     "/business/register/finish": "Finish",
   };
 
