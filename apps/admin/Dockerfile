@@ -13,7 +13,9 @@ COPY libs/ ./libs
 RUN npm install
 
 # Build the app
+ARG VITE_API_URL
 ENV NODE_ENV production
+ENV VITE_API_URL ${VITE_API_URL}
 RUN npx nx build admin
 
 
