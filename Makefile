@@ -28,3 +28,18 @@ dev:
 # Run the app in development mode
 dev-stop:
 	@docker compose down
+
+
+#### Development usage ####
+services:=client admin api-gateway auth-svc user-svc product-svc category-svc review-svc order-svc payment-svc cart-svc invoice-svc files-svc mailer-svc profile-svc inventory-svc search-svc analytics-svc
+
+docker-rename:
+	@for service in $(services); do \
+		docker image tag "shifter-shop-$$service" "maherydock77/shifter-shop.$$service" ; \
+	done
+
+docker-push:
+	@for service in $(services); do \
+		docker image push "maherydock77/shifter-shop.$$service" ; \
+	done
+

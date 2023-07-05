@@ -34,25 +34,32 @@ module "vpc" {
 }
 
 module "gke" {
-  source  = "terraform-google-modules/kubernetes-engine/google"
-  version = "~> 25.0"
+  source                      = "terraform-google-modules/kubernetes-engine/google"
+  version                     = "~> 25.0"
+  project_id                  = var.project_id
+  name                        = "${var.project_id}-cluster"
+  region                      = var.region
+  zones                       = [ var.zone ]
+  network                     = module.vpc.network_name
+  subnetwork                  = module.vpc.subnets_names.0
+  ip_range_pods               = local.ip_range_pods
+  ip_range_services           = local.ip_range_services
+  regional                    = false
+  http_load_balancing         = true
+  horizontal_pod_autoscaling  = true
+  remove_default_node_pool    = true
 
-  project_id               = var.project_id
-  name                     = var.project_id
-  zones                    = [var.zone]
-  regional                 = false
-  network                  = module.vpc.network_name
-  subnetwork               = module.vpc.subnets_names.0
-  ip_range_pods            = local.ip_range_pods
-  ip_range_services        = local.ip_range_services
-  remove_default_node_pool = true
-  initial_node_count       = 1
-  kubernetes_version       = "1.26.3-gke.1000"
 
   node_pools = [
     {
-      name      = "e2-medium"
-      max_count = 2
+      name                      = "${var.project_id}-node-pool"
+      machine_type              = "e2-standard-2"
+      autoscaling               = true
+      min_count                 = 1
+      max_count                 = 4
+      auto_repair               = true
+      auto_upgrade              = true
+      max_pods_per_node         = 100
     },
   ]
 
@@ -66,7 +73,7 @@ module "gke" {
 
 module "peering" {
   source  = "GoogleCloudPlatform/sql-db/google//modules/private_service_access"
-  version = "15.0.0"
+  version = "15.1.0"
 
   project_id    = var.project_id
   vpc_network   = module.vpc.network_name
@@ -75,17 +82,59 @@ module "peering" {
 
 module "database" {
   source  = "GoogleCloudPlatform/sql-db/google//modules/postgresql"
-  version = "15.0.0"
+  version = "15.1.0"
 
-  project_id        = var.project_id
-  name              = var.project_id
-  zone              = var.zone
-  region            = var.region
-  availability_type = "ZONAL"
-  database_version  = "POSTGRES_14"
-  user_name         = var.database_user_name
-  user_password     = var.database_user_password
-
+  project_id            = var.project_id
+  name                  = var.project_id
+  zone                  = var.zone
+  region                = var.region
+  availability_type     = "ZONAL"
+  database_version      = "POSTGRES_15"
+  user_name             = var.database_user_name
+  user_password         = var.database_user_password
+  additional_databases  = [
+    {
+      name = "users",
+      charset = "UTF8",
+      collation = "en_US.UTF8"
+    },
+    {
+      name = "products",
+      charset = "UTF8",
+      collation = "en_US.UTF8"
+    },
+    {
+      name = "categories",
+      charset = "UTF8",
+      collation = "en_US.UTF8"
+    },
+    {
+      name = "reviews",
+      charset = "UTF8",
+      collation = "en_US.UTF8"
+    },
+    {
+      name = "orders",
+      charset = "UTF8",
+      collation = "en_US.UTF8"
+    },
+    {
+      name = "cart",
+      charset = "UTF8",
+      collation = "en_US.UTF8"
+    },
+    {
+      name = "profiles",
+      charset = "UTF8",
+      collation = "en_US.UTF8"
+    },
+    {
+      name = "inventory",
+      charset = "UTF8",
+      collation = "en_US.UTF8"
+    },
+  ]
+  
   ip_configuration = {
     allocated_ip_range                            = "google-managed-services-${module.vpc.network_name}"
     authorized_networks                           = []
@@ -120,6 +169,14 @@ module "dns" {
     },
     {
       name = "api"
+      type = "A"
+      ttl  = 300
+      records = [
+        google_compute_global_address.shiftershop.address
+      ]
+    },
+    {
+      name = "admin"
       type = "A"
       ttl  = 300
       records = [
