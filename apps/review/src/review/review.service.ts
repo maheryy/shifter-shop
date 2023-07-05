@@ -56,7 +56,21 @@ export class ReviewService {
 
     const reviewInstance = this.reviewRepository.create(data);
     const review = await this.reviewRepository.save(reviewInstance);
-    await amqp.publishToExchange(EExchange.ReviewCreated, review);
+
+    const [rating, reviewCount] = await Promise.all([
+      this.reviewRepository.average('rating', {
+        productId: data.productId,
+      }),
+      this.reviewRepository.countBy({
+        productId: data.productId,
+      }),
+    ]);
+
+    await amqp.publishToExchange(EExchange.ReviewCreated, {
+      productId: data.productId,
+      rating: rating || 0,
+      reviewCount,
+    });
 
     return review;
   }

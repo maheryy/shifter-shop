@@ -11,6 +11,10 @@ import {
   findOrderById,
   findOrderByReference,
   countOrders,
+  countConfirmedOrdersByMonths,
+  getTopSellingProductsByLimit,
+  countTotalAmount,
+  countTotalSoldProducts,
 } from "services/order.service";
 import { TOrderCreationData, TOrderUpdateData } from "types/order";
 
@@ -77,6 +81,18 @@ export const getAllOrders = async (
       role === EUserRole.Admin
         ? await findAllOrders()
         : await findOrdersByCustomerId(userId);
+
+    const { month = 0 }: { month?: number } = req.query;
+    const { top }: { top?: number } = req.query;
+
+    if (month && isNaN(month)) {
+      throw new BadRequestError("Month must be a number");
+    } else if (top && isNaN(top)) {
+      throw new BadRequestError("Top must be a number");
+    } else if (top) {
+      const topSellingProducts = await getTopSellingProductsByLimit(top, month);
+      return res.status(200).json(topSellingProducts);
+    }
 
     const results = await getFullOrders(orders);
     res.status(200).json(results);
@@ -177,8 +193,19 @@ export const getOrdersCount = async (
     }
 
     const { status }: { status?: string } = req.query;
+    const { month }: { month?: number } = req.query;
 
-    const nbOrders = await countOrders(status);
+    if (status) {
+      const nbOrders = await countOrders(status);
+      return res.status(200).json(nbOrders);
+    }
+
+    if (month) {
+      const nbOrdersPerMonth = await countConfirmedOrdersByMonths(month);
+      return res.status(200).json(nbOrdersPerMonth);
+    }
+
+    const nbOrders = await countOrders();
     res.status(200).json(nbOrders);
   } catch (error) {
     next(error);
@@ -206,7 +233,13 @@ export const getTotalAmount = async (
       );
     }
 
-    const totalAmount = await countOrders();
+    const { month = 0 }: { month?: number } = req.query;
+
+    if (month && isNaN(month)) {
+      throw new BadRequestError("Month must be a number");
+    }
+
+    const totalAmount = await countTotalAmount(month);
     res.status(200).json(totalAmount);
   } catch (error) {
     next(error);
@@ -234,7 +267,13 @@ export const getTotalSoldProducts = async (
       );
     }
 
-    const totalSoldProducts = await countOrders();
+    const { month = 0 }: { month?: number } = req.query;
+
+    if (month && isNaN(month)) {
+      throw new BadRequestError("Month must be a number");
+    }
+
+    const totalSoldProducts = await countTotalSoldProducts(month);
     res.status(200).json(totalSoldProducts);
   } catch (error) {
     next(error);

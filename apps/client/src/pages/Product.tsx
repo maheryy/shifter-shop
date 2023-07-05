@@ -54,7 +54,7 @@ function Product() {
     weight: null,
   };
 
-  const { id, name, image, price, description, rating, reviewsCount } = product;
+  const { id, name, image, price, description, rating, reviewCount } = product;
 
   return (
     <section className="container grid gap-16 py-16">
@@ -64,7 +64,7 @@ function Product() {
           <h1 className="text-3xl font-medium uppercase">{name}</h1>
           <div className="flex items-center gap-2">
             <Rating size="md" value={rating} />
-            <span className="text-sm text-gray-500">({reviewsCount})</span>
+            <span className="text-sm text-gray-500">({reviewCount})</span>
           </div>
           <div className="grid gap-2">
             <p className="flex gap-2 font-semibold text-gray-800">

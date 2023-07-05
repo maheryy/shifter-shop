@@ -1,3 +1,5 @@
+import { EBusinessRequestStatus } from "./business";
+
 export interface TAddress {
   id: string;
   profile: TCustomerProfile;
@@ -12,19 +14,33 @@ export interface TAddress {
 }
 
 export interface TCustomerProfile {
-  id: string;
+  userId: string;
   phone?: string;
   addresses: TAddress[];
 }
 
+export interface TBusinessAddress {
+  line1: string;
+  line2?: string;
+  city: string;
+  zip: string;
+  province: string;
+}
+
 export interface TBusinessProfile {
-  id: string;
+  userId: string;
   company: string;
   description?: string;
   website?: string;
-  phone?: string;
-  address: string;
-  city: string;
-  country: string;
-  zip: string;
+  phone: string;
+  address: TBusinessAddress;
+}
+
+export interface TBusinessRequest {
+  id: string;
+  userId: string;
+  company: string;
+  intent: string;
+  phone: string;
+  status: EBusinessRequestStatus;
 }

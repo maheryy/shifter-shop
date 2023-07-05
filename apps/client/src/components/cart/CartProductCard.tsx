@@ -13,7 +13,7 @@ interface CartProductCardProps {
 function CartProductCard({ cartProduct }: CartProductCardProps) {
   const { updateMutation } = useCart();
   const { product, quantity } = cartProduct;
-  const { id, name, image, price, reviewsCount, rating } = product;
+  const { id, name, image, price, reviewCount: reviewsCount, rating } = product;
   const to = `/products/${id}`;
 
   function onRemove() {

@@ -21,7 +21,7 @@ export class AddressService {
     const addresses = await this.addressRepository.find({
       where: {
         profile: {
-          id: createAddressDto.profile.id,
+          userId: createAddressDto.profile.userId,
         },
       },
     });
@@ -30,7 +30,7 @@ export class AddressService {
 
     if (!isFirst && setDefault) {
       await this.addressRepository.update(
-        { profile: { id: createAddressDto.profile.id } },
+        { profile: { userId: createAddressDto.profile.userId } },
         { isDefault: false },
       );
     }
@@ -43,11 +43,11 @@ export class AddressService {
     return this.addressRepository.save(address);
   }
 
-  findByProfile(profilId: CustomerProfile['id']) {
+  findByProfile(profilId: CustomerProfile['userId']) {
     return this.addressRepository.find({
       where: {
         profile: {
-          id: profilId,
+          userId: profilId,
         },
       },
     });
@@ -58,14 +58,14 @@ export class AddressService {
   }
 
   async update(
-    profileId: CustomerProfile['id'],
+    profileId: CustomerProfile['userId'],
     id: Address['id'],
     updateAddressDto: UpdateAddressDto,
   ) {
     const { setDefault, ...fields } = updateAddressDto;
 
     const { affected } = await this.addressRepository.update(
-      { profile: { id: profileId }, id },
+      { profile: { userId: profileId }, id },
       fields,
     );
 
@@ -75,12 +75,12 @@ export class AddressService {
 
     if (setDefault) {
       await this.addressRepository.update(
-        { profile: { id: profileId } },
+        { profile: { userId: profileId } },
         { isDefault: false },
       );
 
       await this.addressRepository.update(
-        { profile: { id: profileId }, id },
+        { profile: { userId: profileId }, id },
         { isDefault: true },
       );
     }
@@ -88,15 +88,15 @@ export class AddressService {
     return this.addressRepository.findOneBy({ id });
   }
 
-  findOneById(profileId: CustomerProfile['id'], id: Address['id']) {
+  findOneById(profileId: CustomerProfile['userId'], id: Address['id']) {
     return this.addressRepository.findOne({
-      where: { profile: { id: profileId }, id },
+      where: { profile: { userId: profileId }, id },
     });
   }
 
-  async remove(profileId: CustomerProfile['id'], id: Address['id']) {
+  async remove(profileId: CustomerProfile['userId'], id: Address['id']) {
     const address = await this.addressRepository.findOne({
-      where: { profile: { id: profileId }, id },
+      where: { profile: { userId: profileId }, id },
     });
 
     if (!address) {
@@ -104,14 +104,14 @@ export class AddressService {
     }
 
     await this.addressRepository.delete({
-      profile: { id: profileId },
+      profile: { userId: profileId },
       id,
     });
   }
 
-  async setDefault(profileId: CustomerProfile['id'], id: Address['id']) {
+  async setDefault(profileId: CustomerProfile['userId'], id: Address['id']) {
     const address = await this.addressRepository.findOne({
-      where: { profile: { id: profileId }, id },
+      where: { profile: { userId: profileId }, id },
     });
 
     if (!address) {
@@ -119,12 +119,12 @@ export class AddressService {
     }
 
     await this.addressRepository.update(
-      { profile: { id: profileId } },
+      { profile: { userId: profileId } },
       { isDefault: false },
     );
 
     await this.addressRepository.update(
-      { profile: { id: profileId }, id },
+      { profile: { userId: profileId }, id },
       { isDefault: true },
     );
   }

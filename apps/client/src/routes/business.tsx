@@ -3,7 +3,7 @@ import RegisterLayout from "@/layouts/business/RegisterLayout";
 import LogIn from "@/pages/business/LogIn";
 import Register from "@/pages/business/Register";
 import BecomeSeller from "@/pages/business/Register/BecomeSeller";
-import BusinessInfo from "@/pages/business/Register/BusinessInfo";
+import BusinessRequest from "@/pages/business/Register/BusinessRequest";
 import Finish from "@/pages/business/Register/Finish";
 import Landing from "@/pages/business/Register/Landing";
 
@@ -25,8 +25,8 @@ const businessRoutes: RouteObject = {
               element: <Landing />,
             },
             {
-              path: "business-info",
-              element: <BusinessInfo />,
+              path: "business-request",
+              element: <BusinessRequest />,
             },
             {
               path: "finish",

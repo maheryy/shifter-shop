@@ -24,6 +24,12 @@ export class AuthService {
     return user;
   }
 
+  async hasAccount(email: string): Promise<boolean> {
+    const user = await this.getUserByEmail(email);
+
+    return !!user;
+  }
+
   async register(data: RegisterDto): Promise<TUser> {
     const { password, ...userData } = data;
 

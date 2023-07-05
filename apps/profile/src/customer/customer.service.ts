@@ -13,27 +13,27 @@ export class CustomerService {
   ) {}
 
   async create(userId: string) {
-    const profile = this.customerProfileRepository.create({ id: userId });
+    const profile = this.customerProfileRepository.create({ userId });
     await this.customerProfileRepository.save(profile);
 
     return profile;
   }
 
-  async findById(id: string) {
-    const profile = await this.customerProfileRepository.findOneBy({ id });
+  async findById(userId: string) {
+    const profile = await this.customerProfileRepository.findOneBy({ userId });
 
     if (!profile) {
-      throw new NotFoundException(`Profile with id: ${id} does not exist`);
+      throw new NotFoundException(`Profile with id: ${userId} does not exist`);
     }
 
     return profile;
   }
 
-  async update(id: string, data: UpdateProfileDto) {
-    const res = await this.customerProfileRepository.update({ id }, data);
+  async update(userId: string, data: UpdateProfileDto) {
+    const res = await this.customerProfileRepository.update({ userId }, data);
 
     if (!res.affected) {
-      throw new NotFoundException(`Product with id: ${id} does not exist`);
+      throw new NotFoundException(`Product with id: ${userId} does not exist`);
     }
   }
 }
