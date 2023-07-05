@@ -9,6 +9,7 @@ stages:
   - build
   - test
   - pre-deploy
+  - pre-deploy-2
   # - deploy
 
 .distributed:
@@ -47,7 +48,7 @@ pre-deploy:
     - npx nx print-affected --base=$NX_BASE --head=$NX_HEAD --type=app --select=projects
 
 pre-deploy-k8s:
-  stage: pre-deploy
+  stage: pre-deploy-2
   image:
     name: bitnami/kubectl:latest
     entrypoint: [""]
@@ -59,5 +60,3 @@ pre-deploy-k8s:
     - kubectl get pods -n default
   only:
     - chore/ci
-  needs:
-    - pre-deploy
