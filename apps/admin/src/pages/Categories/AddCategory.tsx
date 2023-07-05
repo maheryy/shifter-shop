@@ -1,12 +1,12 @@
-import React, { ChangeEvent, useState } from 'react';
-import Forms from '../../components/Forms/Forms';
-import CustomFormButton from '../../components/Forms/CustomFormButton';
-import CustomFormInput from '../../components/Forms/CustomFormInput';
-import CustomFormTitle from '@/components/Forms/CustomFormTitle';
-import { createCategory } from '@/api/category.api';
+import React, { ChangeEvent, useState } from "react";
+import Forms from "../../components/Forms/Forms";
+import CustomFormButton from "../../components/Forms/CustomFormButton";
+import CustomFormInput from "../../components/Forms/CustomFormInput";
+import CustomFormTitle from "@/components/Forms/CustomFormTitle";
+import { createCategory } from "@/api/category.api";
 
 const AddCategory = () => {
-  const [categoryName, setCategoryName] = useState('');
+  const [categoryName, setCategoryName] = useState("");
 
   const handleFormSubmit = async () => {
     try {
@@ -15,7 +15,7 @@ const AddCategory = () => {
       };
 
       await createCategory(newCategory);
-      
+
       // Handle success, such as showing a success message or redirecting to another page
     } catch (error) {
       console.log(error);
@@ -23,10 +23,12 @@ const AddCategory = () => {
     }
   };
 
-  const handleCategoryNameChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleCategoryNameChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setCategoryName(e.target.value);
   };
-  
+
   return (
     <Forms onSubmit={handleFormSubmit}>
       {/* Form title */}
