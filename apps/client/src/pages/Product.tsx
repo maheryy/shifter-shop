@@ -43,7 +43,7 @@ function Product() {
   function onAddToCart() {
     updateMutation.mutate({
       product,
-      quantity: data ? data + 1 : 1,
+      quantity: data ? data + quantity : quantity,
     });
   }
 
