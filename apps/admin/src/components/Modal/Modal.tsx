@@ -30,7 +30,7 @@ const Modal = ({ buttons, children }: ModalProps) => {
         >
           {/* Modal */}
           <div
-            className="w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-xl"
+            className="w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-sm md:max-w-md lg:max-w-lg sm:mx-auto"
             role="dialog"
             id="modal"
             onClick={handleModalClick}

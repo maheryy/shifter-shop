@@ -8,42 +8,44 @@ const ModalOrder = ({ order }: ModalOrderProps) => {
   return (
     <>
       {/* Modal reference */}
-      <p className="mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300">
-        Product n°{order.reference}
+      <p className="text-2xl font-bold mb-4 text-gray-700 dark:text-gray-300">
+        Order Details #{order.reference}
       </p>
-      {/* Modal amount */}
-      <p className="text-sm text-gray-700 dark:text-gray-400">
-        Amount: ${order.amount}
-      </p>
-      {/* Modal customer */}
-      <p className="text-sm text-gray-700 dark:text-gray-400">
-        Ordered by {order.customer.firstname} {order.customer.lastname}
-      </p>
-      {/* Modal status */}
-      <p className="text-sm text-gray-700 dark:text-gray-400">
-        Status: {order.status}
-      </p>
-      {/* Modal date */}
-      <p className="text-sm text-gray-700 dark:text-gray-400">
-        Order placed on {date.toLocaleDateString()} at {date.toLocaleTimeString()}
-      </p>
+      {/* Modal Infos */}
+      <div className="mb-6 text-lg text-gray-700 dark:text-gray-400">
+        <p><strong>Amount:</strong> $ {order.amount}</p>
+        <p><strong>Ordered by:</strong> {order.customer.firstname} {order.customer.lastname}</p>
+        <p><strong>Status:</strong> {order.status}</p>
+        <p><strong>Order placed on:</strong> {date.toLocaleDateString()} at {date.toLocaleTimeString()}</p>
+      </div>
       {/* Modal products */}
-      <p className="text-sm text-gray-700 dark:text-gray-400">
-        <span className="font-semibold">Products:</span>
-        {order.products.map((product, index) => (
-          <div key={index}>
-            <p className="text-sm text-gray-700 dark:text-gray-400">
-              {product.name}
-            </p>
-            <p className="text-sm text-gray-700 dark:text-gray-400">
-              {product.price}
-            </p>
-            <p className="text-sm text-gray-700 dark:text-gray-400">
-              {product.quantity}
-            </p>
-          </div>
-        ))}
-      </p>
+      <div className="border-t-4 text-gray-700 dark:text-gray-400">
+        <span className="pt-6 text-lg font-bold text-gray-700 dark:text-gray-300">Products:</span>
+        <ul className="mt-2">
+          {order.products.map((product, index) => (
+            <li key={index} className="mb-4">
+              <div className="grid grid-cols-10">
+                <div className="col-span-1">
+                  <p className="text-base text-gray-700 dark:text-gray-400">
+                    <strong>{index + 1}. </strong>
+                  </p>
+                </div>
+                <div className="col-span-9">
+                  <p className="text-base text-gray-700 dark:text-gray-400">
+                    <strong> {product.name}</strong>
+                  </p>
+                  <p className="text-base text-gray-700 dark:text-gray-400">
+                    <strong>Price:</strong> $ {product.price}
+                  </p>
+                  <p className="text-base text-gray-700 dark:text-gray-400">
+                    <strong>Quantity:</strong>{product.quantity}
+                  </p>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
     </>
   );
 }
