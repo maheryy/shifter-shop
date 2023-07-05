@@ -12,13 +12,15 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
         <Sidebar />
         <div className="app-content">
           <Header />
-          <main>
-            <Outlet />
-            {children}
-          </main>
+          <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
+            <main>
+              <Outlet />
+              {children}
+            </main>
+          </div>
         </div>
       </UserProvider>
-    </LayoutProvider>
+    </LayoutProvider >
   );
 };
 

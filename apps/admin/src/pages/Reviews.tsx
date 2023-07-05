@@ -7,6 +7,7 @@ import _get from "lodash.get";
 import { TableColumns } from '@/types/table';
 import TableRow from '@/components/Table/TableRow';
 import ModalReview from '@/components/Modal/ModalReview';
+import { ModalButtonProps } from '@/components/Modal/ModalButton';
 
 const tableColumns: TableColumns[] = [
   {
@@ -19,11 +20,11 @@ const tableColumns: TableColumns[] = [
   },
   {
     label: 'Product',
-    key: 'category.name'
+    key: 'product.name'
   },
   {
-    label: 'Author',
-    key: 'seller.firstname'
+    label: 'Author (Email)',
+    key: 'author.email'
   },
   {
     label: 'Status',
@@ -36,6 +37,12 @@ const tableColumns: TableColumns[] = [
   {
     label: 'Actions',
     key: 'actions'
+  },
+];
+
+const buttons: ModalButtonProps[] = [
+  {
+    label: 'Close',
   },
 ];
 
@@ -63,17 +70,17 @@ const Reviews = () => {
               List of Reviews
             </h2>
             {reviews.length > 0 ? (
-            <Table
-              tableColumns={tableColumns}
-              items={reviews}
-              renderRow={(item: TFullReview) => (
-                <TableRow options={tableColumns} item={item} >
-                  <Modal>
-                    <ModalReview review={item} />
-                  </Modal>
-                </TableRow>
-              )}
-            />
+              <Table
+                tableColumns={tableColumns}
+                items={reviews}
+                renderRow={(item: TFullReview) => (
+                  <TableRow options={tableColumns} item={item} >
+                    <Modal buttons={buttons}>
+                      <ModalReview review={item} />
+                    </Modal>
+                  </TableRow>
+                )}
+              />
             ) : (
               <div className="flex items-center justify-center">
                 <span className="text-2xl font-semibold text-gray-700 dark:text-gray-200">
