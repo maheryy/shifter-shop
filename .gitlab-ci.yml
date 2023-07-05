@@ -41,13 +41,15 @@ test:
 
 pre-deploy:
   stage: pre-deploy
-  image: node:18
+  extends: .distributed
   script:
     - npx nx print-affected --base=$NX_BASE --head=$NX_HEAD --type=app --select=projects
 
 pre-deploy-k8s:
   stage: pre-deploy
-  image: bitnami/kubectl
+  image: 
+    name: bitnami/kubectl
+    entrypoint: [""]
   script:
     - kubectl get pods
     - kubectl get pods -n default
