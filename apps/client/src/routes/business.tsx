@@ -1,4 +1,5 @@
 import { RouteObject } from "react-router-dom";
+import Seller from "@/components/Seller";
 import BusinessLayout from "@/layouts/business/BusinessLayout";
 import DashboardLayout from "@/layouts/business/DashboardLayout";
 import RegisterLayout from "@/layouts/business/RegisterLayout";
@@ -53,7 +54,11 @@ const businessRoutes: RouteObject = {
     },
     {
       path: "dashboard",
-      element: <DashboardLayout />,
+      element: (
+        <Seller>
+          <DashboardLayout />
+        </Seller>
+      ),
       children: [
         {
           path: "profile",
