@@ -20,11 +20,11 @@ const tableColumns: TableColumns[] = [
   },
   {
     label: 'Product',
-    key: 'category.name'
+    key: 'product.name'
   },
   {
-    label: 'Author',
-    key: 'seller.firstname'
+    label: 'Author (Email)',
+    key: 'author.email'
   },
   {
     label: 'Status',
