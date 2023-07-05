@@ -13,7 +13,7 @@ function Seller({ children }: SellerProps) {
   const isAuthorized = user?.role === UserRoles.enum.SELLER;
 
   if (!isAuthorized) {
-    return <Navigate to="/404" />;
+    return <Navigate replace to="/404" />;
   }
 
   if (!children) {
