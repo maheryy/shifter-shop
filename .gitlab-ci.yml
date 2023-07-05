@@ -1,9 +1,9 @@
 default:
   image: node:18
 
-# variables:
+variables:
   # GIT_DEPTH: 0
-  # KUBE_CONTEXT: shifter-shop/shifter-shop:primary-agent
+  KUBE_CONTEXT: shifter-shop/shifter-shop:primary-agent
 
 stages:
   - build
@@ -53,10 +53,9 @@ pre-deploy-k8s:
   image:
     name: bitnami/kubectl:latest
     entrypoint: [""]
-  # before_script:
-  #   - if [ -n "$KUBE_CONTEXT" ]; then kubectl config use-context "$KUBE_CONTEXT"; fi
   script:
     - kubectl config get-contexts
+    - kubectl config use-context "$KUBE_CONTEXT"
     - kubectl get pods
     - kubectl get pods -n default
   only:
