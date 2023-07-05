@@ -3,7 +3,7 @@ default:
 
 # variables:
   # GIT_DEPTH: 0
-  # KUBE_CONTEXT: shifter-shop/shifter-shop:cluster-agent
+  # KUBE_CONTEXT: shifter-shop/shifter-shop:primary-agent
 
 stages:
   - build
@@ -60,3 +60,5 @@ pre-deploy-k8s:
     - kubectl get pods -n default
   only:
     - chore/ci
+  needs: 
+    - pre-deploy
