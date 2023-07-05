@@ -29,3 +29,10 @@ export const getTotalAmount = async (month?: number): Promise<number> => {
 export const getTotalSoldProducts = async (month?: number): Promise<number> => {
   return api.get(`/orders/products/total?month=${month}`).json();
 };
+
+export const setOrderStatus = async (
+  orderId: string,
+  status: EOrderStatus
+): Promise<void> => {
+  return api.patch({ status }, `/orders/${orderId}`).res();
+}
