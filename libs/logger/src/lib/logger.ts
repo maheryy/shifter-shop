@@ -22,16 +22,19 @@ export class Logger {
 
   info(...message: Whatever[]) {
     this.logger.info(this.buildMessage(...message));
+    console.log(...message);
     return this;
   }
 
   warn(...message: Whatever[]) {
     this.logger.warn(this.buildMessage(...message));
+    console.log(...message);
     return this;
   }
 
   error(...message: Whatever[]) {
     this.logger.error(this.buildMessage(...message));
+    console.log(...message);
     return this;
   }
 
