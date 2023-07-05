@@ -43,13 +43,13 @@ export class FindAllQueryDto {
   @Transform(({ value }) => Number(value))
   maxRating?: number;
 
-  @IsEnum(['name', 'price', 'rating', 'reviewCount'])
+  @IsEnum(['createdAt', 'name', 'price', 'rating', 'reviewCount'])
   @IsOptional()
-  sortBy?: string;
+  orderBy?: string;
 
   @IsEnum(['ASC', 'DESC'])
   @IsOptional()
-  sortDirection?: 'ASC' | 'DESC';
+  direction?: 'ASC' | 'DESC';
 
   @IsNumber()
   @IsOptional()

@@ -11,11 +11,13 @@ function Products() {
     return <p>Something went wrong...</p>;
   }
 
+  const { products } = data;
+
   return (
     <section>
       <h1>Products</h1>
       <ul>
-        {data?.map((product) => (
+        {products.map((product) => (
           <li key={product.id}>{product.name}</li>
         ))}
       </ul>

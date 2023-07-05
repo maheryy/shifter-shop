@@ -3,23 +3,28 @@ import { DetailedProduct, Product } from "@/types/product";
 import isEmpty from "@/utils/isEmpty";
 import api from ".";
 
+type GetProductsResponse = {
+  products: Product[];
+  pageCount: number;
+};
+
 export async function getProducts(
   searchParams?: ProductsSearchParams,
-): Promise<Product[]> {
+): Promise<GetProductsResponse> {
   if (!searchParams) {
     return api.get("/products").json();
   }
 
-  const { categories, ...rest } = searchParams;
+  const { categoryId, ...rest } = searchParams;
 
-  if (!categories || isEmpty(categories)) {
+  if (!categoryId || isEmpty(categoryId)) {
     return api.query(rest).get("/products").json();
   }
 
   return api
     .query({
       ...rest,
-      categories: categories.join(","),
+      categoryId: categoryId.join(","),
     })
     .get("/products")
     .json();

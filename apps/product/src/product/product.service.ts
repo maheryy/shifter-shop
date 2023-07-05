@@ -36,8 +36,8 @@ export class ProductService {
     minRating,
     page,
     sellerId,
-    sortBy,
-    sortDirection,
+    orderBy,
+    direction,
   }: FindAllQueryDto) {
     const isValidCategoryIds = categoryId?.split(',').every((id) => isUUID(id));
 
@@ -73,7 +73,7 @@ export class ProductService {
     };
 
     const order: FindOptionsOrder<Product> = {
-      [sortBy ?? 'id']: sortDirection ?? 'ASC',
+      [orderBy || 'createdAt']: direction || 'ASC',
     };
 
     const productPerPage = 5;
