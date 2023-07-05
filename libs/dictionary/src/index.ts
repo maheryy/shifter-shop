@@ -1,6 +1,5 @@
 export * from "./types/user";
 export * from "./types/profile";
-export * from "./types/business";
 export * from "./types/status";
 export * from "./types/cart";
 export * from "./types/product";

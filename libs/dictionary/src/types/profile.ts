@@ -1,4 +1,8 @@
-import { EBusinessRequestStatus } from "./business";
+export enum EBusinessRequestStatus {
+  Pending = "PENDING",
+  Approved = "APPROVED",
+  Rejected = "REJECTED",
+}
 
 export interface TAddress {
   id: string;
