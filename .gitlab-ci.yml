@@ -6,7 +6,7 @@ default:
 
 stages:
   - build
-  # - test
+  - test
   # - deploy
 
 .distributed:
@@ -32,8 +32,8 @@ build:
   script:
     - npx nx affected --base=$NX_BASE --head=$NX_HEAD --target=build
 
-# test:
-#   stage: test
-#   extends: .distributed
-#   script:
-#     - npx nx affected --base=$NX_BASE --head=$NX_HEAD --target=test
+test:
+  stage: test
+  extends: .distributed
+  script:
+    - npx nx affected --base=$NX_BASE --head=$NX_HEAD --target=test
