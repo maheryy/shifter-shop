@@ -30,12 +30,45 @@ variable "stripe_webhook_key" {
   sensitive = true
 }
 
-variable "database_url" {
+variable "database_url_users" {
+  type      = string
+  sensitive = true
+}
+variable "database_url_products" {
+  type      = string
+  sensitive = true
+}
+variable "database_url_categories" {
+  type      = string
+  sensitive = true
+}
+variable "database_url_reviews" {
+  type      = string
+  sensitive = true
+}
+variable "database_url_orders" {
+  type      = string
+  sensitive = true
+}
+variable "database_url_cart" {
+  type      = string
+  sensitive = true
+}
+variable "database_url_profiles" {
+  type      = string
+  sensitive = true
+}
+variable "database_url_inventory" {
   type      = string
   sensitive = true
 }
 
 variable "mailer_dsn" {
+  type      = string
+  sensitive = true
+}
+
+variable "amqp_url" {
   type      = string
   sensitive = true
 }

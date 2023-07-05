@@ -21,7 +21,9 @@ const authenticationMiddleware: ConfiguredMiddleware =
     return next(url, options);
   };
 
-const api = wretch(import.meta.env.VITE_API_URL)
+const baseURL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
+const api = wretch(baseURL)
   .addon(queryString)
   .middlewares([authenticationMiddleware]);
 

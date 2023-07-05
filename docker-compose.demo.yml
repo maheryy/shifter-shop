@@ -18,6 +18,8 @@ services:
     build:
       context: .
       dockerfile: ./apps/admin/Dockerfile
+      args:
+        - VITE_API_URL=http://localhost:3000
     ports:
       - 8081:80
     networks:

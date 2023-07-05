@@ -1,11 +1,11 @@
 terraform {
-  cloud {
-    organization = "shifter-shop"
+  # cloud {
+  #   organization = "shifter-shop"
 
-    workspaces {
-      name = "shifter-shop"
-    }
-  }
+  #   workspaces {
+  #     name = "shifter-shop"
+  #   }
+  # }
 
   required_providers {
     google = {
