@@ -26,8 +26,7 @@ export async function getProducts(
 }
 
 export function getProduct(id: Product["id"]): Promise<DetailedProduct> {
-  // TODO: remove query params
-  return api.get(`/products/${id}?_embed=reviews`).json();
+  return api.get(`/products/${id}`).json();
 }
 
 export function getRelatedProducts(id: Product["id"]): Promise<Product[]> {

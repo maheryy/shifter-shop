@@ -7,6 +7,7 @@ import {
   Post,
   Headers,
   HttpCode,
+  Query,
 } from '@nestjs/common';
 import { Auth } from '@shifter-shop/nest';
 import { ProductService } from 'src/product/product.service';
@@ -18,6 +19,7 @@ import { FindOneParamsDto } from './dtos/find-one-params.dto';
 import { FindAllBySellerIdParamsDto } from './dtos/find-all-by-seller-id-params.dto';
 import { FindAllByCategoryIdParams } from './dtos/find-all-by-category-id-params.dto';
 import { UpdateParamsDto } from './dtos/update-params.dto';
+import { FindAllQueryDto } from './dtos/find-all-query.dto';
 
 @Controller()
 export class ProductController {
@@ -37,14 +39,18 @@ export class ProductController {
   }
 
   @Get()
-  async findAll() {
-    const products = await this.productService.findAll();
+  async findAll(@Query() query: FindAllQueryDto) {
+    const { products, pageCount } = await this.productService.findAll(query);
+
     const results = await joinResources<TFullProduct, TProduct>(products, [
       { service: 'category', key: 'categoryId', addKey: 'category' },
       { service: 'user', key: 'sellerId', addKey: 'seller' },
     ]);
 
-    return results;
+    return {
+      products: results,
+      pageCount,
+    };
   }
 
   @Get('/:id')
