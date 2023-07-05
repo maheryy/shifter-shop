@@ -25,7 +25,7 @@ const ModalReview = ({ review }: ModalReviewProps) => {
       </p>
       {/* Modal author */}
       <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-        Author: {review.author.firstname}
+        Published by: {review.author.firstname} {review.author.lastname} ({review.author.email})
       </p>
       {/* Modal status */}
       <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
