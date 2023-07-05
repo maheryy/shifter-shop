@@ -3,7 +3,7 @@ import { DetailedProduct, Product } from "@/types/product";
 import isEmpty from "@/utils/isEmpty";
 import api from ".";
 
-type GetProductsResponse = {
+export type GetProductsResponse = {
   products: Product[];
   pageCount: number;
 };

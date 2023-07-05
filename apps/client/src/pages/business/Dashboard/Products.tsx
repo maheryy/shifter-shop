@@ -1,7 +1,17 @@
+import { Navigate } from "react-router-dom";
+import { useAuthContext } from "@/hooks/context";
 import useProducts from "@/hooks/useProducts";
 
 function Products() {
-  const { data, isError, isLoading } = useProducts();
+  const { user } = useAuthContext();
+
+  const { data, isError, isLoading } = useProducts({
+    sellerId: user?.id,
+  });
+
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
 
   if (isLoading) {
     return <p>Loading...</p>;
