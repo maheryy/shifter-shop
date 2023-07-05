@@ -7,6 +7,7 @@ import _get from "lodash.get";
 import { TableColumns } from '@/types/table';
 import ModalProduct from '@/components/Modal/ModalProduct';
 import TableRow from '@/components/Table/TableRow';
+import { ModalButtonProps } from '@/components/Modal/ModalButton';
 
 const tableColumns: TableColumns[] = [
   {
@@ -35,6 +36,12 @@ const tableColumns: TableColumns[] = [
   },
 ];
 
+const buttons: ModalButtonProps[] = [
+  {
+    label: 'Close',
+  },
+];
+
 const Products = () => {
   const [products, setProducts] = useState<TFullProduct[]>([]);
 
@@ -59,17 +66,17 @@ const Products = () => {
               List of Products
             </h2>
             {products.length > 0 ? (
-            <Table
-              tableColumns={tableColumns}
-              items={products}
-              renderRow={(item: TFullProduct) => (
-                <TableRow options={tableColumns} item={item} >
-                  <Modal>
-                    <ModalProduct product={item} />
-                  </Modal>
-                </TableRow>
-              )}
-            />
+              <Table
+                tableColumns={tableColumns}
+                items={products}
+                renderRow={(item: TFullProduct) => (
+                  <TableRow options={tableColumns} item={item} >
+                    <Modal buttons={buttons}>
+                      <ModalProduct product={item} />
+                    </Modal>
+                  </TableRow>
+                )}
+              />
             ) : (
               <div className="flex items-center justify-center">
                 <span className="text-2xl font-semibold text-gray-700 dark:text-gray-200">
