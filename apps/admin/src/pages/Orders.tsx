@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { getAllOrders } from '@/api/order.api';
 import { TFullOrder } from '@shifter-shop/dictionary';
 import _get from "lodash.get";
@@ -35,10 +35,16 @@ const tableColumns: TableColumns[] = [
   },
 ];
 
+const buttons = [
+  {
+    label: 'Close',
+  },
+];
+
 const Orders = () => {
   const [orders, setOrders] = useState<TFullOrder[]>([]);
 
-  useEffect(() => {
+  const fetchAllOrders = useCallback(() => {
     getAllOrders()
       .then((orders) => {
         setOrders(orders);
@@ -47,6 +53,10 @@ const Orders = () => {
         console.log(error);
       });
   }, []);
+
+  useEffect(() => {
+    fetchAllOrders();
+  }, [fetchAllOrders]);
 
   return (
     <div>
@@ -59,17 +69,17 @@ const Orders = () => {
               List of Orders
             </h2>
             {orders.length > 0 ? (
-            <Table
-              tableColumns={tableColumns}
-              items={orders}
-              renderRow={(item: TFullOrder) => (
-                <TableRow options={tableColumns} item={item} >
-                  <Modal>
-                    <ModalOrder order={item} />
-                  </Modal>
-                </TableRow>
-              )}
-            />
+              <Table
+                tableColumns={tableColumns}
+                items={orders}
+                renderRow={(item: TFullOrder) => (
+                  <TableRow options={tableColumns} item={item} >
+                    <Modal buttons={buttons}>
+                      <ModalOrder order={item} />
+                    </Modal>
+                  </TableRow>
+                )}
+              />
             ) : (
               <div className="flex items-center justify-center">
                 <span className="text-2xl font-semibold text-gray-700 dark:text-gray-200">
