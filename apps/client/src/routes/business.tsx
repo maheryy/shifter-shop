@@ -6,6 +6,7 @@ import RegisterLayout from "@/layouts/business/RegisterLayout";
 import EditProduct, {
   editProductLoader,
 } from "@/pages/business/Dashboard/EditProduct";
+import NewProduct from "@/pages/business/Dashboard/NewProduct";
 import Orders from "@/pages/business/Dashboard/Orders";
 import Products, { productsLoader } from "@/pages/business/Dashboard/Products";
 import Profile from "@/pages/business/Dashboard/Profile";
@@ -71,6 +72,10 @@ const businessRoutes: RouteObject = {
           path: "products",
           element: <Products />,
           loader: productsLoader,
+        },
+        {
+          path: "products/new",
+          element: <NewProduct />,
         },
         {
           path: "products/:productId",

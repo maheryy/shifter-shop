@@ -28,14 +28,13 @@ export class ProductController {
   @Auth()
   @Post()
   async create(
-    @Headers('user-id') userId: string,
+    @Headers('user-id') sellerId: string,
     @Body() product: CreateProductDto,
   ) {
     // TODO : change these values
-    product.sellerId = userId;
     product.image = product.image || 'https://picsum.photos/200';
 
-    return this.productService.create(product);
+    return this.productService.create(sellerId, product);
   }
 
   @Get()

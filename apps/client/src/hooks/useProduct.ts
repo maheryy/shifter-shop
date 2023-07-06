@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import { getProduct, updateProduct } from "@/api/product.api";
+import { createProduct, getProduct, updateProduct } from "@/api/product.api";
 import { TProduct } from "@/types/product";
 import QueryKey from "@/types/query";
 
@@ -26,6 +26,25 @@ export function useUpdateProduct() {
 
     onError: () => {
       toast.error("Error updating product");
+    },
+  });
+}
+
+export function useCreateProduct() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: createProduct,
+    onSuccess: (data) => {
+      toast.success("Product created");
+
+      queryClient.setQueryData([QueryKey.enum.products, data.id], data);
+
+      queryClient.invalidateQueries([QueryKey.enum.products]);
+    },
+
+    onError: () => {
+      toast.error("Error creating product");
     },
   });
 }

@@ -29,8 +29,4 @@ export class CreateProductDto {
 
   @IsOptional()
   image?: string;
-
-  @IsOptional()
-  @IsUUID()
-  sellerId?: string;
 }

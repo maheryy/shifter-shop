@@ -43,3 +43,7 @@ docker-push:
 		docker image push "maherydock77/shifter-shop.$$service" ; \
 	done
 
+copy-env:
+	@for service in $(services); do \
+		cp "apps/$$service/.env.example" "apps/$$service/.env" ; \
+	done

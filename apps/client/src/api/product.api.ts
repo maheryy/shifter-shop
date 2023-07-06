@@ -1,5 +1,10 @@
 import { ProductsSearchParams } from "@/types/params";
-import { DetailedProduct, TProduct, TUpdateProduct } from "@/types/product";
+import {
+  DetailedProduct,
+  TCreateProduct,
+  TProduct,
+  TUpdateProduct,
+} from "@/types/product";
 import isEmpty from "@/utils/isEmpty";
 import api from ".";
 
@@ -48,4 +53,8 @@ export function updateProduct({
   console.log(data);
 
   return api.patch(data, `/products/${id}`).json();
+}
+
+export function createProduct(payload: TCreateProduct): Promise<TProduct> {
+  return api.post(payload, "/products").json();
 }
