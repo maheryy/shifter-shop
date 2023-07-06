@@ -24,8 +24,12 @@ export function useUpdateProduct() {
       queryClient.invalidateQueries([QueryKey.enum.products]);
     },
 
-    onError: () => {
-      toast.error("Error updating product");
+    onError: (error) => {
+      if (error instanceof Error) {
+        return toast.error(error.message);
+      }
+
+      toast.error("An error occurred while updating product");
     },
   });
 }
@@ -43,8 +47,12 @@ export function useCreateProduct() {
       queryClient.invalidateQueries([QueryKey.enum.products]);
     },
 
-    onError: () => {
-      toast.error("Error creating product");
+    onError: (error) => {
+      if (error instanceof Error) {
+        return toast.error(error.message);
+      }
+
+      toast.error("An error occurred while creating the product");
     },
   });
 }
