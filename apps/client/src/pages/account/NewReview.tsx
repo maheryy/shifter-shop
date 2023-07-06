@@ -1,7 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import Button from "@/components/Button";
 import Form from "@/components/Form";
@@ -45,6 +44,7 @@ export const newReviewLoader: Loader<NewReviewData> = async ({ params }) => {
 };
 
 function NewReview() {
+  const navigate = useNavigate();
   const { orderId, productId } = useData<NewReviewData>();
 
   const orderQuery = useOrder(orderId);
@@ -73,6 +73,8 @@ function NewReview() {
       orderId,
       productId,
     });
+
+    navigate("/account/reviews");
   };
 
   if (orderQuery.isLoading || productQuery.isLoading) {

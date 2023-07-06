@@ -15,7 +15,7 @@ function useLogin(redirectTo?: string) {
       authenticate(payload);
 
       if (payload.user.role === UserRoles.enum.SELLER) {
-        return navigate("/business/dashboard");
+        return navigate("/business/dashboard/products");
       }
 
       return navigate(redirectTo ?? "/");

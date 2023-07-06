@@ -16,7 +16,7 @@ import { In } from "typeorm/find-options/operator/In";
 import { FindOperator } from "typeorm/find-options/FindOperator";
 
 export const findAllOrders = async () => {
-  return OrderEntity.find();
+  return OrderEntity.find({ order: { date: "DESC" } });
 };
 
 export const findOrderById = async (orderId: string, userId: string) => {
@@ -43,7 +43,7 @@ export const findOrderByReference = async (reference: string) => {
 };
 
 export const findOrdersByCustomerId = async (customerId: string) => {
-  return OrderEntity.findBy({ customerId });
+  return OrderEntity.find({ where: { customerId }, order: { date: "DESC" } });
 };
 
 export const updateOrder = async (id: string, data: TOrderUpdateData) => {
