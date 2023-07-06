@@ -29,10 +29,10 @@ publish:${app}:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
     - docker build . \
-      --tag $CI_REGISTRY/shifter-shop/shifter-shop/${service}:latest \
-      --file apps/${service}/Dockerfile \
-      --build-arg VITE_API_URL=https://api.shifter-shop.pro
-    - docker push $CI_REGISTRY/shifter-shop/shifter-shop/${service}:latest
+      --tag "$CI_REGISTRY/shifter-shop/shifter-shop/${app}:latest" \
+      --file apps/${app}/Dockerfile \
+      --build-arg "VITE_API_URL=https://api.shifter-shop.pro"
+    - docker push "$CI_REGISTRY/shifter-shop/shifter-shop/${app}:latest"
 
 deploy:${app}:
   stage: deploy
