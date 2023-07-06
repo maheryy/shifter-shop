@@ -69,12 +69,13 @@ export class ProductController {
   }
 
   @Patch('/:id')
-  @HttpCode(204)
+  @HttpCode(200)
   async update(
+    @Headers('user-id') sellerId: string,
     @Body() product: UpdateProductDto,
     @Param() { id }: UpdateParamsDto,
   ) {
-    return this.productService.update(id, product);
+    return this.productService.update(sellerId, id, product);
   }
 
   // TODO: use findAll (GET /) instead with category filter

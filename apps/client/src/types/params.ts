@@ -9,6 +9,7 @@ export interface ProductsSearchParams {
   q?: string;
   orderBy?: string;
   direction?: Direction;
+  page?: number;
 }
 
 export type Direction = "ASC" | "DESC";

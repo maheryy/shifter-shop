@@ -76,7 +76,7 @@ export class ProductService {
       [orderBy || 'createdAt']: direction || 'ASC',
     };
 
-    const productPerPage = 5;
+    const productPerPage = 10;
 
     const productCount = await this.productRepository.count({ where });
 
@@ -105,12 +105,14 @@ export class ProductService {
     return product;
   }
 
-  async update(id: string, data: UpdateProductDto) {
-    const res = await this.productRepository.update({ id }, data);
+  async update(sellerId: string, id: string, data: UpdateProductDto) {
+    const res = await this.productRepository.update({ id, sellerId }, data);
 
     if (!res.affected) {
       throw new NotFoundException(`Product with id: ${id} does not exist`);
     }
+
+    return this.findOneById(id);
   }
 
   async findAllByCategory(categoryId: string) {

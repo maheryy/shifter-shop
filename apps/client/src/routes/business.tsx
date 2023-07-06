@@ -5,6 +5,7 @@ import DashboardLayout from "@/layouts/business/DashboardLayout";
 import RegisterLayout from "@/layouts/business/RegisterLayout";
 import Orders from "@/pages/business/Dashboard/Orders";
 import Products from "@/pages/business/Dashboard/Products";
+import { productsLoader } from "@/pages/business/Dashboard/Products";
 import Profile from "@/pages/business/Dashboard/Profile";
 import Reviews from "@/pages/business/Dashboard/Reviews";
 import LogIn from "@/pages/business/LogIn";
@@ -67,6 +68,7 @@ const businessRoutes: RouteObject = {
         {
           path: "products",
           element: <Products />,
+          loader: productsLoader,
         },
         {
           path: "orders",
