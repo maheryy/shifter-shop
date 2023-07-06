@@ -28,9 +28,9 @@ publish:${app}:
   before_script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
-    - docker build . \
-      --tag "$CI_REGISTRY/shifter-shop/shifter-shop/${app}:latest" \
-      --file apps/${app}/Dockerfile \
+    - docker build . \\n
+      --tag "$CI_REGISTRY/shifter-shop/shifter-shop/${app}:latest" \\n
+      --file apps/${app}/Dockerfile \\n
       --build-arg "VITE_API_URL=https://api.shifter-shop.pro"
     - docker push "$CI_REGISTRY/shifter-shop/shifter-shop/${app}:latest"
 
@@ -46,9 +46,9 @@ deploy:${app}:
 `;
 
 const generateConfig = (apps) => {
-  // if (!apps.length) {
+  if (!apps.length) {
     return createBaseFile().concat(createEmptyJob());
-  // }
+  }
 
   return createBaseFile().concat(
     apps.map((app) => createJob(app.trim())).join("\n")
@@ -59,8 +59,6 @@ const main = () => {
   const [affectedResults] = process.argv.slice(2);
   const projects = affectedResults.trim() ? affectedResults.trim().split(",") : [];
   const content = generateConfig(projects);
-  console.log("projects : " + projects, "| affectedResults : " + affectedResults, affectedResults.length);
-  console.log(content);
 
   writeFileSync("deploy-affected-config.yml", content);
 };
