@@ -24,7 +24,9 @@
     },
     {
       "method": "PATCH",
-      "path": "/:id"
+      "path": "/:id",
+      "middlewares": ["auth", "roles"],
+      "roles": ["ADMIN"]
     },
     {
       "method": "GET",

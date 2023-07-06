@@ -1,4 +1,9 @@
-import { IsEmpty, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { EGlobalStatus } from '@shifter-shop/dictionary';
 import { Transform, TransformFnParams } from 'class-transformer';
 
@@ -9,18 +14,7 @@ export class UpdateReviewDto {
   @Transform(({ value }: TransformFnParams) => value?.trim())
   details?: string;
 
-  @IsEmpty()
+  @IsEnum(EGlobalStatus)
+  @IsOptional()
   status?: EGlobalStatus;
-
-  @IsEmpty()
-  rating?: number;
-
-  @IsEmpty()
-  productId?: string;
-
-  @IsEmpty()
-  orderId?: string;
-
-  @IsEmpty()
-  authorId?: string;
 }
