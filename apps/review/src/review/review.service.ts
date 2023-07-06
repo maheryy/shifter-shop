@@ -89,8 +89,8 @@ export class ReviewService {
     return review;
   }
 
-  async update(authorId: string, id: string, data: UpdateReviewDto) {
-    const res = await this.reviewRepository.update({ id, authorId }, data);
+  async update(id: string, data: UpdateReviewDto) {
+    const res = await this.reviewRepository.update({ id }, data);
 
     if (!res.affected) {
       throw new NotFoundException(`Review with id: ${id} does not exist`);

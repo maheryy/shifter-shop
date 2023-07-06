@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Modal from "@/components/Modal";
 import Table from "@/components/Table";
-import { getAllProducts } from '@/api/product.api';
-import { TFullProduct } from '@shifter-shop/dictionary';
+import { getAllProducts, setProductStatus } from '@/api/product.api';
+import { EGlobalStatus, TFullProduct } from '@shifter-shop/dictionary';
 import _get from "lodash.get";
 import { TableColumns } from '@/types/table';
 import ModalProduct from '@/components/Modal/ModalProduct';
@@ -45,6 +45,27 @@ const buttons: ModalButtonProps[] = [
 const Products = () => {
   const [products, setProducts] = useState<TFullProduct[]>([]);
 
+  const handleGlobalStatusChange = (event: React.ChangeEvent<HTMLSelectElement>, productId: string) => {
+    const newStatus = event.target.value as EGlobalStatus;
+
+    setProductStatus(productId, newStatus)
+      .then(() => {
+        console.log('Product status updated successfully.');
+        updateProductStatus(productId, newStatus);
+      })
+      .catch((error) => {
+        console.log('Failed to update product status:', error);
+      });
+  };
+
+  const updateProductStatus = useCallback((productId: string, newStatus: EGlobalStatus) => {
+    setProducts(prevProducts =>
+      prevProducts.map(product =>
+        product.id === productId ? { ...product, status: newStatus } : product
+      )
+    );
+  }, []);
+
   useEffect(() => {
     getAllProducts()
       .then((products) => {
@@ -74,6 +95,16 @@ const Products = () => {
                     <Modal buttons={buttons}>
                       <ModalProduct product={item} />
                     </Modal>
+                    <select
+                      value={item.status}
+                      onChange={(event) => handleGlobalStatusChange(event, item.id)}
+                    >
+                      {Object.values(EGlobalStatus).map((statusValue) => (
+                        <option key={statusValue} value={statusValue}>
+                          {statusValue}
+                        </option>
+                      ))}
+                    </select>
                   </TableRow>
                 )}
               />

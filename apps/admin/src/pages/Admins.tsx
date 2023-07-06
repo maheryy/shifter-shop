@@ -19,10 +19,6 @@ const tableColumns: TableColumns[] = [
     key: 'lastname'
   },
   {
-    label: 'Status',
-    key: 'status'
-  },
-  {
     label: 'Actions',
     key: 'actions'
   },

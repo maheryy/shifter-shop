@@ -1,5 +1,5 @@
 import { Token } from "@/types/token";
-import { TUser } from "@shifter-shop/dictionary";
+import { EGlobalStatus, TUser } from "@shifter-shop/dictionary";
 import api from ".";
 
 export const getAllCustomers = async (): Promise<TUser[]> => {
@@ -44,4 +44,11 @@ export const checkUserRole = async (): Promise<string | null> => {
     console.log(error);
     return null;
   }
+};
+
+export const setUserStatus = async (
+  userId: string,
+  status: EGlobalStatus
+): Promise<void> => {
+  return api.patch({ status }, `/users/${userId}`).res();
 };

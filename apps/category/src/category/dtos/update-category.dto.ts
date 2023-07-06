@@ -1,5 +1,6 @@
+import { EGlobalStatus } from '@shifter-shop/dictionary';
 import { Transform, TransformFnParams } from 'class-transformer';
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class UpdateCategoryDto {
   @IsOptional()
@@ -13,4 +14,8 @@ export class UpdateCategoryDto {
   @IsNotEmpty()
   @Transform(({ value }: TransformFnParams) => value?.trim())
   description?: string;
+
+  @IsOptional()
+  @IsEnum(EGlobalStatus)
+  status?: EGlobalStatus;
 }

@@ -1,4 +1,4 @@
-import { TFullProduct } from "@shifter-shop/dictionary";
+import { EGlobalStatus, TFullProduct } from "@shifter-shop/dictionary";
 import api from ".";
 
 export const getAllProducts = async (): Promise<TFullProduct[]> => {
@@ -10,3 +10,10 @@ export const createProduct = async (
 ): Promise<TFullProduct> => {
   return api.post(productData, "/products").json();
 };
+
+export const setProductStatus = async (
+  productId: string,
+  status: EGlobalStatus
+): Promise<void> => {
+  return api.patch({ status }, `/products/${productId}`).res();
+}

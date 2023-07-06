@@ -7,6 +7,8 @@ import {
   Post,
   Headers,
   HttpCode,
+  Header,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { ReviewService } from './review.service';
 import { CreateReviewDto } from './dtos/create-review.dto';
@@ -76,10 +78,14 @@ export class ReviewController {
   @HttpCode(204)
   async update(
     @Headers('user-id') userId: string,
+    @Headers('user-role') userRole: EUserRole,
     @Body() review: UpdateReviewDto,
     @Param() { id }: ParamsDto,
   ) {
-    return this.reviewService.update(userId, id, review);
+    if (!userId && userRole !== EUserRole.Admin) {
+      throw new UnauthorizedException();
+    }
+    return this.reviewService.update(id, review);
   }
 
   // TODO: use findAll (GET /) instead with seller filter
