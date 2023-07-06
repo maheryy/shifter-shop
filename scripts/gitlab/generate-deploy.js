@@ -28,9 +28,9 @@ publish:${app}:
   before_script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
-    - docker build . \\n
-      --tag "$CI_REGISTRY/shifter-shop/shifter-shop/${app}:latest" \\n
-      --file apps/${app}/Dockerfile \\n
+    - docker build . \
+      --tag "$CI_REGISTRY/shifter-shop/shifter-shop/${app}:latest" \
+      --file apps/${app}/Dockerfile \
       --build-arg "VITE_API_URL=https://api.shifter-shop.pro"
     - docker push "$CI_REGISTRY/shifter-shop/shifter-shop/${app}:latest"
 

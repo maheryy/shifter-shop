@@ -2,7 +2,7 @@ default:
   image: node:18
 
 variables:
-  # GIT_DEPTH: 0
+  GIT_DEPTH: 50
   KUBE_CONTEXT: shifter-shop/shifter-shop:primary-agent
 
 stages:
@@ -49,6 +49,7 @@ generate-deploy-config:
       - deploy-affected-config.yml
   script:
     - node ./scripts/gitlab/generate-deploy.js "$(npx nx print-affected --base=$NX_BASE --head=$NX_HEAD --type=app --select=projects)"
+    - cat deploy-affected-config.yml
   only:
     - chore/ci
     - main

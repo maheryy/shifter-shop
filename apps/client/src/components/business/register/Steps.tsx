@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import Step from "./Step";
+import Step from "@/components/business/register/Step";
 
 type Step = "Account setup" | "Business details" | "Finish";
 
