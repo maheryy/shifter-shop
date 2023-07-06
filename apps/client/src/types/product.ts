@@ -10,6 +10,8 @@ const Product = z.object({
   image: z.string(),
   rating: z.number(),
   reviewCount: z.number(),
+  categoryId: z.string().uuid(),
+  category: Category,
 });
 
 const UpdateProduct = Product.pick({
@@ -23,7 +25,7 @@ export const DetailedProduct = Product.extend({
   reviews: z.array(Review),
 });
 
-export type Product = z.infer<typeof Product>;
+export type TProduct = z.infer<typeof Product>;
 export type DetailedProduct = z.infer<typeof DetailedProduct>;
 export type TUpdateProduct = z.infer<typeof UpdateProduct>;
 

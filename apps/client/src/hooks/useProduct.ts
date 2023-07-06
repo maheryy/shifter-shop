@@ -1,10 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { getProduct, updateProduct } from "@/api/product.api";
-import { Product } from "@/types/product";
+import { TProduct } from "@/types/product";
 import QueryKey from "@/types/query";
 
-export function useProduct(productId: Product["id"]) {
+export function useProduct(productId: TProduct["id"]) {
   return useQuery({
     queryKey: [QueryKey.enum.products, productId],
     queryFn: () => getProduct(productId),

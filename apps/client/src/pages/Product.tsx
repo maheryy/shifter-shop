@@ -7,12 +7,12 @@ import Rating from "@/components/Rating";
 import useCart, { useQuantity } from "@/hooks/useCart";
 import { useData } from "@/hooks/useData";
 import { Loader } from "@/types/loader";
-import type { Product } from "@/types/product";
+import type { TProduct } from "@/types/product";
 import { formatPrice } from "@/utils/format";
 
 interface ProductData {
-  product: Product;
-  relatedProducts: Product[];
+  product: TProduct;
+  relatedProducts: TProduct[];
 }
 
 export const productLoader: Loader<ProductData> = async ({ params }) => {

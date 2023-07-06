@@ -1,10 +1,10 @@
 import { ProductsSearchParams } from "@/types/params";
-import { DetailedProduct, Product, TUpdateProduct } from "@/types/product";
+import { DetailedProduct, TProduct, TUpdateProduct } from "@/types/product";
 import isEmpty from "@/utils/isEmpty";
 import api from ".";
 
 export type GetProductsResponse = {
-  products: Product[];
+  products: TProduct[];
   pageCount: number;
 };
 
@@ -30,11 +30,11 @@ export async function getProducts(
     .json();
 }
 
-export function getProduct(id: Product["id"]): Promise<DetailedProduct> {
+export function getProduct(id: TProduct["id"]): Promise<DetailedProduct> {
   return api.get(`/products/${id}`).json();
 }
 
-export function getRelatedProducts(id: Product["id"]): Promise<Product[]> {
+export function getRelatedProducts(id: TProduct["id"]): Promise<TProduct[]> {
   return api.get(`/products/${id}/related`).json();
 }
 
@@ -42,9 +42,9 @@ export function updateProduct({
   id,
   data,
 }: {
-  id: Product["id"];
+  id: TProduct["id"];
   data: TUpdateProduct;
-}): Promise<Product> {
+}): Promise<TProduct> {
   console.log(data);
 
   return api.patch(data, `/products/${id}`).json();

@@ -1,6 +1,5 @@
 import { useReducer } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import ProductCard from "@/components/ProductCard";
 import { useAuthContext } from "@/hooks/context";
 import useCategories from "@/hooks/useCategories";
 import { useData } from "@/hooks/useData";
@@ -365,29 +364,35 @@ function Products() {
           </div>
         </div>
         <ul>
-          {products.map(({ id, name, price, rating, reviewCount }) => (
-            <li className="h-16 hover:bg-gray-200" key={id}>
-              <Link
-                className="flex justify-between gap-2 p-2"
-                to={`/business/dashboard/products/${id}`}
-              >
-                <div className="grid w-64 gap-2">
-                  <div className="text-sm">Name</div>
-                  <div className="overflow-scroll">{name}</div>
-                </div>
-                <div className="grid w-64 gap-2">
-                  <div className="text-sm">Price</div>
-                  <div className="overflow-scroll">{price}</div>
-                </div>
-                <div className="grid w-64 gap-2">
-                  <div className="text-sm">Rating</div>
-                  <div className="overflow-scroll">
-                    {rating} ({reviewCount})
+          {products.map(
+            ({ id, name, price, rating, reviewCount, category }) => (
+              <li className="h-16 hover:bg-gray-200" key={id}>
+                <Link
+                  className="flex justify-between gap-2 p-2"
+                  to={`/business/dashboard/products/${id}`}
+                >
+                  <div className="grid w-64 gap-2">
+                    <div className="text-sm">Name</div>
+                    <div className="overflow-scroll">{name}</div>
                   </div>
-                </div>
-              </Link>
-            </li>
-          ))}
+                  <div className="grid w-64 gap-2">
+                    <div className="text-sm">Price</div>
+                    <div className="overflow-scroll">{price}</div>
+                  </div>
+                  <div className="grid w-64 gap-2">
+                    <div className="text-sm">Rating</div>
+                    <div className="overflow-scroll">
+                      {rating} ({reviewCount})
+                    </div>
+                  </div>
+                  <div className="grid w-64 gap-2">
+                    <div className="text-sm">Category</div>
+                    <div className="overflow-scroll">{category.name}</div>
+                  </div>
+                </Link>
+              </li>
+            ),
+          )}
         </ul>
       </div>
     </section>
@@ -409,7 +414,7 @@ function getProductsSearchParams(url: string): ProductsSearchParams {
     ...(maxPrice && { maxPrice: Number(maxPrice) }),
     ...(minPrice && { minPrice: Number(minPrice) }),
     ...(q && { q }),
-    ...(orderBy && { orderBy }),
+    orderBy: orderBy || "name",
     direction: direction || "ASC",
   };
 
