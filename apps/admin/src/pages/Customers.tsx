@@ -36,7 +36,6 @@ const Customers = () => {
 
     setUserStatus(userId, newStatus)
       .then(() => {
-        console.log('User status updated successfully.');
         updateUserStatus(userId, newStatus);
       })
       .catch((error) => {

@@ -50,7 +50,6 @@ const Products = () => {
 
     setProductStatus(productId, newStatus)
       .then(() => {
-        console.log('Product status updated successfully.');
         updateProductStatus(productId, newStatus);
       })
       .catch((error) => {

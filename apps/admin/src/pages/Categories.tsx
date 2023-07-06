@@ -30,7 +30,6 @@ const Categories = () => {
 
     setCategoryStatus(categoryId, newStatus)
       .then(() => {
-        console.log('Category status updated successfully.');
         updateCategoryStatus(categoryId, newStatus);
       })
       .catch((error) => {

@@ -54,7 +54,6 @@ const Reviews = () => {
 
     setReviewStatus(reviewId, newStatus)
       .then(() => {
-        console.log('Review status updated successfully.');
         updateReviewStatus(reviewId, newStatus);
       })
       .catch((error) => {

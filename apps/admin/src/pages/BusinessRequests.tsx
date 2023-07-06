@@ -36,7 +36,6 @@ const BusinessRequests = () => {
 
     setBusinessRequestStatus(businessRequestId, newStatus)
       .then(() => {
-        console.log('Business request status updated successfully.');
         updateBusinessRequestStatus(businessRequestId, newStatus);
       })
       .catch((error) => {
