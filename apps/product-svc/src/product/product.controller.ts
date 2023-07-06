@@ -47,7 +47,6 @@ export class ProductController {
       { service: 'user', key: 'sellerId', addKey: 'seller' },
     ]);
 
-    console.log('test');
     return {
       products: results,
       pageCount,

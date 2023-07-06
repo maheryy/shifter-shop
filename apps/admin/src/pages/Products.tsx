@@ -68,8 +68,8 @@ const Products = () => {
 
   useEffect(() => {
     getAllProducts()
-      .then((products) => {
-        setProducts(products);
+      .then((productsResponse) => {
+        setProducts(productsResponse.products);
       })
       .catch((error) => {
         console.log(error);

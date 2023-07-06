@@ -1,7 +1,12 @@
 import { EGlobalStatus, TFullProduct } from "@shifter-shop/dictionary";
 import api from ".";
 
-export const getAllProducts = async (): Promise<TFullProduct[]> => {
+export type GetProductsResponse = {
+  products: TFullProduct[];
+  pageCount: number;
+};
+
+export const getAllProducts = async (): Promise<GetProductsResponse> => {
   return api.get("/products").json();
 };
 
