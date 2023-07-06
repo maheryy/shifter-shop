@@ -1,20 +1,39 @@
-workflow:
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
-      when: never
-    - if: $CI_COMMIT_BRANCH
+default:
+  image: node:18
+
+# variables:
+#   GIT_DEPTH: 0
 
 stages:
   - build
-  - test
-  - deploy
+  # - test
+  # - deploy
 
-test:
-  stage: test
+.distributed:
+  interruptible: true
+  only:
+    - main
+    - dev
+    - merge_requests
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - .npm/
+  before_script:
+    - npm ci --cache .npm --prefer-offline
+    - NX_HEAD=$CI_COMMIT_SHA
+    - NX_BASE=${CI_MERGE_REQUEST_DIFF_BASE_SHA:-$CI_COMMIT_BEFORE_SHA}
+
+build:
+  stage: build
+  extends: .distributed
   script:
-    - echo "This is an empty job"
+    - npx nx affected --base=$NX_BASE --head=$NX_HEAD --target=build
 
-# include:
-  # - local: .gitlab/client.gitlab-ci.yml
-  # - local: .gitlab/admin.gitlab-ci.yml
+# test:
+#   stage: test
+#   extends: .distributed
+#   script:
+#     - npx nx affected --base=$NX_BASE --head=$NX_HEAD --target=test

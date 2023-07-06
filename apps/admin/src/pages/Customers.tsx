@@ -4,7 +4,6 @@ import TableRow from '@/components/Table/TableRow';
 import { TableColumns } from "@/types/table";
 import { TUser } from "@shifter-shop/dictionary";
 import { getAllCustomers } from "@/api/user.api";
-import Modal from "@/components/Modal";
 
 const tableColumns: TableColumns[] = [
   {
@@ -66,9 +65,6 @@ const Customers = () => {
                 items={customers}
                 renderRow={(item: TUser) => (
                   <TableRow options={tableColumns} item={item} >
-                    <Modal>
-
-                    </Modal>
                   </TableRow>
                 )}
               />

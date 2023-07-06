@@ -1,7 +1,7 @@
 const ModalButton = ({
     label,
     onClick,
-    variant = 'close',
+    variant = 'close'
 }: ModalButtonProps) => {
     const getButtonClasses = () => {
         let classes =
@@ -27,10 +27,10 @@ const ModalButton = ({
     );
 };
 
-type ModalButtonProps = {
+export interface ModalButtonProps {
     label: string;
-    onClick: () => void;
+    onClick?: () => void;
     variant?: 'cancel' | 'accept' | 'close';
-};
+}
 
 export default ModalButton;
