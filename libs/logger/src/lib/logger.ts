@@ -57,16 +57,16 @@ export class Logger {
       }),
     ];
 
-    if (process.env.NODE_ENV === "production") {
+    // if (process.env.NODE_ENV === "production") {
       // transports.push(new LoggingWinston({ projectId: "shiftershop" }));
-    } else {
+    // } else {
       transports.push(
         new winston.transports.Console({
           consoleWarnLevels: ["info", "warn", "error"],
           format: consoleFormat,
         })
       );
-    }
+    // }
 
     return transports;
   }
