@@ -58,7 +58,7 @@ export class Logger {
     ];
 
     if (process.env.NODE_ENV === "production") {
-      transports.push(new LoggingWinston({ projectId: "shiftershop" }));
+      // transports.push(new LoggingWinston({ projectId: "shiftershop" }));
     } else {
       transports.push(
         new winston.transports.Console({
