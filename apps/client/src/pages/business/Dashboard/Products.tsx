@@ -1,4 +1,5 @@
-import { useReducer } from "react";
+import Void from "@illustrations/void.svg";
+import { Fragment, useReducer } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useAuthContext } from "@/hooks/context";
 import useCategories from "@/hooks/useCategories";
@@ -12,6 +13,7 @@ import {
   OrderByMap,
   ProductsSearchParams,
 } from "@/types/params";
+import isEmpty from "@/utils/isEmpty";
 
 type Action =
   | { type: "ORDER_BY"; payload: EOrderBy }
@@ -295,7 +297,7 @@ function Products() {
         </div>
       </div>
       <div className="grid grid-rows-[auto,1fr] gap-4 md:col-span-10">
-        <div className="grid grid-cols-2 items-center justify-start gap-4 md:grid-cols-3">
+        <div className="grid grid-cols-2 items-center justify-start gap-4 px-4 md:grid-cols-3">
           <select
             className="rounded border-gray-200 bg-gray-200 px-4 py-3 text-sm text-gray-600 shadow-sm focus:border-primary focus:ring-primary"
             name="order"
@@ -362,38 +364,50 @@ function Products() {
               />
             </div>
           </div>
+          <Link
+            className="w-full rounded-md border border-primary bg-primary px-4 py-3 text-center text-sm font-medium uppercase text-white transition hover:bg-transparent hover:text-primary md:max-w-md"
+            to={`/business/dashboard/products/new`}
+          >
+            Create new product
+          </Link>
         </div>
-        <ul>
-          {products.map(
-            ({ id, name, price, rating, reviewCount, category }) => (
-              <li className="h-16 hover:bg-gray-200" key={id}>
-                <Link
-                  className="flex justify-between gap-2 p-2"
-                  to={`/business/dashboard/products/${id}`}
-                >
-                  <div className="grid w-64 gap-2">
-                    <div className="text-sm">Name</div>
-                    <div className="overflow-scroll">{name}</div>
-                  </div>
-                  <div className="grid w-64 gap-2">
-                    <div className="text-sm">Price</div>
-                    <div className="overflow-scroll">{price}</div>
-                  </div>
-                  <div className="grid w-64 gap-2">
-                    <div className="text-sm">Rating</div>
-                    <div className="overflow-scroll">
-                      {rating} ({reviewCount})
+        {isEmpty(products) ? (
+          <div className="flex items-center justify-center underline">
+            No product found
+          </div>
+        ) : (
+          <ul>
+            {products.map(
+              ({ id, name, price, rating, reviewCount, category }) => (
+                <li className="h-16 hover:bg-gray-200" key={id}>
+                  <Link
+                    className="flex justify-between gap-2 p-2"
+                    to={`/business/dashboard/products/${id}`}
+                  >
+                    <div className="grid w-64 gap-2">
+                      <div className="text-sm">Name</div>
+                      <div className="overflow-scroll">{name}</div>
                     </div>
-                  </div>
-                  <div className="grid w-64 gap-2">
-                    <div className="text-sm">Category</div>
-                    <div className="overflow-scroll">{category.name}</div>
-                  </div>
-                </Link>
-              </li>
-            ),
-          )}
-        </ul>
+                    <div className="grid w-64 gap-2">
+                      <div className="text-sm">Price</div>
+                      <div className="overflow-scroll">{price}</div>
+                    </div>
+                    <div className="grid w-64 gap-2">
+                      <div className="text-sm">Rating</div>
+                      <div className="overflow-scroll">
+                        {rating} ({reviewCount})
+                      </div>
+                    </div>
+                    <div className="grid w-64 gap-2">
+                      <div className="text-sm">Category</div>
+                      <div className="overflow-scroll">{category.name}</div>
+                    </div>
+                  </Link>
+                </li>
+              ),
+            )}
+          </ul>
+        )}
       </div>
     </section>
   );

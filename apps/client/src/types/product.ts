@@ -1,6 +1,7 @@
 import { z } from "zod";
 import Category from "./category";
 import Review from "./review";
+import User from "./user";
 
 const Product = z.object({
   id: z.string().uuid(),
@@ -12,6 +13,15 @@ const Product = z.object({
   reviewCount: z.number(),
   categoryId: z.string().uuid(),
   category: Category,
+  seller: User,
+});
+
+const CreateProduct = Product.pick({
+  name: true,
+  price: true,
+  categoryId: true,
+}).extend({
+  description: z.string().optional(),
 });
 
 const UpdateProduct = Product.pick({
@@ -28,5 +38,6 @@ export const DetailedProduct = Product.extend({
 export type TProduct = z.infer<typeof Product>;
 export type DetailedProduct = z.infer<typeof DetailedProduct>;
 export type TUpdateProduct = z.infer<typeof UpdateProduct>;
+export type TCreateProduct = z.infer<typeof CreateProduct>;
 
 export default Product;

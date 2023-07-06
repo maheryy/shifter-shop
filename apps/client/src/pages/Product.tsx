@@ -73,11 +73,17 @@ function Product() {
             </p>
             <p className="flex gap-2">
               <span className="font-semibold text-gray-800">Reference: </span>
-              <span className="text-gray-600">798QZEZAD0</span>
+              <span className="uppercase text-gray-600">
+                {getReference(product.id)}
+              </span>
             </p>
             <p className="flex gap-2">
               <span className="font-semibold text-gray-800">Category: </span>
-              <span className="text-gray-600">Health</span>
+              <span className="text-gray-600">{product.category.name}</span>
+            </p>
+            <p className="flex gap-2">
+              <span className="font-semibold text-gray-800">Sold by:</span>
+              <span className="text-gray-600">{product.seller.firstname}</span>
             </p>
           </div>
           <p className="text-2xl font-semibold text-primary">
@@ -142,6 +148,18 @@ function Product() {
       </div>
     </section>
   );
+}
+
+function getReference(uuid: string) {
+  const uuidWithoutHyphens = uuid.replace(/-/g, "").toLowerCase();
+
+  const decimalNumber = parseInt(uuidWithoutHyphens, 16);
+
+  const shortString = decimalNumber.toString(36);
+
+  const result = shortString.substring(0, 10);
+
+  return result;
 }
 
 export default Product;
