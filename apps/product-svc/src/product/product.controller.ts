@@ -39,8 +39,14 @@ export class ProductController {
   }
 
   @Get()
-  async findAll(@Query() query: FindAllQueryDto) {
-    const { products, pageCount } = await this.productService.findAll(query);
+  async findAll(
+    @Query() query: FindAllQueryDto,
+    @Headers('user-role') userRole: string,
+  ) {
+    const { products, pageCount } = await this.productService.findAll(
+      query,
+      userRole,
+    );
 
     const results = await joinResources<TFullProduct, TProduct>(products, [
       { service: 'category', key: 'categoryId', addKey: 'category' },

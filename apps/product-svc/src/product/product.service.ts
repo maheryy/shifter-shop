@@ -15,6 +15,7 @@ import {
 } from 'typeorm';
 import { FindAllQueryDto } from './dtos/find-all-query.dto';
 import isUUID from 'validator/lib/isUUID';
+import { EGlobalStatus, EUserRole } from '@shifter-shop/dictionary';
 
 @Injectable()
 export class ProductService {
@@ -29,17 +30,20 @@ export class ProductService {
     return this.productRepository.save(product);
   }
 
-  async findAll({
-    categoryId,
-    maxPrice,
-    maxRating,
-    minPrice,
-    minRating,
-    page,
-    sellerId,
-    orderBy,
-    direction,
-  }: FindAllQueryDto) {
+  async findAll(
+    {
+      categoryId,
+      maxPrice,
+      maxRating,
+      minPrice,
+      minRating,
+      page,
+      sellerId,
+      orderBy,
+      direction,
+    }: FindAllQueryDto,
+    userRole: string,
+  ) {
     const isValidCategoryIds = categoryId?.split(',').every((id) => isUUID(id));
 
     if (categoryId && !isValidCategoryIds) {
@@ -72,6 +76,10 @@ export class ProductService {
           rating: LessThanOrEqual(maxRating),
         }),
     };
+
+    if (userRole !== EUserRole.Admin) {
+      where.status = EGlobalStatus.Default;
+    }
 
     const order: FindOptionsOrder<Product> = {
       [orderBy || 'createdAt']: direction || 'ASC',
