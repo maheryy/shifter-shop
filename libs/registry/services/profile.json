@@ -60,6 +60,12 @@
     },
     {
       "method": "PATCH",
+      "path": "/business/:id",
+      "middlewares": ["auth", "roles"],
+      "roles": ["ADMIN"]
+    },
+    {
+      "method": "PATCH",
       "path": "/customer",
       "middlewares": ["auth"]
     },
@@ -72,6 +78,12 @@
       "method": "POST",
       "path": "/business/register",
       "middlewares": ["auth"]
+    },
+    {
+      "method": "GET",
+      "path": "/business/requests",
+      "middlewares": ["auth", "roles"],
+      "roles": ["ADMIN"]
     }
   ]
 }
