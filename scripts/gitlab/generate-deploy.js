@@ -57,9 +57,9 @@ const generateConfig = (apps) => {
 
 const main = () => {
   const [affectedResults] = process.argv.slice(2);
-  const projects = affectedResults.split(",");
+  const projects = affectedResults.trim() ? affectedResults.trim().split(",") : [];
   const content = generateConfig(projects);
-  console.log("projects : " + projects.length, "| affectedResults : " + affectedResults, affectedResults.length);
+  console.log("projects : " + projects, "| affectedResults : " + affectedResults, affectedResults.length);
   console.log(content);
 
   writeFileSync("deploy-affected-config.yml", content);
