@@ -15,7 +15,8 @@ spec:
     spec:
       containers:
         - name: auth-svc
-          image: maherydock77/shifter-shop.auth-svc
+          image: registry.gitlab.com/shifter-shop/shifter-shop/auth-svc
+          imagePullPolicy: Always
           ports:
             - containerPort: 3000
           resources:

@@ -15,7 +15,8 @@ spec:
     spec:
       containers:
         - name: client
-          image: maherydock77/shifter-shop.client
+          image: registry.gitlab.com/shifter-shop/shifter-shop/client
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
           resources:

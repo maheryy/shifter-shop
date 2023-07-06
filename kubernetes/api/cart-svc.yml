@@ -15,7 +15,8 @@ spec:
     spec:
       containers:
         - name: cart-svc
-          image: maherydock77/shifter-shop.cart-svc
+          image: registry.gitlab.com/shifter-shop/shifter-shop/cart-svc
+          imagePullPolicy: Always
           ports:
             - containerPort: 3000
           resources:

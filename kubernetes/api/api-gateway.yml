@@ -15,7 +15,8 @@ spec:
     spec:
       containers:
         - name: api-gateway
-          image: maherydock77/shifter-shop.api-gateway
+          image: registry.gitlab.com/shifter-shop/shifter-shop/api-gateway
+          imagePullPolicy: Always
           ports:
             - containerPort: 3000
           resources:

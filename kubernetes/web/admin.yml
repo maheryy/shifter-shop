@@ -15,7 +15,8 @@ spec:
     spec:
       containers:
         - name: admin
-          image: maherydock77/shifter-shop.admin
+          image: registry.gitlab.com/shifter-shop/shifter-shop/admin
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
           resources:

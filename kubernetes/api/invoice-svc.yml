@@ -15,7 +15,8 @@ spec:
     spec:
       containers:
         - name: invoice-svc
-          image: maherydock77/shifter-shop.invoice-svc
+          image: registry.gitlab.com/shifter-shop/shifter-shop/invoice-svc
+          imagePullPolicy: Always
           ports:
             - containerPort: 3000
           resources:

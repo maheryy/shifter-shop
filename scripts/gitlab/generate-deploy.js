@@ -31,8 +31,8 @@ publish:${app}:
     - docker build . \
       --tag "$CI_REGISTRY/shifter-shop/shifter-shop/${app}:latest" \
       --file apps/${app}/Dockerfile \
-      --build-arg "VITE_API_URL=https://api.shifter-shop.pro"
-    - docker push "$CI_REGISTRY/shifter-shop/shifter-shop/${app}:latest"
+      --build-arg "VITE_API_URL=https://api.shiftershop.pro"
+    - docker push "$CI_REGISTRY/shifter-shop/shifter-shop/${app}"
 
 deploy:${app}:
   stage: deploy
@@ -57,9 +57,10 @@ const generateConfig = (apps) => {
 
 const main = () => {
   const [affectedResults] = process.argv.slice(2);
-  const projects = affectedResults.trim() ? affectedResults.trim().split(",") : [];
+  const projects = affectedResults.trim()
+    ? affectedResults.trim().split(",")
+    : [];
   const content = generateConfig(projects);
-
   writeFileSync("deploy-affected-config.yml", content);
 };
 
