@@ -1,23 +1,31 @@
 import { Category } from "./category";
 
 export interface ProductsSearchParams {
-  categories?: Category["id"][];
+  categoryId?: Category["id"][];
   maxPrice?: number;
   minPrice?: number;
+  minRating?: number;
+  maxRating?: number;
   q?: string;
-  sortBy?: string;
+  orderBy?: string;
+  direction?: Direction;
+  page?: number;
 }
 
-export enum SortBy {
-  POPULAR = "popular",
-  LATEST = "latest",
-  PRICE_ASC = "asc",
-  PRICE_DESC = "desc",
+export type Direction = "ASC" | "DESC";
+
+export enum EOrderBy {
+  LASTEST = "createdAt",
+  NAME = "name",
+  RATING = "rating",
+  PRICE = "price",
+  REVIEW_COUNT = "reviewCount",
 }
 
-export const SortTypeMapping: Record<SortBy, string> = {
-  [SortBy.POPULAR]: "Popular",
-  [SortBy.LATEST]: "Latest",
-  [SortBy.PRICE_ASC]: "Price: Low to High",
-  [SortBy.PRICE_DESC]: "Price: High to Low",
+export const OrderByMap: Record<EOrderBy, string> = {
+  [EOrderBy.LASTEST]: "Lastest",
+  [EOrderBy.NAME]: "Name",
+  [EOrderBy.RATING]: "Rating",
+  [EOrderBy.REVIEW_COUNT]: "Reviews",
+  [EOrderBy.PRICE]: "Price",
 };

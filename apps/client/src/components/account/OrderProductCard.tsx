@@ -3,10 +3,10 @@ import StarIcon from "@icons/star-empty.svg";
 import { Link, useNavigate } from "react-router-dom";
 import useCart, { useQuantity } from "@/hooks/useCart";
 import { Order } from "@/types/order";
-import { Product } from "@/types/product";
+import { TProduct } from "@/types/product";
 
 interface OrderProductCardProps {
-  product: Product;
+  product: TProduct;
   orderId: Order["id"];
 }
 

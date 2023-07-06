@@ -1,6 +1,6 @@
-import { useCallback, useReducer } from "react";
-import { useSearchParams } from "react-router-dom";
-import ProductCard from "@/components/ProductCard";
+import { useReducer } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import { useAuthContext } from "@/hooks/context";
 import useCategories from "@/hooks/useCategories";
 import { useData } from "@/hooks/useData";
 import useProducts from "@/hooks/useProducts";
@@ -76,134 +76,128 @@ export const productsLoader: Loader<ProductsData> = async ({ request }) => {
 };
 
 function Products() {
+  const { user } = useAuthContext();
   const [, setSearchParams] = useSearchParams();
   const { searchParams } = useData<ProductsData>();
   const [state, dispatch] = useReducer(reducer, searchParams);
 
-  const setState = useCallback(
-    (action: Action) => {
-      dispatch(action);
+  const setState = (action: Action) => {
+    dispatch(action);
 
-      const { payload, type } = action;
+    const { payload, type } = action;
 
-      setSearchParams(
-        (searchParams) => {
-          switch (type) {
-            case "CATEGORY_ID": {
-              if (payload.length === 0) {
-                searchParams.delete("categoryId");
-
-                return searchParams;
-              }
-
-              searchParams.set("categoryId", payload.join(","));
+    setSearchParams(
+      (searchParams) => {
+        switch (type) {
+          case "CATEGORY_ID": {
+            if (payload.length === 0) {
+              searchParams.delete("categoryId");
 
               return searchParams;
             }
 
-            case "MAX_PRICE": {
-              if (payload === 0) {
-                searchParams.delete("maxPrice");
+            searchParams.set("categoryId", payload.join(","));
 
-                return searchParams;
-              }
-
-              searchParams.set("maxPrice", payload.toString());
-
-              return searchParams;
-            }
-
-            case "MIN_PRICE": {
-              if (payload === 0) {
-                searchParams.delete("minPrice");
-
-                return searchParams;
-              }
-
-              searchParams.set("minPrice", payload.toString());
-
-              return searchParams;
-            }
-
-            case "ORDER_BY": {
-              searchParams.set("orderBy", payload);
-
-              return searchParams;
-            }
-
-            case "DIRECTION": {
-              searchParams.set("direction", payload);
-
-              return searchParams;
-            }
-
-            default: {
-              return searchParams;
-            }
+            return searchParams;
           }
-        },
-        { replace: true },
-      );
-    },
-    [setSearchParams],
-  );
 
-  const onCategoryChange = useCallback(
-    ({ target }: React.ChangeEvent<HTMLInputElement>) => {
-      const { checked, value } = target;
+          case "MAX_PRICE": {
+            if (payload === 0) {
+              searchParams.delete("maxPrice");
 
-      if (checked) {
-        return setState({
-          type: "CATEGORY_ID",
-          payload: [...(state.categoryId || []), value],
-        });
-      }
+              return searchParams;
+            }
 
+            searchParams.set("maxPrice", payload.toString());
+
+            return searchParams;
+          }
+
+          case "MIN_PRICE": {
+            if (payload === 0) {
+              searchParams.delete("minPrice");
+
+              return searchParams;
+            }
+
+            searchParams.set("minPrice", payload.toString());
+
+            return searchParams;
+          }
+
+          case "ORDER_BY": {
+            searchParams.set("orderBy", payload);
+
+            return searchParams;
+          }
+
+          case "DIRECTION": {
+            searchParams.set("direction", payload);
+
+            return searchParams;
+          }
+
+          default: {
+            return searchParams;
+          }
+        }
+      },
+      { replace: true },
+    );
+  };
+
+  const onCategoryChange = ({
+    target,
+  }: React.ChangeEvent<HTMLInputElement>) => {
+    const { checked, value } = target;
+
+    if (checked) {
       return setState({
         type: "CATEGORY_ID",
-        payload: (state.categoryId || []).filter(
-          (category) => category !== value,
-        ),
+        payload: [...(state.categoryId || []), value],
       });
-    },
-    [state.categoryId, setState],
-  );
+    }
 
-  const onMinPriceChange = useCallback(
-    ({ target }: React.ChangeEvent<HTMLInputElement>) => {
-      const { value } = target;
+    return setState({
+      type: "CATEGORY_ID",
+      payload: (state.categoryId || []).filter(
+        (category) => category !== value,
+      ),
+    });
+  };
 
-      setState({
-        type: "MIN_PRICE",
-        payload: Number(value),
-      });
-    },
-    [setState],
-  );
+  const onMinPriceChange = ({
+    target,
+  }: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = target;
 
-  const onMaxPriceChange = useCallback(
-    ({ target }: React.ChangeEvent<HTMLInputElement>) => {
-      const { value } = target;
+    setState({
+      type: "MIN_PRICE",
+      payload: Number(value),
+    });
+  };
 
-      setState({
-        type: "MAX_PRICE",
-        payload: Number(value),
-      });
-    },
-    [setState],
-  );
+  const onMaxPriceChange = ({
+    target,
+  }: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = target;
 
-  const onOrderByChange = useCallback(
-    ({ target }: React.ChangeEvent<HTMLSelectElement>) => {
-      const { value } = target;
+    setState({
+      type: "MAX_PRICE",
+      payload: Number(value),
+    });
+  };
 
-      setState({
-        type: "ORDER_BY",
-        payload: value as EOrderBy,
-      });
-    },
-    [setState],
-  );
+  const onOrderByChange = ({
+    target,
+  }: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = target;
+
+    setState({
+      type: "ORDER_BY",
+      payload: value as EOrderBy,
+    });
+  };
 
   const onDirectionChange = ({
     target,
@@ -224,7 +218,7 @@ function Products() {
   };
 
   const categoryQuery = useCategories();
-  const productQuery = useProducts(state);
+  const productQuery = useProducts({ ...state, sellerId: user?.id });
 
   const isLoading = categoryQuery.isLoading || productQuery.isLoading;
   const isError = categoryQuery.isError || productQuery.isError;
@@ -243,8 +237,8 @@ function Products() {
   const { products } = productsData;
 
   return (
-    <section className="container grid gap-4 py-8 md:grid-cols-4">
-      <div className="rounded p-4 shadow">
+    <section className="grid gap-4 md:grid-cols-12">
+      <div className="rounded p-4 md:col-span-2">
         <div className="grid gap-4 divide-y divide-gray-200">
           <div className="grid gap-4">
             <h3 className="text-xl font-medium uppercase text-gray-800">
@@ -300,10 +294,10 @@ function Products() {
           </div>
         </div>
       </div>
-      <div className="grid gap-4 md:col-span-3">
+      <div className="grid grid-rows-[auto,1fr] gap-4 md:col-span-10">
         <div className="grid grid-cols-2 items-center justify-start gap-4 md:grid-cols-3">
           <select
-            className="rounded border-gray-300 px-4 py-3 text-sm text-gray-600 shadow-sm focus:border-primary focus:ring-primary"
+            className="rounded border-gray-200 bg-gray-200 px-4 py-3 text-sm text-gray-600 shadow-sm focus:border-primary focus:ring-primary"
             name="order"
             onChange={onOrderByChange}
             value={state.orderBy}
@@ -369,11 +363,37 @@ function Products() {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        <ul>
+          {products.map(
+            ({ id, name, price, rating, reviewCount, category }) => (
+              <li className="h-16 hover:bg-gray-200" key={id}>
+                <Link
+                  className="flex justify-between gap-2 p-2"
+                  to={`/business/dashboard/products/${id}`}
+                >
+                  <div className="grid w-64 gap-2">
+                    <div className="text-sm">Name</div>
+                    <div className="overflow-scroll">{name}</div>
+                  </div>
+                  <div className="grid w-64 gap-2">
+                    <div className="text-sm">Price</div>
+                    <div className="overflow-scroll">{price}</div>
+                  </div>
+                  <div className="grid w-64 gap-2">
+                    <div className="text-sm">Rating</div>
+                    <div className="overflow-scroll">
+                      {rating} ({reviewCount})
+                    </div>
+                  </div>
+                  <div className="grid w-64 gap-2">
+                    <div className="text-sm">Category</div>
+                    <div className="overflow-scroll">{category.name}</div>
+                  </div>
+                </Link>
+              </li>
+            ),
+          )}
+        </ul>
       </div>
     </section>
   );
@@ -394,7 +414,7 @@ function getProductsSearchParams(url: string): ProductsSearchParams {
     ...(maxPrice && { maxPrice: Number(maxPrice) }),
     ...(minPrice && { minPrice: Number(minPrice) }),
     ...(q && { q }),
-    ...(orderBy && { orderBy }),
+    orderBy: orderBy || "name",
     direction: direction || "ASC",
   };
 

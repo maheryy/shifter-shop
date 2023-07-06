@@ -9,11 +9,11 @@ import Input from "@/components/Input";
 import RatingPicker from "@/components/RatingPicker";
 import { useData } from "@/hooks/useData";
 import { useOrder } from "@/hooks/useOrder";
-import useProduct from "@/hooks/useProduct";
+import { useProduct } from "@/hooks/useProduct";
 import useReview from "@/hooks/useReview";
 import { Loader } from "@/types/loader";
 import { Order } from "@/types/order";
-import { Product } from "@/types/product";
+import { TProduct } from "@/types/product";
 
 const ratingSchema = z.object({
   title: z.string().max(255).optional(),
@@ -31,7 +31,7 @@ export type RatingFieldValues = z.infer<typeof ratingSchema>;
 
 interface NewReviewData {
   orderId: Order["id"];
-  productId: Product["id"];
+  productId: TProduct["id"];
 }
 
 export const newReviewLoader: Loader<NewReviewData> = async ({ params }) => {

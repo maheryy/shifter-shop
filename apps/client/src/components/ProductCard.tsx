@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import Rating from "@/components/Rating";
 import useCart, { useQuantity } from "@/hooks/useCart";
-import { Product } from "@/types/product";
+import { TProduct } from "@/types/product";
 import { formatPrice } from "@/utils/format";
 
 interface ProductCardProps {
-  product: Product;
+  product: TProduct;
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
