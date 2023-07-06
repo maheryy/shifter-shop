@@ -10,12 +10,12 @@ const createEmptyJob = () => `
 publish:empty:
   stage: publish
   script:
-    - echo 'No apps affected !'
+    - echo 'No apps affected to publish !'
 
 deploy:empty:
   stage: deploy
   script:
-    - echo 'No apps affected !'
+    - echo 'No apps affected to deploy !'
 `;
 
 const createJob = (app) => `
@@ -46,9 +46,9 @@ deploy:${app}:
 `;
 
 const generateConfig = (apps) => {
-  if (!apps.length) {
+  // if (!apps.length) {
     return createBaseFile().concat(createEmptyJob());
-  }
+  // }
 
   return createBaseFile().concat(
     apps.map((app) => createJob(app.trim())).join("\n")
@@ -59,7 +59,7 @@ const main = () => {
   const [affectedResults] = process.argv.slice(2);
   const projects = affectedResults.split(",");
   const content = generateConfig(projects);
-  console.log("projects : " + projects);
+  console.log("projects : " + projects.length, "| affectedResults : " + affectedResults, affectedResults.length);
   console.log(content);
 
   writeFileSync("deploy-affected-config.yml", content);
