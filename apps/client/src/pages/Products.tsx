@@ -1,5 +1,6 @@
 import { useCallback, useReducer } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useDebounce } from "usehooks-ts";
 import ProductCard from "@/components/ProductCard";
 import useCategories from "@/hooks/useCategories";
 import { useData } from "@/hooks/useData";
@@ -79,6 +80,7 @@ function Products() {
   const [, setSearchParams] = useSearchParams();
   const { searchParams } = useData<ProductsData>();
   const [state, dispatch] = useReducer(reducer, searchParams);
+  const debouncedState = useDebounce(state, 500);
 
   const setState = useCallback(
     (action: Action) => {
@@ -224,23 +226,16 @@ function Products() {
   };
 
   const categoryQuery = useCategories();
-  const productQuery = useProducts(state);
+  const productQuery = useProducts(debouncedState);
 
-  const isLoading = categoryQuery.isLoading || productQuery.isLoading;
   const isError = categoryQuery.isError || productQuery.isError;
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
   if (isError) {
-    return <div>Error</div>;
+    return <div>Something went wrong ...</div>;
   }
 
-  const { data: categoriesData } = categoryQuery;
-  const { data: productsData } = productQuery;
-
-  const { products } = productsData;
+  const { data: categoriesData, isLoading: isCategoryLoading } = categoryQuery;
+  const { data: productsData, isLoading: isProductLoading } = productQuery;
 
   return (
     <section className="container grid gap-4 py-8 md:grid-cols-4">
@@ -251,25 +246,29 @@ function Products() {
               Categories
             </h3>
             <div className="grid grid-cols-2 gap-2 md:grid-cols-1">
-              {categoriesData.map((category) => (
-                <div className="flex justify-start gap-2" key={category.id}>
-                  <input
-                    checked={state.categoryId?.includes(category.id)}
-                    className="cursor-pointer rounded-sm text-primary focus:ring-0"
-                    id={category.id}
-                    name="categoryId[]"
-                    onChange={onCategoryChange}
-                    type="checkbox"
-                    value={category.id}
-                  />
-                  <label
-                    className="cursor-pointer text-gray-600"
-                    htmlFor={category.id}
-                  >
-                    {category.name}
-                  </label>
-                </div>
-              ))}
+              {isCategoryLoading ? (
+                <div>Loading...</div>
+              ) : (
+                categoriesData.map((category) => (
+                  <div className="flex justify-start gap-2" key={category.id}>
+                    <input
+                      checked={state.categoryId?.includes(category.id)}
+                      className="cursor-pointer rounded-sm text-primary focus:ring-0"
+                      id={category.id}
+                      name="categoryId[]"
+                      onChange={onCategoryChange}
+                      type="checkbox"
+                      value={category.id}
+                    />
+                    <label
+                      className="cursor-pointer text-gray-600"
+                      htmlFor={category.id}
+                    >
+                      {category.name}
+                    </label>
+                  </div>
+                ))
+              )}
             </div>
           </div>
           <div className="grid gap-4 pt-4">
@@ -370,9 +369,13 @@ function Products() {
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+          {isProductLoading ? (
+            <div>Loading...</div>
+          ) : (
+            productsData.products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))
+          )}
         </div>
       </div>
     </section>
