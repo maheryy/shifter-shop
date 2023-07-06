@@ -36,6 +36,7 @@ publish:${app}:
 
 deploy:${app}:
   stage: deploy
+  needs: ["publish:${app}"]
   image:
     name: bitnami/kubectl:latest
     entrypoint: [""]

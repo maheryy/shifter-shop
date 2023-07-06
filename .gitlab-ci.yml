@@ -48,7 +48,7 @@ generate-deploy-config:
     paths:
       - deploy-affected-config.yml
   script:
-    - node ./scripts/gitlab/generate-deploy.js "$(npx nx print-affected --base=HEAD~5 --head=$NX_HEAD --type=app --select=projects)"
+    - node ./scripts/gitlab/generate-deploy.js "$(npx nx print-affected --base=HEAD~10 --head=$NX_HEAD --type=app --select=projects)"
     - cat deploy-affected-config.yml
   only:
     - chore/ci
