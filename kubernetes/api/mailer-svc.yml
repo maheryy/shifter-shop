@@ -15,7 +15,8 @@ spec:
     spec:
       containers:
         - name: mailer-svc
-          image: maherydock77/shifter-shop.mailer-svc
+          image: registry.gitlab.com/shifter-shop/shifter-shop/mailer-svc
+          imagePullPolicy: Always
           ports:
             - containerPort: 3000
           resources:

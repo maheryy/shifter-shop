@@ -15,7 +15,8 @@ spec:
     spec:
       containers:
         - name: user-svc
-          image: maherydock77/shifter-shop.user-svc
+          image: registry.gitlab.com/shifter-shop/shifter-shop/user-svc
+          imagePullPolicy: Always
           ports:
             - containerPort: 3000
           resources:

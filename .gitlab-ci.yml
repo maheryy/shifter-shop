@@ -1,13 +1,15 @@
 default:
   image: node:18
 
-# variables:
-#   GIT_DEPTH: 0
+variables:
+  GIT_DEPTH: 50
+  KUBE_CONTEXT: shifter-shop/shifter-shop:primary-agent
 
 stages:
   - build
-  # - test
-  # - deploy
+  - test
+  - build-trigger
+  - trigger
 
 .distributed:
   interruptible: true
@@ -32,8 +34,33 @@ build:
   script:
     - npx nx affected --base=$NX_BASE --head=$NX_HEAD --target=build
 
-# test:
-#   stage: test
-#   extends: .distributed
-#   script:
-#     - npx nx affected --base=$NX_BASE --head=$NX_HEAD --target=test
+test:
+  stage: test
+  extends: .distributed
+  script:
+    - npx nx affected --base=$NX_BASE --head=$NX_HEAD --target=test
+
+generate-deploy-config:
+  stage: build-trigger
+  extends: .distributed
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - deploy-affected-config.yml
+  script:
+    - node ./scripts/gitlab/generate-deploy.js "$(npx nx print-affected --base=$NX_BASE --head=$NX_HEAD --exclude=analytics-svc --type=app --select=projects)"
+    - cat deploy-affected-config.yml
+  only:
+    - main
+    - dev
+
+deploy-affected:
+  stage: trigger
+  trigger:
+    include:
+      - artifact: deploy-affected-config.yml
+        job: generate-deploy-config
+    strategy: depend
+  only:
+    - main
+    - dev

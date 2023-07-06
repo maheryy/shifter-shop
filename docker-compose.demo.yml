@@ -30,7 +30,7 @@ services:
     restart: on-failure
     build:
       context: .
-      dockerfile: ./apps/gateway/Dockerfile
+      dockerfile: ./apps/api-gateway/Dockerfile
     ports:
       - 3000:3000
     networks:
@@ -41,7 +41,7 @@ services:
     restart: on-failure
     build:
       context: .
-      dockerfile: ./apps/auth/Dockerfile
+      dockerfile: ./apps/auth-svc/Dockerfile
     environment:
       - JWT_SECRET=${JWT_SECRET}
     networks:
@@ -52,7 +52,7 @@ services:
     restart: on-failure
     build:
       context: .
-      dockerfile: ./apps/user/Dockerfile
+      dockerfile: ./apps/user-svc/Dockerfile
     environment:
       - DATABASE_URL=postgres://postgres:password@postgres:5432/users
       - AMQP_URL=amqp://rabbitmq:5672
@@ -69,7 +69,7 @@ services:
     restart: on-failure
     build:
       context: .
-      dockerfile: ./apps/product/Dockerfile
+      dockerfile: ./apps/product-svc/Dockerfile
     environment:
       - DATABASE_URL=postgres://postgres:password@postgres:5432/products
       - AMQP_URL=amqp://rabbitmq:5672
@@ -86,7 +86,7 @@ services:
     restart: on-failure
     build:
       context: .
-      dockerfile: ./apps/category/Dockerfile
+      dockerfile: ./apps/category-svc/Dockerfile
     environment:
       - DATABASE_URL=postgres://postgres:password@postgres:5432/categories
     networks:
@@ -100,7 +100,7 @@ services:
     restart: on-failure
     build:
       context: .
-      dockerfile: ./apps/review/Dockerfile
+      dockerfile: ./apps/review-svc/Dockerfile
     environment:
       - DATABASE_URL=postgres://postgres:password@postgres:5432/reviews
       - AMQP_URL=amqp://rabbitmq:5672
@@ -117,7 +117,7 @@ services:
     restart: on-failure
     build:
       context: .
-      dockerfile: ./apps/order/Dockerfile
+      dockerfile: ./apps/order-svc/Dockerfile
     environment:
       - DATABASE_URL=postgres://postgres:password@postgres:5432/orders
       - AMQP_URL=amqp://rabbitmq:5672
@@ -134,7 +134,7 @@ services:
     restart: on-failure
     build:
       context: .
-      dockerfile: ./apps/payment/Dockerfile
+      dockerfile: ./apps/payment-svc/Dockerfile
     environment:
       - CLIENT_URL=http://localhost:8080
       - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
@@ -153,7 +153,7 @@ services:
     restart: on-failure
     build:
       context: .
-      dockerfile: ./apps/cart/Dockerfile
+      dockerfile: ./apps/cart-svc/Dockerfile
     environment:
       - DATABASE_URL=postgres://postgres:password@postgres:5432/cart
       - AMQP_URL=amqp://rabbitmq:5672
@@ -170,7 +170,7 @@ services:
     restart: on-failure
     build:
       context: .
-      dockerfile: ./apps/invoice/Dockerfile
+      dockerfile: ./apps/invoice-svc/Dockerfile
     networks:
       - ss_microservices
 
@@ -179,7 +179,7 @@ services:
     restart: on-failure
     build:
       context: .
-      dockerfile: ./apps/files/Dockerfile
+      dockerfile: ./apps/files-svc/Dockerfile
     networks:
       - ss_microservices
 
@@ -188,7 +188,7 @@ services:
     restart: on-failure
     build:
       context: .
-      dockerfile: ./apps/mailer/Dockerfile
+      dockerfile: ./apps/mailer-svc/Dockerfile
     environment:
       - MAILER_DSN=${MAILER_DSN}
       - AMQP_URL=amqp://rabbitmq:5672
@@ -204,7 +204,7 @@ services:
     restart: on-failure
     build:
       context: .
-      dockerfile: ./apps/profile/Dockerfile
+      dockerfile: ./apps/profile-svc/Dockerfile
     environment:
       - DATABASE_URL=postgres://postgres:password@postgres:5432/profiles
       - AMQP_URL=amqp://rabbitmq:5672
@@ -221,7 +221,7 @@ services:
     restart: on-failure
     build:
       context: .
-      dockerfile: ./apps/inventory/Dockerfile
+      dockerfile: ./apps/inventory-svc/Dockerfile
     environment:
       - DATABASE_URL=postgres://postgres:password@postgres:5432/inventory
       - AMQP_URL=amqp://rabbitmq:5672
@@ -238,7 +238,7 @@ services:
     restart: on-failure
     build:
       context: .
-      dockerfile: ./apps/search/Dockerfile
+      dockerfile: ./apps/search-svc/Dockerfile
     networks:
       - ss_microservices
 
@@ -247,7 +247,7 @@ services:
     restart: on-failure
     build:
       context: .
-      dockerfile: ./apps/analytics/Dockerfile
+      dockerfile: ./apps/analytics-svc/Dockerfile
     environment:
       - DATABASE_URL=mongodb://root:password@mongo:27017/
       - DATABASE_NAME=analytics

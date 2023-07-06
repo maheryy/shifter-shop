@@ -15,7 +15,8 @@ spec:
     spec:
       containers:
         - name: order-svc
-          image: maherydock77/shifter-shop.order-svc
+          image: registry.gitlab.com/shifter-shop/shifter-shop/order-svc
+          imagePullPolicy: Always
           ports:
             - containerPort: 3000
           resources:
