@@ -20,7 +20,7 @@ function useUser() {
         return toast.error(error.message);
       }
 
-      toast.error("Something went wrong");
+      toast.error("An error occurred while updating your profile");
     },
   });
 }
