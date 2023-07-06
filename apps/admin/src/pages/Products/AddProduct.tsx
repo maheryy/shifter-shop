@@ -57,21 +57,21 @@ const AddProduct: React.FC = () => {
 
   const validateFields = () => {
     let isValid = true;
-
+  
     if (!productName) {
       setProductNameError("Please enter a product name.");
       isValid = false;
     } else {
       setProductNameError("");
     }
-
+  
     if (!productDescription) {
       setProductDescriptionError("Please enter a product description.");
       isValid = false;
     } else {
       setProductDescriptionError("");
     }
-
+  
     if (!productPrice) {
       setProductPriceError("Please enter a product price.");
       isValid = false;
@@ -80,12 +80,12 @@ const AddProduct: React.FC = () => {
     }
 
     if (!productCategory) {
-      setProductCategoryError("Please select a product category.");
+      setProductCategoryError("Please select a category.");
       isValid = false;
     } else {
       setProductCategoryError("");
     }
-
+  
     return isValid;
   };
 
@@ -108,11 +108,17 @@ const AddProduct: React.FC = () => {
   };
 
   const handleProductCategoryChange = (category: string) => {
-    const selectedCategory = options.find((option) => option.id === category);
-    if (selectedCategory) {
-      setProductCategory(selectedCategory);
+    if (category === "") {
+      setProductCategory(undefined);
+      setProductCategoryError("Please select a category.");
+    } else {
+      const selectedCategory = options.find((option) => option.id === category);
+      if (selectedCategory) {
+        setProductCategory(selectedCategory);
+        setProductCategoryError("");
+      }
     }
-  };
+  };  
 
   const [categories, setCategories] = useState<TCategory[]>([]);
   useEffect(() => {
