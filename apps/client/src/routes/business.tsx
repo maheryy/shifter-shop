@@ -1,5 +1,15 @@
 import { RouteObject } from "react-router-dom";
+import Seller from "@/components/Seller";
+import BusinessLayout from "@/layouts/business/BusinessLayout";
+import DashboardLayout from "@/layouts/business/DashboardLayout";
 import RegisterLayout from "@/layouts/business/RegisterLayout";
+import EditProduct, {
+  editProductLoader,
+} from "@/pages/business/Dashboard/EditProduct";
+import Orders from "@/pages/business/Dashboard/Orders";
+import Products, { productsLoader } from "@/pages/business/Dashboard/Products";
+import Profile from "@/pages/business/Dashboard/Profile";
+import Reviews from "@/pages/business/Dashboard/Reviews";
 import LogIn from "@/pages/business/LogIn";
 import Register from "@/pages/business/Register";
 import BecomeSeller from "@/pages/business/Register/BecomeSeller";
@@ -9,6 +19,7 @@ import Landing from "@/pages/business/Register/Landing";
 
 const businessRoutes: RouteObject = {
   path: "business",
+  element: <BusinessLayout />,
   children: [
     {
       element: <RegisterLayout />,
@@ -43,6 +54,38 @@ const businessRoutes: RouteObject = {
     {
       path: "become-seller",
       element: <BecomeSeller />,
+    },
+    {
+      path: "dashboard",
+      element: (
+        <Seller>
+          <DashboardLayout />
+        </Seller>
+      ),
+      children: [
+        {
+          path: "profile",
+          element: <Profile />,
+        },
+        {
+          path: "products",
+          element: <Products />,
+          loader: productsLoader,
+        },
+        {
+          path: "products/:productId",
+          element: <EditProduct />,
+          loader: editProductLoader,
+        },
+        {
+          path: "orders",
+          element: <Orders />,
+        },
+        {
+          path: "reviews",
+          element: <Reviews />,
+        },
+      ],
     },
   ],
 };

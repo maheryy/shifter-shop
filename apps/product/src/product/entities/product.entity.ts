@@ -1,5 +1,12 @@
 import { EGlobalStatus, TProduct } from '@shifter-shop/dictionary';
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  BaseEntity,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Product extends BaseEntity implements TProduct {
@@ -32,4 +39,10 @@ export class Product extends BaseEntity implements TProduct {
 
   @Column('enum', { enum: EGlobalStatus, default: EGlobalStatus.Default })
   status: EGlobalStatus;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

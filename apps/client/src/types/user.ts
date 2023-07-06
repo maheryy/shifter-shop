@@ -1,6 +1,8 @@
 import { z } from "zod";
 
-export const UserRoles = z.enum(["ADMIN", "CUSTOMER", "SELLER"]);
+export const roles = ["CUSTOMER", "SELLER"] as const;
+
+export const UserRoles = z.enum(roles);
 
 const User = z.object({
   id: z.string().uuid(),
@@ -20,6 +22,7 @@ const UpdatePasswordWithToken = UpdatePassword.extend({
   token: z.string(),
 });
 
+export type TUserRoles = z.infer<typeof UserRoles>;
 export type User = z.infer<typeof User>;
 export type UpdateUser = z.infer<typeof UpdateUser>;
 export type UpdatePassword = z.infer<typeof UpdatePassword>;
