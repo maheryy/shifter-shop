@@ -8,8 +8,8 @@ variables:
 stages:
   - build
   - test
-  - pre-deploy
-  # - deploy
+  - build-trigger
+  - trigger
 
 .distributed:
   interruptible: true
@@ -40,25 +40,28 @@ test:
   script:
     - npx nx affected --base=$NX_BASE --head=$NX_HEAD --target=test
 
-pre-deploy-job:
-  stage: pre-deploy
+generate-deploy-config:
+  stage: build-trigger
   extends: .distributed
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - deploy-affected-config.yml
   script:
-    - npx nx print-affected --base=$NX_BASE --head=$NX_HEAD --type=app --select=projects
+    - node ./scripts/gitlab/generate-deploy.js "$(npx nx print-affected --base=$NX_BASE --head=$NX_HEAD --type=app --select=projects)"
   only:
     - chore/ci
+    - main
+    - dev
 
-pre-deploy-k8s:
-  stage: pre-deploy
-  image:
-    name: bitnami/kubectl:latest
-    entrypoint: [""]
-  script:
-    - kubectl config get-contexts
-    - kubectl config use-context "$KUBE_CONTEXT"
-    - kubectl get pods
-    - kubectl get pods -n default
+deploy-affected:
+  stage: trigger
+  trigger:
+    include:
+      - artifact: deploy-affected-config.yml
+        job: generate-deploy-config
+    strategy: depend
   only:
     - chore/ci
-  needs: 
-    - pre-deploy-job
+    - main
+    - dev
