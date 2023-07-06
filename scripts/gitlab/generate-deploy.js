@@ -42,8 +42,7 @@ deploy:${app}:
     entrypoint: [""]
   script:
     - kubectl config use-context "$KUBE_CONTEXT"
-    - kubectl get deployment/${app} -n default
-    #- kubectl rollout restart deployment/${app} -n default
+    - kubectl rollout restart deployment/${app} -n default
 `;
 
 const generateConfig = (apps) => {
