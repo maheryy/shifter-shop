@@ -12,7 +12,7 @@ import { UpdateReviewDto } from './dtos/update-review.dto';
 import amqp from 'src/lib/amqp';
 import { EExchange } from '@shifter-shop/amqp';
 import { fetchJson } from '@shifter-shop/helpers';
-import { EService, TOrder } from '@shifter-shop/dictionary';
+import { EOrderStatus, EService, TOrder } from '@shifter-shop/dictionary';
 
 @Injectable()
 export class ReviewService {
@@ -35,10 +35,11 @@ export class ReviewService {
       throw new NotFoundException('The order cannot be found');
     }
 
-    // TODO: uncomment this when order complete status is implemented
-    // if (order.status !== EOrderStatus.Delivered) {
-    //   throw new BadRequestException(`Order with id: ${data.orderId} is not delivered`);
-    // }
+    if (order.status !== EOrderStatus.Delivered) {
+      throw new BadRequestException(
+        `Order with id: ${data.orderId} is not delivered`,
+      );
+    }
 
     if (!order.products.some((product) => product.id === data.productId)) {
       throw new BadRequestException("The product doesn't belong to the order");
