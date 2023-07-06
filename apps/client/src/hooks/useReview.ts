@@ -18,7 +18,7 @@ function useReview() {
         return toast.error(error.message);
       }
 
-      toast.error("Error creating review");
+      toast.error("An error occurred while creating the review");
     },
   });
 }

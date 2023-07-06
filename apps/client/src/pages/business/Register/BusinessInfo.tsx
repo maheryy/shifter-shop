@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import isMobilePhone from "validator/es/lib/isMobilePhone";
 import { z } from "zod";
 import Button from "@/components/Button";
@@ -49,8 +50,10 @@ function BusinessInfo() {
         navigate("/business/register/finish");
       } catch (error) {
         if (error instanceof Error) {
-          console.error(error.message);
+          return toast.error(error.message);
         }
+
+        toast.error("An error occurred while creating your account");
       }
     },
     [navigate, setState, state],

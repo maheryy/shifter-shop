@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useRef, useState } from "react";
+import { toast } from "react-toastify";
 import useComponentUpdate from "@/hooks/componentUpdate";
 import { useAuthContext } from "@/hooks/context";
 
@@ -75,8 +76,15 @@ const DownloadProvider = ({ children }: DownloadProviderProps) => {
 
       setData(linkData);
     } catch (error) {
-      console.error(error);
       setData(undefined);
+
+      if (error instanceof Error) {
+        toast.error(error.message);
+
+        return;
+      }
+
+      toast.error("An error occurred while downloading your file");
     } finally {
       setIsLoading(false);
     }

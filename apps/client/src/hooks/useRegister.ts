@@ -16,8 +16,6 @@ function useRegister(redirectTo = "/") {
       navigate(redirectTo);
     },
     onError: (error) => {
-      console.error(error);
-
       if (error instanceof Error) {
         return toast.error(error.message);
       }

@@ -46,8 +46,10 @@ function ChangePassword() {
         toast.success("Password updated successfully");
       } catch (error) {
         if (error instanceof Error) {
-          toast.error(error.message);
+          return toast.error(error.message);
         }
+
+        toast.error("An error occurred while updating your password");
       }
     },
     [],
