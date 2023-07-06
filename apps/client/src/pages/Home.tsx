@@ -11,11 +11,9 @@ import useProducts from "@/hooks/useProducts";
 const Home = () => {
   const { data, isError, isLoading } = useProducts();
 
-  if (isLoading) return <div>Loading...</div>;
-
-  if (isError) return <div>Something went wrong</div>;
-
-  const { products } = data;
+  if (isError) {
+    return <div>Something went wrong ...</div>;
+  }
 
   return (
     <>
@@ -49,9 +47,15 @@ const Home = () => {
           Top new arrivals
         </h2>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-          {products?.slice(0, 4).map((product) => (
-            <ProductCard key={`tna-${product.id}`} product={product} />
-          ))}
+          {isLoading ? (
+            <div>Loading...</div>
+          ) : (
+            data.products
+              ?.slice(0, 4)
+              .map((product) => (
+                <ProductCard key={`tna-${product.id}`} product={product} />
+              ))
+          )}
         </div>
       </section>
       <section className="container py-12">
@@ -66,9 +70,15 @@ const Home = () => {
           Recommended for you
         </h2>
         <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
-          {products?.slice(4, 12).map((product) => (
-            <ProductCard key={`rfy-${product.id}`} product={product} />
-          ))}
+          {isLoading ? (
+            <div>Loading ...</div>
+          ) : (
+            data.products
+              ?.slice(4, 12)
+              .map((product) => (
+                <ProductCard key={`rfy-${product.id}`} product={product} />
+              ))
+          )}
         </div>
       </section>
     </>
