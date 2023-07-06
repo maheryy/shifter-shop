@@ -10,7 +10,7 @@ const router = Router();
  * @body data object
  *
  */
-router.get("/html/:template", async (req, res, next) => {
+router.post("/html/:template", async (req, res, next) => {
   try {
     const { template } = req.params;
     const html = await getHandlebarsHTML(template, req.body.data || {});
