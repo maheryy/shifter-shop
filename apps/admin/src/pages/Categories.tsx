@@ -1,17 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Table from "@/components/Table";
 import { getAllCategories } from '@/api/category.api';
-import { TCategory } from '@shifter-shop/dictionary';
+import { EGlobalStatus, TCategory } from '@shifter-shop/dictionary';
 import _get from "lodash.get";
 import { TableColumns } from '@/types/table';
 import TableRow from '@/components/Table/TableRow';
-import UpdateIcon from '@/components/Table/UpdateIcon';
-import DeleteIcon from '@/components/Table/DeleteIcon';
+import { setCategoryStatus } from '@/api/category.api';
 
 const tableColumns: TableColumns[] = [
   {
     label: 'Name',
     key: 'name',
+  },
+  {
+    label: 'Status',
+    key: 'status'
   },
   {
     label: 'Actions',
@@ -22,6 +25,26 @@ const tableColumns: TableColumns[] = [
 const Categories = () => {
   const [categories, setCategories] = useState<TCategory[]>([]);
 
+  const handleGlobalStatusChange = (event: React.ChangeEvent<HTMLSelectElement>, categoryId: string) => {
+    const newStatus = event.target.value as EGlobalStatus;
+
+    setCategoryStatus(categoryId, newStatus)
+      .then(() => {
+        updateCategoryStatus(categoryId, newStatus);
+      })
+      .catch((error) => {
+        console.log('Failed to update category status:', error);
+      });
+  };
+
+  const updateCategoryStatus = useCallback((categoryId: string, newStatus: EGlobalStatus) => {
+    setCategories(prevCategories =>
+      prevCategories.map(category =>
+        category.id === categoryId ? { ...category, status: newStatus } : category
+      )
+    );
+  }, []);
+  
   useEffect(() => {
     getAllCategories()
       .then((categories) => {
@@ -47,10 +70,16 @@ const Categories = () => {
               items={categories}
               renderRow={(item: TCategory) => (
                 <TableRow options={tableColumns} item={item} >
-                    <div className="flex items-center space-x-4">
-                        <UpdateIcon />
-                        <DeleteIcon />
-                    </div>
+                    <select
+                      value={item.status}
+                      onChange={(event) => handleGlobalStatusChange(event, item.id)}
+                    >
+                      {Object.values(EGlobalStatus).map((statusValue) => (
+                        <option key={statusValue} value={statusValue}>
+                          {statusValue}
+                        </option>
+                      ))}
+                    </select>
                 </TableRow>
               )}
             />

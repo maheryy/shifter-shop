@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Table from "@/components/Table";
 import TableRow from '@/components/Table/TableRow';
 import { TableColumns } from "@/types/table";
-import { TUser } from "@shifter-shop/dictionary";
-import { getAllSellers } from "@/api/user.api";
+import { EGlobalStatus, TUser } from "@shifter-shop/dictionary";
+import { getAllSellers, setUserStatus } from "@/api/user.api";
 
 const tableColumns: TableColumns[] = [
   {
@@ -19,6 +19,10 @@ const tableColumns: TableColumns[] = [
     key: 'lastname'
   },
   {
+    label: 'Status',
+    key: 'status'
+  },
+  {
     label: 'Actions',
     key: 'actions'
   },
@@ -26,6 +30,26 @@ const tableColumns: TableColumns[] = [
 
 const Sellers = () => {
   const [sellers, setSellers] = useState<TUser[]>([]);
+
+  const handleGlobalStatusChange = (event: React.ChangeEvent<HTMLSelectElement>, userId: string) => {
+    const newStatus = event.target.value as EGlobalStatus;
+
+    setUserStatus(userId, newStatus)
+      .then(() => {
+        updateUserStatus(userId, newStatus);
+      })
+      .catch((error) => {
+        console.log('Failed to update user status:', error);
+      });
+  };
+
+  const updateUserStatus = useCallback((userId: string, newStatus: EGlobalStatus) => {
+    setSellers(prevUsers =>
+      prevUsers.map(user =>
+        user.id === userId ? { ...user, status: newStatus } : user
+      )
+    );
+  }, []);
 
   useEffect(() => {
     getAllSellers()
@@ -53,6 +77,16 @@ const Sellers = () => {
                 items={sellers}
                 renderRow={(item: TUser) => (
                   <TableRow options={tableColumns} item={item} >
+                    <select
+                      value={item.status}
+                      onChange={(event) => handleGlobalStatusChange(event, item.id)}
+                    >
+                      {Object.values(EGlobalStatus).map((statusValue) => (
+                        <option key={statusValue} value={statusValue}>
+                          {statusValue}
+                        </option>
+                      ))}
+                    </select>
                   </TableRow>
                 )}
               />

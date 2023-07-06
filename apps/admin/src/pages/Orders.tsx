@@ -50,7 +50,6 @@ const Orders = () => {
 
     setOrderStatus(orderId, newStatus)
       .then(() => {
-        console.log('Order status updated successfully.');
         updateOrderStatus(orderId, newStatus);
       })
       .catch((error) => {

@@ -50,8 +50,6 @@ export function updateProduct({
   id: TProduct["id"];
   data: TUpdateProduct;
 }): Promise<TProduct> {
-  console.log(data);
-
   return api.patch(data, `/products/${id}`).json();
 }
 

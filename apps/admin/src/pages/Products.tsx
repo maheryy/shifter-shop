@@ -50,7 +50,6 @@ const Products = () => {
 
     setProductStatus(productId, newStatus)
       .then(() => {
-        console.log('Product status updated successfully.');
         updateProductStatus(productId, newStatus);
       })
       .catch((error) => {
@@ -68,8 +67,8 @@ const Products = () => {
 
   useEffect(() => {
     getAllProducts()
-      .then((products) => {
-        setProducts(products);
+      .then((productsResponse) => {
+        setProducts(productsResponse.products);
       })
       .catch((error) => {
         console.log(error);
