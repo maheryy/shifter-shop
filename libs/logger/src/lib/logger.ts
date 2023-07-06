@@ -1,3 +1,4 @@
+import { LoggingWinston } from "@google-cloud/logging-winston";
 import { TLogLevel } from "../types/log";
 import { consoleFormat } from "../utils/format";
 import winston from "winston";
@@ -56,14 +57,16 @@ export class Logger {
       }),
     ];
 
-    // if (process.env.NODE_ENV !== "production") {
+    if (process.env.NODE_ENV === "production") {
+      transports.push(new LoggingWinston({ projectId: "shiftershop" }));
+    } else {
       transports.push(
         new winston.transports.Console({
           consoleWarnLevels: ["info", "warn", "error"],
           format: consoleFormat,
         })
       );
-    // }
+    }
 
     return transports;
   }
