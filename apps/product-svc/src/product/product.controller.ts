@@ -14,7 +14,7 @@ import { ProductService } from 'src/product/product.service';
 import { CreateProductDto } from 'src/product/dtos/create-product.dto';
 import { UpdateProductDto } from 'src/product/dtos/update-product.dto';
 import { joinResources } from '@shifter-shop/helpers';
-import { TFullProduct, TProduct } from '@shifter-shop/dictionary';
+import { EUserRole, TFullProduct, TProduct } from '@shifter-shop/dictionary';
 import { FindOneParamsDto } from './dtos/find-one-params.dto';
 import { FindAllBySellerIdParamsDto } from './dtos/find-all-by-seller-id-params.dto';
 import { FindAllByCategoryIdParams } from './dtos/find-all-by-category-id-params.dto';
@@ -72,10 +72,15 @@ export class ProductController {
   @HttpCode(200)
   async update(
     @Headers('user-id') sellerId: string,
+    @Headers('user-role') userRole: string,
     @Body() product: UpdateProductDto,
     @Param() { id }: UpdateParamsDto,
   ) {
-    return this.productService.update(sellerId, id, product);
+    if (userRole !== EUserRole.Admin) {
+      return this.productService.update(sellerId, id, product);
+    } else {
+      return this.productService.updateAdmin(id, product);
+    }
   }
 
   // TODO: use findAll (GET /) instead with category filter

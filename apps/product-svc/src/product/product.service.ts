@@ -116,6 +116,15 @@ export class ProductService {
     return this.findOneById(id);
   }
 
+  async updateAdmin(id: string, data: UpdateProductDto) {
+    const res = await this.productRepository.update({ id }, data);
+
+    if (!res.affected) {
+      throw new NotFoundException(`Product with id: ${id} does not exist`);
+    }
+    return this.findOneById(id);
+  }
+
   async findAllByCategory(categoryId: string) {
     return this.productRepository.findBy({ categoryId });
   }
