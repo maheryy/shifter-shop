@@ -61,6 +61,11 @@ const Sidebar = () => {
               href="/orders"
               icon={<StackIcon />}
             />
+            <SidebarItem
+              label="Requests - business accounts"
+              href="/requests-business"
+              icon={<StackIcon />}
+            />
           </ul>
           <div className="px-6 my-6">
             <Link
