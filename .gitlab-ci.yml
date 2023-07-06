@@ -51,7 +51,7 @@ generate-deploy-config:
     - node ./scripts/gitlab/generate-deploy.js "$(npx nx print-affected --base=$NX_BASE --head=$NX_HEAD --type=app --select=projects)"
     - cat deploy-affected-config.yml
   only:
-    - chore/ci
+    # - chore/ci
     - main
     - dev
 
@@ -63,6 +63,6 @@ deploy-affected:
         job: generate-deploy-config
     strategy: depend
   only:
-    - chore/ci
+    # - chore/ci
     - main
     - dev
