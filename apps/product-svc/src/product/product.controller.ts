@@ -20,6 +20,7 @@ import { FindAllBySellerIdParamsDto } from './dtos/find-all-by-seller-id-params.
 import { FindAllByCategoryIdParams } from './dtos/find-all-by-category-id-params.dto';
 import { UpdateParamsDto } from './dtos/update-params.dto';
 import { FindAllQueryDto } from './dtos/find-all-query.dto';
+import crypto from 'crypto';
 
 @Controller()
 export class ProductController {
@@ -32,7 +33,7 @@ export class ProductController {
     @Body() product: CreateProductDto,
   ) {
     // TODO : change these values
-    product.image = product.image || 'https://picsum.photos/200';
+    product.image = `https://picsum.photos/seed/${crypto.randomUUID()}/300`;
 
     return this.productService.create(sellerId, product);
   }

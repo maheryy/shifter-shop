@@ -25,7 +25,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <div className="group flex flex-col rounded bg-white shadow">
       <Link to={to}>
-        <img alt={name} src={image} />
+        <img alt={name} className="w-full" src={image} />
       </Link>
       <div className="flex flex-1 flex-col justify-between px-4 pb-3 pt-4">
         <Link className="max-h-14 overflow-y-hidden" to={to}>
