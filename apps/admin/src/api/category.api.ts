@@ -1,4 +1,4 @@
-import { TCategory } from "@shifter-shop/dictionary";
+import { EGlobalStatus, TCategory } from "@shifter-shop/dictionary";
 import api from ".";
 
 export const getAllCategories = async (): Promise<TCategory[]> => {
@@ -13,3 +13,10 @@ export const categoryExists = async (categoryName: string): Promise<boolean> => 
   const categories = await getAllCategories();
   return categories.some((category) => category.name === categoryName);
 };
+
+export const setCategoryStatus = async (
+  categoryId: string,
+  status: EGlobalStatus
+): Promise<void> => {
+  return api.patch({ status }, `/categories/${categoryId}`).res();
+}

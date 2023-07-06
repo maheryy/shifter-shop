@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { TCategory } from '@shifter-shop/dictionary';
+import { EGlobalStatus, TCategory } from '@shifter-shop/dictionary';
 
 @Entity()
 export class Category implements TCategory {
@@ -11,4 +11,7 @@ export class Category implements TCategory {
 
   @Column('varchar', { nullable: true })
   description?: string;
+
+  @Column('enum', { enum: EGlobalStatus, default: EGlobalStatus.Default })
+  status: EGlobalStatus;
 }

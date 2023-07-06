@@ -16,6 +16,7 @@ import { SearchCriteriaDto } from './dtos/search-criteria.dto';
 import { UpdateAuthenticatedUserDto } from './dtos/update-authenticated-user.dto';
 import { FindOneParamsDto } from './dtos/find-one-params.dto';
 import { UpdateUserParamsDto } from './dtos/update-user-params.dto';
+import { EUserRole } from '@shifter-shop/dictionary';
 
 @Controller()
 export class UserController {
@@ -61,7 +62,12 @@ export class UserController {
   async update(
     @Body() user: UpdateUserDto,
     @Param() { id }: UpdateUserParamsDto,
+    @Headers('user-role') userRole: string,
   ) {
+    if (userRole !== EUserRole.Admin) {
+      throw new Error('Unauthorized');
+    }
+
     return this.userService.update(id, user);
   }
 

@@ -1,12 +1,6 @@
-import { EUserRole } from '@shifter-shop/dictionary';
+import { EGlobalStatus, EUserRole } from '@shifter-shop/dictionary';
 import { Transform, TransformFnParams } from 'class-transformer';
-import {
-  IsEnum,
-  IsNotEmpty,
-  IsEmpty,
-  IsOptional,
-  IsString,
-} from 'class-validator';
+import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class UpdateUserDto {
   @IsOptional()
@@ -24,4 +18,8 @@ export class UpdateUserDto {
   @IsEnum(EUserRole)
   @IsOptional()
   role?: EUserRole;
+
+  @IsOptional()
+  @IsEnum(EGlobalStatus)
+  status?: EGlobalStatus;
 }
