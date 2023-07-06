@@ -1,0 +1,27 @@
+{
+  "name": "cart",
+  "path": "/cart",
+  "production": {
+    "url": "http://cart-svc:3000"
+  },
+  "development": {
+    "url": "http://127.0.0.1:3008"
+  },
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "POST",
+      "path": "/",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "POST",
+      "path": "/sync",
+      "middlewares": ["auth"]
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "name": "order",
+  "path": "/orders",
+  "production": {
+    "url": "http://order-svc:3000"
+  },
+  "development": {
+    "url": "http://127.0.0.1:3006"
+  },
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "GET",
+      "path": "/:id",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "GET",
+      "path": "/customer/:id",
+      "middlewares": ["auth", "roles"],
+      "roles": ["ADMIN"]
+    },
+    {
+      "method": "GET",
+      "path": "/reference/:id",
+      "private": true
+    },
+    {
+      "method": "POST",
+      "path": "/",
+      "private": true
+    },
+    {
+      "method": "PATCH",
+      "path": "/:id",
+      "middlewares": ["auth", "roles"],
+      "roles": ["ADMIN"]
+    },
+    {
+      "method": "GET",
+      "path": "/count",
+      "middlewares": ["auth", "roles"],
+      "roles": ["ADMIN"]
+    },
+    {
+      "method": "GET",
+      "path": "/amount/total",
+      "middlewares": ["auth", "roles"],
+      "roles": ["ADMIN"]
+    },
+    {
+      "method": "GET",
+      "path": "/products/total",
+      "middlewares": ["auth", "roles"],
+      "roles": ["ADMIN"]
+    }
+  ]
+}

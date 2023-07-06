@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: review-svc
+  labels:
+    app: review-svc
+spec:
+  selector:
+    matchLabels:
+      app: review-svc
+  template:
+    metadata:
+      labels:
+        app: review-svc
+    spec:
+      containers:
+        - name: review-svc
+          image: registry.gitlab.com/shifter-shop/shifter-shop/review-svc
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "200m"
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: database
+                  key: url-reviews
+            - name: AMQP_URL
+              valueFrom:
+                secretKeyRef:
+                  name: amqp
+                  key: amqp-url
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: review-svc
+spec:
+  selector:
+    app: review-svc
+  ports:
+    - port: 3000
+      targetPort: 3000

@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cart-svc
+  labels:
+    app: cart-svc
+spec:
+  selector:
+    matchLabels:
+      app: cart-svc
+  template:
+    metadata:
+      labels:
+        app: cart-svc
+    spec:
+      containers:
+        - name: cart-svc
+          image: registry.gitlab.com/shifter-shop/shifter-shop/cart-svc
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "200m"
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: database
+                  key: url-cart
+            - name: AMQP_URL
+              valueFrom:
+                secretKeyRef:
+                  name: amqp
+                  key: amqp-url
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cart-svc
+spec:
+  selector:
+    app: cart-svc
+  ports:
+    - port: 3000
+      targetPort: 3000

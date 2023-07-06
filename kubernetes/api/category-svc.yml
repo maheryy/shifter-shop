@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: category-svc
+  labels:
+    app: category-svc
+spec:
+  selector:
+    matchLabels:
+      app: category-svc
+  template:
+    metadata:
+      labels:
+        app: category-svc
+    spec:
+      containers:
+        - name: category-svc
+          image: registry.gitlab.com/shifter-shop/shifter-shop/category-svc
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "200m"
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: database
+                  key: url-categories
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: category-svc
+spec:
+  selector:
+    app: category-svc
+  ports:
+    - port: 3000
+      targetPort: 3000

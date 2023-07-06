@@ -1,0 +1,89 @@
+{
+  "name": "profile",
+  "path": "/profile",
+  "production": {
+    "url": "http://profile-svc:3000"
+  },
+  "development": {
+    "url": "http://127.0.0.1:3012"
+  },
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/business",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "GET",
+      "path": "/customer",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "POST",
+      "path": "/customer",
+      "private": true
+    },
+    {
+      "method": "GET",
+      "path": "/addresses",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "GET",
+      "path": "/addresses/:id",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "POST",
+      "path": "/addresses",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "PATCH",
+      "path": "/addresses/:id",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "DELETE",
+      "path": "/addresses/:id",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "POST",
+      "path": "/addresses/set-default/:id",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "PATCH",
+      "path": "/business",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "PATCH",
+      "path": "/business/:id",
+      "middlewares": ["auth", "roles"],
+      "roles": ["ADMIN"]
+    },
+    {
+      "method": "PATCH",
+      "path": "/customer",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "POST",
+      "path": "/business",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "POST",
+      "path": "/business/register",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "GET",
+      "path": "/business/requests",
+      "middlewares": ["auth", "roles"],
+      "roles": ["ADMIN"]
+    }
+  ]
+}

@@ -36,3 +36,17 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+
+*.test.html
+
+# Docker
+.db_data
+.db_data_backup
+.mongo_data
+
+# VSCode REST Client
+*.http
+
+# Kubernetes
+kubernetes/**/secrets.yml
+kubernetes/**/*.ignore.yml

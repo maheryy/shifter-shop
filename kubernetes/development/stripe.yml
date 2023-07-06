@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stripe
+  labels:
+    app: stripe
+spec:
+  selector:
+    matchLabels:
+      app: stripe
+  template:
+    metadata:
+      labels:
+        app: stripe
+    spec:
+      containers:
+        - name: stripe
+          image: stripe/stripe-cli:v1.14.6
+          command:
+            - "stripe"
+            - "listen"
+            - "--forward-to"
+            - "http://payment-svc:3000/webhook"
+          env:
+            - name: STRIPE_DEVICE_NAME
+              value: shifter_shop_docker
+            - name: STRIPE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: stripe
+                  key: private_key
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: "64Mi"
+              cpu: "100m"

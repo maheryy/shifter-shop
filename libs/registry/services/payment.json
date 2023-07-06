@@ -1,0 +1,21 @@
+{
+  "name": "payment",
+  "path": "/payment",
+  "production": {
+    "url": "http://payment-svc:3000"
+  },
+  "development": {
+    "url": "http://127.0.0.1:3007"
+  },
+  "routes": [
+    {
+      "method": "POST",
+      "path": "/checkout",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "POST",
+      "path": "/webhook"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "name": "category",
+  "path": "/categories",
+  "production": {
+    "url": "http://category-svc:3000"
+  },
+  "development": {
+    "url": "http://127.0.0.1:3004"
+  },
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "POST",
+      "path": "/",
+      "middlewares": ["auth", "roles"],
+      "roles": ["ADMIN"]
+    },
+    {
+      "method": "GET",
+      "path": "/:id",
+      "private": true
+    },
+    {
+      "method": "PATCH",
+      "path": "/:id",
+      "middlewares": ["auth", "roles"],
+      "roles": ["ADMIN"]
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "name": "product",
+  "path": "/products",
+  "production": {
+    "url": "http://product-svc:3000"
+  },
+  "development": {
+    "url": "http://127.0.0.1:3003"
+  },
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "POST",
+      "path": "/",
+      "middlewares": ["auth", "roles"],
+      "roles": ["ADMIN", "SELLER"]
+    },
+    {
+      "method": "GET",
+      "path": "/:id"
+    },
+    {
+      "method": "PATCH",
+      "path": "/:id",
+      "middlewares": ["auth", "roles"],
+      "roles": ["ADMIN", "SELLER"]
+    },
+    {
+      "method": "GET",
+      "path": "/category/:id"
+    },
+    {
+      "method": "GET",
+      "path": "/seller/:id"
+    }
+  ]
+}

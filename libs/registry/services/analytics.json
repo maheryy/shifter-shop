@@ -1,0 +1,11 @@
+{
+  "name": "analytics",
+  "path": "/analytics",
+  "production": {
+    "url": "http://analytics-svc:3000"
+  },
+  "development": {
+    "url": "http://localhost:3099"
+  },
+  "routes": []
+}

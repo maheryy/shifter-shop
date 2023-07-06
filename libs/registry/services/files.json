@@ -1,0 +1,10 @@
+{
+  "name": "files",
+  "private": true,
+  "production": {
+    "url": "http://files-svc:3000"
+  },
+  "development": {
+    "url": "http://127.0.0.1:3010"
+  }
+}

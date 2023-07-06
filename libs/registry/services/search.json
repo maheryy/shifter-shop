@@ -1,0 +1,16 @@
+{
+  "name": "search",
+  "path": "/search",
+  "production": {
+    "url": "http://search-svc:3000"
+  },
+  "development": {
+    "url": "http://127.0.0.1:3014"
+  },
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/"
+    }
+  ]
+}

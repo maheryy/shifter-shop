@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: profile-svc
+  labels:
+    app: profile-svc
+spec:
+  selector:
+    matchLabels:
+      app: profile-svc
+  template:
+    metadata:
+      labels:
+        app: profile-svc
+    spec:
+      containers:
+        - name: profile-svc
+          image: registry.gitlab.com/shifter-shop/shifter-shop/profile-svc
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "200m"
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: database
+                  key: url-profiles
+            - name: AMQP_URL
+              valueFrom:
+                secretKeyRef:
+                  name: amqp
+                  key: amqp-url
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: profile-svc
+spec:
+  selector:
+    app: profile-svc
+  ports:
+    - port: 3000
+      targetPort: 3000

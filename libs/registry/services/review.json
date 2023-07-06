@@ -1,0 +1,36 @@
+{
+  "name": "review",
+  "path": "/reviews",
+  "production": {
+    "url": "http://review-svc:3000"
+  },
+  "development": {
+    "url": "http://127.0.0.1:3005"
+  },
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "POST",
+      "path": "/",
+      "middlewares": ["auth"]
+    },
+    {
+      "method": "GET",
+      "path": "/:id"
+    },
+    {
+      "method": "PATCH",
+      "path": "/:id",
+      "middlewares": ["auth", "roles"],
+      "roles": ["ADMIN"]
+    },
+    {
+      "method": "GET",
+      "path": "/product/:id"
+    }
+  ]
+}
